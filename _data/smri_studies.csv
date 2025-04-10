@@ -1,0 +1,13 @@
+study,sequence,scanner,voxel_size,orientation,inplane_acceleration,tr,te,matrix_size,flip_angle,perc_dominant
+Healthy Brain Network (HBN) - Staten Island,T1,Siemens Avanto 1.5 T,1 x 1 x 1,LAS+,2,2730,1.64,176 x 256 x 256,7,100
+Healthy Brain Network (HBN) - Rutgers University,T1,Siemens Tim Trio 3 T,0.8 x 0.8 x 0.8,LAS+,2,2500,3.15,224 x 320 x 320,8,100
+Healthy Brain Network (HBN) - Rutgers University,T2,Siemens Tim Trio 3 T,0.8 x 0.8 x 0.8,LAS+,2,3200,564,224 x 320 x 320,120,47
+Healthy Brain Network (HBN) - The City University of New York,T1,Siemens Tim Trio 3 T,1 x 1 x 1,LAS+,2,2500,2.9,176 x 256 x 256,8,94
+Healthy Brain Network (HBN) - The City University of New York,T2,Siemens Tim Trio 3 T,1 x 1 x 1,LAS+,2,3200,565,176 x 256 x 256,120,97
+Healthy Brain Network (HBN) - Citigroup Biomedical Imaging Center,T1,Siemens Tim Trio 3 T,1 x 1 x 1,LAS+,2,2500,2.88,176 x 256 x 256,8,94
+Healthy Brain Network (HBN) - Citigroup Biomedical Imaging Center,T2,Siemens Tim Trio 3 T,1 x 1 x 1,LAS+,2,3200,565,176 x 256 x 256,120,95
+Brazilian High Risk Cohort (BHRC),T1,General Electric 1.5 T,0.94 x 0.94 x 1.2,RAS+,,10.81,4.2,256 x 256 x 156,15,30
+Philadelphia Neurodevelopmental Cohort (PNC),T1,Siemens Tim Trio 3 T,0.94 x 0.94 x 1,RAS+,2,1810,3.51,92 x 256 x 160,9,100
+Nathan Kline Institute  - Rockland Sample (NKI),T1,Siemens Tim Trio 3 T,1 x 0.98 x 0.98,LAS+ and/or RAS+,2,1900,2.52,176 x 256 x 256,9,45
+Nathan Kline Institute  - Rockland Sample (NKI),T2,Siemens Tim Trio 3 T,1 x 1 x 1,LAS+,2,3200,306,176 x 256 x 256,120,33
+Developmental Component of the Chinese Color Nest Project (CCNP),T1,Siemens Tim Trio 3 T,1 x 1 x 1,RAS+,,2600,3.02,176 x 256 x 256,8,97

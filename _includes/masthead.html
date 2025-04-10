@@ -1,0 +1,40 @@
+{% capture logo_path %}{{ site.logo }}{% endcapture %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" role="navigation">
+    <div class="container d-flex justify-content-between">
+        <a class="navbar-brand" href="#">
+            {% unless logo_path == empty %}
+                <a class="site-logo" href="{{ '/' | relative_url }}"><img src="{{ logo_path | relative_url }}" alt="{{ site.masthead_title | default: site.title }}"></a>
+            {% endunless %}
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav ml-auto">
+                {%- for link in site.data.navigation.main -%}
+                    {% if link.sublinks %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown-{{ link.title }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ link.title }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown-{{ link.title }}">
+                                {% unless link.hidden %}
+                                    <a class="nav-link dropdown-item" href="{{ site.baseurl }}{{ link.url }}">Overview</a>
+                                {% endunless %}
+                                {% for sublink in link.sublinks %}
+                                    <a class="nav-link dropdown-item" href="{{ site.baseurl }}{{ sublink.url }}">{{ sublink.title }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ site.baseurl }}{{ link.url }}">{{ link.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>

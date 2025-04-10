@@ -1,0 +1,11 @@
+study,sequence,tasks,duration,n_volumes,scanner,voxel_size,tr,te,matrix_size,flip_angle,perc_dominant,fmap
+Healthy Brain Network (HBN) - Staten Island,Singleband,Rest,10:09,420,Siemens Avanto 1.5 T,2.46 x 2.46 x 2.50,1450,40,78 x 78 x 54,55,92,EPI
+Healthy Brain Network (HBN) - Rutgers University,Multiband,Rest<br>Peer<br>MovieDM<br>MovieTP,28:43,2155,Siemens Tim Trio 3 T,2.43 x 2.43 x 2.40,800,30,84 x 84 x 60,31,97,EPI
+Healthy Brain Network (HBN) - The City University of New York,Multiband,Rest<br>Peer<br>MovieDM<br>MovieTP,26:56,2020,Siemens Tim Trio 3 T,2.43 x 2.43 x 2.40,800,30,84 x 84 x 60,31,97,EPI
+Healthy Brain Network (HBN) - Citigroup Biomedical Imaging Center,Multiband,Rest<br>Peer<br>MovieDM<br>MovieTP,28:43,2155,Siemens Tim Trio 3 T,2.43 x 2.43 x 2.40,800,30,84 x 84 x 60,31,86,EPI
+Brazilian High Risk Cohort (BHRC),Singleband,Rest,18:00,540,General Electric 1.5T,1.88 x 1.88 x 4.5,2000,30,128 x 128 x 26,80,73,None
+Philadelphia Neurodevelopmental Cohort (PNC),Singleband,Rest<br>Frac2back<br>ID-emo,4:15,565,Siemens Tim Trio 3 T,3 x 3 x 3,3000,32,64 x 64 x 46,90,93.33,GRE
+Nathan Kline Institute  - Rockland Sample (NKI),Singleband,Rest,5:00,120,Siemens Tim Trio 3 T,3 x 3 x 3.33,2500,30,72 x 72 x 38,80,80,None
+Nathan Kline Institute  - Rockland Sample (NKI),Multiband,Rest<br>Checkerboard,12:15,1140,Siemens Tim Trio 3 T,3 x 3 x 3,645,30,74 x 74 x 40,60,29,None
+Nathan Kline Institute  - Rockland Sample (NKI),Multiband,Rest<br>Breathhold<br>Checkerboard,16:03,688,Siemens Tim Trio 3 T,2 x 2 x 2,1400,30,112 x 112 x 64,65,20,None
+Developmental Component of the Chinese Color Nest Project (CCNP),Singleband,Rest,15:20,368,Siemens Tim Trio 3 T,3 x 3 x 3.33,2500,30,72 x 72 x 38,80,85,None

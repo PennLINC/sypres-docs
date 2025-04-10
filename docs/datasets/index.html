@@ -1,0 +1,124 @@
+---
+layout: archive
+title: "Datasets in RBC"
+---
+
+<br/>
+<h1> Overview </h1>
+
+<body>
+Version 1.0 of RBC includes n=6346 participants ages 5-85 (n=2869 females) drawn from 5 major studies of brain development that included structural and functional neuroimaging.
+These studies were conducted in North America, China, and Brazil; see below for details regarding each dataset.
+
+
+<div style="text-align: center;">
+  <img src="/assets/images/misc/hist1.png" style="width: auto; height: 20vw;" />
+  <img src="/assets/images/misc/dist1.png" style="width: auto; height: 20vw;" />
+</div>
+
+<hr/>
+
+{% assign total_sample_size = 0 %}
+{% assign total_smri_count = 0 %}
+{% assign total_fmri_count = 0 %}
+
+<table align="center"; width=1250px>
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th>Institution</th>
+      <th>Number of Sites</th>
+      <th>PI</th>
+      <th>Sample Size</th>
+      <th>Number of Sessions</th>
+      <th>Average age</th>
+      <th>Structural MRI Sessions</th>
+      <th>Functional MRI Sessions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dataset in site.categories.datasets %}
+      <tr>
+        <td><a href="{{ dataset.website }}">{{ dataset.title }}</a></td>
+        <td>
+          {% if dataset.institution %}
+            {{ dataset.institution }}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.num_site %}
+            {{ dataset.num_site }}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.pi %}
+            {{ dataset.pi }}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.sample_size %}
+            {{ dataset.sample_size }}
+            {% assign total_sample_size = total_sample_size | plus: dataset.sample_size %}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.number_of_sessions %}
+            {{ dataset.number_of_sessions }}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.age %}
+            {{ dataset.age }}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.smri_count %}
+            {{ dataset.smri_count }}
+            {% assign total_smri_count = total_smri_count | plus: dataset.smri_count %}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.fmri_count %}
+            {{ dataset.fmri_count }}
+            {% assign total_fmri_count = total_fmri_count | plus: dataset.fmri_count %}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+        <td>
+          {% if dataset.number_of_sessions %}
+            {{ dataset.number_of_sessions }}
+            {% assign total_number_of_sessions = total_number_of_sessions | plus: dataset.number_of_sessions %}
+          {% else %}
+            n/a
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="4">Total</td>
+      <td>{{ total_sample_size }}</td>
+      <td> {{total_number_of_sessions }}</td>
+      <td></td>
+      <td>{{ total_smri_count }}</td>
+      <td>{{ total_fmri_count }}</td>
+    </tr>
+  </tbody>
+</table>
+
+A notebook summarizing RBC demographics can be found <a href="/assets/sanity_checks_RBC_demographics.html">here</a>!
+</body>
