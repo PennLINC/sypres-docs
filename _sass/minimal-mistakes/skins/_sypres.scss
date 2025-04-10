@@ -1,0 +1,36 @@
+/* ==========================================================================
+   SYPRES skin
+   ========================================================================== */
+
+/* Colors */
+$background-color: #000000 !default; // Black background
+$text-color: #FFFFFF !default; // White text for readability
+$muted-text-color: #AAAAAA !default; // Lighter grey for less important text
+$primary-color: #3F8AAC !default; // Blue from logo for primary actions/accents
+$border-color: #333333 !default; // Dark grey border, subtle on black
+$footer-background-color: $background-color !default; // Match background
+$link-color: #4CE0B3 !default; // Green/Teal from logo for links
+$masthead-link-color: $text-color !default; // White links in header
+$masthead-link-color-hover: #FF6B6B !default; // Pink from logo for link hover
+$navicon-link-color-hover: mix(#fff, $text-color, 80%) !default; // Lighter white for nav icon hover
+
+/* Adjustments for dark theme */
+.page__footer {
+    color: $text-color !important; // Ensure footer text is light
+}
+
+.page__footer-follow .social-icons .svg-inline--fa {
+    color: inherit;
+}
+
+/* Optional: Style buttons based on primary color */
+.btn--primary {
+    background-color: $primary-color;
+    color: #fff;
+
+    &:hover {
+        background-color: mix(#000, $primary-color, 15%);
+    }
+}
+
+/* Add any other specific overrides needed for the SYPRES look */
