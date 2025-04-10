@@ -5,7 +5,7 @@ author_profile: false
 ---
 
 <div style="text-align: center;">
-     <img src="/assets/images/logos/ypres-logo-transparent.png" width="70%" height="auto" />
+     <img src="/assets/images/logos/sypres-logo-transparent.png" width="70%" height="auto" />
 </div>
 
 <br/>
