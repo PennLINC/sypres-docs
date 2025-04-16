@@ -3,15 +3,15 @@
    ========================================================================== */
 
 /* Colors */
-$background-color: #000000 !default; // Black background
-$text-color: #FFFFFF !default; // White text for readability
+$background-color: #FFFFFF !default; //
+$text-color: #000000 !default; //
 $muted-text-color: #AAAAAA !default; // Lighter grey for less important text
-$primary-color: #3F8AAC !default; // Blue from logo for primary actions/accents
-$border-color: #333333 !default; // Dark grey border, subtle on black
+$primary-color: #1f44a0 !default; // Blue from logo for primary actions/accents
+$border-color: #1da373 !default; // green from logo for borders
 $footer-background-color: $background-color !default; // Match background
 $link-color: #4CE0B3 !default; // Green/Teal from logo for links
 $masthead-link-color: $text-color !default; // White links in header
-$masthead-link-color-hover: #FF6B6B !default; // Pink from logo for link hover
+$masthead-link-color-hover: #fb608a !default; // Pink from logo for link hover
 $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default; // Lighter white for nav icon hover
 
 /* Adjustments for dark theme */
