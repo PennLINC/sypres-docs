@@ -87,6 +87,10 @@ author_profile: false
                <img src="/assets/images/logos/upenn.png" style="width: auto; height: 10vw;" />
                <img src="/assets/images/logos/jhu.png" style="width: auto; height: 10vw;" />
           </div>
+          <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
+               <img src="/assets/images/logos/vu.png" style="width: auto; height: 10vw;" />
+               <img src="/assets/images/logos/ru.png" style="width: auto; height: 10vw;" />
+          </div>
      </div>
 </div>
 
