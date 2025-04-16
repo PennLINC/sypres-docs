@@ -1,6 +1,6 @@
 ---
 layout: home
-title: "Reproducible Brain Charts"
+title: "SYPRES"
 author_profile: false
 ---
 
@@ -47,26 +47,23 @@ author_profile: false
 <p style="text-align:center;">
      <p style="display:flex;">
           <b>
-               RBC: An open resource for studies of the developing brain and mental health
+               An initiative for living-evidence synthesis in clinical psychedelic research.
           </b>
      </p>
      <p>
-          Major mental illnesses are increasingly understood as disorders of brain development.
-          Progress requires defining both typical brain development in healthy kids and variation associated with diverse symptoms of mental illness.
-          To accelerate this effort, RBC aggregates several of the largest studies of brain development in youth as publicly available data resource for the scientific community.
+          Renewed interest in psychedelics as treatments for mental disorders and symptoms has produced a rapidly growing body of research across public and private spheres over the last decade.
+          However, there are substantial challenges in synthesizing evidence from available data to inform both clinical decision-making and policy.
      </p>
      <br>
      <p style="display:flex;">
           <b>
-               A harmonized data resource
+               SYPRES: A public resource
           </b>
      </p>
      <p>
-          Combining data across different studies is a challenge.
-          Investigators are usually faced with different psychiatric assessments, multiple scanners, and discrepant processing pipelines.
-          RBC overcomes these obstacles by harmonizing mental health symptoms in a framework that captures major axes of psychiatric symptoms.
-          Similarly, imaging data is carefully curated, undergoes the same quality assurance protocol, and is processed using the same pipeline.
-          This allows scientists to skip such time-consuming steps and make discoveries faster.
+          We propose the establishment of living systematic reviews (LSRs) as a means to navigate the dynamic and rapidly burgeoning evidence base.
+          Our publicly available online dashboard, SYPRES, will adheres to the principles of open science, transparency, and data accessibility.
+          By providing a comprehensive and continuously updated repository of meta-analyses, we aim to support researchers, clinicians, policymakers, and patients in making informed decisions about the therapeutic potential of psychedelics.
      </p>
      <br>
      <p style="display:flex;">
@@ -75,9 +72,8 @@ author_profile: false
           </b>
      </p>
      <p>
-          Every element of RBC is open and reproducible – including image curation, image processing, and all analyses.
-          Each step is tracked using DataLad, which provides version control for data just like Git provides version control for code.
-          RBC thus combines open data and open code to maximize reproducibility and enhance confidence.
+          Every element of SYPRES is open and reproducible – including database searches, data extraction, data processing, and all analyses.
+          SYPRES thus combines open data and open code to maximize reproducibility and enhance confidence.
      </p>
      <br>
 </p>
