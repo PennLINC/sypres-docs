@@ -2,36 +2,11 @@ main:
 - title: Studies
   url: /docs/datasets
   sublinks:
-    - title: "BHRC"
-      url: /docs/datasets/BHRC
-    - title: "dCCNP"
-      url: /docs/datasets/dCCNP
-    - title: "HBN"
-      url: /docs/datasets/HBN
-    - title: "NKI"
-      url: /docs/datasets/NKI
-    - title: "PNC"
-      url: /docs/datasets/PNC
-- title:  Psychiatry
-  url: /docs/phenotypes
-- title: Imaging
-  url: /docs/imaging
-  sublinks:
-    - title: "Image Acquisition"
-      url: /docs/imaging/image_acquisition
-    - title: "Image Curation"
-      url: /docs/imaging/image_curation
-    - title: "Image Processing"
-      url: /docs/imaging/image_processing
-    - title: "Image Harmonization"
-      url: /docs/imaging/image_harmonization
-    - title: "Structural Image Quality"
-      url: /docs/imaging/image_structural_qa
-    - title: "Functional Image Quality"
-      url: /docs/imaging/image_functional_qa
+    - title: "Psilocybin for Depression"
+      url: /docs/datasets/PSILODEP
 - title: Team
   url: /docs/team
-- title: Publications 
+- title: Publications
   url: /docs/community/publications
 - title: News
   url: /docs/blog/index
