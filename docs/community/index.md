@@ -4,4 +4,4 @@ excerpt: "Community and Impact"
 layout: single
 ---
 
-This page contains information about the RBC community.
+This page contains information about the SYPRES community.

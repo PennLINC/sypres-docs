@@ -1,5 +1,5 @@
 ---
-title: "RBC News"
+title: "SYPRES News"
 excerpt: "News"
 layout: blog
 ---
