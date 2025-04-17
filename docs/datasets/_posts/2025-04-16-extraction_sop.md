@@ -1,3 +1,10 @@
+---
+title: "Covidence SOP"
+excerpt: "Covidence SOP"
+layout: single
+
+---
+
 # **SOP Document**
 
 *SOP for full Covidence workflow on PSILODEP_Review*
@@ -19,7 +26,7 @@
    + Papers that compare psychedelic drug with another treatment (e.g., SSRIs/escitalopram)
    + Corrections to articles that we have already or want to push into full text review; these can later be merged with the studies that they correct in the extraction stage.
    + RCTs that investigate the correct psychedelic drug's effect on any specific outcome (like alcohol use disorder, cancer, etc.); in full text review, we can then see if any of their secondary outcome measures assess mood or depression.
-  
+
   + Otherwise, include the studies for full text review. You can use the notes section to note any odd edge cases not accounted for above.
 
 # **Full Text Review**
@@ -55,7 +62,7 @@
 |:----------------------------------------------------|
 |1. Both reviewers will complete the full identification section, full methods section, and full population section. The process does not differ between reviewers for these tabs. <br>2. For the **interventions** section, *Reviewer 1* will set up the interventions table as described below in the SOP, by setting up how many intervention or control arms are in the paper and writing the group names in the table. *Reviewer 2* will not set up the table, but will fill out the information that belongs in the table. <br>3. For the **outcomes** section, *Reviewer 1* sets up the entire outcomes table. *Reviewer 2* does not have to do anything in the outcomes tab, and they can ignore the outcomes section of this SOP. <br>4. For the **results** table, *Reviewer 1* will change the format and set-up the results table as specified in the SOP. *Reviewer 2* cannot change the format of the results table, but will fill out the table with the appropriate values from the paper.|
 
-  
+
 ## Summary
 | Tips for this section: |
 |:----------------------------------------------------|
@@ -65,7 +72,7 @@
 | Tips for this section: |
 |:----------------------------------------------------|
 |1. Search for the study title on pubmed<br>2. From pubmed page copy the PMID, trial registry number, and the DOI.<br>3. Search the trial registry number in corresponding database (e.g. ClinicalTrials.gov)<br>
-     
+
 
 SPONSORSHIP SOURCE
 + Here you can write the funding/sponsorship source for a study; you can simply put the name of the institution.
@@ -111,7 +118,7 @@ MERGED STUDY?
 + If you included a correction/update to the paper, still answer 'yes' for this question, although there will not be actual new data to extract.
 + Merged study tips:
   1. The primary outcome to list in Methods section should be the primary outcome of the *primary* paper (often the first paper published; PO should match the pre-registered PO).
- 
+
 WHAT DO ADDITIONAL PAPER(S)ADD?
 + ONLY use this section if you answered 'yes' to the merged study box before it. Otherwise, leave it blank.
 + *If the only thing merged with your study is a correction to the original paper, ignore the following bullet points on format, and simply write 'Correction' in this box.*
@@ -154,7 +161,7 @@ FREQUENCY OF THERAPY SESSIONS
 WHO PERFORMED CLINICAL ASSESSMENTS?
 
 + The most-common scenarios are:
-  
+
 | Answer                       | Explanation                                                                 |
 |:-----------------------------|:----------------------------------------------------------------------------|
 | 3rd-party independent raters  | Most common in industry-sponsored studies - an attempt to mitigate bias in clinical assessments. |
@@ -290,7 +297,7 @@ ADVERSE EVENTS
     + Example format: 'Number of AEs: intervention = 13, control = 5, total = 18'
   + Number or percentage of serious AEs
   + List of AEs (i.e., 'AEs included headache, nausea, and dizziness')
-  + If there are SAE's (serious AEs), give the number in each arm following the same format as above for AEs. 
+  + If there are SAE's (serious AEs), give the number in each arm following the same format as above for AEs.
   + List of serious AEs
 
 
@@ -363,7 +370,7 @@ Psychiatric medication discontinuation/use:
   + This is also helpful for crossover studies, i.e., “high dose 1st group” vs. “low dose 1st group,” for example.
 + If you hover over either the intervention or control column, you can add additional intervention or control arms.
   + This is helpful, for example, for studies that might have two or more intervention groups testing different active doses of the drug.
-  + This is also why it is important to add the ‘group name’ under each arm. 
+  + This is also why it is important to add the ‘group name’ under each arm.
 
 
 NUMBER OF PARTICIPANTS ALLOCATED
@@ -390,7 +397,7 @@ DURATION OF FOLLOW-UP/LAST REPORTED ENDPOINT
 + Write in terms of days, weeks, months
 
 SOURCE OF PSILOCYBIN/FORMULA
-+ Add the source/formulation of psilocybin used here. Common examples include 'synthetic psilocybin/Usona Institute', 'synthetic psilocybin/David Nichols', or 'COMP360/Compass Pathways'. 
++ Add the source/formulation of psilocybin used here. Common examples include 'synthetic psilocybin/Usona Institute', 'synthetic psilocybin/David Nichols', or 'COMP360/Compass Pathways'.
 
 OTHER
 + Write any other details here about the intervention/drug that was not captured in the above categories.

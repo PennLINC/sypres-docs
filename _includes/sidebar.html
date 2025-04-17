@@ -12,6 +12,9 @@
       {% if page.funding %}<li><strong>Funding:</strong> {{ page.funding }}</li>{% endif %}
       {% if page.website and page.website != "n/a" %}<li><strong>Website:</strong> <a href="{{ page.website }}"
           target="_blank" rel="noopener noreferrer">{{ page.website }}</a></li>{% endif %}
+      {% if page.registration and page.registration != "n/a" %}<li><strong>Registration:</strong> <a
+          href="{{ page.registration }}" target="_blank" rel="noopener noreferrer">{{ page.registration }}</a></li>{%
+      endif %}
       {% if page.publications and page.publications != "n/a" %}<li><strong>Publications:</strong> <a
           href="{{ page.publications }}" target="_blank" rel="noopener noreferrer">View Publications</a></li>{% endif %}
       {% if page.sample_size %}<li><strong>Sample Size:</strong> {{ page.sample_size }}</li>{% endif %}
