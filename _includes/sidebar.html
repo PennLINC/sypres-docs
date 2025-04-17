@@ -5,7 +5,7 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
 
   {% if page.number_of_studies or page.funding or page.website or page.publications or page.institution %}
   <div class="sidebar-section">
-    {% if page.title %}<h3>{{ page.title }} Details</h3>{% endif %}
+    <h3>Details</h3>
     <ul style="list-style: none; padding-left: 0;">
       {% if page.pi %}<li><strong>Principal Investigator:</strong> {{ page.pi }}</li>{% endif %}
       {% if page.institution %}<li><strong>Institution:</strong> {{ page.institution }}</li>{% endif %}
