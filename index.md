@@ -30,7 +30,7 @@ author_profile: false
      </p>
      <p>
           We propose the establishment of living systematic reviews (LSRs) as a means to navigate the dynamic and rapidly burgeoning evidence base.
-          Our publicly available online dashboard, SYPRES, will adheres to the principles of open science, transparency, and data accessibility.
+          Our publicly available online dashboard, SYPRES, will adhere to the principles of open science, transparency, and data accessibility.
           By providing a comprehensive and continuously updated repository of meta-analyses, we aim to support researchers, clinicians, policymakers, and patients in making informed decisions about the therapeutic potential of psychedelics.
      </p>
      <br>
