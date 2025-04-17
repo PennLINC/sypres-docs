@@ -2,7 +2,7 @@
 <div class="sidebar sticky">
   {% if page.author_profile or layout.author_profile %}{% include author-profile.html %}{% endif %}
 
-  {% if page.pi or page.funding or page.website or page.publications or page.institution %}
+  {% if page.number_of_studies or page.funding or page.website or page.publications or page.institution %}
   <div class="sidebar-section">
     {% if page.title %}<h3>{{ page.title }} Details</h3>{% endif %}
     <ul style="list-style: none; padding-left: 0;">
@@ -12,28 +12,31 @@
       {% if page.funding %}<li><strong>Funding:</strong> {{ page.funding }}</li>{% endif %}
       {% if page.website and page.website != "n/a" %}<li><strong>Website:</strong> <a href="{{ page.website }}"
           target="_blank" rel="noopener noreferrer">{{ page.website }}</a></li>{% endif %}
-      {% if page.registration and page.registration != "n/a" %}<li><strong>Registration:</strong> <a
-          href="{{ page.registration }}" target="_blank" rel="noopener noreferrer">{{ page.registration }}</a></li>{%
-      endif %}
       {% if page.publications and page.publications != "n/a" %}<li><strong>Publications:</strong> <a
           href="{{ page.publications }}" target="_blank" rel="noopener noreferrer">View Publications</a></li>{% endif %}
+      {% if page.number_of_studies %}<li><strong>Number of Studies:</strong> {{ page.number_of_studies }}</li>{% endif
+      %}
       {% if page.sample_size %}<li><strong>Sample Size:</strong> {{ page.sample_size }}</li>{% endif %}
       {% if page.age %}<li><strong>Average Age:</strong> {{ page.age }}</li>{% endif %}
     </ul>
   </div>
   {% endif %}
 
+  {% if page.registration or page.extraction_protocol %}
   <div class="sidebar-section">
     <h3>Documentation</h3>
     <ul style="list-style: none; padding-left: 0;">
       <!-- <li><a href="{{ '/docs/team/' | relative_url }}">Meet the Team</a></li> -->
       <!-- <li><a href="{{ '/docs/community/publications/' | relative_url }}">Publications</a></li> -->
+      {% if page.registration and page.registration != "n/a" %}<li><strong>Registration:</strong> <a
+          href="{{ page.registration }}" target="_blank" rel="noopener noreferrer">{{ page.registration }}</a></li>{%
+      endif %}
       {% if page.extraction_protocol %}<li><strong>Extraction Protocol:</strong> <a
           href="{{ page.extraction_protocol }}" target="_blank" rel="noopener noreferrer">View Extraction
           Protocol</a></li>{% endif %}
     </ul>
   </div>
-
+  {% endif %}
   {% if page.sidebar %}
   {% for s in page.sidebar %}
   {% if s.image %}
