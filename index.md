@@ -25,7 +25,7 @@ author_profile: false
      <br>
      <p style="display:flex;">
           <b>
-               SYPRES: A public resource
+               A public resource
           </b>
      </p>
      <p>
