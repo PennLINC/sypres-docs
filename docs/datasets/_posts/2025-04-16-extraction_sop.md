@@ -5,12 +5,10 @@ layout: single
 
 ---
 
-# **SOP Document**
-
-*SOP for full Covidence workflow on PSILODEP_Review*
+*SOP for full Covidence workflow on PSILODEP*
 
 # **Title and Abstract Screening Stage**
-+ List of reasons that we want to exclude studies in initial title/abstract screening:
++ List of reasons to exclude studies during initial title/abstract screening:
   + Studies the wrong psychedelic drug
   + Review articles or meta-analyses
   + Animal studies (non-human research)
@@ -18,481 +16,481 @@ layout: single
   + Comment/Perspective
   + Non-RCTs
   + Studies in healthy participants
-  + Open-label studies - these are generally excluded. However, a randomized open-label study with waitlist-control DOES get included. If you cannot determine with certainty whether or not an open-label study has a randomization and control component then its best practice to push it to full-text screening to confirm.
-+ You don't need to use tags at this screening stage or add any notes; anything included in the reasons above is grounds for excluding the study and not sending it to full text review.
+  + Open-label studies: These are generally excluded. However, a randomized open-label study with waitlist-control should be included. If it cannot be determined with certainty whether an open-label study has a randomization and control component, it is best practice to advance it to full-text screening for confirmation.
++ Tags are not required at this screening stage, nor are notes necessary. Any study meeting the exclusion criteria listed above should be excluded and not advanced to full-text review.
 
- + List of reasons we want to push studies into full text review, but might be excluded later:
-   + Re-analyses/mechanistic papers (i.e., neuroimaging papers, mediation analyses, reports on additional outcomes, follow-ups)
-   + Papers that compare psychedelic drug with another treatment (e.g., SSRIs/escitalopram)
-   + Corrections to articles that we have already or want to push into full text review; these can later be merged with the studies that they correct in the extraction stage.
-   + RCTs that investigate the correct psychedelic drug's effect on any specific outcome (like alcohol use disorder, cancer, etc.); in full text review, we can then see if any of their secondary outcome measures assess mood or depression.
++ List of reasons to advance studies into full-text review (these studies might be excluded later):
+   + Re-analyses/mechanistic papers (e.g., neuroimaging papers, mediation analyses, reports on additional outcomes, follow-ups)
+   + Papers that compare the target psychedelic drug with another treatment (e.g., SSRIs/escitalopram)
+   + Corrections to articles that have already been advanced or will be advanced to full-text review; these can later be merged with the studies they correct during the extraction stage.
+   + RCTs that investigate the target psychedelic drug's effect on any specific outcome (e.g., alcohol use disorder, cancer); during full-text review, determine if any secondary outcome measures assess mood or depression.
 
-  + Otherwise, include the studies for full text review. You can use the notes section to note any odd edge cases not accounted for above.
+  + Otherwise, include the studies for full-text review. Use the notes section to document any unusual cases not accounted for above.
 
 # **Full Text Review**
-+ As you do full text review, you must select a reason for each study you exclude. This is the current list of reasons to exclude a study, which can be updated here as needed:
++ During full-text review, select a reason for each study excluded. This is the current list of exclusion reasons, which can be updated here as needed:
 
   + Re-analysis/Secondary report
-    + Re-analysis/secondary report should always be chosen only if this is the *only* reason that the study should be excluded. For example, if the study compares a psychedelic drug to escitalopram, you should choose 'Wrong comparator' instead of 'Re-analysis/Secondary report.' In essence, any of the below reasons supersede this re-analysis/secondary report reason.
+    + Choose this reason only if it is the *sole* reason for exclusion. For example, if the study compares a psychedelic drug to escitalopram, choose 'Wrong comparator' instead of 'Re-analysis/Secondary report.' Any of the subsequent reasons supersede the 'Re-analysis/secondary report' reason.
   + Conference abstract - full text already included
-    + There might be conference abstracts that would be excluded anyways for a different reason (and in this case, the full text would not already be included). In this case, the other reason (for example, if it was not an RCT) would supersede this conference abstract reason.
-    + If the full text is not already included, but there is not another reason to exclude the conference abstract, leave in full text review for now and potentially follow-up with study authors.
-    + Only push through conference abstracts at this stage if it reports on new info. If you already have the full text included with the same results from the conference abstract, exclude the conference abstract.
+    + Some conference abstracts might be excluded for a different reason (in which case, the full text would not already be included). In such instances, the other reason (e.g., not an RCT) supersedes this conference abstract reason.
+    + If the full text is not already included, but there is no other reason to exclude the conference abstract, leave it in full-text review for now and potentially follow-up with study authors.
+    + Only advance conference abstracts at this stage if they report new information. If the full text is already included with the same results as the conference abstract, exclude the conference abstract.
   + Wrong patient population (e.g., healthy, pediatric)
   + Wrong outcomes/no mood outcomes
   + Wrong intervention/drug
   + Wrong comparator (e.g., SSRIs)
-    + Studies comparing psychedelic drug with SSRIs/escitalopram would fall into this category.
+    + Studies comparing the target psychedelic drug with SSRIs/escitalopram fall into this category.
   + Not an RCT
-    + Studies that are single-arm, non-randomized open-label studies would fall into this category.
+    + Single-arm, non-randomized open-label studies fall into this category.
   + Protocol/incomplete study
   + Non-English language
-+ The reason must agree between both reviewers, or conflicts will need to be resolved later.
++ The selected reason must agree between both reviewers, or conflicts will need to be resolved later.
 
 
 # **Data Extraction**
 
-*The sections below are separated by headers corresponding to different tabs in Covidence's Data Extraction Tool. Read through entire doc before completing data extraction, and be sure to have a copy of the SOP handy during data extraction.*
+*The sections below correspond to different tabs in Covidence's Data Extraction Tool. Read through the entire document before completing data extraction, and ensure a copy of the SOP is readily available during the process.*
 
 | General Formatting: |
 |:----------------------------------------------------|
-|Our coding sheet parses multiple inputs via a semi-colon.<br>There are several places where group or time-point descriptions are used to link information from one place to another in our coding sheet.<br>Please be consistent/don't make your own abbreviations for things like timepoints or arms (e.g. 6 wks vs 6 weeks or HD1 vs High-dose-1st). The best and simplest practice to keep consistency throughout the coding sheet is to use the identical names reported in the study.|
+|Our coding sheet parses multiple inputs via a semi-colon.<br>Group or time-point descriptions are used in several places to link information across the coding sheet.<br>Maintain consistency and do not create custom abbreviations for timepoints or arms (e.g., use '6 weeks' instead of '6 wks', or 'High-dose-1st' instead of 'HD1'). The simplest practice for consistency is to use the identical names reported in the study.|
 
 | General Overview of Data Extraction Process for Reviewer 1 vs. Reviewer 2: |
 |:----------------------------------------------------|
-|1. Both reviewers will complete the full identification section, full methods section, and full population section. The process does not differ between reviewers for these tabs. <br>2. For the **interventions** section, *Reviewer 1* will set up the interventions table as described below in the SOP, by setting up how many intervention or control arms are in the paper and writing the group names in the table. *Reviewer 2* will not set up the table, but will fill out the information that belongs in the table. <br>3. For the **outcomes** section, *Reviewer 1* sets up the entire outcomes table. *Reviewer 2* does not have to do anything in the outcomes tab, and they can ignore the outcomes section of this SOP. <br>4. For the **results** table, *Reviewer 1* will change the format and set-up the results table as specified in the SOP. *Reviewer 2* cannot change the format of the results table, but will fill out the table with the appropriate values from the paper.|
+|1. Both reviewers complete the full identification, methods, and population sections. The process does not differ between reviewers for these tabs.<br>2. For the **interventions** section, *Reviewer 1* sets up the interventions table as described below, defining the number of intervention/control arms and entering the group names. *Reviewer 2* does not set up the table but fills out the required information within it.<br>3. For the **outcomes** section, *Reviewer 1* sets up the entire outcomes table. *Reviewer 2* does not perform any actions in the outcomes tab and can ignore the corresponding section of this SOP.<br>4. For the **results** table, *Reviewer 1* changes the format and sets up the results table as specified in the SOP. *Reviewer 2* cannot change the table format but fills it out with the appropriate values from the paper.|
 
 
 ## Summary
 > **Tips for this section:**
-> 1. The summary page is where you are able to click 'complete' once you are done with the full data extraction. This button does not appear in any other section, just in the summary page in the top right corner.
-> 2. It is useful to also read the supplement/protocol/appendix provided with a paper. Some information that is especially likely to be found in the supplemental information include details about randomization, recruitment, inclusion & exclusion criteria, and data for additional timepoints aside from the primary endpoint if the primary endpoint is all that is reported in the main paper's tables and graphs.
+> 1. The summary page contains the 'Complete' button (top right corner), which is used once data extraction is finished. This button does not appear in other sections.
+> 2. Reviewing the supplement/protocol/appendix is useful. Supplemental information often contains details about randomization, recruitment, inclusion/exclusion criteria, and data for additional timepoints not reported in the main paper.
 {: .notice--info}
 
 ## Identification
-| Tips for this section: |
-|:----------------------------------------------------|
-|1. Search for the study title on pubmed<br>2. From pubmed page copy the PMID, trial registry number, and the DOI.<br>3. Search the trial registry number in corresponding database (e.g. ClinicalTrials.gov)<br>
+> **Tips for this section:**
+> 1. Search for the study title on PubMed.
+> 2. From the PubMed page, copy the PMID, trial registry number, and DOI.
+> 3. Search the trial registry number in the corresponding database (e.g., ClinicalTrials.gov).
+{: .notice--info}
 
 
 SPONSORSHIP SOURCE
-+ Here you can write the funding/sponsorship source for a study; you can simply put the name of the institution.
++ Enter the funding/sponsorship source for the study (e.g., the institution name).
 
 COUNTRY
-+ For the United States, write as "USA"
-+ For the United Kingdom, write as "UK"
-+ For the Czech Republic, write as "the Czech Republic"
-+ For Denmark, write as "Denmark"
-+ For Germany, write as "Germany"
-+ For Ireland, write as "Ireland"
-+ For the Netherlands, write as "the Netherlands"
-+ For Portugal, write as "Portugal"
-+ For Spain, write as "Spain"
-+ For Canada, write as "Canada"
-+ If there are multiple countries/study sites, separate out by semi-colons.
++ For the United States, enter "USA".
++ For the United Kingdom, enter "UK".
++ For the Czech Republic, enter "the Czech Republic".
++ For Denmark, enter "Denmark".
++ For Germany, enter "Germany".
++ For Ireland, enter "Ireland".
++ For the Netherlands, enter "the Netherlands".
++ For Portugal, enter "Portugal".
++ For Spain, enter "Spain".
++ For Canada, enter "Canada".
++ If there are multiple countries/study sites, separate them with semi-colons.
 
 SETTING
-+ This refers to the institution/study site. Be sure to specify if it's a multi-site study. Covidence refers to this section as "The setting where the study was conducted, which could be a specific healthcare facility, community, or geographic region. This is important for understanding potential contextual factors."
-+ Things to include in setting if provided in the paper:
-  + If it is a single-site study, mark it as 'single-site', or if it is a multi-site study, mark it as 'multi-site.'
-  + If the dosing takes place in an institutional setting (this is the norm), write 'institutional setting'. Otherwise, mark 'other'.
-+ Example format: 'multi site; institutional setting'
++ Refers to the institution/study site. Specify if it is a multi-site study. Covidence defines this as "The setting where the study was conducted... important for understanding potential contextual factors."
++ Information to include if provided:
+  + Indicate 'single-site' or 'multi-site'.
+  + If dosing occurs in an institutional setting (typical), enter 'institutional setting'. Otherwise, enter 'other'.
++ Example format: 'multi-site; institutional setting'
 
 COMMENTS
-+ Here list anything unusual or that did not fit into the other boxes.
++ List any unusual details or information that did not fit into other fields.
 
 AUTHOR'S CONTACT DETAILS
-+ This is usually automatically filled in by Covidence, but you should at least double-check that what is automatically filled in is accurate.
++ This field is often automatically filled by Covidence; verify its accuracy.
 
 START DATE & END DATE
-+ Write as "Month Year", i.e., "October 2007"
-+ If a day is provided, write as "Month Day, Year", i.e., "October 5, 2007"
-+ Use the date listed in the paper or protocol as the study start/end date. If it is not in the paper, you can search the trial registry number in corresponding database (e.g., ClinicalTrials.gov), and use the start/end date listed there.
-+ If the paper provides both the date for the end of assessment, and end of data analysis, use the end date corresponding to the end of assessment (the end of the actual study involving participants).
++ Format as "Month Year" (e.g., "October 2007").
++ If a day is provided, format as "Month Day, Year" (e.g., "October 5, 2007").
++ Use the start/end dates listed in the paper or protocol. If unavailable, search the trial registry number in the relevant database (e.g., ClinicalTrials.gov) and use the dates found there.
++ If both end of assessment and end of data analysis dates are provided, use the end of assessment date.
 
 DOI, TRIAL REGISTRY ID, & PMID
-+ write just the number itself; i.e., don't put DOI: or PMID: before the number itself
-+ If it's a merged study, separate the DOIs out with semi-colons. The primary study should be listed first, followed by any secondary studies. Only the DOI box needs to contain information from both studies.
++ Enter only the number itself (do not include prefixes like "DOI:" or "PMID:").
++ For merged studies, separate multiple DOIs with semi-colons, listing the primary study's DOI first. Only the DOI field needs to contain information from all merged sources.
 
 MERGED STUDY?
-+ Write 'yes' if the study is a merged study in Covidence/from multiple papers. Write 'no' if the study just represents one paper.
-+ If you included a correction/update to the paper, still answer 'yes' for this question, although there will not be actual new data to extract.
++ Enter 'yes' if the study entry in Covidence combines information from multiple papers. Enter 'no' if it represents a single paper.
++ If only a correction/update is merged, still answer 'yes', although no new data will be extracted.
 + Merged study tips:
-  1. The primary outcome to list in Methods section should be the primary outcome of the *primary* paper (often the first paper published; PO should match the pre-registered PO).
+  1. The primary outcome listed in the Methods section should correspond to the primary outcome of the *primary* paper (often the first published; should match the pre-registered primary outcome).
 
-WHAT DO ADDITIONAL PAPER(S)ADD?
-+ ONLY use this section if you answered 'yes' to the merged study box before it. Otherwise, leave it blank.
-+ *If the only thing merged with your study is a correction to the original paper, ignore the following bullet points on format, and simply write 'Correction' in this box.*
-  + If there is an added Correction in addition to a secondary paper, write '; Correction' to the end of your response, after the sentence in the structure of the format below.
-+ *If the only thing merged with your study is a conference abstract that reports on something additional/not included in the full text, write 'Conference abstract - [description of what new results the conference abstract adds]'*.
-  + If there is an added conference abstract in addition to a secondary paper, include this information after the secondary paper sentence, separated by a semi-colon.
-+ Secondary papers that we will merge with the primary paper in Covidence will either have the same outcomes, but follow-up with more timepoints (i.e., a long-term follow up paper), or will include the same timepoints, but include additional outcomes. In this box, you MUST include a) a brief general description of what the paper adds, b) a list of either what the additional outcomes are (abbreviations can be used) and/or what the additional timepoints are. See below for format examples, where the italicized words can be replaced with the appropriate information from the study you are working on:
-  + Example additional outcomes:<br>
-      '*Goodwin 2023* expands upon *Goodwin 2022* by *adding additional self-report measures in addition to the original clinician-rated measures.* The additional outcome measures are: *GAD-7*, *QIDS-SR-16*, *PANAS*, *SDS*, *WSAS*, *EQ-5D-3L*, and *DSST*.'
-  + Example additional timepoints:<br>
-      '*Goodwin 2023* expands upon *Goodwin 2022* by adding additional follow-up timepoints after the original study timepoints. The additional study timepoints are: *6-months following the second dose*, and *12 months following the second dose*.'
-  + Example both additional outcomes and additional timepoints:<br>
-      '*Goodwin 2023* expands upon *Goodwin 2022* by adding both additional outcome measures and additional follow-up timepoints after the original study timepoints. The additional outcome measures are: *GAD-7*, *QIDS-SR-16*, *PANAS*, and *SDS*. The additional study timepoints are: *6-months following the second dose*, and *12 months following the second dose*.'
+WHAT DO ADDITIONAL PAPER(S) ADD?
++ Use this section ONLY if 'yes' was selected for 'MERGED STUDY?'. Otherwise, leave blank.
++ *If only a correction is merged, enter 'Correction'.*
+  + If a correction is added alongside a secondary paper, append '; Correction' after the description of the secondary paper's contribution (following the format below).
++ *If only a conference abstract adding new information is merged, enter 'Conference abstract - [description of new results]'*.
+  + If a conference abstract is added alongside a secondary paper, include this information after the secondary paper description, separated by a semi-colon.
++ Secondary papers merged in Covidence typically either report on the same outcomes but at later timepoints (long-term follow-up) or include additional outcomes at the same timepoints. This field MUST include: a) a brief general description of the added content, and b) a list of the additional outcomes (abbreviations acceptable) and/or additional timepoints. Replace italicized text in examples below with study-specific information:
+  + Example (additional outcomes):<br>
+      '*Goodwin 2023* expands upon *Goodwin 2022* by *adding additional self-report measures*. The additional outcome measures are: *GAD-7*, *QIDS-SR-16*, *PANAS*, *SDS*, *WSAS*, *EQ-5D-3L*, and *DSST*.'
+  + Example (additional timepoints):<br>
+      '*Goodwin 2023* expands upon *Goodwin 2022* by adding additional follow-up timepoints. The additional timepoints are: *6-months following the second dose*, and *12 months following the second dose*.'
+  + Example (both):<br>
+      '*Goodwin 2023* expands upon *Goodwin 2022* by adding both additional outcome measures and additional follow-up timepoints. The additional outcome measures are: *GAD-7*, *QIDS-SR-16*, *PANAS*, and *SDS*. The additional timepoints are: *6-months following the second dose*, and *12 months following the second dose*.'
 
 ## Methods
 DESIGN
-+ By nature of our review, you should always select Randomized Controlled Trial here.
-+ Mark the correct circle for parallel group or crossover design.
++ For this review, always select Randomized Controlled Trial.
++ Select the appropriate radio button for parallel group or crossover design.
 
 METHOD OF RANDOMIZATION
-+ Be sure to include if it's cluster randomization, etc. Some studies also include details about how randomization was generated, this would be good to include
++ Include details like cluster randomization if applicable. Some studies specify how randomization was generated; include this if available.
 
 METHOD OF RECRUITMENT
-+ Online? Mail? Word of mouth? etc.
++ Specify method (e.g., Online, Mail, Word of mouth).
 
 BLINDING
-+ can be brief; simply put "double-blind," "single-blind," "open-label," etc.
++ Enter brief description (e.g., "double-blind," "single-blind," "open-label").
 
 WHO WAS BLINDED?
-+ Can be brief; usually for a double blind study this includes at least the participants & study staff/clinicians/who administered the drug.
++ Enter brief description. For double-blind studies, typically includes participants & study staff/clinicians administering the drug.
 
 TYPE OF THERAPY
-+ Simply put 'Other' unless the paper specifies that it uses a standardized type of treatment such as CBT, DBT, ERP, etc. Non-traditional or drug-specific protocols (such as the "set and setting protocol" in Raison 2023 or the MAPS protocol used in many MDMA trials) should be listed if used.
++ Enter 'Other' unless a standardized therapy (CBT, DBT, ERP, etc.) is specified. List non-traditional or drug-specific protocols (e.g., "set and setting protocol," MAPS protocol) if used.
 
 FREQUENCY OF THERAPY SESSIONS
-+ Does not need to be detailed; give a rough sense of how much therapy each participant received/at what general timepoint and if it was standardized between arms
-  + Example single-dose format: 3 weekly sessions before dosing; 3 weekly sessions post dosing.
-  + Example multi-dose format: 3 weekly sessions before dosing; 3 weekly sessions between doses; 3 weekly sessions after dosing.
++ Provide a general sense of therapy frequency and timing per participant, noting if standardized between arms. Not required to be overly detailed.
+  + Example (single-dose): 3 weekly sessions before dosing; 3 weekly sessions post-dosing.
+  + Example (multi-dose): 3 weekly sessions before dosing; 3 weekly sessions between doses; 3 weekly sessions after final dose.
 
 WHO PERFORMED CLINICAL ASSESSMENTS?
 
-+ The most-common scenarios are:
++ The most common scenarios are:
 
 | Answer                       | Explanation                                                                 |
 |:-----------------------------|:----------------------------------------------------------------------------|
-| 3rd-party independent raters  | Most common in industry-sponsored studies - an attempt to mitigate bias in clinical assessments. |
-| unspecified                  | Most common in academic studies - generally presumed to be study staff.     |
-| independent study staff       | Study staff who have not been involved in the administration of therapy.    |
-| non-independent study staff   | Study staff who have been involved in the administration of therapy.        |
+| 3rd-party independent raters  | Common in industry-sponsored studies; aims to mitigate bias.               |
+| Unspecified                  | Common in academic studies; generally presumed to be study staff.          |
+| Independent study staff       | Study staff not involved in therapy administration.                         |
+| Non-independent study staff   | Study staff involved in therapy administration.                             |
 
 
-+ NOTE: This question is not asking whether the instruments are clinician administered or self-report. In essence we want to know who asked the questions or handed participants the questionnaire.
-+ For older or academic studies, this might not be reported as clearly. Check the 'assessments' section of the study protocol.
++ NOTE: This question concerns who administered the assessment (asked questions or provided questionnaires), not whether instruments were clinician-administered or self-report.
++ For older or academic studies, this may not be clearly reported. Check the 'assessments' section of the study protocol if available.
 
 CHOSEN PRIMARY OUTCOME MEASURE
 + Use the abbreviation for the primary outcome measure, matching its name in the outcomes table.
-+ If there are more than one primary outcome measures, list them later in 'all primary outcome measures,' and select one primary outcome measure based on the following:
-  + Choose the measure that most closely relates to the outcome that is the focus of your review; i.e., for psilocybin and depression, pick a depression outcome over an anxiety outcome measure.
-  + When selecting the chosen measure, evaluate which measure is most often measured in other studies, prioritizing clinician-administered over self-report, and independent administrations of the clinician-administered outcomes over unspecified or study staff administration.
-  + This selection process should involve discussion among multiple team-members and the decision and reasoning should be documented on the study's notion page.
++ If multiple primary outcome measures exist, list them in 'All primary outcome measures' and select one based on the following hierarchy:
+  + Choose the measure most closely related to the review's focus (e.g., for depression, prioritize a depression outcome over an anxiety outcome).
+  + Select the measure most commonly used in other studies, prioritizing clinician-administered over self-report, and independently administered over unspecified or study staff administration.
+  + This selection should involve discussion among team members, with the decision and reasoning documented (e.g., on the study's Notion page).
 
 SAFETY AND PHYSIOLOGY MEASURES
-+ List all safety and physiology related measures collected, separated by a semi-colon.
++ List all collected safety and physiology-related measures, separated by semi-colons.
 + Use the exact name of the measure or survey instrument if provided.
-+ If there are sub-outcomes under any measure, it doesn't hurt to list out the sub-outcomes to provide more detail as well (or the more detailed response can be selected in the consensus stage).
-+ Acute drug effects (ASC/MEQ) and longer-term emotional/spiritual/personality scales can be included in this box. However, anything that is an explicit mood scale (related to depression/anxiety, etc.) should be listed under 'all other mood & secondary outcome measures'.
++ If sub-outcomes exist, listing them can provide helpful detail (or the more detailed response can be chosen during consensus).
++ Acute drug effects (ASC, MEQ) and longer-term emotional/spiritual/personality scales can be included here. However, explicit mood scales (depression, anxiety, etc.) should be listed under 'All other mood & secondary outcome measures'.
 
 ALL OTHER MOOD & SECONDARY OUTCOME MEASURES
-+ Here, list all of the remaining outcome measures that are not the primary outcome measure nor are related to safety and physiology, as these will have been covered above.
-+ You can use the abbreviations for each outcome measure, separated by a semi-colon (i.e., MADRS; BDI; STAI)
-  + Note that for STAI in particular you can just list 'STAI' here and later in results report STAI-Trait, STAI-State, STAI-Total, etc.
-+ Many of the outcomes here will not be reported in the results table/are not reported in the study in detail, but it is still useful to make note of all relevant outcome measures collected for reference.
-+ Response & remission are often listed as secondary outcome measures, but do not need to be listed here given that they use scales which would already be included here.
++ List all remaining outcome measures not categorized as primary or safety/physiology.
++ Use abbreviations, separated by semi-colons (e.g., MADRS; BDI; STAI).
+  + For STAI, list 'STAI' here; specific forms (STAI-Trait, STAI-State, STAI-Total) can be reported in the results.
++ Many outcomes listed here might not be reported in detail in the study results but should be noted for reference.
++ Response & remission are often listed as secondary outcomes but do not need separate entries here, as they are derived from scales already included.
 
 STUDY TIMEPOINTS
-+ DON'T calculate anything at this point; keep it how it was written in the study. Separate by semi-colons.
-+ Other info to potentially include depending on the study:
-  + When the blind was broken
-  + When crossover occurred
-  + When doses were administered!!!
-+ Info that does not need to be included in this box includes when therapy sessions occured, as this is already note in the 'frequency of therapy sessions' box.
-+ When deciding what to include in this box, it is helpful to think that the goal is to track the times of doses and survey instruments administered, in line with some of the studies that provide organized graphical timelines. The goal is to use this box as a reference of relative timepoints to contextualize the timepoints in the outcomes/results tabs.
++ Do not calculate or convert timepoints; record them exactly as written in the study. Separate entries with semi-colons.
++ Other information to potentially include:
+  + Timing of unblinding
+  + Timing of crossover
+  + Timing of dose administration
++ Information not needed here: timing of therapy sessions (covered in 'Frequency of therapy sessions').
++ The goal is to track the timing of doses and assessment administrations, similar to graphical timelines provided in some studies. This field serves as a reference to contextualize timepoints in the outcomes/results tabs.
 + Example generic format:
   'Study Timepoint (Covidence timepoint): Description;' OR 'Study Timepoint: Description;'*
-    + *The Covidence timepoint in parentheses will not be available for every study timepoint, just those for which we are reporting outcomes (i.e, typically the dose timepoints will not have a corresponding Covidence timepoint)
-+ Example format (from Griffiths 2016 paper):
+    + *The Covidence timepoint in parentheses is only applicable for timepoints where outcomes are reported (dose administration timepoints typically lack a corresponding Covidence timepoint).*
++ Example format (Griffiths 2016):
   Day 0: Baseline; Month 1: Dose 1; 5 weeks after session 1 (Post-first dose 1): data assessment; 5 weeks after session 1: Dose 2; 5 weeks after session 1: Crossover; 5 weeks after session 2 (Post-second dose 1): data assessment; 6 months (Follow-up 1): Follow-up assessment
-+ Example format (from Goodwin 2022/2023 papers):
++ Example format (Goodwin 2022/2023):
   Day -1: Baseline; Day 1: Dose 1; Day 2 (Post-first dose 1): Follow-up at clinic assessment; Week 1 (Post-first dose 2): Follow-up at clinic assessment; Week 2: Follow-up at clinic assessment; Week 3 (Post-first dose 3): Follow-up at clinic assessment; Week 6 (Post-first dose 4): Follow-up remote assessment; Week 9 (Post-first dose 5): Follow-up remote assessment; Week 12 (Post-first dose 6): Follow-up at clinic assessment
 
 OTHER
-+ Include any other information not covered in pre-specified boxes in Methods.
++ Include any other methodological information not covered in pre-specified fields.
 
 NAME OF EACH ARM
-+ Write what the paper authors refer to each group as/how it is referenced & mentioned in the study. (This should be the same as 'group name' in Interventions section).
-  + For example, the intervention group might be termed "psilocybin group" and the control group might be called "niacin group" in a particular study.
-+ It is important to use this exact group name as reported in the study/as specified here throughout the rest of the data extraction template when referring to each arm.
++ Enter the names used by the paper authors to refer to each group (should match 'group name' in the Interventions section).
+  + Example: Intervention group = "psilocybin group"; Control group = "niacin group".
++ Use these exact group names consistently throughout the data extraction template.
 
 STATISTICAL ANALYSES
-+ Here, copy/paste relevant statistical analysis methods described in the paper.
-+ The relevant information to include here consists of the 1-3 paragraphs that describe the modeling methods used to adjust for baseline characteristics, impute missing data, and test for significance.
++ Copy and paste relevant statistical analysis methods descriptions from the paper.
++ Include the paragraphs describing modeling methods for baseline adjustments, missing data imputation, and significance testing (typically 1-3 paragraphs).
 
 SUPPLEMENTAL ANALYSES
-+ Here, include any additional analyses that are included in the paper or more typically, the supplement, that might be interesting to analyze later, but which you do not report on in the results of this Covidence analysis. This might include analyses where the authors subgroup the results based on a particular condition, such as antidepressant use, prior psychedelic use, baseline severity, or Per Protocol (PP) analyses.
++ Include descriptions of additional analyses (often found in supplements) that may be of interest for later analysis but are not reported in the main Covidence results. Examples include subgroup analyses (by antidepressant use, prior psychedelic use, baseline severity) or Per Protocol (PP) analyses.
 
 MISCELLANEOUS DETAILS
-+ Add any notable details on methods or design that do not fall into the above categories. Sometimes this will be blank. This box can also be used to capture misc. details we decide we want to extract at later stages.
-+ In general, it is good practice to utilize this 'miscellaneous details' box rather than writing things in the notes section.
++ Add any notable method or design details not covered above. This field may sometimes be blank. Use this field for miscellaneous details identified for extraction later.
++ Generally, use this 'Miscellaneous details' field rather than the generic 'Notes' section for such information.
 
 ADJUSTED VALUE USED
-+ Only use this box if the paper reports their primary results as adjusted values. In the outcomes Notes box (see Outcomes section below), you will note whether the value is adjusted or unadjusted for each scale, but it is important to then come back here to the Methods section to specify in more detail.
-+ For example, if the QIDS-SR score uses the least squares mean, you can write "QIDS-SR: least-squares mean"
-+ Parse separate outcome measures with a semi-colon, i.e., "QIDS-SR: least-squares mean; MADRS: least-squares mean"
++ Use this field only if the paper reports primary results as adjusted values. While the 'Notes' box in the Outcomes section indicates if a value is adjusted/unadjusted, provide specifics here.
++ Example: If the QIDS-SR score uses the least squares mean, enter "QIDS-SR: least-squares mean".
++ Separate entries for different outcome measures with a semi-colon (e.g., "QIDS-SR: least-squares mean; MADRS: least-squares mean").
 
 IS PRIMARY ANALYSIS ON INTENT-TO-TREAT (ITT) OR PER-PROTOCOL (PP) POPULATION?
-  + If primary analysis is done on intent-to-treat population, write 'ITT.' If it's on per-protocol population, write 'PP'.
-  + If it is unclear in the study whether the analysis was done on ITT or PP population, write 'unspecified'.
+  + Enter 'ITT' if analysis is on the intent-to-treat population. Enter 'PP' if on the per-protocol population.
+  + If unclear, enter 'unspecified'.
 
 CHOSEN PRIMARY ENDPOINT
-+ The primary endpoint should match one of the time-point descriptions in the outcomes table (See Outcomes -> Overall Process). Both should be in accordance with the timepoint description in the paper. The primary endpoint should be the primary endpoint of the *main paper*.
-+ If the primary endpoint is not obvious or explicitly stated in the paper, then look at the pre-registered options (go to the clinical trial registry if possible) and choose the timepoint that is closest to the average timepoint of trial designs in other studies.
-+ This selection process should involve discussion among multiple team-members and the decision and reasoning should be documented on the study's notion page.
-+ If you have chosen a timepoint according to the points above, then make sure to include all primary endpoints listed in the paper/pre-registered options in the 'All primary endpoints' box below.
++ The primary endpoint should match a time-point description in the outcomes table (see Outcomes -> Overall Process) and align with the paper's description. It should be the primary endpoint of the *main paper*.
++ If not explicitly stated, review pre-registered information (check clinical trial registry if possible) and choose the timepoint closest to the average primary endpoint timepoint across similar studies.
++ This selection should involve team discussion, with the decision and rationale documented (e.g., on Notion).
++ If a specific timepoint is chosen according to the above, list all primary endpoints mentioned in the paper/pre-registration in the 'All primary endpoints' field below.
 
 ADJUSTED OUTCOMES
-+ List all of the outcomes that are reported as adjusted values in outcomes/results. Separate each outcome (you can use their abbreviations) by a semi-colon.
-+ Don't list response/remission outcomes in this box.
++ List all outcomes reported as adjusted values. Separate abbreviations with semi-colons.
++ Do not list response/remission outcomes here.
 
 UNADJUSTED OUTCOMES
-+ List all of the outcomes that are reported as unadjusted values in outcomes/results. Separate each outcome (you can use their abbreviations) by a semi-colon.
-+ Don't list response/remission outcomes in this box.
++ List all outcomes reported as unadjusted values. Separate abbreviations with semi-colons.
++ Do not list response/remission outcomes here.
 
 CHANGE FROM BASELINE OUTCOMES
-+ List all of the outcomes that are reported as a change from baseline (rather than endpoint) in outcomes/results. Separate each outcome (you can use their abbreviations) by a semi-colon.
-+ Change from baseline outcomes are those that are reported as a difference from the baseline measure (for example, if the psilocybin intervention worked, most depression scores will be a negative number reflecting a lower depression score compared to baseline following psilocybin intervention).
-+ Don't include response/remission outcomes in this box.
++ List all outcomes reported as change from baseline (not endpoint values). Separate abbreviations with semi-colons.
++ Change-from-baseline values represent the difference from the baseline measure (e.g., negative scores for depression scales after effective intervention).
++ Do not include response/remission outcomes here.
 
 ENDPOINT OUTCOMES
-+ List all of the outcomes that are reported as an endpoint (rather than change from baseline) in outcomes/results. Separate each outcome (you can use their abbreviations) by a semi-colon.
-+ Endpoint outcomes are those that are reported as raw scores for that timepoint, rather than as a difference from baseline.
-+ Don't include response/remission outcomes in this box.
++ List all outcomes reported as endpoint values (raw scores at the timepoint, not change from baseline). Separate abbreviations with semi-colons.
++ Do not include response/remission outcomes here.
 
 HOW IS RESPONSE DEFINED?
-+ Here, note how response is defined in the study and its corresponding outcome name in outcomes/results.
++ Note how response is defined in the study and its corresponding outcome name in the outcomes/results section.
   + Example: 'Response 1: 50% or greater reduction in BDI at a particular assessment point relative to baseline'
-+ If there are multiple response outcomes/it is defined in multiple ways, indicate which response outcome it corresponds to in the outcomes/results section, and separate each definition by a semi-colon.
-  + Example format: 'Response 1: 50% or greater reduction in BDI at a particular assessment point relative to baseline; Response 2: 50% or greater reduction in HADS-D at a particular assessment point relative to baseline'
-+ If response is not an outcome for this study, write 'n/a' in this box.
++ If multiple response definitions exist, indicate the corresponding outcome name for each and separate definitions with semi-colons.
+  + Example format: 'Response 1: 50% or greater reduction in BDI...; Response 2: 50% or greater reduction in HADS-D...'
++ If response is not an outcome, enter 'n/a'.
 
 HOW IS REMISSION DEFINED?
-+ Here, note how remission is defined in the study and its corresponding outcome name in outcomes/results.
++ Note how remission is defined and its corresponding outcome name.
   + Example: 'Remission 1: 50% or greater reduction in depressive symptoms plus HADS D ⩽7'
-+ If there are multiple remission outcomes/it is defined in multiple ways, use the same format as specified in the 'how is response defined?' box, separating by a semi-colon.
-+ If remission is not an outcome for this study, write 'n/a' in this box.
++ If multiple remission definitions exist, use the same format as for response, separating with semi-colons.
++ If remission is not an outcome, enter 'n/a'.
 
 DATA FROM WEBPLOTDIGITIZER
-+ Here, list the data that you have recorded in the results section that you obtained from uploading figures to the WebPlotDigitizer software.
-+ Include the outcomes, timepoints, and statistics if relevant: 'Outcome1: Timepoint1 (stat1, stat2), Timepoint2 (stat1); Outcome2: Timepoint1 (stat1, stat2), Timepoint2 (stat1, stat2), Timepoint3 (stat1, stat2)"
++ List data recorded in results obtained via WebPlotDigitizer.
++ Include outcomes, timepoints, and statistics if relevant: 'Outcome1: Timepoint1 (stat1, stat2), Timepoint2 (stat1); Outcome2: Timepoint1 (stat1, stat2), Timepoint2 (stat1, stat2), Timepoint3 (stat1, stat2)'
   + Example format: "MADRS: Day 2 (mean, SD), Day 14 (mean, SD); BDI: Day -1 (mean, SD), Day 14 (mean, SD), Day 21 (mean, SD)"
 
 DATA FROM CONTACTING AUTHORS
-+ Here, list the data that you have recorded in the results section that you obtained from contacting authors via email.
-+ Include the outcomes, timepoints, and statistics if relevant, in the same format listed above for the 'Data from WebPlotDigitizer' box.
++ List data recorded in results obtained via author contact.
++ Use the same format as for 'Data from WebPlotDigitizer'.
 
 ALL PRIMARY ENDPOINTS
-+ Here, list all primary endpoints pre-registered/listed in the paper.
-+ There might be only one primary endpoint listed, in which case the answer to this box will be the same as the 'chosen primary endpoint.'
++ List all primary endpoints as pre-registered/listed in the paper.
++ May be identical to 'Chosen primary endpoint' if only one exists.
 
 ALL PRIMARY OUTCOME MEASURES
-+ Here, list all primary outcome measures as pre-registered/listed in the paper.
-+ There might be only one primary outcome measure listed, in which case the answer to this box will be the same as the 'chosen primary outcome measure.'
++ List all primary outcome measures as pre-registered/listed in the paper.
++ May be identical to 'Chosen primary outcome measure' if only one exists.
 
 ADVERSE EVENTS
-+ Briefly describe adverse events as listed in the study. Possible information to include if available in the study, to separate by semi-colons:
-  + Number or percentage of AEs (can separate by intervention, control, and total if provided)
++ Briefly describe adverse events as listed in the study. Separate details with semi-colons. Potential information:
+  + Number or percentage of AEs (specify by arm and total if available).
     + Example format: 'Number of AEs: intervention = 13, control = 5, total = 18'
-  + Number or percentage of serious AEs
-  + List of AEs (i.e., 'AEs included headache, nausea, and dizziness')
-  + If there are SAE's (serious AEs), give the number in each arm following the same format as above for AEs.
-  + List of serious AEs
+  + Number or percentage of serious AEs (SAEs).
+  + List of AEs (e.g., 'AEs included headache, nausea, dizziness').
+  + Number of SAEs per arm (use same format as for AEs).
+  + List of SAEs.
 
 
 ## Population
 INCLUSION/EXCLUSION CRITERIA
-+ Directly copy/paste from protocol. Delete bullet points. Separate lines by adding a semicolon to the end of each line.
++ Copy directly from protocol/paper. Delete bullet points. Separate criteria lines by adding a semicolon to the end of each line.
 
 GROUP DIFFERENCES
-+ 'n/a' for most studies. If any group differences are noted, whether due to inclusion/exclusion or randomization, list them here.
++ Enter 'n/a' for most studies. Note any reported group differences (due to criteria or randomization).
 
 TOTAL SAMPLE SIZE
-+ The number of participants randomized.
++ Enter the number of participants randomized.
 
 NUMBER OF WITHDRAWALS
-+ Give the total number for each arm throughout the study. Arms should be named based on the group name given in the Interventions table.
-+ The total number of withdrawals = the number of participants excluded from per-protocol analyses.
-+ If it is a crossover study, also include whether the withdrawals were before or after crossover (see example format below).
-  + Example formatted input (non-crossover study): "High-dose-1st: 4; Low-dose-1st: 6"
-  + Example formatted input (crossover study): "immediate treatment group: 2 total, 1 pre-crossover, 1 post-crossover; delayed treatment group: 1 total, 0 pre-crossover, 1 post-crossover"
-    + Be sure to include the total withdrawals in each group, then break the total number down as pre-crossover and post-crossover numbers separated by a comma. Groups/arms will be separated by a semi-colon still.
++ Provide the total number per arm throughout the study. Name arms according to the Interventions table group names.
++ Total withdrawals = number excluded from per-protocol analyses.
++ For crossover studies, specify if withdrawals occurred before or after crossover.
+  + Example (non-crossover): "High-dose-1st: 4; Low-dose-1st: 6"
+  + Example (crossover): "immediate treatment group: 2 total (1 pre-crossover, 1 post-crossover); delayed treatment group: 1 total (0 pre-crossover, 1 post-crossover)"
+    + Include total withdrawals per group, followed by breakdown (pre/post-crossover counts separated by comma). Separate group entries with a semi-colon.
 
 PRISMA WITHDRAWAL DETAILS
-+ Write the info as it is described in study, usually displayed in a flow diagram, staying loyal to how it is written in the study; include the arm, n, reason.
-+ Example format for Goodwin 2022:
-  + 25-mg group: 79 were randomized, 5 discontinued (2 had adverse event, 1 was lost to follow-up, 2 withdrew); 10-mg group: 75 were randomized, 9 discontinued (1 had lack of efficacy, 2 had adverse event, 6 withdrew); 1-mg group: 79 were randomized, 10 discontinued (1 had lack of efficacy, 1 was withdrawn by physician, 2 were lost to follow-up, 6 withdrew)
-  + Note that format will not be exactly the same for each study; prioritize being loyal to how it is written in the PRISMA diagram for that study. At least one paper has noted that some participants have withdrawn before receiving the first dose. If this is the case, be sure to include this in your PRISMA withdrawal details description.
++ Transcribe information as described/displayed in the study's flow diagram, maintaining the original phrasing; include arm, n, and reason.
++ Example format (Goodwin 2022):
+  + 25-mg group: 79 randomized, 5 discontinued (2 adverse event, 1 lost to follow-up, 2 withdrew); 10-mg group: 75 randomized, 9 discontinued (1 lack of efficacy, 2 adverse event, 6 withdrew); 1-mg group: 79 randomized, 10 discontinued (1 lack of efficacy, 1 withdrawn by physician, 2 lost to follow-up, 6 withdrew)
+  + Note: Format varies by study; prioritize accuracy relative to the PRISMA diagram. If participants withdrew before the first dose, include this detail.
 
 PRIMARY PATIENT DIAGNOSIS
-+ Ex: MDD, TRD, life-threatening cancer and DSM-IV diagnosis for a mood/anxiety or related adjustment disorder, etc.
++ E.g., MDD, TRD, life-threatening cancer with DSM-IV diagnosis for mood/anxiety/adjustment disorder.
 
 OTHER
-+ Include any past drug use recorded that was not included under past psychedelic use (i.e., cannabis use) in notes.
++ Include recorded past drug use not covered under psychedelic use (e.g., cannabis) in notes.
   + Example format: 'Recent use of cannabis or dronabiol: 42% intervention, 52% control, 47% all participants'
-  + Separate out multiple things you want to record in the 'Other' section by semi-colons.
-+ Include any notable SAE's or other notable information (ex. death by suicide/cancer in Griffiths 2016) in notes.
+  + Separate multiple items in 'Other' with semi-colons.
++ Include notable SAEs or other significant information (e.g., death by suicide/cancer) in notes.
 
 EXCLUSION CRITERIA BOXES
-+ The following boxes after 'Other' are meant to capture binary yes/no responses to common exclusion criteria for later use in analyses. Write 'yes' or 'no' to the following questions after looking at the full exclusion criteria for the study (if the information cannot be found, write 'missing', if the info is unclear write 'unclear'):
++ The following fields capture binary responses to common exclusion criteria. Enter 'yes' or 'no' based on the full exclusion criteria. If information is unavailable, enter 'missing'; if unclear, enter 'unclear'.
   + Were participants excluded for currently taking SSRIs?
-    + Answering 'yes' to this question indicates that participants were not given the opportunity to taper off of the medicine; during intake, if they are on SSRIs, they are automatically ineligible.
-  + If participants were taking a psychiatric medication, did they have to taper off the medication before partaking in this study?
-    + Differing from the first exclusion question, if you answer 'yes' to this question, this means that during intake/screening participants could have been on SSRIs, but they must taper off of them before actually participanting in the study and receiving the intervention.
-    + If you answered 'yes' to the first question, then you can list 'n/a' for this response.
-  + Were participants excluded for having a personal history of psychosis/psychotic disorder/schizophrenia?
-  + Were participants excluded if they have a family history of psychosis/psychotic disorder/schizophrenia?
-    + Write 'yes' in this box if there is any exclusion based on family history, no matter the specifics/if it is a first-degree or second-degree relative.
+    + 'Yes' indicates participants on SSRIs at intake were automatically ineligible (no taper option).
+  + If participants were taking a psychiatric medication, did they have to taper off before participating?
+    + 'Yes' indicates participants could be on medication at screening but required tapering before intervention.
+    + If the answer to the first question is 'yes', enter 'n/a' here.
+  + Were participants excluded for a personal history of psychosis/psychotic disorder/schizophrenia?
+  + Were participants excluded for a family history of psychosis/psychotic disorder/schizophrenia?
+    + Enter 'yes' if *any* exclusion based on family history exists, regardless of degree of relation.
   + Were participants excluded for **any** previous psychedelic use?
-    + Only answer 'yes' to this question if **all** participants included in the study are psychedelic-naive.
-    + For example, if a study excludes based on lifetime use or specific parameters of using psychedelics, you would answer 'no' to this question, because some participants could have had some exposure to psychedelics before that didn't fit the specific criteria for exclusion.
-    + If there is any history of psychedelic use permitted, or any psychedelic experience allowed, then you should answer 'no' to this question.
-  + Were participants excluded for having a **current** alcohol/substance use disorder?
+    + Enter 'yes' only if **all** participants were psychedelic-naive.
+    + If exclusion was based on specific parameters (e.g., lifetime use limits), enter 'no', as some prior exposure might be permitted.
+    + If *any* history or experience was allowed, enter 'no'.
+  + Were participants excluded for a **current** alcohol/substance use disorder?
 
 ANY NOTABLE POPULATION CHARACTERISTICS NOT CAPTURED ABOVE
-+ This box is meant to capture any other relevant details about the participants not already covered (i.e., co-morbidities, etc.)
++ Capture relevant participant details not covered elsewhere (e.g., co-morbidities).
 
 BASELINE CHARACTERISTICS
-+ *In general, lots of the boxes under baseline characteristics will likely have to be left blank. Not all studies report on the same population characteristics.
-  + Also, there are options for reporting either the standard deviation, or standard error. Only one will probably be reported with the mean, so leave the other one blank.
++ *Many fields under baseline characteristics may need to be left blank, as reporting varies across studies.*
+  + *Options exist for standard deviation or standard error; typically, only one is reported with the mean. Leave the unreported field blank.*
 
 Psychiatric medication discontinuation/use:
-+ Specify in the NOTES section what type of medication, if it was specified in the paper (i.e., SSRIs)
++ Specify the type of medication (e.g., SSRIs) in the NOTES section if detailed in the paper.
 
 
 
 ## Interventions
 *Overall Process*
-+ Mark the checkboxes both next to intervention and next to control.
-+ For 'group name' under each arm, write what the paper authors refer to each group as/how it is referenced & mentioned in the study.
-  + For example, the intervention group might be termed "psilocybin group" and the control group might be called "niacin group" in a particular study.
-  + This is also helpful for crossover studies, i.e., "high dose 1st group" vs. "low dose 1st group," for example.
-+ If you hover over either the intervention or control column, you can add additional intervention or control arms.
-  + This is helpful, for example, for studies that might have two or more intervention groups testing different active doses of the drug.
-  + This is also why it is important to add the 'group name' under each arm.
++ Select the checkboxes next to both 'Intervention' and 'Control'.
++ For 'Group name' under each arm, enter the name used by the paper authors (should match 'Name of each arm' in Methods).
+  + Example: "psilocybin group", "niacin group".
+  + Also useful for crossover studies: "high dose 1st group", "low dose 1st group".
++ Hover over the intervention or control column to add additional arms if needed (e.g., for studies with multiple active doses).
+  + This highlights the importance of accurately entering the 'Group name' for each arm.
 
 
 NUMBER OF PARTICIPANTS ALLOCATED
-+ Refers to the number of participants who were randomized into each group
++ Enter the number randomized into each group.
 
 DRUG
-+ The drug might either be the same (i.e., when a low dose is used as a placebo), or a different drug for the intervention vs. control group.
++ May be the same (e.g., low dose as placebo) or different between intervention and control arms.
 
 DOSE
-+ Typically reported in mg/kg
++ Typically reported in mg or mg/kg.
 
 NUMBER OF DOSES
-+ Only include doses BEFORE the primary endpoint. For example, if a study has an optional second dose after the primary endpoint, you would still put '1' for number of doses.
-+ For crossover studies, the number that should go in here is the number of doses they received BEFORE crossover.
++ Include only doses administered BEFORE the primary endpoint. (E.g., if an optional second dose occurs after the primary endpoint, enter '1').
++ For crossover studies, enter the number of doses received BEFORE crossover.
 
 FREQUENCY
-+ The amount of days/weeks in between the doses if there are multiple doses
-+ If there is only one dose, you can leave this box blank.
++ Enter the interval (days/weeks) between doses if multiple doses are administered.
++ Leave blank if only one dose.
 
 MODE/ROUTE OF ADMINISTRATION
-+ Keep language brief & standardized here: i.e., "oral" or "IV"
++ Use brief, standardized terms (e.g., "oral", "IV").
 
 DURATION OF FOLLOW-UP/LAST REPORTED ENDPOINT
-+ Write in terms of days, weeks, months
++ Specify in terms of days, weeks, or months.
 
 SOURCE OF PSILOCYBIN/FORMULA
-+ Add the source/formulation of psilocybin used here. Common examples include 'synthetic psilocybin/Usona Institute', 'synthetic psilocybin/David Nichols', or 'COMP360/Compass Pathways'.
++ Enter the source/formulation used (e.g., 'synthetic psilocybin/Usona Institute', 'synthetic psilocybin/David Nichols', 'COMP360/Compass Pathways').
 
 OTHER
-+ Write any other details here about the intervention/drug that was not captured in the above categories.
++ Enter any other intervention/drug details not captured above.
 
 ## Outcomes
 *Overall Process - Timepoints*
-+ For the seond reviewer, this detail will be irrelevant, as the timepoints and outcomes table will already be set up by the first reviewer.
-+ Using the check boxes, select only the outcomes in the study that you would like to analyze later
-+ For any outcome that is not listed as a possible outcome to check in outcomes already, check one of the 'Additional Outcome' boxes, making sure you check one that corresponds to the type of outcome it is (continuous or dichotomous).
-+ In the "describe outcomes" section, underneath the large bold column heading where it prompts 'Add reported name…', write the scale acronym.
-  + *Note that this is not applicable for studies in which the outcome name will be the exact same as what you would write in 'add reported name' (i.e., if you are using a pre-selected outcome that already lists the measure like 'BDI' rather than 'Additional Continuous Outcome 1' and there are no further version specifications that you would want to report in the name). In these cases, in 'add reported name,' write [acronym]_null (for example, 'BDI_null').*
-  + This should be the acronym used in the study for the outcome, and it should match exactly one of the acronyms listed in the methods boxes "Change from baseline outcomes" or "Endpoint outcomes"
-  + For response and remission outcomes, it is especially important in this describe outcomes section to specify the acronym for the scale that is used to define response and remission.
-  + If you are using an 'Additional Outcome' box, this description heading is where you would specify what that additional outcome is!
-+ For each outcome, delete the timepoints you are not using (this will probably be a significant amount/most of the timepoints). You want to be left with only the timepoints for which the authors of that specific study recorded that specific outcome measure.
-  + Note that different outcome measures might have been recorded at different timepoints or some might have been more frequently recorded than others; specify the timepoints for that specific outcome scale.
-  + Note: Only include the DOSE timepoint if data is actually being collected on the day of the dosing session; otherwise, this timepoint info will be captured under study timepoints in Methods, and you can delete the "DOSE 1" timepoint, for example. It might be helpful, however, to keep this timepoint briefly as you are adding reported times for the timepoints to keep track of the timeline, but delete this before you go to results.
-+ For the timepoints that are remaining, click the edit button icon, then where it prompts 'Add reported time,' specify the actual timepoint (day, week, etc.) for the study you are working with.
-   + Stay loyal to how the timepoint is written exactly in the paper - do not, at this point, convert or calculate weeks into days, etc.
-+ If the study includes a 'sustained response' outcome, you can account for this in a 'response' timepoint.
-  + Use one of the 'follow-up' timepoints. In the timepoint description, use the following format: "Weeks #-# Sustained Response". The reason the weeks are a range is because sustained response often by definition needs to be sustained across the weeks, rather than just having a response just at a later follow-up week, so make sure you specify this.
-+ There are multiple response and remission outcome options.
-  + Some studies may have a couple of response/remission outcomes defined in different ways (i.e., one defined by anxiety remission & another defined by depression remission). This is why there are multiple response & remission outcomes - Response 1, Response 2, etc. Be sure to specify in the 'Add reported name' for these ones what scale is used to define response/remission, adding "Response" or "Remission" after the acronym (i.e., "HAM-A Response"). Be sure to also specify exactly how response/remission is defined in the corresponding methods box.
-  + There are also response and remission outcome options for reporting the adjusted versions of these values - Adjusted Response 1, Adjusted Response 2, etc. For example, many papers provide not only n/N for response and remission, but also present the adjusted response and remission data (i.e., odds ratio adjusted for baseline characteristics, etc.). In these cases, use one of the additional adjusted response/remission boxes, and in the 'Add a reported name' description write again what scale was used, adding '(adjusted)' at the end of that same acronym that should be in the corresponding Response 1, Response 2 outcomes (i.e., 'HAM-A Response (adjusted)'). You can later edit the results table such that the adjusted response or remission outcome is reported in the proper format.
++ Note for Reviewer 2: Timepoints and outcomes tables will be pre-configured by Reviewer 1.
++ Select checkboxes only for outcomes intended for later analysis.
++ For outcomes not pre-listed, check an appropriate 'Additional Outcome' box (continuous or dichotomous).
++ In the "Describe outcomes" section (under 'Add reported name...'), enter the scale acronym used in the study.
+  + *Exception: If using a pre-selected outcome where the reported name is identical to the desired entry (e.g., 'BDI'), and no further version specification is needed, enter '[acronym]_null' (e.g., 'BDI_null').*
+  + The acronym should match an entry in the Methods fields "Change from baseline outcomes" or "Endpoint outcomes".
+  + For response/remission, clearly specify the scale used for definition here.
+  + If using an 'Additional Outcome', specify the outcome measure name here.
++ For each outcome, delete unused timepoints (likely most). Retain only timepoints where that specific outcome was measured in the study.
+  + Different outcomes may have different measurement schedules. Specify timepoints per outcome scale.
+  + Note: Include DOSE timepoints only if data were collected *on* the dosing day. Otherwise, dosing timing is captured in Methods -> Study Timepoints. (Consider keeping DOSE timepoints temporarily while entering reported times for timeline clarity, then delete before moving to results).
++ For remaining timepoints, click the edit icon and enter the actual timepoint (day, week, etc.) as reported in the paper under 'Add reported time'.
+   + Maintain the exact format used in the paper; do not convert units (e.g., weeks to days) at this stage.
++ Account for 'sustained response' outcomes within a 'response' timepoint entry.
+  + Use a 'follow-up' timepoint. In the timepoint description, use the format: "Weeks #-# Sustained Response". Specify the range as sustained response definitions often span multiple weeks.
++ Multiple response/remission outcome options exist (Response 1, Response 2, etc.) for studies with multiple definitions (e.g., anxiety vs. depression remission).
+  + Specify the scale used in 'Add reported name' for each (e.g., "HAM-A Response"). Ensure the definition method is detailed in the corresponding Methods field.
+  + Adjusted response/remission options (Adjusted Response 1, etc.) are available for reporting adjusted data (e.g., adjusted odds ratios). Use these when applicable, adding '(adjusted)' to the reported name (e.g., 'HAM-A Response (adjusted)'). Edit the results table format later as needed.
 
 SCALE
-+ Use the "scale" box in results to write the reference cited in the paper for that scale (e.g. Beck 1998)
++ Use the "Scale" field in results to enter the reference cited in the paper for the scale (e.g., Beck 1998).
 
 RANGE
-+ This is the range of possible total scores for that outcome measure.
++ Enter the range of possible total scores for the outcome measure.
 
 UNITS
-+ For things like depression/anxiety surveys that will most likely be the outcomes you select, you can leave the units blank.
++ Leave blank for most depression/anxiety survey outcomes.
 
 DIRECTION
-+ "Lower is better" would mean, for example, that a low score means less depression.
++ "Lower is better" indicates lower scores represent improvement (e.g., less depression).
 
 DATA VALUE
-+ If the data is reported as a change from baseline, be sure to select that option; this can also be reconfigured in the 'edit' section of the results data.
++ Select 'Change from baseline' if applicable; this can also be configured when editing the results table.
 
 NOTES
-+ Use the "Notes" box in results at the bottom of the table to note if the number give is adjusted or unadjusted.
-  + More often than not, the results are unadjusted, but if results are reported as least squares mean, for example, this would be an adjusted value.
++ Use the "Notes" field at the bottom of the results table to specify if the entered number is adjusted or unadjusted.
+  + Results are often unadjusted. Adjusted values (e.g., least squares mean) should be noted here.
 
 *BASELINE OUTCOMES*
-+ The "Baseline Outcomes" option to select for an outcome is the way we have been able to work-around reporting baseline outcomes that are reported differently/in a different format than the other timepoints (e.g. where outcomes are reported as a change from baseline). As such, the reporting for this outcome is a bit idiosyncratic:
-+ Each 'timepoint' is not a timepoint, but rather will be space to put the baseline data for different outcome measures. The timepoint options for this 'baseline outcomes' outcome are Baseline 1-20. Click on each baseline timepoint (can use however many you need to report for each outcome measure), and label it with the name of the outcome measure that will go in that box (e.g. 'GRID-HAM-D'). This will show up in parentheses in the results table.
-+ In results, you will then have a table where you can report on all of the baseline timepoints for outcome measures in the correct format as listed in the paper.
++ The "Baseline Outcomes" selection provides a workaround for baseline data reported in a different format than subsequent timepoints (e.g., endpoint vs. change from baseline). Reporting is idiosyncratic:
++ Each 'timepoint' (Baseline 1-20) represents a field for baseline data of a different outcome measure. Select the required number of baseline timepoints and label each with the corresponding outcome measure name (e.g., 'GRID-HAM-D'). This label appears in parentheses in the results table.
++ The results table will then allow entry of baseline data for each selected outcome measure in the format reported in the paper.
 
 *COLLAPSED OUTCOMES*
-+ For waiting list controlled studies especially, you might run into a case in which the results are collapsed across intervention and control groups (i.e., immediate treatment and delayed treatment groups). However, the results tables are built such that results for the intervention and control groups are reported separately. As such, the "Collapsed Outcomes" section is our work-around to report any collapsed results for the same outcomes.
-+ You should see the option for Collapsed Outcomes 1-12. You can use as many of these as you need by selecting the checkbox next to the options, and in the "as reported" section under the column for that option, note which outcome measure you are reporting the collapsed values for.
-  + Since Covidence does not allow you to use the same name for an outcome where you can write more details underneath the column header, you can write each outcome as "[*Outcome Name*] Collapsed", i.e., "QIDS-SR Collapsed"
-+ Select timepoints as normal (whichever timepoints are reported as collapsed data).
-  + Repeat this process for however many outcome variables you want to report the collapsed data on.
-+ In the results section, you can then edit the Results table such that it's reported as an effect estimate (arm vs. reference arm) in order to allow for only one box per timepoint (ignore the row header that will say intervention vs. control to the side), and add a custom "Reported As" field to correspond to the way the collapsed results are reported.
++ For studies (especially waitlist-controlled) reporting results collapsed across groups (e.g., immediate vs. delayed treatment), use the "Collapsed Outcomes" section, as standard results tables separate intervention/control data.
++ Select the required number of "Collapsed Outcomes" options (1-12). Under 'as reported' for each, enter the outcome measure name for the collapsed data.
+  + Use the format "[*Outcome Name*] Collapsed" (e.g., "QIDS-SR Collapsed") as Covidence requires unique outcome descriptors.
++ Select timepoints as usual (those where collapsed data are reported).
++ Repeat for all outcomes with collapsed data.
++ In the results section, edit the table format to 'effect estimate (arm vs. reference arm)' to allow a single entry per timepoint (ignore intervention/control row headers). Add a custom "Reported As" field matching how collapsed results are reported.
 
 ## Results data
 *Overall Process*
-+ If you click the edit icon for each results table, you can change the format of the table. Be sure to specify:
-  + REPORTED AGAINST: arm or reference arm (effect estimate)
-  + REPORTED AS is also a **very important** one to change depending on your study. It is a good idea to try to stick to the "Standard" options, as they should capture most study designs. Sometimes, you might have to make a custom option, which will then show back up later in your list of options. The second reviewer will report the data in accordance to how the first reviewer edited the results tables.
-  + (Outcome Group & Outcome Reporting can leave blank)
-  + DATA VALUE: Report if this is a change from baseline or Endpoint; can also be configured in outcomes table.
-+ If any timepoint in the results table does not have the actual results reported in the study or protocol, or in the case this information is in a graph that does not provide exact values, click the 'missing data' tag button in results. This helps indicate that this information cannot be found/is not reported, rather than left blank because it is incomplete.
-+ It is possible that data could be reported in a paper in multiple different formats, but the results table in Covidence only allows for inputting one format. In general, it is best to select the format that is closer to raw data/not converted. Please see the notes below for additional guidance:
-  + In the case that results are reported as a mean and also as mean difference, report the basic mean.
-  + In the case that results (particularly for response/remission outcomes) are reported as effect estimates and also as number or percentage of participants, report the number/percentage of participants.
-+ Covidence does not allow you to input anything other than numbers into the results boxes. In the case that you are reporting a p-value or other value where a character is needed (i.e., if it is reported as p < 0.001), then you can simply put '0.001' in the results box, and make a note in the Notes section of results that the actual value reported is < 0.001.
++ Click the edit icon for each results table to configure format. Specify:
+  + REPORTED AGAINST: Choose 'arm' or 'reference arm (effect estimate)'.
+  + REPORTED AS: **Crucial field.** Attempt to use "Standard" options first. Custom options can be created if necessary and will reappear in the list. Reviewer 2 reports data according to the format set by Reviewer 1.
+  + (Outcome Group & Outcome Reporting can be left blank).
+  + DATA VALUE: Specify 'Change from baseline' or 'Endpoint'; can also be set in the outcomes table configuration.
++ If results for a timepoint are missing (not reported in text/tables, or unextractable from graphs), click the 'missing data' tag button. This distinguishes unreported data from incomplete extraction.
++ If data are reported in multiple formats, prioritize the format closer to raw data.
+  + If both mean and mean difference are reported, enter the mean.
+  + If both effect estimates and number/percentage of participants (esp. for response/remission) are reported, enter the number/percentage.
++ Covidence results fields accept only numbers. If reporting requires characters (e.g., p < 0.001), enter the numerical part ('0.001') and add a note in the results Notes section specifying the exact reported value ('p < 0.001').
 
 ## Completing extraction
-+ When done with data extraction, go back to "Summary" tab and click "Complete".
-  + Refrain from clicking Complete until you are finished with the *entire* data extraction and are ready to compare your answers with the other reviewer in the Consensus stage.
++ When finished, navigate to the "Summary" tab and click "Complete".
+  + Do not click Complete until the *entire* data extraction is finished and ready for comparison during the Consensus stage.
 
 
 
 # **Consensus Stage**
 *Overall Tips/Process*
-+ Covidence automatically will mark where the answers of the two reviewers are identical, but there might be some cases in which the answers are identical or almost identical and you will have to manually select which response you would like to choose.
-+ To decide on the response, you can either select which of the two reviewers' responses you would like to be your final response by clicking on that reviewer's box, or you can combine both responses or edit the final response based on your deliberations by typing into the 'Consensus' box directly.
-+ After going through the more straightforward responses, also set aside a time for both reviewers to discuss anything particularly challenging or confusing about that particular study's extraction. Both reviewers should have some system for marking their questions or thoughts about confusing cases while they are going through extraction; during consensus these questions and thoughts should be brought up.
-+ If Reviewer 1 and Reviewer 2 cannot decide/come to a consensus about a particular result, then it is time to loop in a third reviewer/supervisor.
++ Covidence automatically flags identical responses. Manually review and select the final response for non-identical or near-identical entries where automatic flagging fails.
++ To finalize a response, either click the desired reviewer's box or edit/combine responses directly in the 'Consensus' box.
++ After resolving straightforward discrepancies, dedicate time for both reviewers to discuss challenging or ambiguous aspects of the extraction. Reviewers should maintain a system for noting questions/confusions during individual extraction for discussion during consensus.
++ If consensus cannot be reached between Reviewer 1 and Reviewer 2, involve a third reviewer/supervisor.
 
 *Style Review*
-+ Following the steps for consensus with respect to the content, at the last stage both reviewers should go through a fairly formal "style review" to check that the syntax and extraction format corresponds exactly to how it is specified in the SOP.
++ After content consensus, perform a formal "style review" to ensure syntax and format strictly adhere to this SOP.
 
 
 # **WebPlotDigitizer Extraction & Consensus**
 
-Some data in the papers we want to extract from will have their data entirely in figures rather than in tables or numbers that we can readily extract. Some papers might have some data in tables, and other data only in figures. In these cases, we will use the software WebPlotDigitizer.
-+ Reviewer 1 will complete data extraction from figures using [WebPlotDigitizer](https://automeris.io). The instructions to use this tool are [here](https://automeris.io/docs/digitize/), which consist of calibrating the axes and then manually clicking on data points to acquire their x and y coordinates.
-  + An important note is that WebPlotDigitizer will give the coordinates based on the order in which you manually click on data points, so be sure to click the data points sequentially.
-  + Reviewer 1 will get the x and y coordinates of the effect size data points (typically the mean), then update the Notion database and within Notion use common sense to adjust the x coordinates given the timepoints used in the study. Reviewer 1 will also acquite the x and y coordinates of the top or bottom of the error bars, then manually calculate standard error or standard deviation by subtracting the value for the bottom of the error bar from the acquired mean value, or the value for the mean from the value for the top of the error bar.
-  + R1 should be sure to check with the figure caption from the original paper to verify if the error bars represent the standard deviation or standard error, and note this in the Notion database.
-+ Reviewer 2 will review both the common-sense adjusted x and y coordinates for the mean and value for the top of the error bar by visually assessing if the data points acquired by Reviewer 1 are reasonable. If they find a data point that does not appear reasonable, they will do a full replication by uploading the image to WebPlotDigitizer and following the process for Reviewer 1 for that data point for that image.
-+ Reviewer 2 will also review the standard deviation/standard error calculation by re-doing the manual calculation of subtracting the mean value from the value for the top of the error bar.
-+ Once Reviewer 1 and Reviewer 2 agree on the data points listed in Notion and record their progress in the Notion database, both Reviewer 1 and Reviewer 2 will input these values into their appropriate place in results in Covidence. Then, R1 and R2 will look at the consensus page in Covidence to make sure their numbers match and resolve any discrepancies.
+For papers presenting data solely or partially in figures, use WebPlotDigitizer.
++ Reviewer 1 completes data extraction from figures using [WebPlotDigitizer](https://automeris.io). Instructions [here](https://automeris.io/docs/digitize/). Process involves calibrating axes and manually clicking data points.
+  + Note: WebPlotDigitizer outputs coordinates based on clicking order; click points sequentially along the x-axis.
+  + Reviewer 1 obtains x/y coordinates for effect size data points (typically means), updates the Notion database, and adjusts x-coordinates based on study timepoints using judgment based on the study context. R1 also acquires coordinates for error bar endpoints and manually calculates SE or SD (by subtracting lower bar value from mean, or mean from upper bar value).
+  + R1 must verify from the figure caption whether error bars represent SD or SE and note this in the Notion database.
++ Reviewer 2 reviews the adjusted coordinates (mean and error bar endpoint) by visually assessing reasonableness. If a point seems unreasonable, R2 performs a full replication for that data point using WebPlotDigitizer.
++ Reviewer 2 also reviews the SD/SE calculation by re-calculating it from the mean and error bar values.
++ Once R1 and R2 agree on the data points listed in Notion and record progress, both reviewers enter the values into Covidence results. They then check the Covidence consensus page to ensure agreement and resolve discrepancies.
