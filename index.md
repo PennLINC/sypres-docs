@@ -52,12 +52,12 @@ author_profile: false
 
      <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
           <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
-               <img src="/assets/images/logos/upenn.png" style="width: auto; height: 10vw;" />
-               <img src="/assets/images/logos/jhu.png" style="width: auto; height: 10vw;" />
+               <img src="/assets/images/logos/upenn.png" style="width: 45%; height: auto;" />
+               <img src="/assets/images/logos/jhu.png" style="width: 45%; height: auto;" />
           </div>
-          <div style="display: flex; justify-content: space-around; width: 80%; margin-bottom: 20px;">
-               <img src="/assets/images/logos/vu.png" style="width: auto; height: 10vw;" />
-               <img src="/assets/images/logos/ru.png" style="width: auto; height: 10vw;" />
+          <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
+               <img src="/assets/images/logos/vu.png" style="width: 45%; height: auto;" />
+               <img src="/assets/images/logos/ru.png" style="width: 45%; height: auto;" />
           </div>
      </div>
 </div>
