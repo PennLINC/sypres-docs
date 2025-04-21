@@ -1,6 +1,6 @@
 ---
-title: "The Start of the RBC Blog"
-author: "Ted Satterthwaite"
+title: "The Start of the SYPRES Blog"
+author: "Luna Lovegood"
 layout: blogpost
 ---
 
