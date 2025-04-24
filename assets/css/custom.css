@@ -33,3 +33,16 @@
     margin-left: 40px;
     /* Adjust this value as needed */
 }
+
+pre.highlight {
+  background: #f8f8f8;
+  border-radius: 4px;
+  padding: 1em;
+  overflow-x: auto;
+}
+
+.highlight code {
+  font-family: monospace;
+  font-size: 0.9em;
+  color: #333;
+}
