@@ -1,11 +1,11 @@
 ---
-title: "Covidence SOP"
-excerpt: "Covidence SOP"
+title: "Psilodep Covidence SOP"
+excerpt: "Psilodep Covidence SOP"
 layout: single
 
 ---
 
-*SOP for full Covidence workflow on PSILODEP*
+*SOP for full Covidence workflow on PSILODEP_Review*
 
 # **Title and Abstract Screening Stage**
 + List of reasons to exclude studies during initial title/abstract screening:

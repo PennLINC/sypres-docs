@@ -73,7 +73,7 @@ data <- read_csv("../data/data.csv")
     ## chr (28): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, out...
     ## dbl (30): primary_instrument, time_weeks, time_days, primary_timepoint, n_ar...
     ## lgl  (1): target_group
-    ## 
+    ##
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
@@ -159,17 +159,17 @@ checkDataFormat(data)
 
     ## # A tibble: 317 × 59
     ##    study        condition_arm1 condition_arm2 multi_arm1 multi_arm2 outcome_type
-    ##    <chr>        <chr>          <chr>          <chr>      <chr>      <chr>       
-    ##  1 Rosenblat 2… psil           wl             <NA>       <NA>       change      
-    ##  2 Rosenblat 2… psil           wl             <NA>       <NA>       change      
-    ##  3 Rosenblat 2… psil           wl             <NA>       <NA>       change      
-    ##  4 Raison 2023  psil           ncn            <NA>       <NA>       change      
-    ##  5 Raison 2023  psil           ncn            <NA>       <NA>       change      
-    ##  6 Raison 2023  psil           ncn            <NA>       <NA>       change      
-    ##  7 Raison 2023  psil           ncn            <NA>       <NA>       change      
-    ##  8 Raison 2023  psil           ncn            <NA>       <NA>       change      
-    ##  9 Raison 2023  psil           ncn            <NA>       <NA>       change      
-    ## 10 Raison 2023  psil           ncn            <NA>       <NA>       change      
+    ##    <chr>        <chr>          <chr>          <chr>      <chr>      <chr>
+    ##  1 Rosenblat 2… psil           wl             <NA>       <NA>       change
+    ##  2 Rosenblat 2… psil           wl             <NA>       <NA>       change
+    ##  3 Rosenblat 2… psil           wl             <NA>       <NA>       change
+    ##  4 Raison 2023  psil           ncn            <NA>       <NA>       change
+    ##  5 Raison 2023  psil           ncn            <NA>       <NA>       change
+    ##  6 Raison 2023  psil           ncn            <NA>       <NA>       change
+    ##  7 Raison 2023  psil           ncn            <NA>       <NA>       change
+    ##  8 Raison 2023  psil           ncn            <NA>       <NA>       change
+    ##  9 Raison 2023  psil           ncn            <NA>       <NA>       change
+    ## 10 Raison 2023  psil           ncn            <NA>       <NA>       change
     ## # ℹ 307 more rows
     ## # ℹ 53 more variables: instrument <chr>, rating <chr>,
     ## #   instrument_symptom <chr>, primary_instrument <dbl>, cov_time_point <chr>,
@@ -184,9 +184,9 @@ checkConflicts(data)
 ```
 
     ## - [!] Data format conflicts detected!
-    ## ID conflicts 
-    ## - check if variable(s) study, outcome_type, instrument, time, time_weeks, rating create(s) unique assessment point IDs 
-    ## - check if multi uniquely identifies all trial arms in multiarm trials 
+    ## ID conflicts
+    ## - check if variable(s) study, outcome_type, instrument, time, time_weeks, rating create(s) unique assessment point IDs
+    ## - check if multi uniquely identifies all trial arms in multiarm trials
     ## --------------------
 
     ## Krempien 2023

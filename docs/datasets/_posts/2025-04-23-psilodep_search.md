@@ -1,0 +1,57 @@
+---
+title: "Psilodep Search Terms"
+excerpt: "Psilodep Search Terms"
+layout: single
+
+---
+
+
+***Pubmed***
+
+**\#1:** ("depress\*"\[Title/Abstract\] OR "mood\*"\[Title/Abstract\] OR "depression"\[MeSH Terms\] OR "mood disorders"\[MeSH Terms\] OR "depressive disorder"\[MeSH Terms\] OR "antidepress\*"\[Title/Abstract\])
+
+**\#2:** ("psychedelic\*"\[Title/Abstract\] OR "psilo\*"\[Title/Abstract\] OR "Psilocybin"\[MeSH Terms\] OR "Psilocybe"\[MeSH Terms\] OR "magic mushroom\*"\[Title/Abstract\] OR "teonanacatl"\[Title/Abstract\])
+
+**\#3:** ("Randomized Controlled Trial"\[Publication Type\] OR "Controlled Clinical Trial"\[Publication Type\] OR "Pragmatic Clinical Trial"\[Publication Type\] OR "Equivalence Trial"\[Publication Type\] OR "clinical trial, phase iii"\[Publication Type\] OR "Randomized Controlled Trials as Topic"\[MeSH Terms\] OR "Controlled Clinical Trials as Topic"\[MeSH Terms\] OR "Random Allocation"\[MeSH Terms\] OR "Double-Blind Method"\[MeSH Terms\] OR "Single-Blind Method"\[MeSH Terms\] OR "placebos"\[MeSH Terms:noexp\] OR "Control Groups"\[MeSH Terms\] OR ("random\*"\[Title/Abstract\] OR "sham"\[Title/Abstract\] OR "placebo\*"\[Title/Abstract\]) OR (("singl\*"\[Title/Abstract\] OR "doubl\*"\[Title/Abstract\]) AND ("blind\*"\[Title/Abstract\] OR "dumm\*"\[Title/Abstract\] OR "mask\*"\[Title/Abstract\])) OR (("tripl\*"\[Title/Abstract\] OR "trebl\*"\[Title/Abstract\]) AND ("blind\*"\[Title/Abstract\] OR "dumm\*"\[Title/Abstract\] OR "mask\*"\[Title/Abstract\])) OR ("control\*"\[Title/Abstract\] AND ("study"\[Title/Abstract\] OR "studies"\[Title/Abstract\] OR "trial\*"\[Title/Abstract\] OR "group\*"\[Title/Abstract\])))
+
+**\#4:** \#1 AND \#2 AND \#3
+
+***Embase***
+
+**\#1:** ('depress\*':ti,ab OR 'mood\*':ti,ab OR 'depression'/exp OR 'mood disorders'/exp OR 'antidepress\*':ti,ab)
+
+**\#2:** ('psychedelic\*':ti,ab OR 'psilo\*':ti,ab OR 'psilocybine'/exp OR 'psilocybe'/exp OR 'magic mushroom\*':ti,ab OR 'teonanacatl':ti,ab)
+
+**\#3:** ('randomized controlled trial':it OR 'controlled clinical trial':it OR 'pragmatic clinical trial':it OR 'equivalence trial':it OR 'clinical trial, phase iii':it OR 'randomized controlled trial (topic)'/exp OR 'controlled clinical trial (topic)'/exp OR 'randomization'/exp OR 'double blind procedure'/exp OR 'single blind procedure'/exp OR 'placebo'/de OR 'control group'/exp OR ('random\*':ti,ab OR 'sham':ti,ab OR 'placebo\*':ti,ab) OR (('singl\*':ti,ab OR 'doubl\*':ti,ab) AND ('blind\*':ti,ab OR 'dumm\*':ti,ab OR 'mask\*':ti,ab)) OR (('tripl\*':ti,ab OR 'trebl\*':ti,ab) AND ('blind\*':ti,ab OR 'dumm\*':ti,ab OR 'mask\*':ti,ab)) OR ('control\*':ti,ab AND ('study':ti,ab OR 'studies':ti,ab OR 'trial\*':ti,ab OR 'group\*':ti,ab)))
+
+**\#4:** \#1 AND \#2 AND \#3
+
+***PsycInfo***
+
+**S1:** tiab("depress\*" OR "mood\*" OR "antidepress\*") OR MAINSUBJECT.EXACT.EXPLODE("Depression (Emotion)") OR MAINSUBJECT.EXACT.EXPLODE("Major Depression") OR MAINSUBJECT.EXACT.EXPLODE("Affective Disorders")
+
+**S2:** tiab("psychedelic\*" OR "psilo\*" OR "magic mushroom\*" OR "teonanacatl") OR MAINSUBJECT.EXACT.EXPLODE("Psilocybin")
+
+**S3:** ME("clinical trial") OR MAINSUBJECT.EXACT.EXPLODE("Randomized Clinical Trials") OR MAINSUBJECT.EXACT.EXPLODE("Randomized Controlled Trials") OR MAINSUBJECT.EXACT.EXPLODE("Clinical Trials") OR MAINSUBJECT.EXACT.EXPLODE("Random Sampling") OR MAINSUBJECT.EXACT.EXPLODE("Placebo") OR MAINSUBJECT.EXACT.EXPLODE("Experiment Controls") OR tiab("random\*" OR "sham" OR "placebo\*") OR tiab(("singl\*" OR "doubl\*" OR "tripl\*" OR "trebl\*") AND ("blind\*" OR "dumm\*" OR "mask\*")) OR tiab("control\*" AND ("study" OR "studies" OR "trial\*" OR "group\*"))
+
+**\#4:** \[S1\] AND \[S2\] AND \[S3\]
+
+***Web of Science***
+
+**\#1:** (TI=depress\* OR AB=depress\*) OR (TI=mood\* OR AB=mood\*) OR TS=depression OR TS="mood disorders" OR TS="depressive disorder" OR (TI=antidepress\* OR AB=antidepress\*)
+
+**\#2:** (TI=psychedelic\* OR AB=psychedelic\*) OR (TI=psilo\* OR AB=psilo\*) OR TS=Psilocybin OR TS=Psilocybe OR (TI="magic mushroom\*" OR AB="magic mushroom\*") OR (TI=teonanacatl OR AB=teonanacatl)
+
+**\#3:** TS="Randomized Controlled Trial" OR TS="Controlled Clinical Trial" OR TS="Pragmatic Clinical Trial" OR TS="Equivalence Trial" OR TS="clinical trial, phase iii" OR TS="Randomized Controlled Trials as Topic" OR TS="Controlled Clinical Trials as Topic" OR TS="Random Allocation" OR TS="Double-Blind Method" OR TS="Single-Blind Method" OR TS=placebos OR TS="Control Groups" OR ((TI=random\* OR AB=random\*) OR (TI=sham OR AB=sham) OR (TI=placebo\* OR AB=placebo\*)) OR (((TI=singl\* OR AB=singl\*) OR (TI=doubl\* OR AB=doubl\*)) AND ((TI=blind\* OR AB=blind\*) OR (TI=dumm\* OR AB=dumm\*) OR (TI=mask\* OR AB=mask\*))) OR (((TI=tripl\* OR AB=tripl\*) OR (TI=trebl\* OR AB=trebl\*)) AND ((TI=blind\* OR AB=blind\*) OR (TI=dumm\* OR AB=dumm\*) OR (TI=mask\* OR AB=mask\*))) OR ((TI=control\* OR AB=control\*) AND ((TI=study OR AB=study) OR (TI=studies OR AB=studies) OR (TI=trial\* OR AB=trial\*) OR (TI=group\* OR AB=group\*)))
+
+**\#4:** \#1 AND \#2 AND \#3
+
+***Scopus***
+
+**\#1:** TITLE-ABS(depress\*) OR TITLE-ABS(mood\*) OR INDEXTERMS(depression) OR INDEXTERMS("mood disorders") OR INDEXTERMS("depressive disorder") OR TITLE-ABS(antidepress\*)
+
+**\#2:** TITLE-ABS(psychedelic\*) OR TITLE-ABS(psilo\*) OR INDEXTERMS(Psilocybin) OR INDEXTERMS(Psilocybe) OR TITLE-ABS("magic mushroom\*") OR TITLE-ABS(teonanacatl)
+
+**\#3:** INDEXTERMS("Randomized Controlled Trials as Topic") OR INDEXTERMS("Controlled Clinical Trials as Topic") OR INDEXTERMS("Random Allocation") OR INDEXTERMS("Double-Blind Method") OR INDEXTERMS("Single-Blind Method") OR INDEXTERMS(placebos) OR INDEXTERMS("Control Groups") OR (TITLE-ABS(random\*) OR TITLE-ABS(sham) OR TITLE-ABS(placebo\*)) OR ((TITLE-ABS(singl\*) OR TITLE-ABS(doubl\*)) AND (TITLE-ABS(blind\*) OR TITLE-ABS(dumm\*) OR TITLE-ABS(mask\*))) OR ((TITLE-ABS(tripl\*) OR TITLE-ABS(trebl\*)) AND (TITLE-ABS(blind\*) OR TITLE-ABS(dumm\*) OR TITLE-ABS(mask\*))) OR (TITLE-ABS(control\*) AND (TITLE-ABS(study) OR TITLE-ABS(studies) OR TITLE-ABS(trial\*) OR TITLE-ABS(group\*)))
+
+**\#4:** \#1 AND \#2 AND \#3
