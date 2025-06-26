@@ -159,6 +159,12 @@ exclude:
   - README
   - tmp
   - /test # ignore Minimal Mistakes /test
+  - "*.Rmd"
+  - "*.R"
+  - "*.Rproj"
+  - "*.RData"
+  - "*.Rprofile"
+  - renv/
 keep_files:
   - .git
   - .svn
