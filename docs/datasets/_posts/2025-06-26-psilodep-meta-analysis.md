@@ -67,54 +67,15 @@ same study).
 ``` r
 # Load data
 data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-```
-
-    ## Rows: 201 Columns: 69
-    ## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (29): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, outcome_type, instrument, rating, instrume...
-    ## dbl (39): primary_instrument, time_weeks, time_days, primary_timepoint, post_crossover, n_arm1, mean_arm1, sd_arm1,...
-    ## lgl  (1): target_group
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
 #data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
 # after release we will replace this with metapsyData load function
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
-```
 
-    ## - [OK] Data set contains all variables in 'must.contain'.
-    ## - [OK] 'study' has desired class character.
-    ## - [OK] 'condition_arm1' has desired class character.
-    ## - [OK] 'condition_arm2' has desired class character.
-    ## - [OK] 'multi_arm1' has desired class character.
-    ## - [OK] 'multi_arm2' has desired class character.
-    ## - [OK] 'outcome_type' has desired class character.
-    ## - [OK] 'instrument' has desired class character.
-    ## - [OK] 'time' has desired class character.
-    ## - [OK] 'time_weeks' has desired class numeric.
-    ## - [OK] 'rating' has desired class character.
-    ## - [OK] 'mean_arm1' has desired class numeric.
-    ## - [OK] 'mean_arm2' has desired class numeric.
-    ## - [OK] 'sd_arm1' has desired class numeric.
-    ## - [OK] 'sd_arm2' has desired class numeric.
-    ## - [OK] 'n_arm1' has desired class numeric.
-    ## - [OK] 'n_arm2' has desired class numeric.
-    ## - [OK] 'event_arm1' has desired class numeric.
-    ## - [OK] 'event_arm2' has desired class numeric.
-    ## - [OK] 'totaln_arm1' has desired class numeric.
-    ## - [OK] 'totaln_arm2' has desired class numeric.
-
-``` r
 # Check conflicts with checkConflicts
 checkConflicts(data)
 ```
-
-    ## - [OK] No data format conflicts detected.
 
 ### Filter Data and Calculate Effect Sizes
 
@@ -201,16 +162,7 @@ main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
   time.var = "time_weeks",
   round.digits = 2 # can change to change number of digits to round the presented results to
 )
-```
 
-    ## - Running meta-analyses...
-
-    ## - [OK] Using Hedges' g as effect size metric...
-
-    ## - [OK] Calculating overall effect size... DONE
-    ## - [OK] Calculating effect size with outliers removed... DONE
-
-``` r
 summary(main_results$model.overall)
 ```
 
@@ -259,7 +211,6 @@ meta::forest(
 # Funnel Plot & Egger’s Test
 
 ``` r
-##Egger's test:
 eggers.test(main_results$model.overall)
 ```
 
@@ -276,9 +227,6 @@ eggers.test(main_results$model.overall)
 
 ``` r
 png(filename = file.path(basedir,"analysis/psilodep/paperfigs/SI_Fig_01.png"), res=315, width=2500, height=1500)
-
-par(mgp = c(1.5, 0.6, 0))
-
 funnel(main_results$model.overall,
        studlab = TRUE, #can also use vector with study labels
        cex.studlab = 0.7, #adjust size of study labels
@@ -296,12 +244,8 @@ funnel(main_results$model.overall,
        main = "Funnel Plot of Main Model Continuous Outcomes",
        las = 1
        )
-
 dev.off()
 ```
-
-    ## quartz_off_screen 
-    ##                 3
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_01.png)
 
@@ -322,13 +266,7 @@ data_time <- data %>%
     post_crossover == 0 | is.na(post_crossover),
     outcome_type == "msd" | outcome_type == "imsd"
   )
-```
 
-    ## - [OK] Hedges' g calculated successfully.
-
-    ## - [OK] Log-risk ratios calculated successfully.
-
-``` r
 time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
   
   which.run = "threelevel.che",
@@ -348,16 +286,7 @@ time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
   time.var = "time_days",
   round.digits = 2 # can change to change number of digits to round the presented results to
 )
-```
 
-    ## - Running meta-analyses...
-
-    ## - [OK] Using Hedges' g as effect size metric...
-
-    ## - [OK] Calculating effect size using three-level CHE model (rho=0.6)... DONE
-    ## - [OK] Robust variance estimation (RVE) used for three-level CHE model... DONE
-
-``` r
 time_results$model.threelevel.che
 ```
 
@@ -603,25 +532,13 @@ main <- runMetaAnalysis(data_main,
   time.var = "time_weeks",
   round.digits = 2 # can change to change number of digits to round the presented results to
 )
-```
 
-    ## - Running meta-analyses...
-
-    ## - [OK] Using Hedges' g as effect size metric...
-
-    ## - [OK] Calculating overall effect size... DONE
-
-``` r
 # use metapsyTools replacement and rerun functions for quickly repeating the same analysis with the same parameters
 
 dep <- main # copy the model to a new name
 data(dep) <- data_dep # replace the dataframe in the new model
 rerun(dep) # re-run the model
 ```
-
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
@@ -633,10 +550,6 @@ data(excwl) <- data_excwl
 rerun(excwl)
 ```
 
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
-
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci          p         i2 i2.ci      prediction.ci    nnt
     ## .84 [-1.1; -0.58] <0.001  12.6 [0; 74.49] [-1.13; -0.55]  3.35
@@ -646,10 +559,6 @@ rob <- main
 data(rob) <- data_rob
 rerun(rob)
 ```
-
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci      prediction.ci    nnt
@@ -661,10 +570,6 @@ data(parallel) <- data_parallel
 rerun(parallel)
 ```
 
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
-
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci      prediction.ci    nnt
     ## .79 [-1.11; -0.46] 0.003  14.3 [0; 82.17] [-1.13; -0.44]   3.6
@@ -674,10 +579,6 @@ crossover <- main
 data(crossover) <- data_crossover
 rerun(crossover)
 ```
-
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci         p        i2 i2.ci          prediction.ci   nnt
@@ -691,10 +592,6 @@ data(expanded) <- data_expanded
 rerun(expanded)
 ```
 
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
-
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci         prediction.ci    nnt
     ## .89 [-1.24; -0.55] <0.001  53.7 [10.99; 75.9] [-1.65; -0.14]  3.12
@@ -704,10 +601,6 @@ outliers <- main
 data(outliers) <- data_outliers
 rerun(outliers)
 ```
-
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
@@ -720,10 +613,6 @@ hakn(fixed) <- FALSE
 rerun(fixed)
 ```
 
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
-
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
     ## .86 [-1.05; -0.68] <0.001  51.5 [0; 77.28] [-1.61; -0.23]  3.25
@@ -733,10 +622,6 @@ g10 <- main
 data(g10) <- data_g10
 rerun(g10)
 ```
-
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci          prediction.ci   nnt
@@ -748,10 +633,6 @@ data(clinician) <- data_clinician
 rerun(clinician)
 ```
 
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
-
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
     ## .02 [-1.51; -0.54] 0.002  57.6 [1.73; 81.67] [-1.95; -0.1]  2.69
@@ -761,10 +642,6 @@ selfreport <- main
 data(selfreport) <- data_selfreport
 rerun(selfreport)
 ```
-
-    ## - Running meta-analyses...
-    ## - [OK] Using Hedges' g as effect size metric... 
-    ## - [OK] Calculating overall effect size... DONE
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
@@ -822,15 +699,7 @@ response_results <- runMetaAnalysis(data_response,
   time.var = "time_weeks",
   round.digits = 2
 )
-```
 
-    ## - Running meta-analyses...
-
-    ## - [OK] Using risk ratio (raw event data) as effect size metric...
-
-    ## - [OK] Calculating overall effect size... DONE
-
-``` r
 meta::forest(
   response_results$model.overall,
   sortvar = response_results$model.overall$data$year,
@@ -863,15 +732,7 @@ remission_results <- runMetaAnalysis(data_remission,
   time.var = "time_weeks",
   round.digits = 2
 )
-```
 
-    ## - Running meta-analyses...
-
-    ## - [OK] Using risk ratio (raw event data) as effect size metric...
-
-    ## - [OK] Calculating overall effect size... DONE
-
-``` r
 meta::forest(
   remission_results$model.overall,
   sortvar=remission_results$model.overall$data$year,

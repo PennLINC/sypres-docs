@@ -59,7 +59,7 @@ The original dataset is then combined with these new rows containing the calcula
 
 Finally, we use functions from the `metapsyTools` package (`checkDataFormat` and `checkConflicts`) to ensure the combined data conforms to the expected structure and to identify potential inconsistencies (e.g., differing control group data reported for the same study).
 
-```{r load data and impute changes studies, results='hide'}
+```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data
 data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
 #data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
@@ -85,7 +85,7 @@ Before running the main analysis, we prepare the data further:
 
 The resulting `data_main` dataframe contains the filtered data ready for our main meta-analysis.
 
-```{r filter and calculate SMD}
+```{r filter}
 
 data_main <- data %>%
   filterPoolingData(
@@ -116,7 +116,7 @@ The results, including the pooled effect size, confidence intervals, heterogenei
 
 Finally, a basic forest plot is generated using `meta::forest` to visualize the individual study effect sizes and the overall pooled result. The studies are sorted by year.
 
-```{r primary-meta-analysis}
+```{r primary-meta-analysis, message=FALSE}
 main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
 
   # specify models to run
@@ -154,13 +154,13 @@ meta::forest(
 # Funnel Plot & Egger's Test
 ```{r eggertest}
 
-##Egger's test:
 eggers.test(main_results$model.overall)
 
+```
+
+```{r funnelplot, message=FALSE, results='hide'}
+
 png(filename = file.path(basedir,"analysis/psilodep/paperfigs/SI_Fig_01.png"), res=315, width=2500, height=1500)
-
-par(mgp = c(1.5, 0.6, 0))
-
 funnel(main_results$model.overall,
        studlab = TRUE, #can also use vector with study labels
        cex.studlab = 0.7, #adjust size of study labels
@@ -178,7 +178,6 @@ funnel(main_results$model.overall,
        main = "Funnel Plot of Main Model Continuous Outcomes",
        las = 1
        )
-
 dev.off()
 
 ```
@@ -239,7 +238,7 @@ dev.off()
 
 
 # three-level CHE
-```{r che}
+```{r che, message=FALSE}
 
 data_time <- data %>%
   calculateEffectSizes() %>%
@@ -532,7 +531,7 @@ dev.off()
 
 
 
-```{r run individual meta analyses for paper, warning=FALSE}
+```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
 main <- runMetaAnalysis(data_main,
 
   # specify statistical parameters
@@ -1094,7 +1093,7 @@ data_remission <- data_remission[order(data_remission$year), ]
 
 
 run meta-analysis on response data
-```{r response model}
+```{r response model, message=FALSE}
 
 response_results <- runMetaAnalysis(data_response,
   which.run = "overall",
@@ -1126,7 +1125,7 @@ meta::forest(
 
 
 run meta-analysis for remission data
-```{r remission model}
+```{r remission model, message=FALSE}
 remission_results <- runMetaAnalysis(data_remission,
   which.run = "overall",
   es.measure = "RR", # risk ratio
