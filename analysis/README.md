@@ -122,3 +122,11 @@ Collaborators can set up the exact conda environment by running: `conda env crea
 If you update the environment with new packages, you can re-export the environment file: `conda env export > environment.yml`
 
 Commit and push the updated file to keep everyone in sync.
+
+### 7. kniting the Rmd for the website
+```
+rmarkdown::render(
+  input = "/Users/sps253/Documents/GIT/sypres-docs/analysis/psilodep/psilodep-meta-analysis.Rmd",
+  output_file = "/Users/sps253/Documents/GIT/sypres-docs/docs/datasets/_posts/2025-06-26-psilodep-meta-analysis.md"
+)
+```
