@@ -32,3 +32,5 @@ _site
 .Rproj.user
 analysis/analysis.Rproj
 .Rprofile
+activate.R
+**/renv/**
