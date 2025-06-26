@@ -997,7 +997,7 @@ subgroup_plot <- ggplot(full_subgroup_summary, aes(x = hedges_g, y = row)) +
   )
 
 subgroup_plot
-ggsave("psilodep/paperfigs/subgroup_forest_ggplot.png",
+ggsave(file.path(basedir,"analysis/psilodep/paperfigs/subgroup_forest_ggplot.png"),
   plot = subgroup_plot, width = 10, height = 8, dpi = 300
 )
 
@@ -1052,7 +1052,7 @@ subgroup_table <- table_subgroup_df %>%
   ) %>%
   cols_align(align = "left", columns = everything())
 
-gtsave(subgroup_table, filename = "psilodep/paperfigs/subgroup_table.png", vwidth = 2000, vheight = 1200, zoom = 10) #setting Zoom higher makes image less blurry/clearer
+gtsave(subgroup_table, filename = file.path(basedir,"analysis/psilodep/paperfigs/subgroup_table.png"), vwidth = 2000, vheight = 1200, zoom = 10) #setting Zoom higher makes image less blurry/clearer
 
 
 
@@ -1176,7 +1176,7 @@ heterogeneity_text <- sprintf(
   pval
 )
 
-png(filename = "psilodep/paperfigs/response_forest_plot_meta.png", res=315, width=4500, height=1500)
+png(filename = file.path(basedir,"analysis/psilodep/paperfigs/response_forest_plot_meta.png"), res=315, width=4500, height=1500)
 
 
 meta::forest(response_results$model.overall,
@@ -1227,7 +1227,7 @@ heterogeneity_text <- sprintf(
   pval
 )
 
-png(filename = "psilodep/paperfigs/remission_forest_plot_meta.png", res=315, width=4500, height=1500)
+png(filename = file.path(basedir,"analysis/psilodep/paperfigs/remission_forest_plot_meta.png"), res=315, width=4500, height=1500)
 
 
 meta::forest(remission_results$model.overall,
