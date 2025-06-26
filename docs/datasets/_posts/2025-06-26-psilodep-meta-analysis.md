@@ -1,0 +1,827 @@
+---
+layout: single
+title: "Meta-analysis on Psilocybin for Depression"
+output:
+  md_document:
+    variant: markdown_github
+    preserve_yaml: true
+---
+
+This document outlines the steps taken to perform a meta-analysis
+investigating the efficacy of psilocybin for treating depression, using
+data collated for the SYPRES project. Full source code is available
+[here](https://github.com/sypres-project/sypres-docs/blob/main/metapsy/meta-analysis.Rmd).
+
+### Load Packages
+
+Next, we load the necessary R packages for data manipulation,
+meta-analysis, and visualization. Key packages include: - `readr` and
+`tidyverse` for data loading and manipulation. - `meta` and `metafor`
+for conducting the meta-analysis calculations. - `esc` for effect size
+calculation utilities. - `metapsyTools` for specialized functions
+designed for psychiatric meta-analyses, particularly handling data
+formats and running pre-defined analysis pipelines. - `dmetar` for
+additional meta-analysis functions and tools.
+
+``` r
+library(readr)
+library(tidyverse)
+library(meta)
+library(metafor)
+library(esc)
+library(metapsyTools)
+library(dmetar)
+library(gt)
+```
+
+### Data Loading and Preparation
+
+The raw data is loaded from a CSV file. This dataset contains
+information extracted from multiple studies.
+
+Some studies report change scores from baseline rather than endpoint
+scores. To pool these studies with those reporting endpoint means and
+standard deviations (SDs), we need endpoint SDs for the change score
+studies. Where these are missing, we impute them.
+
+Specifically, for the MADRS (Montgomery–Åsberg Depression Rating Scale)
+outcome: 1. We identify studies reporting change scores
+(`outcome_type == "change"`). 2. For Rosenblat et al. (2024) and Goodwin
+et al. (2022), endpoint SDs are imputed using the average endpoint SD
+from the Raison et al. (2023) study arms. We calculate the endpoint mean
+by adding the mean change to the baseline mean. These rows are marked
+with `outcome_type = "imsd"` (imputed mean/SD). 3. For Raison et
+al. (2023) itself, we use the reported endpoint SDs directly and
+calculate the endpoint means from the change scores and baseline means.
+These rows retain `outcome_type = "msd"`.
+
+The original dataset is then combined with these new rows containing the
+calculated/imputed endpoint data.
+
+Finally, we use functions from the `metapsyTools` package
+(`checkDataFormat` and `checkConflicts`) to ensure the combined data
+conforms to the expected structure and to identify potential
+inconsistencies (e.g., differing control group data reported for the
+same study).
+
+``` r
+# Load data
+data <- read_csv("../data-depression-psiloctr/data.csv")
+```
+
+    ## Rows: 201 Columns: 69
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (29): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, out...
+    ## dbl (39): primary_instrument, time_weeks, time_days, primary_timepoint, post...
+    ## lgl  (1): target_group
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+#data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
+# after release we will replace this with metapsyData load function
+
+# Check data format with checkDataFormat
+checkDataFormat(data)
+```
+
+    ## - [OK] Data set contains all variables in 'must.contain'.
+    ## - [OK] 'study' has desired class character.
+    ## - [OK] 'condition_arm1' has desired class character.
+    ## - [OK] 'condition_arm2' has desired class character.
+    ## - [OK] 'multi_arm1' has desired class character.
+    ## - [OK] 'multi_arm2' has desired class character.
+    ## - [OK] 'outcome_type' has desired class character.
+    ## - [OK] 'instrument' has desired class character.
+    ## - [OK] 'time' has desired class character.
+    ## - [OK] 'time_weeks' has desired class numeric.
+    ## - [OK] 'rating' has desired class character.
+    ## - [OK] 'mean_arm1' has desired class numeric.
+    ## - [OK] 'mean_arm2' has desired class numeric.
+    ## - [OK] 'sd_arm1' has desired class numeric.
+    ## - [OK] 'sd_arm2' has desired class numeric.
+    ## - [OK] 'n_arm1' has desired class numeric.
+    ## - [OK] 'n_arm2' has desired class numeric.
+    ## - [OK] 'event_arm1' has desired class numeric.
+    ## - [OK] 'event_arm2' has desired class numeric.
+    ## - [OK] 'totaln_arm1' has desired class numeric.
+    ## - [OK] 'totaln_arm2' has desired class numeric.
+
+``` r
+# Check conflicts with checkConflicts
+checkConflicts(data)
+```
+
+    ## - [OK] No data format conflicts detected.
+
+### Filter Data and Calculate Effect Sizes
+
+Before running the main analysis, we prepare the data further:
+
+1.  **Calculate Effect Sizes:** We use `calculateEffectSizes()` (from
+    `metapsyTools`) to compute Hedges’ g (a standardized mean
+    difference, SMD) and its standard error for each study comparison
+    based on the endpoint means, SDs, and sample sizes.
+2.  **Filter Data:** We select the specific data points to be included
+    in the primary meta-analysis:
+    -   Exclude specific low-dose arms (10 mg psilocybin) if present in
+        multi-arm studies.
+    -   Exclude the Krempien (2023) study.
+    -   Use `filterPoolingData()` (from `metapsyTools`) to select only
+        rows marked as the primary instrument
+        (`primary_instrument == "1"`) and primary timepoint
+        (`primary_timepoint == "1"`) for each study.
+    -   Include only the endpoint data (`outcome_type == "msd"` or
+        `"imsd"`), excluding the original change score data.
+
+The resulting `data_main` dataframe contains the filtered data ready for
+our main meta-analysis.
+
+``` r
+# Filter data to only include primary outcomes and timepoints
+# Use filterPoolingData
+
+data_main <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
+  )
+```
+
+### Run Primary Meta-Analysis
+
+We now perform the main meta-analysis using the `runMetaAnalysis`
+function from `metapsyTools`. This function simplifies running standard
+meta-analytic models.
+
+We specify: - `which.run = "overall"`: Conducts a random-effects
+meta-analysis pooling all studies in `data_main`. - `es.measure = "g"`:
+Uses the pre-calculated Hedges’ g effect sizes. - `method.tau = "REML"`:
+Employs the Restricted Maximum Likelihood estimator for the
+between-study variance (τ²). - `hakn = TRUE`: Applies the Knapp-Hartung
+adjustment for significance tests, which is recommended for
+meta-analyses with a small number of studies. - Various `*.var`
+arguments map the columns in `data_main` to the required inputs for the
+analysis (study labels, arm conditions, sample sizes, etc.).
+
+The results, including the pooled effect size, confidence intervals,
+heterogeneity statistics, and the meta-analysis model object, are stored
+in `main_results`.
+
+Finally, a basic forest plot is generated using `meta::forest` to
+visualize the individual study effect sizes and the overall pooled
+result. The studies are sorted by year.
+
+``` r
+main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
+
+  # specify models to run
+  which.run = c("overall", "outliers"),
+  which.influence = "overall",
+  which.outliers = "overall",
+
+  # specify statistical parameters
+  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
+  method.tau = "REML", # default, but still including for clarity
+  method.tau.ci = "Q-Profile", # not sure if this will work!
+  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+
+  # specify variables in data_es
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2 # can change to change number of digits to round the presented results to
+)
+```
+
+    ## - Running meta-analyses...
+
+    ## - [OK] Using Hedges' g as effect size metric...
+
+    ## - [OK] Calculating overall effect size... DONE
+    ## - [OK] Calculating effect size with outliers removed... DONE
+
+``` r
+summary(main_results$model.overall)
+```
+
+    ##                      g             95%-CI %W(random)
+    ## Back 2024      -1.4215 [-2.2271; -0.6160]        7.9
+    ## Davis 2021     -2.4807 [-3.5637; -1.3976]        5.0
+    ## Goodwin 2022   -0.6875 [-1.0085; -0.3665]       19.8
+    ## Griffiths 2016 -1.2731 [-1.8827; -0.6635]       11.4
+    ## Raison 2023    -0.8700 [-1.2941; -0.4459]       16.3
+    ## Rieser 2025    -0.3806 [-1.0314;  0.2701]       10.5
+    ## Rosenblat 2024 -0.4932 [-1.2218;  0.2355]        9.1
+    ## Ross 2016      -0.7940 [-1.5967;  0.0086]        7.9
+    ## vonRotz 2023   -0.9384 [-1.5120; -0.3648]       12.2
+    ## 
+    ## Number of studies: k = 9
+    ## 
+    ##                                 g             95%-CI     t p-value
+    ## Random effects model (HK) -0.9205 [-1.2987; -0.5423] -5.61  0.0005
+    ## Prediction interval               [-1.6139; -0.2270]              
+    ## 
+    ## Quantifying heterogeneity:
+    ##  tau^2 = 0.0674 [0.0000; 1.2489]; tau = 0.2596 [0.0000; 1.1175]
+    ##  I^2 = 51.5% [0.0%; 77.3%]; H = 1.44 [1.00; 2.10]
+    ## 
+    ## Test of heterogeneity:
+    ##      Q d.f. p-value
+    ##  16.50    8  0.0358
+    ## 
+    ## Details on meta-analytical method:
+    ## - Inverse variance method
+    ## - Restricted maximum-likelihood estimator for tau^2
+    ## - Q-Profile method for confidence interval of tau^2 and tau
+    ## - Hartung-Knapp adjustment for random effects model (df = 8)
+    ## - Prediction interval based on t-distribution (df = 7)
+
+``` r
+meta::forest(
+  main_results$model.overall,
+  sortvar = main_results$model.overall$data$year,
+  layout = "JAMA"
+)
+```
+
+![](/assets/images/datasets/psilodep/runmetaAnalysis-1.png) \# Funnel
+Plot & Egger’s Test
+
+``` r
+##Funnel plot
+
+png(filename = "figures/metapsyTools/main_funnel_plot.png", res=315, width=2500, height=1500)
+
+par(mgp = c(1.5, 0.6, 0))
+
+funnel(main_results$model.overall,
+       studlab = TRUE, #can also use vector with study labels
+       cex.studlab = 0.7, #adjust size of study labels
+       cex = 0.7,         #axis tick labels and point size
+       cex.axis = 0.7,    #axis number label size
+       cex.lab = 0.7,     #axis title (xlab, ylab) size
+       cex.main = 0.95,    #main title size
+       xlim = c(-3,0.2),
+       col = "steelblue",
+       pch = 19, #bold solid circle
+       bg = "white",
+       #ylim = 
+       xlab = "Standardized Mean Difference (SMD)",
+       ylab = "Standard Error (SE)",
+       main = "Funnel Plot of Main Model Continuous Outcomes",
+       las = 1
+       )
+
+dev.off()
+```
+
+    ## quartz_off_screen 
+    ##                 2
+
+``` r
+##Egger's test:
+eggers.test(main_results$model.overall)
+```
+
+    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains
+    ## k = 9 studies. Egger's test may lack the statistical power to detect bias when
+    ## the number of studies is small (i.e., k<10).
+
+    ## Eggers' test of the intercept 
+    ## ============================= 
+    ## 
+    ##  intercept       95% CI     t         p
+    ##     -2.024 -4.46 - 0.41 -1.63 0.1472072
+    ## 
+    ## Eggers' test does not indicate the presence of funnel plot asymmetry.
+
+We can also plot the results of the concurrently run `outliers` model:
+
+``` r
+meta::forest(
+  main_results$model.outliers,
+  sortvar = main_results$model.overall$data$year,
+  layout = "JAMA"
+)
+```
+
+![](/assets/images/datasets/psilodep/plot%20outlier%20model-1.png)
+
+``` r
+summary(main_results$model.outliers)
+```
+
+    ##                      g             95%-CI %W(random) exclude
+    ## Back 2024      -1.4215 [-2.2271; -0.6160]        5.4        
+    ## Davis 2021     -2.4807 [-3.5637; -1.3976]        0.0       *
+    ## Goodwin 2022   -0.6875 [-1.0085; -0.3665]       34.2        
+    ## Griffiths 2016 -1.2731 [-1.8827; -0.6635]        9.5        
+    ## Raison 2023    -0.8700 [-1.2941; -0.4459]       19.6        
+    ## Rieser 2025    -0.3806 [-1.0314;  0.2701]        8.3        
+    ## Rosenblat 2024 -0.4932 [-1.2218;  0.2355]        6.6        
+    ## Ross 2016      -0.7940 [-1.5967;  0.0086]        5.5        
+    ## vonRotz 2023   -0.9384 [-1.5120; -0.3648]       10.7        
+    ## 
+    ## Number of studies: k = 8
+    ## 
+    ##                                 g             95%-CI     t  p-value
+    ## Random effects model (HK) -0.8131 [-1.0502; -0.5760] -8.11 < 0.0001
+    ## Prediction interval               [-1.0477; -0.5786]               
+    ## 
+    ## Quantifying heterogeneity:
+    ##  tau^2 < 0.0001 [0.0000; 0.3992]; tau = 0.0013 [0.0000; 0.6318]
+    ##  I^2 = 8.6% [0.0%; 70.4%]; H = 1.05 [1.00; 1.84]
+    ## 
+    ## Test of heterogeneity:
+    ##     Q d.f. p-value
+    ##  7.66    7  0.3636
+    ## 
+    ## Details on meta-analytical method:
+    ## - Inverse variance method
+    ## - Restricted maximum-likelihood estimator for tau^2
+    ## - Q-Profile method for confidence interval of tau^2 and tau
+    ## - Hartung-Knapp adjustment for random effects model (df = 7)
+    ## - Prediction interval based on t-distribution (df = 6)
+
+# three-level CHE
+
+``` r
+data_time <- data %>%
+  calculateEffectSizes() %>%
+  filter(
+    is.na(multi_arm1) | !str_detect(multi_arm1, "10 mg"),
+    is.na(multi_arm2) | !str_detect(multi_arm2, "10 mg"),
+    !str_detect(study, "Krempien 2023"),
+    !str_detect(study, "Carhart-Harris 2021")
+  ) %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    time_days > 0,
+    post_crossover == 0 | is.na(post_crossover),
+    outcome_type == "msd" | outcome_type == "imsd"
+  )
+```
+
+    ## - [OK] Hedges' g calculated successfully.
+
+    ## - [OK] Log-risk ratios calculated successfully.
+
+``` r
+time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
+  
+  which.run = "threelevel.che",
+  # specify statistical parameters
+  es.measure = "g", # uses .g column in data and .g_se (Hedges' g/bias-corrected SMD)
+  method.tau = "REML", # default, but still including for clarity
+  method.tau.ci = "Q-Profile", # not sure if this will work!
+  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+
+  # specify variables in data
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_days",
+  round.digits = 2 # can change to change number of digits to round the presented results to
+)
+```
+
+    ## - Running meta-analyses...
+
+    ## - [OK] Using Hedges' g as effect size metric...
+
+    ## - [OK] Calculating effect size using three-level CHE model (rho=0.6)... DONE
+    ## - [OK] Robust variance estimation (RVE) used for three-level CHE model... DONE
+
+``` r
+time_results$model.threelevel.che
+```
+
+    ## 
+    ## Multivariate Meta-Analysis Model (k = 30; method: REML)
+    ## 
+    ## Variance Components:
+    ## 
+    ##             estim    sqrt  nlvls  fixed       factor 
+    ## sigma^2.1  0.1399  0.3740      9     no        study 
+    ## sigma^2.2  0.0378  0.1944     30     no  study/es.id 
+    ## 
+    ## Test for Heterogeneity:
+    ## Q(df = 29) = 78.0275, p-val < .0001
+    ## 
+    ## Model Results:
+    ## 
+    ## estimate      se     tval  df    pval    ci.lb    ci.ub      
+    ##  -0.8993  0.1630  -5.5168  29  <.0001  -1.2327  -0.5659  *** 
+    ## 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+reg <- metaRegression(time_results$model.threelevel.che, ~ time_days)
+summary(reg)
+```
+
+    ## 
+    ## Multivariate Meta-Analysis Model (k = 30; method: REML)
+    ## 
+    ##   logLik  Deviance       AIC       BIC      AICc   
+    ## -11.5451   23.0902   31.0902   36.4190   32.8293   
+    ## 
+    ## Variance Components:
+    ## 
+    ##             estim    sqrt  nlvls  fixed       factor 
+    ## sigma^2.1  0.1327  0.3642      9     no        study 
+    ## sigma^2.2  0.0399  0.1997     30     no  study/es.id 
+    ## 
+    ## Test for Residual Heterogeneity:
+    ## QE(df = 28) = 76.5481, p-val < .0001
+    ## 
+    ## Test of Moderators (coefficient 2):
+    ## F(df1 = 1, df2 = 28) = 0.2603, p-val = 0.6139
+    ## 
+    ## Model Results:
+    ## 
+    ##            estimate      se     tval  df    pval    ci.lb    ci.ub      
+    ## intrcpt     -0.9173  0.1660  -5.5266  28  <.0001  -1.2574  -0.5773  *** 
+    ## time_days    0.0008  0.0015   0.5102  28  0.6139  -0.0023   0.0039      
+    ## 
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+regplot(reg, mod="time_days", xlab="Time since final dose (days)")
+```
+
+![](/assets/images/datasets/psilodep/plot%20meta-regression-1.png)
+
+### Subgroup & sensitivity analyses!
+
+Subgroups analyses can be easily filtered. We can run them all at once
+with metapsyTools by mutating the the `multi_arm2` variable to be a
+dummy variable designating our subgroups.
+
+``` r
+# Build a dataframe that has each subgroup and sensitivity analysis in it
+
+data_main <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
+    ) %>%
+    mutate(multi_arm2 = "main")
+
+data_dep <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    diagnosis == "dep" | diagnosis == "trd"
+    ) %>%
+    mutate(multi_arm2 = "dep")
+
+data_excwl <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !Detect(condition_arm2, "wl"),
+  ) %>%
+  mutate(multi_arm2 = "excwl")
+
+data_rob <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !Detect(rob, "High"),
+  ) %>%
+  mutate(multi_arm2 = "rob")
+
+data_parallel <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "msd" | outcome_type == "imsd",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    design == "parallel"
+  ) %>%
+  mutate(multi_arm2 = "parallel")
+
+data_crossover <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "msd" | outcome_type == "imsd",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    design == "crossover"
+  ) %>%
+  mutate(multi_arm2 = "crossover")
+
+data_expanded <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !(Detect(study, "Krempien 2023") & (!is.na(multi_arm1)) & Detect(multi_arm1, "12 mg")),
+    !(Detect(study, "Krempien 2023") & (!is.na(multi_arm2)) & Detect(multi_arm2, "12 mg"))
+    ) %>%
+    mutate(multi_arm2 = "expanded")
+
+data_outliers <- data_main %>%
+  filterPoolingData(
+    !Detect(study, "Davis 2021")
+    ) %>%
+    mutate(multi_arm2 = "outliers")
+
+data_fixed <- data_main %>%
+    mutate(multi_arm2 = "fixed")
+
+data_g10 <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "25 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "25 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
+    )  %>%
+    mutate(multi_arm2 = "g10")
+
+data_clinician <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    rating == "clinician",
+    Detect(instrument_symptom, "depression"),
+    outcome_type != "response",
+    outcome_type != "remission",
+    outcome_type != "change"
+  ) %>%
+  mutate(multi_arm2 = "clincian") %>%
+  filterPriorityRule(instrument = c("madrs", "grid-ham-d"))
+
+data_selfreport <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    rating == "self-report",
+    Detect(instrument_symptom, "depression"),
+    outcome_type != "response",
+    outcome_type != "remission",
+    outcome_type != "change" & outcome_type != "unknown"
+  ) %>%
+  mutate(multi_arm2 = "self-report") %>%
+  filterPriorityRule(instrument = c("bdi", "qids-sr", "hads-d", "smdds", "hads"))
+```
+
+``` r
+m <- runMetaAnalysis(data_all,
+
+  # specify statistical parameters
+  which.run = "overall", # inverse variance random effects
+  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
+  method.tau = "REML", # default, but still including for clarity
+  method.tau.ci = "Q-Profile", # not sure if this will work!
+  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+
+  # specify variables in data_es
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_days",
+  round.digits = 2 # can change to change number of digits to round the presented results to
+)
+```
+
+    ## - Running meta-analyses...
+
+    ## - [OK] Using Hedges' g as effect size metric...
+
+    ## - [OK] Calculating overall effect size... DONE
+
+``` r
+# Run a subgroup analysis
+m.sg <- subgroupAnalysis(m, multi_arm2)
+```
+
+    ## - [OK] 'model.overall' used for subgroup analyses.
+
+``` r
+# Extract the subgroup analysis model for "multi_arm2"
+# This gives you complete flexibility regarding the forest plot
+# All meta::forest arguments can be passed
+m.sg$subgroup.analysis.list$multi_arm2 -> m.sg.ma2
+
+png(filename = "figures/metapsyTools/stacked_subgroup_plots.png", res=315, width=2750, height=9000)
+
+meta::forest(m.sg.ma2,
+  sortvar = m.sg.ma2$data$year,
+  col.square = "lightblue",
+  col.predict = "black",
+  fontfamily = "Arial"
+)
+
+dev.off()
+```
+
+    ## quartz_off_screen 
+    ##                 2
+
+``` r
+knitr::include_graphics("figures/metapsyTools/stacked_subgroup_plots.png")
+```
+
+![](/figures/metapsyTools/stacked_subgroup_plots.png)
+
+### Run Meta-Analyses on Dichotomous Data
+
+calculate effect sizes and filter for response and remission data
+
+``` r
+data_response <- data %>%
+  calculateEffectSizes() %>%
+  filter(
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023")
+  ) %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "response"
+  )
+```
+
+    ## - [OK] Hedges' g calculated successfully.
+
+    ## - [OK] Log-risk ratios calculated successfully.
+
+``` r
+data_response <- data_response[order(data_response$year), ]
+
+data_remission <- data %>%
+  calculateEffectSizes() %>%
+  filter(
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023")
+  ) %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "remission"
+  )
+```
+
+    ## - [OK] Hedges' g calculated successfully.
+    ## - [OK] Log-risk ratios calculated successfully.
+
+``` r
+data_remission <- data_remission[order(data_remission$year), ]
+```
+
+run meta-analysis on response data
+
+``` r
+response_results <- runMetaAnalysis(data_response,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "PM",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = TRUE, # Knapp-Hartung adjustement
+
+  # specify variables in data_dichotomous
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2
+)
+```
+
+    ## - Running meta-analyses...
+
+    ## - [OK] Using risk ratio (raw event data) as effect size metric...
+
+    ## - [OK] Calculating overall effect size... DONE
+
+``` r
+meta::forest(
+  response_results$model.overall,
+  sortvar = response_results$model.overall$data$year,
+  xlab = "Log RR (95% CI)",
+  leftlabs = c("Study", "Log RR"),
+  layout = "JAMA")
+```
+
+![](/assets/images/datasets/psilodep/response%20model-1.png)
+
+run meta-analysis for remission data
+
+``` r
+remission_results <- runMetaAnalysis(data_remission,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "PM",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = TRUE, # Knapp-Hartung adjustement
+
+  # specify variables in data_dichotomous
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2
+)
+```
+
+    ## - Running meta-analyses...
+
+    ## - [OK] Using risk ratio (raw event data) as effect size metric...
+
+    ## - [OK] Calculating overall effect size... DONE
+
+``` r
+meta::forest(
+  remission_results$model.overall,
+  sortvar=remission_results$model.overall$data$year,
+  xlab = "Log RR (95% CI)",
+  leftlabs = c("Study", "Log RR"),
+  layout = "JAMA")
+```
+
+![](/assets/images/datasets/psilodep/remission%20model-1.png)
