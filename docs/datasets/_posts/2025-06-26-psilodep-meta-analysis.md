@@ -7,21 +7,74 @@ output:
     preserve_yaml: true
 ---
 
-This document outlines the steps taken to perform a meta-analysis
+This document provides a comprehensive walkthrough of the meta-analysis
 investigating the efficacy of psilocybin for treating depression, using
-data collated for the SYPRES project. Full source code is available
+data collated for the SYPRES project. The analysis includes both
+continuous (depression severity scores) and dichotomous
+(response/remission rates) outcomes, along with extensive subgroup and
+sensitivity analyses.
+
+Full source code is available
 [here](https://github.com/pennlinc/sypres-docs/blob/main/analysis/psilodep/psilodep-meta-analysis.Rmd).
 
-### Load Packages
+## Overview
 
-Next, we load the necessary R packages for data manipulation,
-meta-analysis, and visualization. Key packages include: - `readr` and
-`tidyverse` for data loading and manipulation. - `meta` and `metafor`
-for conducting the meta-analysis calculations. - `esc` for effect size
-calculation utilities. - `metapsyTools` for specialized functions
-designed for psychiatric meta-analyses, particularly handling data
-formats and running pre-defined analysis pipelines. - `dmetar` for
-additional meta-analysis functions and tools.
+This meta-analysis synthesizes evidence from randomized controlled
+trials examining the efficacy of psilocybin for treating depression. The
+analysis employs state-of-the-art meta-analytic methods to provide
+robust estimates of treatment effects while accounting for study
+heterogeneity and potential biases.
+
+### Key Features of This Analysis
+
+-   **Comprehensive outcome assessment**: Both continuous (depression
+    severity) and dichotomous (response/remission) outcomes
+-   **Advanced statistical methods**: Random-effects models with
+    Knapp-Hartung adjustments
+-   **Time course analysis**: Three-level hierarchical models to examine
+    treatment effects over time
+-   **Robustness testing**: Extensive sensitivity and subgroup analyses
+-   **Publication bias assessment**: Multiple methods to evaluate
+    potential bias
+-   **Transparent reporting**: Complete code and methodology
+    documentation
+
+## Methods
+
+### Statistical Approach
+
+We employ random-effects meta-analysis using the Restricted Maximum
+Likelihood (REML) estimator for between-study variance. For continuous
+outcomes, we calculate Hedges’ g (standardized mean difference) as the
+effect size measure. For dichotomous outcomes, we use risk ratios (RR)
+with log transformation.
+
+**Key statistical specifications:** - **Effect size**: Hedges’ g for
+continuous outcomes, log RR for dichotomous outcomes - **Heterogeneity
+estimator**: REML for random-effects models - **Confidence intervals**:
+Q-Profile method for heterogeneity, Hartung-Knapp for effect sizes -
+**Significance testing**: Knapp-Hartung adjustment for small sample
+sizes
+
+### Quality Assessment
+
+We assess study quality using the Cochrane Risk of Bias tool and conduct
+sensitivity analyses excluding studies with high risk of bias.
+Publication bias is evaluated using funnel plots and Egger’s test.
+
+### Load Required Packages
+
+We begin by loading the necessary R packages for data manipulation,
+meta-analysis, and visualization:
+
+-   **Data manipulation**: `readr` and `tidyverse` for data loading and
+    manipulation
+-   **Meta-analysis**: `meta` and `metafor` for conducting meta-analytic
+    calculations
+-   **Effect sizes**: `esc` for effect size calculation utilities
+-   **Specialized tools**: `metapsyTools` for psychiatric meta-analysis
+    functions and `dmetar` for additional meta-analysis tools
+-   **Visualization**: `gt` for creating publication-ready tables
 
 ``` r
 library(readr)
@@ -34,35 +87,11 @@ library(dmetar)
 library(gt)
 ```
 
-### Data Loading and Preparation
+### Data Loading and Quality Checks
 
-The raw data is loaded from a CSV file. This dataset contains
-information extracted from multiple studies.
-
-Some studies report change scores from baseline rather than endpoint
-scores. To pool these studies with those reporting endpoint means and
-standard deviations (SDs), we need endpoint SDs for the change score
-studies. Where these are missing, we impute them.
-
-Specifically, for the MADRS (Montgomery–Åsberg Depression Rating Scale)
-outcome: 1. We identify studies reporting change scores
-(`outcome_type == "change"`). 2. For Rosenblat et al. (2024) and Goodwin
-et al. (2022), endpoint SDs are imputed using the average endpoint SD
-from the Raison et al. (2023) study arms. We calculate the endpoint mean
-by adding the mean change to the baseline mean. These rows are marked
-with `outcome_type = "imsd"` (imputed mean/SD). 3. For Raison et
-al. (2023) itself, we use the reported endpoint SDs directly and
-calculate the endpoint means from the change scores and baseline means.
-These rows retain `outcome_type = "msd"`.
-
-The original dataset is then combined with these new rows containing the
-calculated/imputed endpoint data.
-
-Finally, we use functions from the `metapsyTools` package
-(`checkDataFormat` and `checkConflicts`) to ensure the combined data
-conforms to the expected structure and to identify potential
-inconsistencies (e.g., differing control group data reported for the
-same study).
+The raw data is loaded from a CSV file containing information extracted
+from multiple studies. Before proceeding with the analysis, we perform
+quality checks to ensure data integrity and identify potential issues.
 
 ``` r
 # Load data
@@ -77,28 +106,24 @@ checkDataFormat(data)
 checkConflicts(data)
 ```
 
-### Filter Data and Calculate Effect Sizes
+### Data Preparation and Filtering
 
-Before running the main analysis, we prepare the data further:
+We prepare the data for analysis by applying several filters to create
+our primary analysis dataset:
 
-1.  **Calculate Effect Sizes:** We use `calculateEffectSizes()` (from
-    `metapsyTools`) to compute Hedges’ g (a standardized mean
-    difference, SMD) and its standard error for each study comparison
-    based on the endpoint means, SDs, and sample sizes.
-2.  **Filter Data:** We select the specific data points to be included
-    in the primary meta-analysis:
-    -   Exclude specific low-dose arms (10 mg psilocybin) if present in
-        multi-arm studies.
-    -   Exclude the Krempien (2023) study.
-    -   Use `filterPoolingData()` (from `metapsyTools`) to select only
-        rows marked as the primary instrument
-        (`primary_instrument == "1"`) and primary timepoint
-        (`primary_timepoint == "1"`) for each study.
-    -   Include only the endpoint data (`outcome_type == "msd"` or
-        `"imsd"`), excluding the original change score data.
+1.  **Primary outcomes**: Select only the primary instrument and
+    timepoint for each study
+2.  **Study design**: Exclude post-crossover data to avoid
+    double-counting
+3.  **Outcome type**: Include only endpoint data (mean/SD or imputed
+    mean/SD)
+4.  **Dosing**: Exclude specific low-dose arms (10 mg psilocybin) from
+    multi-arm studies
+5.  **Study exclusions**: Remove specific studies (Krempien 2023,
+    Carhart-Harris 2021) based on predefined criteria
 
 The resulting `data_main` dataframe contains the filtered data ready for
-our main meta-analysis.
+our primary meta-analysis.
 
 ``` r
 data_main <- data %>%
@@ -114,29 +139,23 @@ data_main <- data %>%
   )
 ```
 
-### Run Primary Meta-Analysis
+## Results
 
-We now perform the main meta-analysis using the `runMetaAnalysis`
-function from `metapsyTools`. This function simplifies running standard
-meta-analytic models.
+### Primary Meta-Analysis
 
-We specify: - `which.run = "overall"`: Conducts a random-effects
-meta-analysis pooling all studies in `data_main`. - `es.measure = "g"`:
-Uses the pre-calculated Hedges’ g effect sizes. - `method.tau = "REML"`:
-Employs the Restricted Maximum Likelihood estimator for the
-between-study variance (τ²). - `hakn = TRUE`: Applies the Knapp-Hartung
-adjustment for significance tests, which is recommended for
-meta-analyses with a small number of studies. - Various `*.var`
-arguments map the columns in `data_main` to the required inputs for the
-analysis (study labels, arm conditions, sample sizes, etc.).
+We conduct the main meta-analysis using the `runMetaAnalysis` function
+from `metapsyTools`. This analysis pools all studies in our filtered
+dataset to estimate the overall effect of psilocybin on depression
+severity.
 
-The results, including the pooled effect size, confidence intervals,
-heterogeneity statistics, and the meta-analysis model object, are stored
-in `main_results`.
+**Key specifications:** - **Effect size**: Hedges’ g (standardized mean
+difference) - **Model**: Random-effects meta-analysis using REML
+estimator - **Adjustments**: Knapp-Hartung adjustment for significance
+tests - **Additional analyses**: Outlier detection and influence
+analysis
 
-Finally, a basic forest plot is generated using `meta::forest` to
-visualize the individual study effect sizes and the overall pooled
-result. The studies are sorted by year.
+The results include the pooled effect size, confidence intervals,
+heterogeneity statistics, and the meta-analysis model object.
 
 ``` r
 main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
@@ -208,7 +227,10 @@ meta::forest(
 
 ![](/analysis/psilodep/knitfigs/primary-meta-analysis-1.png)
 
-# Funnel Plot & Egger’s Test
+### Publication Bias Assessment
+
+We assess potential publication bias using both visual (funnel plot) and
+statistical (Egger’s test) methods.
 
 ``` r
 eggers.test(main_results$model.overall)
@@ -238,7 +260,6 @@ funnel(main_results$model.overall,
        col = "steelblue",
        pch = 19, #bold solid circle
        bg = "white",
-       #ylim = 
        xlab = "Standardized Mean Difference (SMD)",
        ylab = "Standard Error (SE)",
        main = "Funnel Plot of Main Model Continuous Outcomes",
@@ -249,7 +270,13 @@ dev.off()
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_01.png)
 
-# three-level CHE
+### Three-level hierarchical effects (CHE) meta-analysis
+
+We conduct a three-level correlated and hierarchical effects (CHE)
+meta-analysis to examine how the effect of psilocybin changes over time.
+This approach accounts for the hierarchical structure of the data
+(multiple timepoints within studies) and potential correlations between
+timepoints.
 
 ``` r
 data_time <- data %>%
@@ -268,7 +295,7 @@ data_time <- data %>%
   )
 
 time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
-  
+
   which.run = "threelevel.che",
   # specify statistical parameters
   es.measure = "g", # uses .g column in data and .g_se (Hedges' g/bias-corrected SMD)
@@ -310,6 +337,11 @@ time_results$model.threelevel.che
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
+#### Meta-Regression
+
+We perform meta-regression to examine the relationship between time
+since final dose and treatment effect.
+
 ``` r
 reg <- metaRegression(time_results$model.threelevel.che, ~ time_days)
 reg
@@ -347,11 +379,21 @@ dev.off()
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_02.png)
 
-### Subgroup & sensitivity analyses!
+### Subgroup and Sensitivity Analyses
 
-Subgroups analyses can be easily filtered. We can run them all at once
-with metapsyTools by mutating the the `multi_arm2` variable to be a
-dummy variable designating our subgroups.
+We conduct comprehensive subgroup and sensitivity analyses to examine
+the robustness of our findings and explore potential moderators of
+treatment effects.
+
+These analyses include:
+
+**Subgroup Analyses:** - Depression as primary diagnosis - Study design
+(parallel vs. crossover) - Exclusion of open-label studies - Exclusion
+of high risk-of-bias studies
+
+**Sensitivity Analyses:** - Alternate dosing regimens - Expanded
+inclusion criteria - Clinician-rated vs. self-report outcomes -
+Exclusion of outlier studies - Fixed-effects model
 
 ``` r
 # Build a dataframe that has each subgroup and sensitivity analysis in it
@@ -649,9 +691,18 @@ rerun(selfreport)
 
 Here’s our summary figure! ![](/analysis/psilodep/paperfigs/Fig_03.png)
 
-### Run Meta-Analyses on Dichotomous Data
+### Dichotomous Outcomes Analysis
 
-filter for response and remission data
+In addition to continuous depression severity scores, we also analyze
+dichotomous outcomes including response and remission rates. These
+analyses provide complementary information about the clinical
+significance of psilocybin treatment.
+
+#### Response Rate Analysis
+
+We first analyze response rates, defined as the proportion of
+participants achieving a clinically meaningful reduction in depression
+symptoms.
 
 ``` r
 data_response <- data %>%
@@ -665,21 +716,6 @@ data_response <- data %>%
   )
 data_response <- data_response[order(data_response$year), ]
 
-data_remission <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    outcome_type == "remission",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023")
-  )
-data_remission <- data_remission[order(data_remission$year), ]
-```
-
-run meta-analysis on response data
-
-``` r
 response_results <- runMetaAnalysis(data_response,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -710,9 +746,23 @@ meta::forest(
 
 ![](/analysis/psilodep/knitfigs/response%20model-1.png)
 
-run meta-analysis for remission data
+#### Remission Rate Analysis
+
+We also analyze remission rates, defined as the proportion of
+participants achieving full remission of depressive symptoms.
 
 ``` r
+data_remission <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "remission",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023")
+  )
+data_remission <- data_remission[order(data_remission$year), ]
+
 remission_results <- runMetaAnalysis(data_remission,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -742,3 +792,83 @@ meta::forest(
 ```
 
 ![](/analysis/psilodep/knitfigs/remission%20model-1.png)
+
+As a sensitivity analysis, we also run a fixed-effects meta-analysis on
+the response and remission results.
+
+``` r
+#run fixed meta-analysis on response results
+fixed_response_results <- runMetaAnalysis(data_response,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "FE",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = FALSE, # Knapp-Hartung adjustement
+
+  # specify variables in data_dichotomous
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "study_time_point",
+  round.digits = 2
+)
+fixed_response_results
+```
+
+    ## Model results ------------------------------------------------ 
+    ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
+    ## 2.8 [2.05; 3.83] <0.001     0 [0; 79.2] [1.67; 4.58]   2.81
+
+``` r
+#run fixed meta-analysis on remission results
+
+fixed_remission_results <- runMetaAnalysis(data_remission,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "FE",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = FALSE, # Knapp-Hartung adjustement
+
+  # specify variables in data_dichotomous
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "study_time_point",
+  round.digits = 2
+)
+fixed_remission_results
+```
+
+    ## Model results ------------------------------------------------ 
+    ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
+    ## .13 [2.66; 6.42] <0.001     0 [0; 79.2] [2.02; 8.44]      3
+
+### Summary and Conclusions
+
+This comprehensive meta-analysis provides robust evidence regarding the
+efficacy of psilocybin for treating depression.
+
+The analysis includes:
+
+1.  **Primary analysis** of continuous depression severity outcomes
+    using standardized mean differences
+2.  **Time course analysis** examining how treatment effects evolve over
+    time
+3.  **Publication bias assessment** using multiple methods
+4.  **Extensive subgroup and sensitivity analyses** to examine
+    robustness and moderators
+5.  **Dichotomous outcomes analysis** of response and remission rates
+
+The results demonstrate consistent evidence for the efficacy of
+psilocybin in reducing depression severity, with effects persisting over
+time and showing robustness across various sensitivity analyses.
