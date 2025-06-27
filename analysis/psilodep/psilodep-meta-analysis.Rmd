@@ -291,7 +291,7 @@ dev.off()
 ```
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_02.png)
-Adding time since final dose as a continouus predictor to our model reveals a large and significant effect-size favoring psilocybin immediately following dosing that was stable over time.
+Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring psilocybin immediately following dosing that was stable over time.
 
 
 
