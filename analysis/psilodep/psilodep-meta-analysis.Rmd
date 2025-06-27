@@ -41,7 +41,7 @@ For dichotomous outcomes, we use log risk ratios (RR).
 
 ### Quality Assessment
 
-We conduct sensitivity analyses excluding studies with high risk of bias evaluated using the Cochrane Risk of Bias tool
+We conduct sensitivity analyses excluding studies with high risk of bias evaluated using the Cochrane Risk of Bias tool.
 Publication bias is evaluated using funnel plots and Egger's test.
 
 ```{r setup knitr, include=FALSE}
