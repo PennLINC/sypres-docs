@@ -7,20 +7,19 @@ output:
     preserve_yaml: true
 ---
 
-This document provides a comprehensive walkthrough of the meta-analysis investigating the efficacy of psilocybin for treating depression, using data collated for the SYPRES project.
-The analysis includes both continuous (depression severity scores) and dichotomous (response/remission rates) outcomes, along with extensive subgroup and sensitivity analyses.
+This document provides a comprehensive walk-through of the meta-analysis investigating the efficacy of psilocybin for treating depression symptoms, using data extracted for the SYPRES project.
+The analysis includes both continuous (depression symptom severity scores) and dichotomous (response/remission rates) outcomes, along with extensive subgroup and sensitivity analyses.
 
 Full source code is available [here](https://github.com/pennlinc/sypres-docs/blob/main/analysis/psilodep/psilodep-meta-analysis.Rmd).
 
 ## Overview
 
 This meta-analysis synthesizes evidence from randomized controlled trials examining the efficacy of psilocybin for treating depression.
-The analysis employs state-of-the-art meta-analytic methods to provide robust estimates of treatment effects while accounting for study heterogeneity and potential biases.
+The analysis employs meta-analytic methods to provide robust estimates of treatment effects while accounting for study heterogeneity and potential biases.
 
 ### Key Features of This Analysis
 
-- **Comprehensive outcome assessment**: Both continuous (depression severity) and dichotomous (response/remission) outcomes
-- **Advanced statistical methods**: Random-effects models with Knapp-Hartung adjustments
+- **Comprehensive outcome assessment**: Both continuous (depression symptom severity) and dichotomous (response/remission) outcomes
 - **Time course analysis**: Three-level hierarchical models to examine treatment effects over time
 - **Robustness testing**: Extensive sensitivity and subgroup analyses
 - **Publication bias assessment**: Multiple methods to evaluate potential bias
@@ -28,27 +27,27 @@ The analysis employs state-of-the-art meta-analytic methods to provide robust es
 
 ## Methods
 
-### Statistical Approach
+### Statistical Approach for Primary Meta-Analysis
 
-We employ random-effects meta-analysis using the Restricted Maximum Likelihood (REML) estimator for between-study variance.
+For our primary meta-analysis, we employ random-effects meta-analysis using the Restricted Maximum Likelihood (REML) estimator for between-study variance.
 For continuous outcomes, we calculate Hedges' g (standardized mean difference) as the effect size measure.
-For dichotomous outcomes, we use risk ratios (RR) with log transformation.
+For dichotomous outcomes, we use log risk ratios (RR).
 
 **Key statistical specifications:**
 - **Effect size**: Hedges' g for continuous outcomes, log RR for dichotomous outcomes
 - **Heterogeneity estimator**: REML for random-effects models
-- **Confidence intervals**: Q-Profile method for heterogeneity, Hartung-Knapp for effect sizes
+- **Confidence intervals**: Q-Profile method for heterogeneity, Knapp-Hartung adjustment for effect sizes
 - **Significance testing**: Knapp-Hartung adjustment for small sample sizes
 
 ### Quality Assessment
 
-We assess study quality using the Cochrane Risk of Bias tool and conduct sensitivity analyses excluding studies with high risk of bias.
+We conduct sensitivity analyses excluding studies with high risk of bias evaluated using the Cochrane Risk of Bias tool.
 Publication bias is evaluated using funnel plots and Egger's test.
 
 ```{r setup knitr, include=FALSE}
 
-basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
-# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
+#basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
+basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -66,8 +65,7 @@ We begin by loading the necessary R packages for data manipulation, meta-analysi
 - **Data manipulation**: `readr` and `tidyverse` for data loading and manipulation
 - **Meta-analysis**: `meta` and `metafor` for conducting meta-analytic calculations
 - **Effect sizes**: `esc` for effect size calculation utilities
-- **Specialized tools**: `metapsyTools` for psychiatric meta-analysis functions and `dmetar` for additional meta-analysis tools
-- **Visualization**: `gt` for creating publication-ready tables
+- **Specialized tools**: `metapsyTools` for specific meta-analysis functions and `dmetar` for additional meta-analysis tools
 
 ```{r packages, results='hide', message=FALSE, warning=FALSE}
 library(readr)
@@ -87,8 +85,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data
-data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-#data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
+#data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
+data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
 # after release we will replace this with metapsyData load function
 
 # Check data format with checkDataFormat
@@ -105,7 +103,7 @@ We prepare the data for analysis by applying several filters to create our prima
 1. **Primary outcomes**: Select only the primary instrument and timepoint for each study
 2. **Study design**: Exclude post-crossover data to avoid double-counting
 3. **Outcome type**: Include only endpoint data (mean/SD or imputed mean/SD)
-4. **Dosing**: Exclude specific low-dose arms (10 mg psilocybin) from multi-arm studies
+4. **Dosing**: Exclude medium-dose arm (10 mg psilocybin) from multi-arm study (Goodwin 2022)
 5. **Study exclusions**: Remove specific studies (Krempien 2023, Carhart-Harris 2021) based on predefined criteria
 
 The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
@@ -142,20 +140,20 @@ This analysis pools all studies in our filtered dataset to estimate the overall 
 The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
 
 ```{r primary-meta-analysis, message=FALSE}
-main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
+main_results <- runMetaAnalysis(data_main,
 
-  # specify models to run
+  # Specify models to run
   which.run = c("overall", "outliers"),
   which.influence = "overall",
   which.outliers = "overall",
 
-  # specify statistical parameters
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile",
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -168,6 +166,8 @@ main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
 
 summary(main_results$model.overall)
 
+# Create simple forest plot of results
+
 meta::forest(
   main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
@@ -176,11 +176,15 @@ meta::forest(
 
 ```
 
+The primary meta-analysis on continuous outcomes in the 9 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
+
+
 ### Publication Bias Assessment
 
 We assess potential publication bias using both visual (funnel plot) and statistical (Egger's test) methods.
 
 ```{r eggertest}
+# Run Egger's test
 
 eggers.test(main_results$model.overall)
 
@@ -210,6 +214,9 @@ dev.off()
 ```
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_01.png)
+Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's test did not find small study effects, implying minimal evidence of publication bias.
+
+
 
 ### Three-level hierarchical effects (CHE) meta-analysis
 
@@ -217,6 +224,8 @@ We conduct a three-level correlated and hierarchical effects (CHE) meta-analysis
 This approach accounts for the hierarchical structure of the data (multiple timepoints within studies) and potential correlations between timepoints.
 
 ```{r che, message=FALSE}
+
+# Select data for the CHE meta-analysis
 
 data_time <- data %>%
   calculateEffectSizes() %>%
@@ -233,16 +242,18 @@ data_time <- data %>%
     outcome_type == "msd" | outcome_type == "imsd"
   )
 
-time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
+# Run meta-analysis
+
+time_results <- runMetaAnalysis(data_time,
 
   which.run = "threelevel.che",
-  # specify statistical parameters
-  es.measure = "g", # uses .g column in data and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -250,12 +261,15 @@ time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_days",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 time_results$model.threelevel.che
 
 ```
+
+The three-level CHE model reveals an overall significant decrease in depression scores under psilocybin compared to control conditions. 
+
 
 #### Meta-Regression
 
@@ -277,6 +291,9 @@ dev.off()
 ```
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_02.png)
+Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring psilocybin immediately following dosing that was stable over time.
+
+
 
 ### Subgroup and Sensitivity Analyses
 
@@ -291,7 +308,7 @@ These analyses include:
 - Exclusion of high risk-of-bias studies
 
 **Sensitivity Analyses:**
-- Alternate dosing regimens
+- In multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
 - Expanded inclusion criteria
 - Clinician-rated vs. self-report outcomes
 - Exclusion of outlier studies
@@ -528,14 +545,14 @@ dev.off()
 ```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
 main <- runMetaAnalysis(data_main,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables in data_es
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -543,10 +560,10 @@ main <- runMetaAnalysis(data_main,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
-# use metapsyTools replacement and rerun functions for quickly repeating the same analysis with the same parameters
+# Use metapsyTools replacement and rerun functions for quickly repeating the same analysis with the same parameters
 
 dep <- main # copy the model to a new name
 data(dep) <- data_dep # replace the dataframe in the new model
@@ -600,14 +617,14 @@ rerun(selfreport)
 
 main <- runMetaAnalysis(data_main,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -615,19 +632,19 @@ main <- runMetaAnalysis(data_main,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 dep <- runMetaAnalysis(data_dep,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -635,19 +652,19 @@ dep <- runMetaAnalysis(data_dep,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 excwl <- runMetaAnalysis(data_excwl,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -655,19 +672,19 @@ excwl <- runMetaAnalysis(data_excwl,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 rob <- runMetaAnalysis(data_rob,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -675,19 +692,19 @@ rob <- runMetaAnalysis(data_rob,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 parallel <- runMetaAnalysis(data_parallel,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -695,19 +712,19 @@ parallel <- runMetaAnalysis(data_parallel,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 crossover <- runMetaAnalysis(data_crossover,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -715,19 +732,19 @@ crossover <- runMetaAnalysis(data_crossover,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 expanded <- runMetaAnalysis(data_expanded,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -735,19 +752,19 @@ expanded <- runMetaAnalysis(data_expanded,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 outliers <- runMetaAnalysis(data_outliers,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -755,19 +772,19 @@ outliers <- runMetaAnalysis(data_outliers,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
-fixed <- runMetaAnalysis(data_main, # using pre-filtered data for now
+fixed <- runMetaAnalysis(data_main, 
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
   method.tau = "FE", # fixed effects
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = FALSE, # set to false for FE
+  method.tau.ci = "Q-Profile", 
+  hakn = FALSE, 
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -775,19 +792,19 @@ fixed <- runMetaAnalysis(data_main, # using pre-filtered data for now
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "study_time_point",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 g10 <- runMetaAnalysis(data_g10,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -795,19 +812,19 @@ g10 <- runMetaAnalysis(data_g10,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 clinician <- runMetaAnalysis(data_clinician,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -815,19 +832,19 @@ clinician <- runMetaAnalysis(data_clinician,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 selfreport <- runMetaAnalysis(data_selfreport,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -835,13 +852,13 @@ selfreport <- runMetaAnalysis(data_selfreport,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 ```
 
 ```{r create subgroup and sensitivity analysis summary table, include=FALSE}
-# Helper to parse CI from string to numeric
+# Helper function to parse CI from string to numeric
 parse_ci <- function(ci_string) {
   nums <- str_extract_all(ci_string, "-?\\d+\\.?\\d*")[[1]]
   as.numeric(nums)
@@ -1053,6 +1070,11 @@ gtsave(subgroup_table, filename = file.path(basedir,"analysis/psilodep/paperfigs
 
 Here's our summary figure!
 ![](/analysis/psilodep/paperfigs/Fig_03.png)
+Our series of subgroup and sensitivity analyses produced results largely in line with our main model results. 
+Hedges' g values did not differ greatly from the main model, and 10/12 of the subgroup and sensitivity analyses produced significant results. 
+Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
+
+
 
 ### Dichotomous Outcomes Analysis
 
@@ -1065,6 +1087,8 @@ We first analyze response rates, defined as the proportion of participants achie
 
 ```{r response model, message=FALSE}
 
+# Get response data
+
 data_response <- data %>%
   filterPoolingData(
     primary_instrument == "1",
@@ -1076,6 +1100,8 @@ data_response <- data %>%
   )
 data_response <- data_response[order(data_response$year), ]
 
+# Run meta-analysis
+
 response_results <- runMetaAnalysis(data_response,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -1085,7 +1111,7 @@ response_results <- runMetaAnalysis(data_response,
   method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1096,6 +1122,8 @@ response_results <- runMetaAnalysis(data_response,
   round.digits = 2
 )
 
+# Create simple forest plot of response results
+
 meta::forest(
   response_results$model.overall,
   sortvar = response_results$model.overall$data$year,
@@ -1104,11 +1132,16 @@ meta::forest(
   layout = "JAMA")
 ```
 
+Our meta-analysis shows statistically significant greater treatment response with psilocybin compared to control conditions.
+
+
 #### Remission Rate Analysis
 
 We also analyze remission rates, defined as the proportion of participants achieving full remission of depressive symptoms.
 
 ```{r remission model, message=FALSE}
+
+# Get remission data
 
 data_remission <- data %>%
   filterPoolingData(
@@ -1121,6 +1154,8 @@ data_remission <- data %>%
   )
 data_remission <- data_remission[order(data_remission$year), ]
 
+# Run meta-analysis
+
 remission_results <- runMetaAnalysis(data_remission,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -1130,7 +1165,7 @@ remission_results <- runMetaAnalysis(data_remission,
   method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1141,6 +1176,8 @@ remission_results <- runMetaAnalysis(data_remission,
   round.digits = 2
 )
 
+# Create simple forest plot of remission results
+
 meta::forest(
   remission_results$model.overall,
   sortvar=remission_results$model.overall$data$year,
@@ -1149,6 +1186,9 @@ meta::forest(
   layout = "JAMA")
 
 ```
+
+Our meta-analysis shows statistically significant higher remission rates with psilocybin compared to control conditions.
+
 
 ```{r forest meta response for indesign, include=FALSE}
 ###forest plot for response
@@ -1256,7 +1296,9 @@ dev.off()
 As a sensitivity analysis, we also run a fixed-effects meta-analysis on the response and remission results.
 
 ```{r runmetaAnalysis on fixed response results, message=FALSE, warning=FALSE}
-#run fixed meta-analysis on response results
+
+# Run fixed meta-analysis
+
 fixed_response_results <- runMetaAnalysis(data_response,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -1266,7 +1308,7 @@ fixed_response_results <- runMetaAnalysis(data_response,
   method.random.ci = "HK",
   hakn = FALSE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1279,8 +1321,11 @@ fixed_response_results <- runMetaAnalysis(data_response,
 fixed_response_results
 ```
 
+Using a fixed-effects model to run a meta-analysis on response outcomes yielded results that were in line with the main model, showing statistically significant greater treatment response with psilocybin compared to control conditions.
+
 ```{r runmetaAnalysis on fixed remission results, message=FALSE, warning=FALSE}
-#run fixed meta-analysis on remission results
+
+#Run fixed meta-analysis
 
 fixed_remission_results <- runMetaAnalysis(data_remission,
   which.run = "overall",
@@ -1291,7 +1336,7 @@ fixed_remission_results <- runMetaAnalysis(data_remission,
   method.random.ci = "HK",
   hakn = FALSE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1304,11 +1349,11 @@ fixed_remission_results <- runMetaAnalysis(data_remission,
 fixed_remission_results
 ```
 
-
+Using a fixed-effects model to run a meta-analysis on remission outcomes yielded results that were in line with the main model, showing statistically significant higher remission rate with psilocybin compared to control conditions.
 
 ### Summary and Conclusions
 
-This comprehensive meta-analysis provides robust evidence regarding the efficacy of psilocybin for treating depression.
+This comprehensive meta-analysis provides promising evidence regarding the efficacy of psilocybin for treating depression, but should be interpreted with caution.
 
 The analysis includes:
 
@@ -1318,4 +1363,6 @@ The analysis includes:
 4. **Extensive subgroup and sensitivity analyses** to examine robustness and moderators
 5. **Dichotomous outcomes analysis** of response and remission rates
 
-The results demonstrate consistent evidence for the efficacy of psilocybin in reducing depression severity, with effects persisting over time and showing robustness across various sensitivity analyses.
+The results demonstrate consistent evidence for the efficacy of psilocybin in reducing depression severity, with effects persisting over time and showing robustness across various sensitivity analyses. 
+However, given the small number of studies eligible to include in our meta-analysis and limitations such as the potential for functional unblinding and expectancy effects, results should be interpreted with caution.
+
