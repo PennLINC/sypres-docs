@@ -1191,7 +1191,7 @@ fixed_response_results <- runMetaAnalysis(data_response,
 )
 fixed_response_results
 ```
-```{r runmetaAnalysis on fixed remission results, message=FALSE, warning=FALSE}
+```{r runmetaAnalysis on fixed remission results, message=FALSE, warning=FALSE, include=FALSE}
 
 #Run fixed meta-analysis
 

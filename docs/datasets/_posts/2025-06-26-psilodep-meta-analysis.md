@@ -792,35 +792,6 @@ rerun(remission_results)
     ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
     ## .13 [2.66; 6.42] <0.001     0 [0; 79.2] [2.02; 8.44]      3
 
-``` r
-#Run fixed meta-analysis
-
-fixed_remission_results <- runMetaAnalysis(data_remission,
-  which.run = "overall",
-  es.measure = "RR", # risk ratio
-  es.type = "raw",
-  method.tau = "FE",
-  method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
-  hakn = FALSE, # Knapp-Hartung adjustement
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "study_time_point",
-  round.digits = 2
-)
-fixed_remission_results
-```
-
-    ## Model results ------------------------------------------------ 
-    ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
-    ## .13 [2.66; 6.42] <0.001     0 [0; 79.2] [2.02; 8.44]      3
-
 Our fixed effects models yielded results that were in line with the main
 model, showing statistically significant higher response and remission
 rates with psilocybin compared to control conditions.
