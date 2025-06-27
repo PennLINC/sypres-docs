@@ -403,7 +403,7 @@ data_selfreport <- data %>%
 
 ```
 
-
+Now we can use `metapsyTools` for quickly looking at subgroup and sensitivity results.
 
 ```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
 

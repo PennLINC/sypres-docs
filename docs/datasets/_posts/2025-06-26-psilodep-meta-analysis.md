@@ -53,7 +53,7 @@ biases.
 
 We conduct sensitivity analyses excluding studies with high risk of bias
 evaluated using the Cochrane Risk of Bias tool. Publication bias is
-evaluated using funnel plots and Egger’s test.
+evaluated using a funnel plot and Egger’s test.
 
 ### Load Required Packages
 
@@ -499,6 +499,9 @@ data_selfreport <- data %>%
   ) %>%
   filterPriorityRule(instrument = c("bdi", "qids-sr", "hads-d", "smdds", "hads"))
 ```
+
+Now we can use `metapsyTools` for quickly looking at subgroup and
+sensitivity results.
 
 ``` r
 # Run the main "overall" model for comparison
