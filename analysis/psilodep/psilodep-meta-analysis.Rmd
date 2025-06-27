@@ -142,20 +142,20 @@ This analysis pools all studies in our filtered dataset to estimate the overall 
 The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
 
 ```{r primary-meta-analysis, message=FALSE}
-main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
+main_results <- runMetaAnalysis(data_main,
 
-  # specify models to run
+  # Specify models to run
   which.run = c("overall", "outliers"),
   which.influence = "overall",
   which.outliers = "overall",
 
-  # specify statistical parameters
+  # Specify statistical parameters
   es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
   method.tau = "REML", # default, but still including for clarity
   method.tau.ci = "Q-Profile", # not sure if this will work!
   hakn = TRUE, # Knapp-Hartung effect size significance tests be used
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -167,6 +167,8 @@ main_results <- runMetaAnalysis(data_main, # using pre-filtered data for now
 )
 
 summary(main_results$model.overall)
+
+# Create simple forest plot of results
 
 meta::forest(
   main_results$model.overall,
@@ -181,6 +183,7 @@ meta::forest(
 We assess potential publication bias using both visual (funnel plot) and statistical (Egger's test) methods.
 
 ```{r eggertest}
+# Run Egger's test
 
 eggers.test(main_results$model.overall)
 
@@ -218,6 +221,8 @@ This approach accounts for the hierarchical structure of the data (multiple time
 
 ```{r che, message=FALSE}
 
+# Select data for the CHE meta-analysis
+
 data_time <- data %>%
   calculateEffectSizes() %>%
   filter(
@@ -233,16 +238,18 @@ data_time <- data %>%
     outcome_type == "msd" | outcome_type == "imsd"
   )
 
-time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
+# Run meta-analysis
+
+time_results <- runMetaAnalysis(data_time,
 
   which.run = "threelevel.che",
-  # specify statistical parameters
-  es.measure = "g", # uses .g column in data and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  # Specify statistical parameters
+  es.measure = "g", # uses .g column in data and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung effect size significance tests used
 
-  # specify variables in data
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -250,7 +257,7 @@ time_results <- runMetaAnalysis(data_time, # using pre-filtered data for now
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_days",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 time_results$model.threelevel.che
@@ -528,14 +535,14 @@ dev.off()
 ```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
 main <- runMetaAnalysis(data_main,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables in data_es
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -543,10 +550,10 @@ main <- runMetaAnalysis(data_main,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
-# use metapsyTools replacement and rerun functions for quickly repeating the same analysis with the same parameters
+# Use metapsyTools replacement and rerun functions for quickly repeating the same analysis with the same parameters
 
 dep <- main # copy the model to a new name
 data(dep) <- data_dep # replace the dataframe in the new model
@@ -600,14 +607,14 @@ rerun(selfreport)
 
 main <- runMetaAnalysis(data_main,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -615,19 +622,19 @@ main <- runMetaAnalysis(data_main,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 dep <- runMetaAnalysis(data_dep,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -635,19 +642,19 @@ dep <- runMetaAnalysis(data_dep,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 excwl <- runMetaAnalysis(data_excwl,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -655,19 +662,19 @@ excwl <- runMetaAnalysis(data_excwl,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 rob <- runMetaAnalysis(data_rob,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -675,19 +682,19 @@ rob <- runMetaAnalysis(data_rob,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 parallel <- runMetaAnalysis(data_parallel,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -695,19 +702,19 @@ parallel <- runMetaAnalysis(data_parallel,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 crossover <- runMetaAnalysis(data_crossover,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -715,19 +722,19 @@ crossover <- runMetaAnalysis(data_crossover,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 expanded <- runMetaAnalysis(data_expanded,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -735,19 +742,19 @@ expanded <- runMetaAnalysis(data_expanded,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 outliers <- runMetaAnalysis(data_outliers,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -755,19 +762,19 @@ outliers <- runMetaAnalysis(data_outliers,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
-fixed <- runMetaAnalysis(data_main, # using pre-filtered data for now
+fixed <- runMetaAnalysis(data_main, 
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
   method.tau = "FE", # fixed effects
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = FALSE, # set to false for FE
+  method.tau.ci = "Q-Profile", 
+  hakn = FALSE, 
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -775,19 +782,19 @@ fixed <- runMetaAnalysis(data_main, # using pre-filtered data for now
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "study_time_point",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 g10 <- runMetaAnalysis(data_g10,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -795,19 +802,19 @@ g10 <- runMetaAnalysis(data_g10,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 clinician <- runMetaAnalysis(data_clinician,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -815,19 +822,19 @@ clinician <- runMetaAnalysis(data_clinician,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 selfreport <- runMetaAnalysis(data_selfreport,
 
-  # specify statistical parameters
+  # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  method.tau = "REML", 
+  method.tau.ci = "Q-Profile", 
+  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # specify variables in data_es
+  # Specify variables 
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -835,13 +842,13 @@ selfreport <- runMetaAnalysis(data_selfreport,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2 
 )
 
 ```
 
 ```{r create subgroup and sensitivity analysis summary table, include=FALSE}
-# Helper to parse CI from string to numeric
+# Helper function to parse CI from string to numeric
 parse_ci <- function(ci_string) {
   nums <- str_extract_all(ci_string, "-?\\d+\\.?\\d*")[[1]]
   as.numeric(nums)
@@ -1065,6 +1072,8 @@ We first analyze response rates, defined as the proportion of participants achie
 
 ```{r response model, message=FALSE}
 
+# Get response data
+
 data_response <- data %>%
   filterPoolingData(
     primary_instrument == "1",
@@ -1076,6 +1085,8 @@ data_response <- data %>%
   )
 data_response <- data_response[order(data_response$year), ]
 
+# Run meta-analysis
+
 response_results <- runMetaAnalysis(data_response,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -1085,7 +1096,7 @@ response_results <- runMetaAnalysis(data_response,
   method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1095,6 +1106,8 @@ response_results <- runMetaAnalysis(data_response,
   time.var = "time_weeks",
   round.digits = 2
 )
+
+# Create simple forest plot of response results
 
 meta::forest(
   response_results$model.overall,
@@ -1110,6 +1123,8 @@ We also analyze remission rates, defined as the proportion of participants achie
 
 ```{r remission model, message=FALSE}
 
+# Get remission data
+
 data_remission <- data %>%
   filterPoolingData(
     primary_instrument == "1",
@@ -1121,6 +1136,8 @@ data_remission <- data %>%
   )
 data_remission <- data_remission[order(data_remission$year), ]
 
+# Run meta-analysis
+
 remission_results <- runMetaAnalysis(data_remission,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -1130,7 +1147,7 @@ remission_results <- runMetaAnalysis(data_remission,
   method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1140,6 +1157,8 @@ remission_results <- runMetaAnalysis(data_remission,
   time.var = "time_weeks",
   round.digits = 2
 )
+
+# Create simple forest plot of remission results
 
 meta::forest(
   remission_results$model.overall,
@@ -1256,7 +1275,9 @@ dev.off()
 As a sensitivity analysis, we also run a fixed-effects meta-analysis on the response and remission results.
 
 ```{r runmetaAnalysis on fixed response results, message=FALSE, warning=FALSE}
-#run fixed meta-analysis on response results
+
+# Run fixed meta-analysis
+
 fixed_response_results <- runMetaAnalysis(data_response,
   which.run = "overall",
   es.measure = "RR", # risk ratio
@@ -1266,7 +1287,7 @@ fixed_response_results <- runMetaAnalysis(data_response,
   method.random.ci = "HK",
   hakn = FALSE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -1280,7 +1301,8 @@ fixed_response_results
 ```
 
 ```{r runmetaAnalysis on fixed remission results, message=FALSE, warning=FALSE}
-#run fixed meta-analysis on remission results
+
+#Run fixed meta-analysis
 
 fixed_remission_results <- runMetaAnalysis(data_remission,
   which.run = "overall",
@@ -1291,7 +1313,7 @@ fixed_remission_results <- runMetaAnalysis(data_remission,
   method.random.ci = "HK",
   hakn = FALSE, # Knapp-Hartung adjustement
 
-  # specify variables in data_dichotomous
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
