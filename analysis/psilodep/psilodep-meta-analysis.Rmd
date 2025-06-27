@@ -619,7 +619,7 @@ main <- runMetaAnalysis(data_main,
 
   # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  es.measure = "g", # Hedges' g
   method.tau = "REML",
   method.tau.ci = "Q-Profile", 
   hakn = TRUE, # Knapp-Hartung adjustment
