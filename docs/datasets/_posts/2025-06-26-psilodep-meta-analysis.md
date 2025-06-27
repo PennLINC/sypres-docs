@@ -39,25 +39,20 @@ biases.
 
 ## Methods
 
-### Statistical Approach for Primary Meta-Analysis
+### Key statistical specifications:
 
-For our primary meta-analysis, we employ random-effects meta-analysis
-using the Restricted Maximum Likelihood (REML) estimator for
-between-study variance. For continuous outcomes, we calculate Hedges’ g
-(standardized mean difference) as the effect size measure. For
-dichotomous outcomes, we use log risk ratios (RR).
-
-**Key statistical specifications:** - **Effect size**: Hedges’ g for
-continuous outcomes, log RR for dichotomous outcomes - **Heterogeneity
-estimator**: REML for random-effects models - **Confidence intervals**:
-Q-Profile method for heterogeneity, Knapp-Hartung adjustment for effect
-sizes - **Significance testing**: Knapp-Hartung adjustment for small
-sample sizes
+-   **Effect size**: Hedges’ g for continuous outcomes, log RR for
+    dichotomous outcomes
+-   **Heterogeneity estimator**: REML for random-effects models
+-   **Confidence intervals**: Q-Profile method for heterogeneity,
+    Knapp-Hartung adjustment for effect sizes
+-   **Significance testing**: Knapp-Hartung adjustment for small sample
+    sizes
 
 ### Quality Assessment
 
 We conduct sensitivity analyses excluding studies with high risk of bias
-evaluated using the Cochrane Risk of Bias tool Publication bias is
+evaluated using the Cochrane Risk of Bias tool. Publication bias is
 evaluated using funnel plots and Egger’s test.
 
 ### Load Required Packages
@@ -92,8 +87,8 @@ quality checks to ensure data integrity and identify potential issues.
 
 ``` r
 # Load data
-#data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
+data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
+#data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
 # after release we will replace this with metapsyData load function
 
 # Check data format with checkDataFormat
@@ -163,10 +158,10 @@ main_results <- runMetaAnalysis(data_main,
   which.outliers = "overall",
 
   # Specify statistical parameters
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
-  method.tau = "REML", # default, but still including for clarity
-  method.tau.ci = "Q-Profile", # not sure if this will work!
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile",
+  hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
   study.var = "study",
@@ -176,7 +171,7 @@ main_results <- runMetaAnalysis(data_main,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 # can change to change number of digits to round the presented results to
+  round.digits = 2
 )
 
 summary(main_results$model.overall)
@@ -197,9 +192,9 @@ summary(main_results$model.overall)
     ## 
     ##                                 g             95%-CI     t p-value
     ## Random effects model (HK) -0.9205 [-1.2987; -0.5423] -5.61  0.0005
-    ## Prediction interval               [-1.5967; -0.2442]              
+    ## Prediction interval               [-1.6139; -0.2270]              
     ## 
-    ## Quantifying heterogeneity (with 95%-CIs):
+    ## Quantifying heterogeneity:
     ##  tau^2 = 0.0674 [0.0000; 1.2489]; tau = 0.2596 [0.0000; 1.1175]
     ##  I^2 = 51.5% [0.0%; 77.3%]; H = 1.44 [1.00; 2.10]
     ## 
@@ -207,13 +202,12 @@ summary(main_results$model.overall)
     ##      Q d.f. p-value
     ##  16.50    8  0.0358
     ## 
-    ## Details of meta-analysis methods:
+    ## Details on meta-analytical method:
     ## - Inverse variance method
     ## - Restricted maximum-likelihood estimator for tau^2
     ## - Q-Profile method for confidence interval of tau^2 and tau
-    ## - Calculation of I^2 based on Q
     ## - Hartung-Knapp adjustment for random effects model (df = 8)
-    ## - Prediction interval based on t-distribution (df = 8)
+    ## - Prediction interval based on t-distribution (df = 7)
 
 ``` r
 # Create simple forest plot of results
@@ -243,8 +237,8 @@ statistical (Egger’s test) methods.
 eggers.test(main_results$model.overall)
 ```
 
-    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 9 studies. Egger's test
-    ## may lack the statistical power to detect bias when the number of studies is small (i.e., k<10).
+    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 9 studies. Egger's test may lack the
+    ## statistical power to detect bias when the number of studies is small (i.e., k<10).
 
     ## Eggers' test of the intercept 
     ## ============================= 
@@ -311,10 +305,10 @@ time_results <- runMetaAnalysis(data_time,
 
   which.run = "threelevel.che",
   # Specify statistical parameters
-  es.measure = "g", # uses .g column in data and .g_se, referring to Hedges' g
+  es.measure = "g", # Hedges' g
   method.tau = "REML", 
   method.tau.ci = "Q-Profile", 
-  hakn = TRUE, # Knapp-Hartung effect size significance tests used
+  hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
   study.var = "study",
@@ -394,7 +388,7 @@ dev.off()
 ```
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_02.png) Adding time since final
-dose as a continouus predictor to our model reveals a large and
+dose as a continuous predictor to our model reveals a large and
 significant effect-size favoring psilocybin immediately following dosing
 that was stable over time.
 
@@ -416,94 +410,32 @@ Expanded inclusion criteria - Clinician-rated vs. self-report outcomes -
 Exclusion of outlier studies - Fixed-effects model
 
 ``` r
-# Build a dataframe that has each subgroup and sensitivity analysis in it
+# Build a dataframe for each subgroup and sensitivity analysis
 
-data_main <- data %>%
+data_dep <- data_main %>%
   filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021")
-    ) %>%
-    mutate(multi_arm2 = "main")
-
-data_dep <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021"),
     diagnosis == "dep" | diagnosis == "trd"
-    ) %>%
-    mutate(multi_arm2 = "dep")
+    )
 
-data_excwl <- data %>%
+data_excwl <- data_main %>%
   filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021"),
-    outcome_type == "msd" | outcome_type == "imsd",
     !Detect(condition_arm2, "wl"),
-  ) %>%
-  mutate(multi_arm2 = "excwl")
+  )
 
-data_rob <- data %>%
+data_rob <- data_main %>%
   filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021"),
-    outcome_type == "msd" | outcome_type == "imsd",
     !Detect(rob, "High"),
-  ) %>%
-  mutate(multi_arm2 = "rob")
+  )
 
-data_parallel <- data %>%
+data_parallel <- data_main %>%
   filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    outcome_type == "msd" | outcome_type == "imsd",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021"),
     design == "parallel"
-  ) %>%
-  mutate(multi_arm2 = "parallel")
+  )
 
-data_crossover <- data %>%
+data_crossover <- data_main %>%
   filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    outcome_type == "msd" | outcome_type == "imsd",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021"),
     design == "crossover"
-  ) %>%
-  mutate(multi_arm2 = "crossover")
+  )
 
 data_expanded <- data %>%
   filterPoolingData(
@@ -514,17 +446,14 @@ data_expanded <- data %>%
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
     !(Detect(study, "Krempien 2023") & (!is.na(multi_arm1)) & Detect(multi_arm1, "12 mg")),
     !(Detect(study, "Krempien 2023") & (!is.na(multi_arm2)) & Detect(multi_arm2, "12 mg"))
-    ) %>%
-    mutate(multi_arm2 = "expanded")
+    )
 
 data_outliers <- data_main %>%
   filterPoolingData(
     !Detect(study, "Davis 2021")
-    ) %>%
-    mutate(multi_arm2 = "outliers")
+    )
 
-data_fixed <- data_main %>%
-    mutate(multi_arm2 = "fixed")
+data_fixed <- data_main
 
 data_g10 <- data %>%
   filterPoolingData(
@@ -536,8 +465,7 @@ data_g10 <- data %>%
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "25 mg")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021")
-    )  %>%
-    mutate(multi_arm2 = "g10")
+    )
 
 data_clinician <- data %>%
   filterPoolingData(
@@ -553,7 +481,6 @@ data_clinician <- data %>%
     outcome_type != "remission",
     outcome_type != "change"
   ) %>%
-  mutate(multi_arm2 = "clincian") %>%
   filterPriorityRule(instrument = c("madrs", "grid-ham-d"))
 
 data_selfreport <- data %>%
@@ -570,21 +497,22 @@ data_selfreport <- data %>%
     outcome_type != "remission",
     outcome_type != "change" & outcome_type != "unknown"
   ) %>%
-  mutate(multi_arm2 = "self-report") %>%
   filterPriorityRule(instrument = c("bdi", "qids-sr", "hads-d", "smdds", "hads"))
 ```
 
 ``` r
+# Run the main "overall" model for comparison
+
 main <- runMetaAnalysis(data_main,
 
   # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
-  es.measure = "g", # uses .g column in data_es and .g_se, referring to Hedges' g
+  es.measure = "g", # Hedges' g
   method.tau = "REML", 
   method.tau.ci = "Q-Profile", 
   hakn = TRUE, # Knapp-Hartung adjustment
 
-  # Specify variables in data_es
+  # Specify variables
   study.var = "study",
   arm.var.1 = "condition_arm1",
   arm.var.2 = "condition_arm2",
@@ -595,16 +523,16 @@ main <- runMetaAnalysis(data_main,
   round.digits = 2 
 )
 
-# Use metapsyTools replacement and rerun functions for quickly repeating the same analysis with the same parameters
+# Use metapsyTools' replacement and rerun functions for quickly changing parameters
 
-dep <- main # copy the model to a new name
+dep <- main # copy the main model
 data(dep) <- data_dep # replace the dataframe in the new model
 rerun(dep) # re-run the model
 ```
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
-    ##  -1 [-1.62; -0.39] 0.009  60.4 [2.88; 83.84] [-2.09; 0.09]  2.75
+    ##  -1 [-1.62; -0.39] 0.009  60.4 [2.88; 83.84] [-2.18; 0.18]  2.75
 
 ``` r
 excwl <- main
@@ -614,7 +542,7 @@ rerun(excwl)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci          p         i2 i2.ci      prediction.ci    nnt
-    ## .84 [-1.1; -0.58] <0.001  12.6 [0; 74.49] [-1.11; -0.57]  3.35
+    ## .84 [-1.1; -0.58] <0.001  12.6 [0; 74.49] [-1.13; -0.55]  3.35
 
 ``` r
 rob <- main
@@ -624,7 +552,7 @@ rerun(rob)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci      prediction.ci    nnt
-    ## .94 [-1.44; -0.43] 0.004  56.3 [0; 81.21] [-1.81; -0.06]  2.96
+    ## .94 [-1.44; -0.43] 0.004  56.3 [0; 81.21] [-1.86; -0.02]  2.96
 
 ``` r
 parallel <- main
@@ -634,7 +562,7 @@ rerun(parallel)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci      prediction.ci    nnt
-    ## .79 [-1.11; -0.46] 0.003  14.3 [0; 82.17] [-1.09; -0.49]   3.6
+    ## .79 [-1.11; -0.46] 0.003  14.3 [0; 82.17] [-1.13; -0.44]   3.6
 
 ``` r
 crossover <- main
@@ -644,11 +572,9 @@ rerun(crossover)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci         p        i2 i2.ci          prediction.ci   nnt
-    ## .19 [-2.5; 0.12] 0.062  69.3 [11.47; 89.36] [-3.64; 1.25]  2.28
+    ## .19 [-2.5; 0.12] 0.062  69.3 [11.47; 89.36] [-4.5; 2.11]   2.28
 
 ``` r
-### SENSITIVITY
-
 expanded <- main
 data(expanded) <- data_expanded
 rerun(expanded)
@@ -656,7 +582,7 @@ rerun(expanded)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci         prediction.ci    nnt
-    ## .89 [-1.24; -0.55] <0.001  53.7 [10.99; 75.9] [-1.64; -0.15]  3.12
+    ## .89 [-1.24; -0.55] <0.001  53.7 [10.99; 75.9] [-1.65; -0.14]  3.12
 
 ``` r
 outliers <- main
@@ -666,7 +592,7 @@ rerun(outliers)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## .81 [-1.05; -0.58] <0.001   8.6 [0; 70.37] [-1.04; -0.59]  3.46
+    ## .81 [-1.05; -0.58] <0.001   8.6 [0; 70.37] [-1.05; -0.58]  3.46
 
 ``` r
 fixed <- main
@@ -676,8 +602,8 @@ rerun(fixed)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci   nnt
-    ## .86 [-1.05; -0.68] <0.001  51.5 [0; 77.28] [-1.6; -0.24]  3.25
+    ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
+    ## .86 [-1.05; -0.68] <0.001  51.5 [0; 77.28] [-1.61; -0.23]  3.25
 
 ``` r
 g10 <- main
@@ -687,7 +613,7 @@ rerun(g10)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci          prediction.ci   nnt
-    ## .89 [-1.36; -0.42] 0.003  72.2 [45.47; 85.87] [-2.06; 0.28]  3.13
+    ## .89 [-1.36; -0.42] 0.003  72.2 [45.47; 85.87] [-2.09; 0.31]  3.13
 
 ``` r
 clinician <- main
@@ -697,7 +623,7 @@ rerun(clinician)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
-    ## .02 [-1.51; -0.54] 0.002  57.6 [1.73; 81.67] [-1.9; -0.14]  2.69
+    ## .02 [-1.51; -0.54] 0.002  57.6 [1.73; 81.67] [-1.95; -0.1]  2.69
 
 ``` r
 selfreport <- main
@@ -707,16 +633,16 @@ rerun(selfreport)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
-    ## .11 [-2.58; 0.35] 0.102  78.1 [47.31; 90.87] [-4.24; 2.01]  2.45
+    ## .11 [-2.58; 0.35] 0.102  78.1 [47.31; 90.87] [-4.7; 2.47]   2.45
 
-Here’s our summary figure! ![](/analysis/psilodep/paperfigs/Fig_03.png)
-Our series of subgroup and sensitivity analyses produced results largely
-in line with our main model results. Hedges’ g values did not differ
-greatly from the main model, and 10/12 of the subgroup and sensitivity
-analyses produced significant results. Heterogeneity changes
-substantially when excluding open-label studies, excluding crossover
-studies, analyzing crossover studies on their own, and looking
-exclusively at self-report outcomes.
+We summarize these subgroup and sensitivity analyses in **Figure 3**
+below. ![](/analysis/psilodep/paperfigs/Fig_03.png) Our series of
+subgroup and sensitivity analyses produced results largely in line with
+our main model results. Hedges’ g values did not differ greatly from the
+main model, and 10/12 of the subgroup and sensitivity analyses produced
+significant results. Heterogeneity changes substantially when excluding
+open-label studies, excluding crossover studies, analyzing crossover
+studies on their own, and looking exclusively at self-report outcomes.
 
 ### Dichotomous Outcomes Analysis
 
@@ -842,38 +768,26 @@ As a sensitivity analysis, we also run a fixed-effects meta-analysis on
 the response and remission results.
 
 ``` r
-# Run fixed meta-analysis
-
-fixed_response_results <- runMetaAnalysis(data_response,
-  which.run = "overall",
-  es.measure = "RR", # risk ratio
-  es.type = "raw",
-  method.tau = "FE",
-  method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
-  hakn = FALSE, # Knapp-Hartung adjustement
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "study_time_point",
-  round.digits = 2
-)
-fixed_response_results
+# Fixed response
+method.tau(response_results) <- "FE"
+hakn(response_results) <- FALSE
+rerun(response_results)
 ```
 
     ## Model results ------------------------------------------------ 
     ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
-    ## 2.8 [2.05; 3.83] <0.001     0 [0; 79.2] [1.78; 4.3]    2.81
+    ## 2.8 [2.05; 3.83] <0.001     0 [0; 79.2] [1.67; 4.58]   2.81
 
-Using a fixed-effects model to run a meta-analysis on response outcomes
-yielded results that were in line with the main model, showing
-statistically significant greater treatment response with psilocybin
-compared to control conditions.
+``` r
+# Fixed remission
+method.tau(remission_results) <- "FE"
+hakn(remission_results) <- FALSE
+rerun(remission_results)
+```
+
+    ## Model results ------------------------------------------------ 
+    ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
+    ## .13 [2.66; 6.42] <0.001     0 [0; 79.2] [2.02; 8.44]      3
 
 ``` r
 #Run fixed meta-analysis
@@ -902,12 +816,11 @@ fixed_remission_results
 
     ## Model results ------------------------------------------------ 
     ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
-    ## .13 [2.66; 6.42] <0.001     0 [0; 79.2] [2.22; 7.71]      3
+    ## .13 [2.66; 6.42] <0.001     0 [0; 79.2] [2.02; 8.44]      3
 
-Using a fixed-effects model to run a meta-analysis on remission outcomes
-yielded results that were in line with the main model, showing
-statistically significant higher remission rate with psilocybin compared
-to control conditions.
+Our fixed effects models yielded results that were in line with the main
+model, showing statistically significant higher response and remission
+rates with psilocybin compared to control conditions.
 
 ### Summary and Conclusions
 

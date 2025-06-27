@@ -126,7 +126,7 @@ Commit and push the updated file to keep everyone in sync.
 ### 7. kniting the Rmd for the website
 ```
 rmarkdown::render(
-  input = "/Users/sps253/Documents/GIT/sypres-docs/analysis/psilodep/psilodep-meta-analysis.Rmd",
-  output_file = "/Users/sps253/Documents/GIT/sypres-docs/docs/datasets/_posts/2025-06-26-psilodep-meta-analysis.md"
+  input = file.path(basedir,"analysis/psilodep/psilodep-meta-analysis.Rmd"),
+  output_file = file.path(basedir,"docs/datasets/_posts/2025-06-26-psilodep-meta-analysis.md")
 )
 ```
