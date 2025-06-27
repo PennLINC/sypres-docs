@@ -148,7 +148,7 @@ main_results <- runMetaAnalysis(data_main,
   which.outliers = "overall",
 
   # Specify statistical parameters
-  es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
+  es.measure = "g", # Hedges' g
   method.tau = "REML",
   method.tau.ci = "Q-Profile",
   hakn = TRUE, # Knapp-Hartung adjustment
