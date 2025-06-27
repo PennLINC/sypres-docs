@@ -248,7 +248,7 @@ time_results <- runMetaAnalysis(data_time,
 
   which.run = "threelevel.che",
   # Specify statistical parameters
-  es.measure = "g", # uses .g column in data and .g_se, referring to Hedges' g
+  es.measure = "g", # Hedges' g
   method.tau = "REML", 
   method.tau.ci = "Q-Profile", 
   hakn = TRUE, # Knapp-Hartung effect size significance tests used
