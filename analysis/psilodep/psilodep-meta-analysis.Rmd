@@ -151,7 +151,7 @@ main_results <- runMetaAnalysis(data_main,
   es.measure = "g", # uses .g column in data_es and .g_se (Hedges' g/bias-corrected SMD)
   method.tau = "REML",
   method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung effect size significance tests be used
+  hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
   study.var = "study",
