@@ -251,7 +251,7 @@ time_results <- runMetaAnalysis(data_time,
   es.measure = "g", # Hedges' g
   method.tau = "REML", 
   method.tau.ci = "Q-Profile", 
-  hakn = TRUE, # Knapp-Hartung effect size significance tests used
+  hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
   study.var = "study",
