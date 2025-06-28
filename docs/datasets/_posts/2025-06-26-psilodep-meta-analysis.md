@@ -14,7 +14,18 @@ includes both continuous (depression symptom severity scores) and
 dichotomous (response/remission rates) outcomes, along with extensive
 subgroup and sensitivity analyses.
 
-Full source code is available
+Our database for this analysis can be accessed through the R package
+`metapsyData`. It can also be downloaded directly as a CSV file
+[here](https://github.com/metapsy-project/data-depression-psiloctr/blob/master/data.csv).
+Documentation on `metapsyData` is available
+[here](https://data.metapsy.org).
+
+The code for this analysis is available in the R package `metapsyTools`.
+Documentation on `metapsyTools` is available
+[here](https://tools.metapsy.org).
+
+This walk-through has some code chunks hidden for clarity. Full source
+code for this analysis is available
 [here](https://github.com/pennlinc/sypres-docs/blob/main/analysis/psilodep/psilodep-meta-analysis.Rmd).
 
 ## Overview
@@ -88,7 +99,7 @@ quality checks to ensure data integrity and identify potential issues.
 ``` r
 # Load data
 data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-#data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
+# data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
 # after release we will replace this with metapsyData load function
 
 # Check data format with checkDataFormat
@@ -122,7 +133,7 @@ data_main <- data %>%
   filterPoolingData(
     primary_instrument == "1",
     primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
     outcome_type == "msd" | outcome_type == "imsd",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
@@ -249,23 +260,23 @@ eggers.test(main_results$model.overall)
     ## Eggers' test does not indicate the presence of funnel plot asymmetry.
 
 ``` r
-png(filename = file.path(basedir,"analysis/psilodep/paperfigs/SI_Fig_01.png"), res=315, width=2500, height=1500)
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
 funnel(main_results$model.overall,
-       studlab = TRUE, #can also use vector with study labels
-       cex.studlab = 0.7, #adjust size of study labels
-       cex = 0.7,         #axis tick labels and point size
-       cex.axis = 0.7,    #axis number label size
-       cex.lab = 0.7,     #axis title (xlab, ylab) size
-       cex.main = 0.95,    #main title size
-       xlim = c(-3,0.2),
-       col = "steelblue",
-       pch = 19, #bold solid circle
-       bg = "white",
-       xlab = "Standardized Mean Difference (SMD)",
-       ylab = "Standard Error (SE)",
-       main = "Funnel Plot of Main Model Continuous Outcomes",
-       las = 1
-       )
+  studlab = TRUE, # can also use vector with study labels
+  cex.studlab = 0.7, # adjust size of study labels
+  cex = 0.7, # axis tick labels and point size
+  cex.axis = 0.7, # axis number label size
+  cex.lab = 0.7, # axis title (xlab, ylab) size
+  cex.main = 0.95, # main title size
+  xlim = c(-3, 0.2),
+  col = "steelblue",
+  pch = 19, # bold solid circle
+  bg = "white",
+  xlab = "Standardized Mean Difference (SMD)",
+  ylab = "Standard Error (SE)",
+  main = "Funnel Plot of Main Model Continuous Outcomes",
+  las = 1
+)
 dev.off()
 ```
 
@@ -302,12 +313,11 @@ data_time <- data %>%
 # Run meta-analysis
 
 time_results <- runMetaAnalysis(data_time,
-
   which.run = "threelevel.che",
   # Specify statistical parameters
   es.measure = "g", # Hedges' g
-  method.tau = "REML", 
-  method.tau.ci = "Q-Profile", 
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile",
   hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
@@ -318,7 +328,7 @@ time_results <- runMetaAnalysis(data_time,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_days",
-  round.digits = 2 
+  round.digits = 2
 )
 
 time_results$model.threelevel.che
@@ -353,7 +363,7 @@ We perform meta-regression to examine the relationship between time
 since final dose and treatment effect.
 
 ``` r
-reg <- metaRegression(time_results$model.threelevel.che, ~ time_days)
+reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
 reg
 ```
 
@@ -382,8 +392,8 @@ reg
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ``` r
-png(filename = file.path(basedir,"analysis/psilodep/paperfigs/SI_Fig_02.png"), res=315, width=3000, height=2200)
-regplot(reg, mod="time_days", xlab="Time since final dose (days)", ylab="Hedges' g")
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_02.png"), res = 315, width = 3000, height = 2200)
+regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
@@ -415,7 +425,7 @@ Exclusion of outlier studies - Fixed-effects model
 data_dep <- data_main %>%
   filterPoolingData(
     diagnosis == "dep" | diagnosis == "trd"
-    )
+  )
 
 data_excwl <- data_main %>%
   filterPoolingData(
@@ -446,12 +456,12 @@ data_expanded <- data %>%
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
     !(Detect(study, "Krempien 2023") & (!is.na(multi_arm1)) & Detect(multi_arm1, "12 mg")),
     !(Detect(study, "Krempien 2023") & (!is.na(multi_arm2)) & Detect(multi_arm2, "12 mg"))
-    )
+  )
 
 data_outliers <- data_main %>%
   filterPoolingData(
     !Detect(study, "Davis 2021")
-    )
+  )
 
 data_fixed <- data_main
 
@@ -459,18 +469,18 @@ data_g10 <- data %>%
   filterPoolingData(
     primary_instrument == "1",
     primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
     outcome_type == "msd" | outcome_type == "imsd",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "25 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "25 mg")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021")
-    )
+  )
 
 data_clinician <- data %>%
   filterPoolingData(
     primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
     !Detect(study, "Krempien 2023"),
@@ -486,7 +496,7 @@ data_clinician <- data %>%
 data_selfreport <- data %>%
   filterPoolingData(
     primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover,"1"),
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
     !Detect(study, "Krempien 2023"),
@@ -511,8 +521,8 @@ main <- runMetaAnalysis(data_main,
   # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
   es.measure = "g", # Hedges' g
-  method.tau = "REML", 
-  method.tau.ci = "Q-Profile", 
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile",
   hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
@@ -523,7 +533,7 @@ main <- runMetaAnalysis(data_main,
   w1.var = "n_arm1",
   w2.var = "n_arm2",
   time.var = "time_weeks",
-  round.digits = 2 
+  round.digits = 2
 )
 
 # Use metapsyTools' replacement and rerun functions for quickly changing parameters
@@ -703,7 +713,8 @@ meta::forest(
   sortvar = response_results$model.overall$data$year,
   xlab = "Log RR (95% CI)",
   leftlabs = c("Study", "Log RR"),
-  layout = "JAMA")
+  layout = "JAMA"
+)
 ```
 
 ![](/analysis/psilodep/knitfigs/response%20model-1.png)
@@ -756,10 +767,11 @@ remission_results <- runMetaAnalysis(data_remission,
 
 meta::forest(
   remission_results$model.overall,
-  sortvar=remission_results$model.overall$data$year,
+  sortvar = remission_results$model.overall$data$year,
   xlab = "Log RR (95% CI)",
   leftlabs = c("Study", "Log RR"),
-  layout = "JAMA")
+  layout = "JAMA"
+)
 ```
 
 ![](/analysis/psilodep/knitfigs/remission%20model-1.png)
