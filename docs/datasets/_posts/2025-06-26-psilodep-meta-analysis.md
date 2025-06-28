@@ -383,7 +383,7 @@ reg
 
 ``` r
 png(filename = file.path(basedir,"analysis/psilodep/paperfigs/SI_Fig_02.png"), res=315, width=3000, height=2200)
-regplot(reg, mod="time_days", xlab="Time since final dose (days)")
+regplot(reg, mod="time_days", xlab="Time since final dose (days)", ylab="Hedges' g")
 dev.off()
 ```
 
