@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Meta-analysis on Psilocybin for Depression"
+title: "Reproducibility Guide: Meta-analysis on Psilocybin for Depression"
 output:
   md_document:
     variant: markdown_github
