@@ -49,7 +49,7 @@ Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
 basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
-# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
+#basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -88,7 +88,7 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data
 data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-# data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
+#data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
 # after release we will replace this with metapsyData load function
 
 # Check data format with checkDataFormat
@@ -917,6 +917,34 @@ We summarize these subgroup and sensitivity analyses in **Figure 3** below.
 Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
 Hedges' g values did not differ greatly from the main model, and 10/12 of the subgroup and sensitivity analyses produced significant results.
 Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
+
+
+```{r eggertest - expanded model, include=FALSE}
+# Run Egger's test
+
+eggers.test(expanded$model.overall)
+```
+
+```{r funnelplot - expanded model, message=FALSE, results='hide', include=FALSE}
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_05.png"), res = 315, width = 2500, height = 1500)
+funnel(expanded$model.overall,
+  studlab = TRUE, # can also use vector with study labels
+  cex.studlab = 0.7, # adjust size of study labels
+  cex = 0.7, # axis tick labels and point size
+  cex.axis = 0.7, # axis number label size
+  cex.lab = 0.7, # axis title (xlab, ylab) size
+  cex.main = 0.95, # main title size
+  xlim = c(-3, 0.2),
+  col = "steelblue",
+  pch = 19, # bold solid circle
+  bg = "white",
+  xlab = "Standardized Mean Difference (SMD)",
+  ylab = "Standard Error (SE)",
+  main = "Funnel Plot of Expanded Model Continuous Outcomes",
+  las = 1
+)
+dev.off()
+```
 
 
 ### Dichotomous Outcomes Analysis
