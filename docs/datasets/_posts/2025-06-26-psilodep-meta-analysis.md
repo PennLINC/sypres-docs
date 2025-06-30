@@ -20,8 +20,8 @@ Our database for this analysis can be accessed through the R package
 Documentation on `metapsyData` is available
 [here](https://data.metapsy.org).
 
-The code for this analysis is available in the R package `metapsyTools`.
-Documentation on `metapsyTools` is available
+The meta-analytic portion of this script primarily uses the R package
+`metapsyTools`. Documentation on `metapsyTools` is available
 [here](https://tools.metapsy.org).
 
 This walk-through has some code chunks hidden for clarity. Full source
