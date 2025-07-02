@@ -48,8 +48,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
-# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
+#basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
+basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -87,8 +87,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data
-data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-# data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
+#data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
+data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
 # after release we will replace this with metapsyData load function
 
 # Check data format with checkDataFormat
@@ -743,7 +743,7 @@ full_subgroup_summary <- bind_rows(
   extract_subgroup_summary(dep, "Depression as primary diagnosis"),
   extract_subgroup_summary(parallel, "Parallel design"),
   extract_subgroup_summary(crossover, "Crossover design"),
-  extract_subgroup_summary(excwl, "Exclude open-label"),
+  extract_subgroup_summary(excwl, "Exclude open-label waitlist control"),
   extract_subgroup_summary(rob, "Exclude high RoB"),
   # sensitivity
   extract_subgroup_summary(g10, "Alternate dosing in Goodwin et al"),
@@ -776,7 +776,7 @@ library(webshot2)
 desired_order <- c(
   "Main model",
   "Depression as primary diagnosis",
-  "Exclude open-label",
+  "Exclude open-label waitlist control",
   "Exclude high RoB",
   "Parallel design",
   "Crossover design",
