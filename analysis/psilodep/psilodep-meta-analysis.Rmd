@@ -177,6 +177,29 @@ meta::forest(
 
 The primary meta-analysis on continuous outcomes in the 9 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
+```{r main continuous forest plot for indesign, include=FALSE}
+
+png(filename = file.path(basedir,"analysis/psilodep/paperfigs/continuous_forest_plot_meta.png"), res=315, width=4500, height=1500)
+
+meta::forest(main_results$model.overall,
+             sortvar = main_results$model.overall$data$year,
+             leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
+             leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+             fontsize = 9,
+             col.square = "#000080",
+             col.diamond = "#000080",
+             col.predict = "gray",
+             fontfamily = "Arial",
+             colgap.forest = "2cm",
+             xlim = c(-4.5, 1.5),
+             label.left = "Favors intervention",
+             label.right = "Favors control",
+             smlab = "SMD")
+
+dev.off()
+
+```
+
 
 ### Publication Bias Assessment
 
@@ -917,6 +940,60 @@ We summarize these subgroup and sensitivity analyses in **Figure 3** below.
 Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
 Hedges' g values did not differ greatly from the main model, and 10/12 of the subgroup and sensitivity analyses produced significant results.
 Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
+
+
+```{r expanded model continuous forest plot for indesign, include=FALSE}
+
+png(filename = file.path(basedir,"analysis/psilodep/paperfigs/expanded_forest_plot_meta.png"), res=315, width=4500, height=1500)
+
+meta::forest(expanded$model.overall,
+             sortvar = expanded$model.overall$data$year,
+             leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
+             leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+             fontsize = 9,
+             col.square = "#000080",
+             col.diamond = "#000080",
+             col.predict = "gray",
+             fontfamily = "Arial",
+             colgap.forest = "2cm",
+             xlim = c(-4.5, 1.5),
+             label.left = "Favors intervention",
+             label.right = "Favors control",
+             smlab = "SMD")
+
+dev.off()
+
+```
+
+
+
+
+```{r eggertest - expanded model, include=FALSE}
+# Run Egger's test
+
+eggers.test(expanded$model.overall)
+```
+
+```{r funnelplot - expanded model, message=FALSE, results='hide', include=FALSE}
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_05.png"), res = 315, width = 2500, height = 1500)
+funnel(expanded$model.overall,
+  studlab = TRUE, # can also use vector with study labels
+  cex.studlab = 0.7, # adjust size of study labels
+  cex = 0.7, # axis tick labels and point size
+  cex.axis = 0.7, # axis number label size
+  cex.lab = 0.7, # axis title (xlab, ylab) size
+  cex.main = 0.95, # main title size
+  xlim = c(-3, 0.2),
+  col = "steelblue",
+  pch = 19, # bold solid circle
+  bg = "white",
+  xlab = "Standardized Mean Difference (SMD)",
+  ylab = "Standard Error (SE)",
+  main = "Funnel Plot of Expanded Model Continuous Outcomes",
+  las = 1
+)
+dev.off()
+```
 
 
 ### Dichotomous Outcomes Analysis
