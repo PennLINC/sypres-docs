@@ -189,29 +189,29 @@ summary(main_results$model.overall)
 ```
 
     ##                      g             95%-CI %W(random)
-    ## Back 2024      -1.4215 [-2.2271; -0.6160]        7.9
-    ## Davis 2021     -2.4807 [-3.5637; -1.3976]        5.0
-    ## Goodwin 2022   -0.6875 [-1.0085; -0.3665]       19.8
-    ## Griffiths 2016 -1.2731 [-1.8827; -0.6635]       11.4
-    ## Raison 2023    -0.8700 [-1.2941; -0.4459]       16.3
-    ## Rieser 2025    -0.3806 [-1.0314;  0.2701]       10.5
-    ## Rosenblat 2024 -0.4932 [-1.2218;  0.2355]        9.1
-    ## Ross 2016      -0.7940 [-1.5967;  0.0086]        7.9
+    ## Back 2024      -1.4215 [-2.2271; -0.6160]        8.8
+    ## Davis 2021     -2.4807 [-3.5637; -1.3976]        6.1
+    ## Goodwin 2022   -0.7092 [-1.0308; -0.3876]       16.7
+    ## Griffiths 2016 -1.2731 [-1.8827; -0.6635]       11.6
+    ## Raison 2023    -0.8700 [-1.2941; -0.4459]       14.8
+    ## Rieser 2025    -0.3806 [-1.0314;  0.2701]       11.0
+    ## Rosenblat 2024 -0.1417 [-0.8599;  0.5765]       10.0
+    ## Ross 2016      -0.7940 [-1.5967;  0.0086]        8.9
     ## vonRotz 2023   -0.9384 [-1.5120; -0.3648]       12.2
     ## 
     ## Number of studies: k = 9
     ## 
     ##                                 g             95%-CI     t p-value
-    ## Random effects model (HK) -0.9205 [-1.2987; -0.5423] -5.61  0.0005
-    ## Prediction interval               [-1.6139; -0.2270]              
+    ## Random effects model (HK) -0.9119 [-1.3482; -0.4757] -4.82  0.0013
+    ## Prediction interval               [-1.8568;  0.0329]              
     ## 
     ## Quantifying heterogeneity:
-    ##  tau^2 = 0.0674 [0.0000; 1.2489]; tau = 0.2596 [0.0000; 1.1175]
-    ##  I^2 = 51.5% [0.0%; 77.3%]; H = 1.44 [1.00; 2.10]
+    ##  tau^2 = 0.1330 [0.0133; 1.4755]; tau = 0.3647 [0.1153; 1.2147]
+    ##  I^2 = 58.1% [12.2%; 80.0%]; H = 1.54 [1.07; 2.23]
     ## 
     ## Test of heterogeneity:
     ##      Q d.f. p-value
-    ##  16.50    8  0.0358
+    ##  19.08    8  0.0144
     ## 
     ## Details on meta-analytical method:
     ## - Inverse variance method
@@ -254,8 +254,8 @@ eggers.test(main_results$model.overall)
     ## Eggers' test of the intercept 
     ## ============================= 
     ## 
-    ##  intercept       95% CI     t         p
-    ##     -2.024 -4.46 - 0.41 -1.63 0.1472072
+    ##  intercept       95% CI      t         p
+    ##     -1.728 -4.54 - 1.08 -1.206 0.2671489
     ## 
     ## Eggers' test does not indicate the presence of funnel plot asymmetry.
 
@@ -340,16 +340,16 @@ time_results$model.threelevel.che
     ## Variance Components:
     ## 
     ##             estim    sqrt  nlvls  fixed       factor 
-    ## sigma^2.1  0.1399  0.3740      9     no        study 
-    ## sigma^2.2  0.0378  0.1944     30     no  study/es.id 
+    ## sigma^2.1  0.1339  0.3659      9     no        study 
+    ## sigma^2.2  0.0422  0.2055     30     no  study/es.id 
     ## 
     ## Test for Heterogeneity:
-    ## Q(df = 29) = 78.0275, p-val < .0001
+    ## Q(df = 29) = 81.6241, p-val < .0001
     ## 
     ## Model Results:
     ## 
     ## estimate      se     tval  df    pval    ci.lb    ci.ub      
-    ##  -0.8993  0.1630  -5.5168  29  <.0001  -1.2327  -0.5659  *** 
+    ##  -0.8984  0.1614  -5.5664  29  <.0001  -1.2285  -0.5683  *** 
     ## 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -373,20 +373,20 @@ reg
     ## Variance Components:
     ## 
     ##             estim    sqrt  nlvls  fixed       factor 
-    ## sigma^2.1  0.1327  0.3642      9     no        study 
-    ## sigma^2.2  0.0399  0.1997     30     no  study/es.id 
+    ## sigma^2.1  0.1253  0.3540      9     no        study 
+    ## sigma^2.2  0.0445  0.2109     30     no  study/es.id 
     ## 
     ## Test for Residual Heterogeneity:
-    ## QE(df = 28) = 76.5481, p-val < .0001
+    ## QE(df = 28) = 79.8894, p-val < .0001
     ## 
     ## Test of Moderators (coefficient 2):
-    ## F(df1 = 1, df2 = 28) = 0.2603, p-val = 0.6139
+    ## F(df1 = 1, df2 = 28) = 0.3341, p-val = 0.5679
     ## 
     ## Model Results:
     ## 
     ##            estimate      se     tval  df    pval    ci.lb    ci.ub      
-    ## intrcpt     -0.9173  0.1660  -5.5266  28  <.0001  -1.2574  -0.5773  *** 
-    ## time_days    0.0008  0.0015   0.5102  28  0.6139  -0.0023   0.0039      
+    ## intrcpt     -0.9193  0.1642  -5.5971  28  <.0001  -1.2558  -0.5829  *** 
+    ## time_days    0.0009  0.0016   0.5780  28  0.5679  -0.0023   0.0041      
     ## 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -545,7 +545,7 @@ rerun(dep) # re-run the model
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
-    ##  -1 [-1.62; -0.39] 0.009  60.4 [2.88; 83.84] [-2.18; 0.18]  2.75
+    ## .99 [-1.72; -0.26] 0.018  67.1 [21.8; 86.19] [-2.6; 0.62]   2.78
 
 ``` r
 excwl <- main
@@ -554,8 +554,8 @@ rerun(excwl)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p         i2 i2.ci      prediction.ci    nnt
-    ## .84 [-1.1; -0.58] <0.001  12.6 [0; 74.49] [-1.13; -0.55]  3.35
+    ## Model       k     g g.ci          p         i2 i2.ci     prediction.ci   nnt
+    ## .84 [-1.1; -0.59] <0.001  9.56 [0; 73.6] [-1.1; -0.59]  3.32
 
 ``` r
 rob <- main
@@ -565,7 +565,7 @@ rerun(rob)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci      prediction.ci    nnt
-    ## .94 [-1.44; -0.43] 0.004  56.3 [0; 81.21] [-1.86; -0.02]  2.96
+    ## .94 [-1.43; -0.44] 0.004  55.5 [0; 80.91] [-1.82; -0.06]  2.96
 
 ``` r
 parallel <- main
@@ -575,7 +575,7 @@ rerun(parallel)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci      prediction.ci    nnt
-    ## .79 [-1.11; -0.46] 0.003  14.3 [0; 82.17] [-1.13; -0.44]   3.6
+    ## 0.8 [-1.12; -0.48] 0.002  11.4 [0; 81.58] [-1.14; -0.45]  3.55
 
 ``` r
 crossover <- main
@@ -585,7 +585,7 @@ rerun(crossover)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci         p        i2 i2.ci          prediction.ci   nnt
-    ## .19 [-2.5; 0.12] 0.062  69.3 [11.47; 89.36] [-4.5; 2.11]   2.28
+    ## .12 [-2.64; 0.4] 0.101  78.1 [40.85; 91.88] [-5.19; 2.96]  2.44
 
 ``` r
 expanded <- main
@@ -594,8 +594,8 @@ rerun(expanded)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci         prediction.ci    nnt
-    ## .89 [-1.24; -0.55] <0.001  53.7 [10.99; 75.9] [-1.65; -0.14]  3.12
+    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci   nnt
+    ## .89 [-1.27; -0.51] <0.001  58.0 [20.39; 77.88] [-1.81; 0.04]  3.15
 
 ``` r
 outliers <- main
@@ -605,7 +605,7 @@ rerun(outliers)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## .81 [-1.05; -0.58] <0.001   8.6 [0; 70.37] [-1.05; -0.58]  3.46
+    ## 0.8 [-1.08; -0.52] <0.001  30.4 [0; 68.96] [-1.13; -0.47]  3.53
 
 ``` r
 fixed <- main
@@ -615,8 +615,8 @@ rerun(fixed)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## .86 [-1.05; -0.68] <0.001  51.5 [0; 77.28] [-1.61; -0.23]  3.25
+    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci   nnt
+    ## .85 [-1.03; -0.66] <0.001  58.1 [12.18; 79.98] [-1.86; 0.03]  3.32
 
 ``` r
 g10 <- main
@@ -626,7 +626,7 @@ rerun(g10)
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci          prediction.ci   nnt
-    ## .89 [-1.36; -0.42] 0.003  72.2 [45.47; 85.87] [-2.09; 0.31]  3.13
+    ## .86 [-1.37; -0.36] 0.004  73.8 [48.99; 86.54] [-2.17; 0.44]  3.24
 
 ``` r
 clinician <- main
@@ -635,8 +635,8 @@ rerun(clinician)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
-    ## .02 [-1.51; -0.54] 0.002  57.6 [1.73; 81.67] [-1.95; -0.1]  2.69
+    ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
+    ## .02 [-1.6; -0.44] 0.005  64.5 [19.95; 84.25] [-2.28; 0.24]  2.71
 
 ``` r
 selfreport <- main
