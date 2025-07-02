@@ -1277,6 +1277,55 @@ fixed_remission_results
 
 Our fixed effects models yielded results that were in line with the main model, showing statistically significant higher response and remission rates with psilocybin compared to control conditions.
 
+```{r calculating n for each study at timepoint, include=FALSE}
+# Create function to get total n at each timepoint
+
+total_n <- function(df) {
+  total <- sum(df$n_arm1 + df$n_arm2, na.rm = TRUE)
+  return (total)
+}
+
+
+# Apply function to different data frames
+total_data_main <- total_n(data_main)
+print(paste('main n =', total_data_main))
+
+total_data_dep <- total_n(data_dep)
+print(paste('main n =', total_data_dep))
+
+total_data_excwl <- total_n(data_excwl)
+print(paste('main n =', total_data_excwl))
+
+total_data_rob <- total_n(data_rob)
+print(paste('main n =', total_data_rob))
+
+total_data_parallel <- total_n(data_parallel)
+print(paste('main n =', total_data_parallel))
+
+total_data_crossover <- total_n(data_crossover)
+print(paste('main n =', total_data_crossover))
+
+total_data_expanded <- total_n(data_expanded)
+print(paste('main n =', total_data_expanded))
+
+total_data_outliers <- total_n(data_outliers)
+print(paste('main n =', total_data_outliers))
+
+total_data_fixed <- total_n(data_fixed)
+print(paste('main n =', total_data_fixed))
+
+total_data_g10 <- total_n(data_g10)
+print(paste('main n =', total_data_g10))
+
+total_data_clinician <- total_n(data_clinician)
+print(paste('main n =', total_data_clinician))
+
+total_data_selfreport <- total_n(data_selfreport)
+print(paste('main n =', total_data_selfreport))
+```
+
+
+
 ### Summary and Conclusions
 
 This comprehensive meta-analysis provides promising evidence regarding the efficacy of psilocybin for treating depression, but should be interpreted with caution.
