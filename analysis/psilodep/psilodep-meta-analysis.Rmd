@@ -1285,6 +1285,11 @@ total_n <- function(df) {
   return (total)
 }
 
+total_n_dichotomous <- function(df) {
+  total <- sum(df$totaln_arm1 + df$totaln_arm2, na.rm = TRUE)
+  return (total)
+}
+
 
 # Apply function to different data frames
 total_data_main <- total_n(data_main)
@@ -1322,6 +1327,12 @@ print(paste('clinician n =', total_data_clinician))
 
 total_data_selfreport <- total_n(data_selfreport)
 print(paste('selfreport n =', total_data_selfreport))
+
+total_data_response <- total_n_dichotomous(data_response)
+print(paste('response n =', total_data_response))
+
+total_data_remission <- total_n_dichotomous(data_remission)
+print(paste('remission n =', total_data_remission))
 ```
 
 
