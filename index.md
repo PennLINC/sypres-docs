@@ -42,6 +42,10 @@ author_profile: false
      <p>
           Every element of SYPRES is open and reproducible – including database searches, data extraction, data processing, and all analyses.
           SYPRES thus combines open data and open code to maximize reproducibility and enhance confidence.
+          This is accomplished in part through our partnership with <a href="https://www.metapsy.org">Metapsy</a>.
+          All Metapsy databases are compiled using rigorous scientific standards. Databases are updated regularly, and each search step is documented on openly accessible repositories.
+          Following the <a href="https://www.go-fair.org/fair-principles/">FAIR principles</a>, all databases are versioned upon release and digital object identifiers (DOIs) are minted. This means that all databases and their versions are easily accessible to the research community.
+          The goal of Metapsy is to create a centralized hub for <a href="https://docs.metapsy.org/general/#mard">meta-analytic research domains</a> (MARDs) in a consistent, transparent and accessible way.
      </p>
      <br>
 </p>
