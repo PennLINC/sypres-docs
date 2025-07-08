@@ -1,11 +1,13 @@
 ---
 name: Blog Post Request
-about: Have you used RBC data in a project recently and want to advertise it on our blog?
+about: Have you used SYPRES data in a project recently and want to advertise it on
+  our blog?
 title: ''
-labels: 'blog'
-assignees: ['mattcieslak', 'tsalo']
+labels: ''
+assignees: singlesp
 
 ---
+
 ## Project Summary
 
 ## Contributors
