@@ -762,7 +762,7 @@ extract_subgroup_summary <- function(obj, label) {
 # Build combined summary table
 full_subgroup_summary <- bind_rows(
   # subgroup
-  extract_subgroup_summary(main, "Main model"),
+  extract_subgroup_summary(main, "Primary model"),
   extract_subgroup_summary(dep, "Depression as primary diagnosis"),
   extract_subgroup_summary(parallel, "Parallel design"),
   extract_subgroup_summary(crossover, "Crossover design"),
@@ -797,7 +797,7 @@ library(webshot2)
 
 # Prepare data
 desired_order <- c(
-  "Main model",
+  "Primary model",
   "Depression as primary diagnosis",
   "Exclude open-label waitlist control",
   "Exclude high RoB",
@@ -814,7 +814,7 @@ desired_order <- c(
 full_subgroup_summary <- full_subgroup_summary %>%
   mutate(
     subgroup = factor(subgroup, levels = desired_order),
-    color = if_else(subgroup == "Main model", "Main", "Other"),
+    color = if_else(subgroup == "Primary model", "Main", "Other"),
     row = as.numeric(fct_rev(subgroup))
   )
 
