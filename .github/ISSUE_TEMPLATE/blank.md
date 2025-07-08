@@ -1,4 +1,0 @@
----
-name: Blank Issue
-title: ''
----
