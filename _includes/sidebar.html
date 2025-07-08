@@ -47,12 +47,14 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
   </div>
   {% endif %}
 
-  {% if page.metapsy_repo or page.metapsy_dashboard or page.metapsy_docs %}
+  {% if page.metapsy_repo or page.metapsy_dashboard or page.metapsy_docs%}
   <div class="sidebar-section">
     <h3>Data</h3>
     <ul style="list-style: none; padding-left: 0;">
       <!-- <li><a href="{{ '/docs/team/' | relative_url }}">Meet the Team</a></li> -->
       <!-- <li><a href="{{ '/docs/community/publications/' | relative_url }}">Publications</a></li> -->
+      {% if page.version %}<li><strong>Version:</strong> <a href="{{ page.version_url }}" target="_blank"
+          rel="noopener noreferrer">{{ page.version }}</a></li>{% endif %}
       {% if page.metapsy_docs %}<li><strong>Documentation:</strong> <a href="{{ page.metapsy_docs }}" target="_blank"
           rel="noopener noreferrer">View Documentation</a></li>{% endif %}
       {% if page.metapsy_repo %}<li><strong>Repository:</strong> <a href="{{ page.metapsy_repo }}" target="_blank"
