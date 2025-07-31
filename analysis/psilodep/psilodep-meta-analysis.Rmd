@@ -74,9 +74,7 @@ library(readr)
 library(tidyverse)
 library(meta)
 library(metafor)
-#library(esc)
 library(metapsyTools)
-#library(dmetar)
 library(gt)
 ```
 
