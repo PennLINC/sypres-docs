@@ -48,8 +48,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-#basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
-basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" #for brooke
+# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
+basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -75,25 +75,32 @@ library(tidyverse)
 library(meta)
 library(metafor)
 library(metapsyTools)
+library(metapsyData)
 library(gt)
 ```
 
 ### Data Loading and Quality Checks
 
-The raw data is loaded from a CSV file containing information extracted from multiple studies.
+The sypres database `depression-psiloctr` is downloaded using the `metapsyData` package.
 Before proceeding with the analysis, we perform quality checks to ensure data integrity and identify potential issues.
 
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
-# Load data
-# data <- read_csv2("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-data <- read_csv2("/Users/bsevchik/Documents/GitHub/metapsy/data.csv")
-# after release we will replace this with metapsyData load function
+# Load data using metapsyData
+d <- getData("depression-psiloctr")
+data <- d$data
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
 
 # Check conflicts with checkConflicts
-checkConflicts(data)
+checkConflicts(data,
+  vars.for.id = c(
+    "study", "outcome_type",
+    "instrument", "study_time_point",
+    "time_weeks",
+    "rating"
+  )
+)
 ```
 
 ### Data Preparation and Filtering
@@ -176,26 +183,25 @@ meta::forest(
 The primary meta-analysis on continuous outcomes in the 9 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
-
-png(filename = file.path(basedir,"analysis/psilodep/paperfigs/continuous_forest_plot_meta.png"), res=315, width=4500, height=1500)
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/continuous_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
 
 meta::forest(main_results$model.overall,
-             sortvar = main_results$model.overall$data$year,
-             leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
-             leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
-             fontsize = 9,
-             col.square = "#000080",
-             col.diamond = "#000080",
-             col.predict = "gray",
-             fontfamily = "Arial",
-             colgap.forest = "2cm",
-             xlim = c(-4.5, 1.5),
-             label.left = "Favors intervention",
-             label.right = "Favors control",
-             smlab = "SMD")
+  sortvar = main_results$model.overall$data$year,
+  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 1.5),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
 
 dev.off()
-
 ```
 
 
@@ -941,26 +947,25 @@ Heterogeneity changes substantially when excluding open-label studies, excluding
 
 
 ```{r expanded model continuous forest plot for indesign, include=FALSE}
-
-png(filename = file.path(basedir,"analysis/psilodep/paperfigs/expanded_forest_plot_meta.png"), res=315, width=4500, height=1500)
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/expanded_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
 
 meta::forest(expanded$model.overall,
-             sortvar = expanded$model.overall$data$year,
-             leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
-             leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
-             fontsize = 9,
-             col.square = "#000080",
-             col.diamond = "#000080",
-             col.predict = "gray",
-             fontfamily = "Arial",
-             colgap.forest = "2cm",
-             xlim = c(-4.5, 1.5),
-             label.left = "Favors intervention",
-             label.right = "Favors control",
-             smlab = "SMD")
+  sortvar = expanded$model.overall$data$year,
+  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 1.5),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
 
 dev.off()
-
 ```
 
 
@@ -1280,57 +1285,57 @@ Our fixed effects models yielded results that were in line with the main model, 
 
 total_n <- function(df) {
   total <- sum(df$n_arm1 + df$n_arm2, na.rm = TRUE)
-  return (total)
+  return(total)
 }
 
 total_n_dichotomous <- function(df) {
   total <- sum(df$totaln_arm1 + df$totaln_arm2, na.rm = TRUE)
-  return (total)
+  return(total)
 }
 
 
 # Apply function to different data frames
 total_data_main <- total_n(data_main)
-print(paste('main n =', total_data_main))
+print(paste("main n =", total_data_main))
 
 total_data_dep <- total_n(data_dep)
-print(paste('dep n =', total_data_dep))
+print(paste("dep n =", total_data_dep))
 
 total_data_excwl <- total_n(data_excwl)
-print(paste('excwl n =', total_data_excwl))
+print(paste("excwl n =", total_data_excwl))
 
 total_data_rob <- total_n(data_rob)
-print(paste('rob n =', total_data_rob))
+print(paste("rob n =", total_data_rob))
 
 total_data_parallel <- total_n(data_parallel)
-print(paste('parallel n =', total_data_parallel))
+print(paste("parallel n =", total_data_parallel))
 
 total_data_crossover <- total_n(data_crossover)
-print(paste('crossover n =', total_data_crossover))
+print(paste("crossover n =", total_data_crossover))
 
 total_data_expanded <- total_n(data_expanded)
-print(paste('expanded n =', total_data_expanded))
+print(paste("expanded n =", total_data_expanded))
 
 total_data_outliers <- total_n(data_outliers)
-print(paste('outliers n =', total_data_outliers))
+print(paste("outliers n =", total_data_outliers))
 
 total_data_fixed <- total_n(data_fixed)
-print(paste('fixed n =', total_data_fixed))
+print(paste("fixed n =", total_data_fixed))
 
 total_data_g10 <- total_n(data_g10)
-print(paste('g10 n =', total_data_g10))
+print(paste("g10 n =", total_data_g10))
 
 total_data_clinician <- total_n(data_clinician)
-print(paste('clinician n =', total_data_clinician))
+print(paste("clinician n =", total_data_clinician))
 
 total_data_selfreport <- total_n(data_selfreport)
-print(paste('selfreport n =', total_data_selfreport))
+print(paste("selfreport n =", total_data_selfreport))
 
 total_data_response <- total_n_dichotomous(data_response)
-print(paste('response n =', total_data_response))
+print(paste("response n =", total_data_response))
 
 total_data_remission <- total_n_dichotomous(data_remission)
-print(paste('remission n =', total_data_remission))
+print(paste("remission n =", total_data_remission))
 ```
 
 
