@@ -251,7 +251,6 @@ This approach accounts for the hierarchical structure of the data (multiple time
 # Select data for the CHE meta-analysis
 
 data_time <- data %>%
-  calculateEffectSizes() %>%
   filter(
     is.na(multi_arm1) | !str_detect(multi_arm1, "10 mg"),
     is.na(multi_arm2) | !str_detect(multi_arm2, "10 mg"),
