@@ -84,29 +84,35 @@ library(readr)
 library(tidyverse)
 library(meta)
 library(metafor)
-library(esc)
 library(metapsyTools)
-library(dmetar)
+library(metapsyData)
 library(gt)
+library(dmetar)
 ```
 
 ### Data Loading and Quality Checks
 
-The raw data is loaded from a CSV file containing information extracted
-from multiple studies. Before proceeding with the analysis, we perform
+The sypres database `depression-psiloctr` is downloaded using the
+`metapsyData` package. Before proceeding with the analysis, we perform
 quality checks to ensure data integrity and identify potential issues.
 
 ``` r
-# Load data
-data <- read_csv("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
-# data <- read_csv("/Users/bsevchik/Documents/GitHub/metapsy_psilodep/data.csv")
-# after release we will replace this with metapsyData load function
+# Load data using metapsyData
+d <- getData("depression-psiloctr")
+data <- d$data
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
 
 # Check conflicts with checkConflicts
-checkConflicts(data)
+checkConflicts(data,
+  vars.for.id = c(
+    "study", "outcome_type",
+    "instrument", "study_time_point",
+    "time_weeks",
+    "rating"
+  )
+)
 ```
 
 ### Data Preparation and Filtering
@@ -197,7 +203,7 @@ summary(main_results$model.overall)
     ## Rieser 2025    -0.3806 [-1.0314;  0.2701]       11.0
     ## Rosenblat 2024 -0.1417 [-0.8599;  0.5765]       10.0
     ## Ross 2016      -0.7940 [-1.5967;  0.0086]        8.9
-    ## vonRotz 2023   -0.9384 [-1.5120; -0.3648]       12.2
+    ## von Rotz 2023  -0.9384 [-1.5120; -0.3648]       12.2
     ## 
     ## Number of studies: k = 9
     ## 
@@ -248,8 +254,8 @@ statistical (Egger’s test) methods.
 eggers.test(main_results$model.overall)
 ```
 
-    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 9 studies. Egger's test may lack the
-    ## statistical power to detect bias when the number of studies is small (i.e., k<10).
+    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 9 studies. Egger's test may lack the statistical
+    ## power to detect bias when the number of studies is small (i.e., k<10).
 
     ## Eggers' test of the intercept 
     ## ============================= 
@@ -296,7 +302,6 @@ timepoints.
 # Select data for the CHE meta-analysis
 
 data_time <- data %>%
-  calculateEffectSizes() %>%
   filter(
     is.na(multi_arm1) | !str_detect(multi_arm1, "10 mg"),
     is.na(multi_arm2) | !str_detect(multi_arm2, "10 mg"),
@@ -317,7 +322,8 @@ time_results <- runMetaAnalysis(data_time,
   # Specify statistical parameters
   es.measure = "g", # Hedges' g
   method.tau = "REML",
-  method.tau.ci = "Q-Profile",
+  method.tau.ci = "Q-Profile", # N/A for three-level models
+  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
   hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
