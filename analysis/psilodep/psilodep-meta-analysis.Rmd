@@ -943,7 +943,7 @@ gtsave(subgroup_table, filename = file.path(basedir, "analysis/psilodep/paperfig
 We summarize these subgroup and sensitivity analyses in **Figure 3** below.
 ![](/analysis/psilodep/paperfigs/Fig_03.png)
 Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
-Hedges' g values did not differ greatly from the main model, and 10/12 of the subgroup and sensitivity analyses produced significant results.
+Hedges' g values did not differ greatly from the main model, and 9/11 of the subgroup and sensitivity analyses produced significant results.
 Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
 
 
