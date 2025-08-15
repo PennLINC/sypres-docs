@@ -47,7 +47,7 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
   </div>
   {% endif %}
 
-  {% if page.metapsy_repo or page.metapsy_dashboard or page.metapsy_docs%}
+  {% if page.metapsy_repo or page.metapsy_dashboard or page.metapsy_docs or page.effect_sizes_by_study%}
   <div class="sidebar-section">
     <h3>Data</h3>
     <ul style="list-style: none; padding-left: 0;">
@@ -62,6 +62,9 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
       endif %}
       {% if page.metapsy_dashboard %}<li><strong>Dashboard:</strong> <a href="{{ page.metapsy_dashboard }}"
           target="_blank" rel="noopener noreferrer">View Dashboard</a></li>{%
+      endif %}
+      {% if page.effect_sizes_by_study %}<li><strong>Effect Sizes by Study:</strong> <a
+          href="{{ page.effect_sizes_by_study }}" target="_blank" rel="noopener noreferrer">View Table</a></li>{%
       endif %}
     </ul>
   </div>
