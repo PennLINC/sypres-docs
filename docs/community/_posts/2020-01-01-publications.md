@@ -13,7 +13,7 @@ Singleton, S.P., Sevchik, B.L., Vandekar, S.N. et al. An initiative for living e
 
 _Papers using SYPRES data should cite the preprint or peer-reviewed paper that accompanies the data release, along with the specific Zotero version of the data used. For example, to cite the Psilocybin for Depression dataset, you would use the following citations:_
 
-Singleton SP, Sevchik BL, Lahey A, Cuijpers P, Harrer M, Jones MT, Nayak SM, Strain EC, Vandekar SN, Dworkin RH, Scott JC, & Satterthwaite TD. Psilocybin treatment for symptoms of depression: a living systematic review, meta-analysis, and data resource. MedRxiv. 2025.
+Singleton SP, Sevchik BL, Lahey A, Cuijpers P, Harrer M, Jones MT, Nayak SM, Strain EC, Vandekar SN, Dworkin RH, Scott JC, & Satterthwaite TD. Psilocybin treatment for symptoms of depression: a living systematic review, meta-analysis, and data resource. medRxiv. 2025.
 
 and
 
