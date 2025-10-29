@@ -87,8 +87,11 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data using metapsyData
-d <- getData("depression-psiloctr")
-data <- d$data
+# d <- getData("depression-psiloctr")
+# data <- d$data
+
+# TODO CHANGE - temp upload from local
+data <- read_csv2("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
