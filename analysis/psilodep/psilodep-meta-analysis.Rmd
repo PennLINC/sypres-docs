@@ -78,6 +78,7 @@ library(metapsyTools)
 library(metapsyData)
 library(gt)
 library(dmetar)
+library(bayesmeta)
 ```
 
 ### Data Loading and Quality Checks
@@ -1047,6 +1048,49 @@ meta::forest(expanded$model.overall,
 
 dev.off()
 ```
+
+#### Bayesian implementation
+
+As a final sensitivity analysis, we implement our main model using a bayesian framework.
+We do this using the `bayesmeta` package using "weakly informative prior distributions".
+
+Parameters:
+- A normal prior distribution with a 95% probability that the pooled estimate falls between -2 and 2.
+- A half-normal prior distribution for tau, with an s.d. of 0.5
+
+```{r bayes}
+bayes <- bayesmeta(
+  data_main$.g,
+  data_main$.g_se,
+  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+  )
+bayes
+```
+
+Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
+The model finds that the 95% interval of the true effect lies between -1.22 and -0.55.
+```{r bayes mu, include=FALSE}
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior=TRUE,
+  which=3)
+
+dev.off()
+
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayestau.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior=TRUE,
+  which=4)
+
+dev.off()
+```
+We can visualize each probability distribution below:
+![](/analysis/psilodep/paperfigs/SI_Fig_XX.png)
 
 ### Dichotomous Outcomes Analysis
 
