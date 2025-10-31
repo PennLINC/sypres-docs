@@ -1089,8 +1089,8 @@ plot.bayesmeta(
 
 dev.off()
 ```
-We can visualize each probability distribution below:
-![](/analysis/psilodep/paperfigs/SI_Fig_XX.png)
+We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
+![](/analysis/psilodep/paperfigs/SI_Fig_07.png)
 
 ### Dichotomous Outcomes Analysis
 
