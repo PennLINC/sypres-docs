@@ -246,7 +246,7 @@ Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's 
 
 
 
-### Three-level hierarchical effects (CHE) meta-analysis
+### Three-level correlated and hierarchical effects (CHE) meta-analysis
 
 We conduct a three-level correlated and hierarchical effects (CHE) meta-analysis to examine how the effect of psilocybin changes over time.
 This approach accounts for the hierarchical structure of the data (multiple timepoints within studies) and potential correlations between timepoints.
@@ -399,7 +399,7 @@ We conduct comprehensive subgroup and sensitivity analyses to examine the robust
 These analyses include:
 
 **Subgroup Analyses:**
-- Depression as primary diagnosis
+- MDD as primary diagnosis
 - Study design (parallel vs. crossover)
 - Exclusion of open-label studies
 - Exclusion of high risk-of-bias studies
@@ -416,7 +416,7 @@ These analyses include:
 
 data_dep <- data_main %>%
   filterPoolingData(
-    diagnosis == "dep" | diagnosis == "trd"
+    diagnosis == "mdd" | diagnosis == "trd"
   )
 
 data_excol <- data_main %>%
@@ -533,9 +533,9 @@ dep <- main # copy the main model
 data(dep) <- data_dep # replace the dataframe in the new model
 rerun(dep) # re-run the model
 
-excwl <- main
-data(excwl) <- data_excwl
-rerun(excwl)
+excol <- main
+data(excol) <- data_excol
+rerun(excol)
 
 rob <- main
 data(rob) <- data_rob
@@ -848,9 +848,9 @@ extract_subgroup_summary <- function(obj, label) {
 full_subgroup_summary <- bind_rows(
   # subgroup
   extract_subgroup_summary(main, "Primary model"),
-  extract_subgroup_summary(dep, "Depression as primary diagnosis"),
+  extract_subgroup_summary(dep, "Diagnosis of MDD"),
   extract_subgroup_summary(parallel, "Parallel design"),
-  extract_subgroup_summary(crossover, "Crossover design"),
+  extract_subgroup_summary(crossover, "Crossover or open-label extension"),
   extract_subgroup_summary(excol, "Exclude open-label"),
   extract_subgroup_summary(rob, "Exclude high RoB"),
   # sensitivity
@@ -883,11 +883,11 @@ library(webshot2)
 # Prepare data
 desired_order <- c(
   "Primary model",
-  "Depression as primary diagnosis",
-  "Exclude open-label waitlist control",
+  "Diagnosis of MDD",
+  "Exclude open-label",
   "Exclude high RoB",
   "Parallel design",
-  "Crossover design",
+  "Crossover or open-label extension",
   "Expanded inclusion criteria",
   "Excluding outliers",
   "Fixed Effects model",
@@ -1394,8 +1394,8 @@ print(paste("main n =", total_data_main))
 total_data_dep <- total_n(data_dep)
 print(paste("dep n =", total_data_dep))
 
-total_data_excwl <- total_n(data_excwl)
-print(paste("excwl n =", total_data_excwl))
+total_data_excol <- total_n(data_excol)
+print(paste("exclol n =", total_data_excol))
 
 total_data_rob <- total_n(data_rob)
 print(paste("rob n =", total_data_rob))
@@ -1436,6 +1436,14 @@ print(paste("remission n =", total_data_remission))
 # test for significant moderation of design on the pooled effect size
 sg <- subgroupAnalysis(main_results, design)
 sg
+
+bayes <- bayesmeta(
+  data_dep$.g,
+  data_dep$.g_se,
+  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+  )
+bayes
 ```
 
 ### Summary and Conclusions
