@@ -419,9 +419,9 @@ data_dep <- data_main %>%
     diagnosis == "dep" | diagnosis == "trd"
   )
 
-data_excwl <- data_main %>%
+data_excol <- data_main %>%
   filterPoolingData(
-    !Detect(condition_arm2, "wl"),
+    !Detect(blinding, "open-label"),
   )
 
 data_rob <- data_main %>%
@@ -499,7 +499,7 @@ data_selfreport <- data %>%
     outcome_type != "remission",
     outcome_type != "change" & outcome_type != "unknown"
   ) %>%
-  filterPriorityRule(instrument = c("bdi", "qids-sr", "hads-d", "smdds", "hads"))
+  filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
 ```
 
 Now we can use `metapsyTools` for quickly looking at subgroup and sensitivity results.
@@ -615,7 +615,7 @@ dep <- runMetaAnalysis(data_dep,
   round.digits = 2
 )
 
-excwl <- runMetaAnalysis(data_excwl,
+excol <- runMetaAnalysis(data_excol,
 
   # Specify statistical parameters
   which.run = "overall", # inverse variance random effects
@@ -851,7 +851,7 @@ full_subgroup_summary <- bind_rows(
   extract_subgroup_summary(dep, "Depression as primary diagnosis"),
   extract_subgroup_summary(parallel, "Parallel design"),
   extract_subgroup_summary(crossover, "Crossover design"),
-  extract_subgroup_summary(excwl, "Exclude open-label waitlist control"),
+  extract_subgroup_summary(excol, "Exclude open-label"),
   extract_subgroup_summary(rob, "Exclude high RoB"),
   # sensitivity
   extract_subgroup_summary(g10, "Alternate dosing in Goodwin et al"),
@@ -1069,7 +1069,7 @@ bayes
 ```
 
 Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
-The model finds that the 95% interval of the true effect lies between -1.22 and -0.55.
+The model finds that the 95% interval of the true effect lies between -1.17 and -0.60.
 ```{r bayes mu, include=FALSE}
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
 
