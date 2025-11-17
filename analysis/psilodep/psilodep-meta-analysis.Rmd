@@ -48,8 +48,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
-# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -88,11 +88,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data using metapsyData
-# d <- getData("depression-psiloctr")
-# data <- d$data
-
-# TODO CHANGE - temp upload from local
-data <- read_csv2("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
+d <- getData("depression-psiloctr")
+data <- d$data
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
