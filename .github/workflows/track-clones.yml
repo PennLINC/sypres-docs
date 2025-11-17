@@ -1,0 +1,41 @@
+name: Track Dataset Repository Clones
+on:
+  schedule:
+      # Run this once per day, towards the end of the day for keeping the most
+      # recent data point most meaningful (hours are interpreted in UTC).
+      - cron: "0 22 * * *"
+  workflow_dispatch: # Allow for running this manually.
+permissions:
+  contents: write
+jobs:
+  track_clones:
+    runs-on: ubuntu-latest
+    if: github.repository == 'PennLINC/sypres-docs' && github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python version
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          pip3 install PyGithub==2.5.0
+          python -m pip install --upgrade pip pandas
+      - name: Pull any download-stats changes
+        run: git pull
+      - name: Run fetch.py
+        env:
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        run: python scripts/clone-tracking/fetch.py
+      - name: Run cumulative.py
+        run: python scripts/clone-tracking/cumulative.py
+      - name: Commit download statistics
+        run: |
+          git config --global user.name 'singlesp'
+          git config --global user.email ${{ secrets.EMAIL }}
+          git add -A
+          git commit -am "Update download statistics"
+      - name: Push download statistics
+        run: |
+          git pull --rebase
+          git push
