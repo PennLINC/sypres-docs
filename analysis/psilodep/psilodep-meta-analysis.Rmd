@@ -48,8 +48,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
-basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+ basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -528,290 +528,50 @@ main <- runMetaAnalysis(data_main,
 
 dep <- main # copy the main model
 data(dep) <- data_dep # replace the dataframe in the new model
-rerun(dep) # re-run the model
+dep <- rerun(dep) # re-run the model
 
 excol <- main
 data(excol) <- data_excol
-rerun(excol)
+excol <- rerun(excol)
 
 rob <- main
 data(rob) <- data_rob
-rerun(rob)
+rob <- rerun(rob)
 
 parallel <- main
 data(parallel) <- data_parallel
-rerun(parallel)
+parallel <- rerun(parallel)
 
 crossover <- main
 data(crossover) <- data_crossover
-rerun(crossover)
+crossover <- rerun(crossover)
 
 expanded <- main
 data(expanded) <- data_expanded
-rerun(expanded)
+expanded <- rerun(expanded)
 
 outliers <- main
 data(outliers) <- data_outliers
-rerun(outliers)
+outliers<- rerun(outliers)
 
 fixed <- main
 method.tau(fixed) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
 hakn(fixed) <- FALSE
-rerun(fixed)
+fixed <- rerun(fixed)
 
 g10 <- main
 data(g10) <- data_g10
-rerun(g10)
+g10 <- rerun(g10)
 
 clinician <- main
 data(clinician) <- data_clinician
-rerun(clinician)
+clinician <- rerun(clinician)
 
 selfreport <- main
 data(selfreport) <- data_selfreport
-rerun(selfreport)
+selfreport <- rerun(selfreport)
 ```
-```{r rerun FULL models to be able to create figure, include=FALSE}
-main <- runMetaAnalysis(data_main,
 
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-dep <- runMetaAnalysis(data_dep,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-excol <- runMetaAnalysis(data_excol,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-rob <- runMetaAnalysis(data_rob,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-parallel <- runMetaAnalysis(data_parallel,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-crossover <- runMetaAnalysis(data_crossover,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-expanded <- runMetaAnalysis(data_expanded,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-outliers <- runMetaAnalysis(data_outliers,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-fixed <- runMetaAnalysis(data_main,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "FE", # fixed effects
-  method.tau.ci = "Q-Profile",
-  hakn = FALSE,
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "study_time_point",
-  round.digits = 2
-)
-
-g10 <- runMetaAnalysis(data_g10,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-clinician <- runMetaAnalysis(data_clinician,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-selfreport <- runMetaAnalysis(data_selfreport,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-```
 ```{r create subgroup and sensitivity analysis summary table, include=FALSE}
 # Helper function to parse CI from string to numeric
 parse_ci <- function(ci_string) {
