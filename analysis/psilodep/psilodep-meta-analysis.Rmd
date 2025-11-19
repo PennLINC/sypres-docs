@@ -86,12 +86,10 @@ library(bayesmeta)
 The sypres database `depression-psiloctr` is downloaded using the `metapsyData` package.
 Before proceeding with the analysis, we perform quality checks to ensure data integrity and identify potential issues.
 
-```{r load data and impute changes studies, results=FALSE, message=FALSE}
+```{r load data, results=FALSE, message=FALSE}
 # Load data using metapsyData
-#d <- getData("depression-psiloctr")
-#data <- d$data
-
-data <- read_csv2("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
+d <- getData("depression-psiloctr")
+data <- d$data
 
 
 # Check data format with checkDataFormat
