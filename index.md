@@ -68,3 +68,10 @@ author_profile: false
 
 <br/>
 <br/>
+
+<div style="text-align: center;">
+     <h2>SYPRES Downloads</h2>
+     <br/>
+
+     <iframe src="/assets/dashboard.html" width="100%" height="550px" style="border: none;"></iframe>
+</div>
