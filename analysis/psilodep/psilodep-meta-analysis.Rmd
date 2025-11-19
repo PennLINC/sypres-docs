@@ -88,8 +88,11 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data and impute changes studies, results=FALSE, message=FALSE}
 # Load data using metapsyData
-d <- getData("depression-psiloctr")
-data <- d$data
+#d <- getData("depression-psiloctr")
+#data <- d$data
+
+data <- read_csv2("/Users/sps253/Documents/GIT/data-depression-psiloctr/data.csv")
+
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
@@ -113,7 +116,7 @@ We prepare the data for analysis by applying several filters to create our prima
 2. **Study design**: Exclude post-crossover data to avoid double-counting
 3. **Outcome type**: Include only endpoint data (mean/SD or imputed mean/SD)
 4. **Dosing**: Exclude medium-dose arm (10 mg psilocybin) from multi-arm study (Goodwin 2022)
-5. **Study exclusions**: Remove specific studies (Krempien 2023, Carhart-Harris 2021) based on predefined criteria
+5. **Study exclusions**: Remove specific studies (Grob 2011, Krempien 2023, Carhart-Harris 2021) based on predefined criteria
 
 The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
 
@@ -139,10 +142,15 @@ We conduct the main meta-analysis using the `runMetaAnalysis` function from `met
 This analysis pools all studies in our filtered dataset to estimate the overall effect of psilocybin on depression severity.
 
 **Key specifications:**
+
 - **Effect size**: Hedges' g (standardized mean difference)
+
 - **Model**: Random-effects meta-analysis using REML estimator
+
 - **Adjustments**: Knapp-Hartung adjustment for significance tests
-- **Additional analyses**: Outlier detection and influence analysis
+
+- **Additional analyses**: Outlier detection and removal
+
 
 The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
 
@@ -182,7 +190,7 @@ meta::forest(
 )
 ```
 
-The primary meta-analysis on continuous outcomes in the 9 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
+The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/continuous_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
@@ -366,7 +374,6 @@ if (!all(is.finite(y_range))) y_range <- c(-1, 1)
 dev.off()
 ```
 ![](/analysis/psilodep/paperfigs/SI_Fig_02.png)
-Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's test did not find small study effects, implying minimal evidence of publication bias.
 
 
 #### Meta-Regression
@@ -396,16 +403,26 @@ We conduct comprehensive subgroup and sensitivity analyses to examine the robust
 These analyses include:
 
 **Subgroup Analyses:**
+
 - MDD as primary diagnosis
+
 - Study design (parallel vs. crossover)
+
 - Exclusion of open-label studies
+
 - Exclusion of high risk-of-bias studies
 
+
 **Sensitivity Analyses:**
-- In multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
+
+- In the multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
+
 - Expanded inclusion criteria
+
 - Clinician-rated vs. self-report outcomes
+
 - Exclusion of outlier studies
+
 - Fixed-effects model
 
 ```{r subgroup-and-sensitivity-data-filtering}
@@ -529,47 +546,58 @@ main <- runMetaAnalysis(data_main,
 dep <- main # copy the main model
 data(dep) <- data_dep # replace the dataframe in the new model
 dep <- rerun(dep) # re-run the model
+dep
 
 excol <- main
 data(excol) <- data_excol
 excol <- rerun(excol)
+excol
 
 rob <- main
 data(rob) <- data_rob
 rob <- rerun(rob)
+rob
 
 parallel <- main
 data(parallel) <- data_parallel
 parallel <- rerun(parallel)
+parallel
 
 crossover <- main
 data(crossover) <- data_crossover
 crossover <- rerun(crossover)
+crossover
 
 expanded <- main
 data(expanded) <- data_expanded
 expanded <- rerun(expanded)
+expanded
 
 outliers <- main
 data(outliers) <- data_outliers
 outliers<- rerun(outliers)
+outliers
 
 fixed <- main
 method.tau(fixed) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
 hakn(fixed) <- FALSE
 fixed <- rerun(fixed)
+fixed
 
 g10 <- main
 data(g10) <- data_g10
 g10 <- rerun(g10)
+g10
 
 clinician <- main
 data(clinician) <- data_clinician
 clinician <- rerun(clinician)
+clinician
 
 selfreport <- main
 data(selfreport) <- data_selfreport
 selfreport <- rerun(selfreport)
+selfreport
 ```
 
 ```{r create subgroup and sensitivity analysis summary table, include=FALSE}
@@ -780,7 +808,7 @@ gtsave(subgroup_table, filename = file.path(basedir, "analysis/psilodep/paperfig
 We summarize these subgroup and sensitivity analyses in **Figure 3** below.
 ![](/analysis/psilodep/paperfigs/Fig_03.png)
 Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
-Hedges' g values did not differ greatly from the main model, and 9/11 of the subgroup and sensitivity analyses produced significant results.
+Hedges' g values did not differ greatly from the main model, and 10/11 of the subgroup and sensitivity analyses produced significant results.
 Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
 
 
