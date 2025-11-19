@@ -9,7 +9,7 @@ import pandas as pd
 def main(folder):
     """Combine cumulative statistics for all repositories into a single file."""
     repo_wise_cumulative_files = sorted(
-        glob(os.path.join(folder, "ReproBrainChart_*_cum_clones.csv"))
+        glob(os.path.join(folder, "metapsy-project_*_cum_clones.csv"))
     )
     dfs = []
     for file_ in repo_wise_cumulative_files:
@@ -36,5 +36,7 @@ def main(folder):
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(__file__)
-    stats_dir = os.path.abspath(os.path.join(script_dir, "../../_data/clone-tracking/cumulative"))
+    stats_dir = os.path.abspath(
+        os.path.join(script_dir, "../../_data/clone-tracking/cumulative")
+    )
     main(stats_dir)

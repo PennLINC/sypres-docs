@@ -161,23 +161,7 @@ def fetch_clones(repo):
 
 if __name__ == "__main__":
     repos = [
-        "ReproBrainChart/BHRC_BIDS",
-        "ReproBrainChart/BHRC_CPAC",
-        "ReproBrainChart/BHRC_FreeSurfer",
-        "ReproBrainChart/CCNP_BIDS",
-        "ReproBrainChart/CCNP_CPAC",
-        "ReproBrainChart/CCNP_FreeSurfer",
-        "ReproBrainChart/HBN_BIDS",
-        "ReproBrainChart/HBN_CPAC",
-        "ReproBrainChart/HBN_FreeSurfer",
-        "ReproBrainChart/NKI_BIDS",
-        "ReproBrainChart/NKI_CPAC",
-        "ReproBrainChart/NKI_FreeSurfer",
-        "ReproBrainChart/PACCT_BIDS",
-        "ReproBrainChart/PACCT_CPAC",
-        "ReproBrainChart/PNC_BIDS",
-        "ReproBrainChart/PNC_CPAC",
-        "ReproBrainChart/PNC_FreeSurfer",
+        "metapsy-project/data-depression-psiloctr",
     ]
     for repo in repos:
         main(repo)
