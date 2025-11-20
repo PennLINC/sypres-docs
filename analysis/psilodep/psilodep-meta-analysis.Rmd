@@ -48,7 +48,7 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-basedir <- "/Users/sps253/Documents/GIT/sypres-docs/"
+ basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
 # basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
@@ -78,6 +78,7 @@ library(metapsyTools)
 library(metapsyData)
 library(gt)
 library(dmetar)
+library(bayesmeta)
 ```
 
 ### Data Loading and Quality Checks
@@ -85,10 +86,11 @@ library(dmetar)
 The sypres database `depression-psiloctr` is downloaded using the `metapsyData` package.
 Before proceeding with the analysis, we perform quality checks to ensure data integrity and identify potential issues.
 
-```{r load data and impute changes studies, results=FALSE, message=FALSE}
+```{r load data, results=FALSE, message=FALSE}
 # Load data using metapsyData
 d <- getData("depression-psiloctr")
 data <- d$data
+
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
@@ -112,7 +114,7 @@ We prepare the data for analysis by applying several filters to create our prima
 2. **Study design**: Exclude post-crossover data to avoid double-counting
 3. **Outcome type**: Include only endpoint data (mean/SD or imputed mean/SD)
 4. **Dosing**: Exclude medium-dose arm (10 mg psilocybin) from multi-arm study (Goodwin 2022)
-5. **Study exclusions**: Remove specific studies (Krempien 2023, Carhart-Harris 2021) based on predefined criteria
+5. **Study exclusions**: Remove specific studies (Grob 2011, Krempien 2023, Carhart-Harris 2021) based on predefined criteria
 
 The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
 
@@ -138,10 +140,15 @@ We conduct the main meta-analysis using the `runMetaAnalysis` function from `met
 This analysis pools all studies in our filtered dataset to estimate the overall effect of psilocybin on depression severity.
 
 **Key specifications:**
+
 - **Effect size**: Hedges' g (standardized mean difference)
+
 - **Model**: Random-effects meta-analysis using REML estimator
+
 - **Adjustments**: Knapp-Hartung adjustment for significance tests
-- **Additional analyses**: Outlier detection and influence analysis
+
+- **Additional analyses**: Outlier detection and removal
+
 
 The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
 
@@ -181,7 +188,7 @@ meta::forest(
 )
 ```
 
-The primary meta-analysis on continuous outcomes in the 9 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
+The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/continuous_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
@@ -242,7 +249,7 @@ Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's 
 
 
 
-### Three-level hierarchical effects (CHE) meta-analysis
+### Three-level correlated and hierarchical effects (CHE) meta-analysis
 
 We conduct a three-level correlated and hierarchical effects (CHE) meta-analysis to examine how the effect of psilocybin changes over time.
 This approach accounts for the hierarchical structure of the data (multiple timepoints within studies) and potential correlations between timepoints.
@@ -291,6 +298,81 @@ time_results$model.threelevel.che
 
 The three-level CHE model reveals an overall significant decrease in depression scores under psilocybin compared to control conditions.
 
+The CHE model assumes that there is a known correlation "rho" between effect sizes in the same study; and that "rho" has the same value within and across all studies in our meta-analysis (the “constant sampling correlation” assumption, J. E. Pustejovsky and Tipton 2021).
+While these authors have reported that "meta-regression coefficient estimates were largely insensitive to assuming different values of rho between 0.0 and 0.8", our default choice of rho = 0.6 in metapsyTools is nonetheless, a guess.
+It is therefore generally recommended to run sensitivity analyses for varying values of rho:
+
+```{r sweep within study rho, message=FALSE, warning=FALSE, results='hide'}
+# sweep rho in the CHE model for r = seq(0, 1, 0.1)
+rho_seq <- seq(0, 1, 0.1)
+i <- 1
+g_sweep <- numeric(length(rho_seq))
+g_ci_lwr <- numeric(length(rho_seq)) # Initialize the vector
+g_ci_upr <- numeric(length(rho_seq)) # Initialize the vector
+
+for (rho in rho_seq) {
+  time_results_sweep <- runMetaAnalysis(data_time,
+    which.run = "threelevel.che",
+    # Specify statistical parameters
+    es.measure = "g", # Hedges' g
+    method.tau = "REML",
+    method.tau.ci = "Q-Profile", # N/A for three-level models
+    hakn = TRUE, # Knapp-Hartung adjustment
+    rho.within.study = rho,
+    # Specify variables
+    study.var = "study",
+    arm.var.1 = "condition_arm1",
+    arm.var.2 = "condition_arm2",
+    measure.var = "instrument",
+    w1.var = "n_arm1",
+    w2.var = "n_arm2",
+    time.var = "time_days",
+    round.digits = 2
+  )
+
+  g_sweep[i] <- time_results_sweep$summary$g[2]
+  g_ci <- as.numeric(
+    strsplit(gsub("\\[|\\]", "", time_results_sweep$summary$g.ci[2]), ";")[[1]]
+  )
+  g_ci_lwr[i] <- g_ci[1]
+  g_ci_upr[i] <- g_ci[2]
+  i <- i + 1
+}
+```
+
+```{r rho sweep, message=FALSE, results='hide', fig.show='hold'}
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_02.png"), res = 315, width = 2500, height = 1500)
+# plot the results (base R with shaded CI ribbon)
+y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
+y_finite <- y_vals[is.finite(y_vals)]
+y_range <- suppressWarnings(range(y_finite))
+if (!all(is.finite(y_range))) y_range <- c(-1, 1)
+
+{
+  plot(rho_seq, g_sweep,
+    type = "n",
+    xlab = "rho", ylab = "Hedges' g",
+    xlim = range(rho_seq, na.rm = TRUE),
+    ylim = y_range
+  )
+
+  mask_ci <- is.finite(g_ci_lwr) & is.finite(g_ci_upr) & is.finite(rho_seq)
+  if (sum(mask_ci) >= 2) {
+    polygon(c(rho_seq[mask_ci], rev(rho_seq[mask_ci])),
+      c(g_ci_lwr[mask_ci], rev(g_ci_upr[mask_ci])),
+      col = grDevices::adjustcolor("red", alpha.f = 0.2),
+      border = NA
+    )
+  }
+
+  lines(rho_seq, g_sweep, col = "blue", lwd = 2)
+  lines(rho_seq, g_ci_lwr, col = "red", lty = 2)
+  lines(rho_seq, g_ci_upr, col = "red", lty = 2)
+}
+dev.off()
+```
+![](/analysis/psilodep/paperfigs/SI_Fig_02.png)
+
 
 #### Meta-Regression
 
@@ -302,12 +384,12 @@ reg
 ```
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
-png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_02.png"), res = 315, width = 3000, height = 2200)
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
 regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
-![](/analysis/psilodep/paperfigs/SI_Fig_02.png)
+![](/analysis/psilodep/paperfigs/SI_Fig_03.png)
 Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring psilocybin immediately following dosing that was stable over time.
 
 
@@ -319,16 +401,26 @@ We conduct comprehensive subgroup and sensitivity analyses to examine the robust
 These analyses include:
 
 **Subgroup Analyses:**
-- Depression as primary diagnosis
+
+- MDD as primary diagnosis
+
 - Study design (parallel vs. crossover)
+
 - Exclusion of open-label studies
+
 - Exclusion of high risk-of-bias studies
 
+
 **Sensitivity Analyses:**
-- In multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
+
+- In the multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
+
 - Expanded inclusion criteria
+
 - Clinician-rated vs. self-report outcomes
+
 - Exclusion of outlier studies
+
 - Fixed-effects model
 
 ```{r subgroup-and-sensitivity-data-filtering}
@@ -336,12 +428,12 @@ These analyses include:
 
 data_dep <- data_main %>%
   filterPoolingData(
-    diagnosis == "dep" | diagnosis == "trd"
+    diagnosis == "mdd" | diagnosis == "trd"
   )
 
-data_excwl <- data_main %>%
+data_excol <- data_main %>%
   filterPoolingData(
-    !Detect(condition_arm2, "wl"),
+    !Detect(blinding, "open-label"),
   )
 
 data_rob <- data_main %>%
@@ -419,7 +511,7 @@ data_selfreport <- data %>%
     outcome_type != "remission",
     outcome_type != "change" & outcome_type != "unknown"
   ) %>%
-  filterPriorityRule(instrument = c("bdi", "qids-sr", "hads-d", "smdds", "hads"))
+  filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
 ```
 
 Now we can use `metapsyTools` for quickly looking at subgroup and sensitivity results.
@@ -451,290 +543,61 @@ main <- runMetaAnalysis(data_main,
 
 dep <- main # copy the main model
 data(dep) <- data_dep # replace the dataframe in the new model
-rerun(dep) # re-run the model
+dep <- rerun(dep) # re-run the model
+dep
 
-excwl <- main
-data(excwl) <- data_excwl
-rerun(excwl)
+excol <- main
+data(excol) <- data_excol
+excol <- rerun(excol)
+excol
 
 rob <- main
 data(rob) <- data_rob
-rerun(rob)
+rob <- rerun(rob)
+rob
 
 parallel <- main
 data(parallel) <- data_parallel
-rerun(parallel)
+parallel <- rerun(parallel)
+parallel
 
 crossover <- main
 data(crossover) <- data_crossover
-rerun(crossover)
+crossover <- rerun(crossover)
+crossover
 
 expanded <- main
 data(expanded) <- data_expanded
-rerun(expanded)
+expanded <- rerun(expanded)
+expanded
 
 outliers <- main
 data(outliers) <- data_outliers
-rerun(outliers)
+outliers<- rerun(outliers)
+outliers
 
 fixed <- main
 method.tau(fixed) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
 hakn(fixed) <- FALSE
-rerun(fixed)
+fixed <- rerun(fixed)
+fixed
 
 g10 <- main
 data(g10) <- data_g10
-rerun(g10)
+g10 <- rerun(g10)
+g10
 
 clinician <- main
 data(clinician) <- data_clinician
-rerun(clinician)
+clinician <- rerun(clinician)
+clinician
 
 selfreport <- main
 data(selfreport) <- data_selfreport
-rerun(selfreport)
+selfreport <- rerun(selfreport)
+selfreport
 ```
-```{r rerun FULL models to be able to create figure, include=FALSE}
-main <- runMetaAnalysis(data_main,
 
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-dep <- runMetaAnalysis(data_dep,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-excwl <- runMetaAnalysis(data_excwl,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-rob <- runMetaAnalysis(data_rob,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-parallel <- runMetaAnalysis(data_parallel,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-crossover <- runMetaAnalysis(data_crossover,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-expanded <- runMetaAnalysis(data_expanded,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-outliers <- runMetaAnalysis(data_outliers,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-fixed <- runMetaAnalysis(data_main,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "FE", # fixed effects
-  method.tau.ci = "Q-Profile",
-  hakn = FALSE,
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "study_time_point",
-  round.digits = 2
-)
-
-g10 <- runMetaAnalysis(data_g10,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-clinician <- runMetaAnalysis(data_clinician,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-selfreport <- runMetaAnalysis(data_selfreport,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-```
 ```{r create subgroup and sensitivity analysis summary table, include=FALSE}
 # Helper function to parse CI from string to numeric
 parse_ci <- function(ci_string) {
@@ -768,10 +631,10 @@ extract_subgroup_summary <- function(obj, label) {
 full_subgroup_summary <- bind_rows(
   # subgroup
   extract_subgroup_summary(main, "Primary model"),
-  extract_subgroup_summary(dep, "Depression as primary diagnosis"),
+  extract_subgroup_summary(dep, "Diagnosis of MDD"),
   extract_subgroup_summary(parallel, "Parallel design"),
-  extract_subgroup_summary(crossover, "Crossover design"),
-  extract_subgroup_summary(excwl, "Exclude open-label waitlist control"),
+  extract_subgroup_summary(crossover, "Crossover or open-label extension"),
+  extract_subgroup_summary(excol, "Exclude open-label"),
   extract_subgroup_summary(rob, "Exclude high RoB"),
   # sensitivity
   extract_subgroup_summary(g10, "Alternate dosing in Goodwin et al"),
@@ -803,11 +666,11 @@ library(webshot2)
 # Prepare data
 desired_order <- c(
   "Primary model",
-  "Depression as primary diagnosis",
-  "Exclude open-label waitlist control",
+  "Diagnosis of MDD",
+  "Exclude open-label",
   "Exclude high RoB",
   "Parallel design",
-  "Crossover design",
+  "Crossover or open-label extension",
   "Expanded inclusion criteria",
   "Excluding outliers",
   "Fixed Effects model",
@@ -943,7 +806,7 @@ gtsave(subgroup_table, filename = file.path(basedir, "analysis/psilodep/paperfig
 We summarize these subgroup and sensitivity analyses in **Figure 3** below.
 ![](/analysis/psilodep/paperfigs/Fig_03.png)
 Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
-Hedges' g values did not differ greatly from the main model, and 9/11 of the subgroup and sensitivity analyses produced significant results.
+Hedges' g values did not differ greatly from the main model, and 10/11 of the subgroup and sensitivity analyses produced significant results.
 Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
 
 
@@ -968,6 +831,49 @@ meta::forest(expanded$model.overall,
 
 dev.off()
 ```
+
+#### Bayesian implementation
+
+As a final sensitivity analysis, we implement our main model using a bayesian framework.
+We do this using the `bayesmeta` package using "weakly informative prior distributions".
+
+Parameters:
+- A normal prior distribution with a 95% probability that the pooled estimate falls between -2 and 2.
+- A half-normal prior distribution for tau, with an s.d. of 0.5
+
+```{r bayes}
+bayes <- bayesmeta(
+  data_main$.g,
+  data_main$.g_se,
+  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+  )
+bayes
+```
+
+Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
+The model finds that the 95% interval of the true effect lies between -1.17 and -0.60.
+```{r bayes mu, include=FALSE}
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior=TRUE,
+  which=3)
+
+dev.off()
+
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayestau.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior=TRUE,
+  which=4)
+
+dev.off()
+```
+We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
+![](/analysis/psilodep/paperfigs/SI_Fig_07.png)
 
 ### Dichotomous Outcomes Analysis
 
@@ -1271,8 +1177,8 @@ print(paste("main n =", total_data_main))
 total_data_dep <- total_n(data_dep)
 print(paste("dep n =", total_data_dep))
 
-total_data_excwl <- total_n(data_excwl)
-print(paste("excwl n =", total_data_excwl))
+total_data_excol <- total_n(data_excol)
+print(paste("exclol n =", total_data_excol))
 
 total_data_rob <- total_n(data_rob)
 print(paste("rob n =", total_data_rob))
@@ -1309,6 +1215,19 @@ print(paste("remission n =", total_data_remission))
 ```
 
 
+```{r supplemental analyses for reviewer responses, include=FALSE}
+# test for significant moderation of design on the pooled effect size
+sg <- subgroupAnalysis(main_results, design)
+sg
+
+bayes <- bayesmeta(
+  data_dep$.g,
+  data_dep$.g_se,
+  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+  )
+bayes
+```
 
 ### Summary and Conclusions
 
