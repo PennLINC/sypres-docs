@@ -637,7 +637,7 @@ full_subgroup_summary <- bind_rows(
   extract_subgroup_summary(excol, "Exclude open-label"),
   extract_subgroup_summary(rob, "Exclude high RoB"),
   # sensitivity
-  extract_subgroup_summary(g10, "Alternate dosing in Goodwin et al"),
+  extract_subgroup_summary(g10, "Alternate dosing in Goodwin 2022"),
   extract_subgroup_summary(expanded, "Expanded inclusion criteria"),
   extract_subgroup_summary(clinician, "Clinician-rated outcomes"),
   extract_subgroup_summary(selfreport, "Self-report outcomes"),
@@ -674,7 +674,7 @@ desired_order <- c(
   "Expanded inclusion criteria",
   "Excluding outliers",
   "Fixed Effects model",
-  "Alternate dosing in Goodwin et al",
+  "Alternate dosing in Goodwin 2022",
   "Clinician-rated outcomes",
   "Self-report outcomes"
 )

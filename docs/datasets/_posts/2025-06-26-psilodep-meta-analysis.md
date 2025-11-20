@@ -653,8 +653,8 @@ dep
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p        i2 i2.ci         prediction.ci   nnt
-    ## .93 [-1.87; 0.01] 0.051  69.5 [21.89; 88.0… [-3; 1.14]     2.99
+    ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
+    ## .93 [-1.87; 0.01] 0.051  69.5 [21.89; 88.08] [-3; 1.14]     2.99
 
 ``` r
 excol <- main
@@ -697,8 +697,8 @@ crossover
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p        i2 i2.ci        prediction.ci   nnt
-    ## .04 [-2.06; -0.03] 0.046  71.2 [26.88; 88.… [-3.44; 1.35]  2.63
+    ## Model       k     g g.ci           p        i2 i2.ci          prediction.ci   nnt
+    ## .04 [-2.06; -0.03] 0.046  71.2 [26.88; 88.61] [-3.44; 1.35]  2.63
 
 ``` r
 expanded <- main
@@ -708,8 +708,8 @@ expanded
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci       prediction.ci   nnt
-    ## .88 [-1.21; -0.56] <0.001  54.8 [19.16; 74… [-1.72; -0.0…  3.16
+    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci    nnt
+    ## .88 [-1.21; -0.56] <0.001  54.8 [19.16; 74.75] [-1.72; -0.04]  3.16
 
 ``` r
 outliers <- main
@@ -731,8 +731,8 @@ fixed
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci       prediction.ci   nnt
-    ## .84 [-1.02; -0.67] <0.001  53.9 [11.39; 75… [-1.73; -0.0…  3.32
+    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci    nnt
+    ## .84 [-1.02; -0.67] <0.001  53.9 [11.39; 75.98] [-1.73; -0.08]  3.32
 
 ``` r
 g10 <- main
@@ -742,8 +742,8 @@ g10
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci       prediction.ci   nnt
-    ## .87 [-1.27; -0.47] <0.001  69.2 [44.08; 83… [-1.98; 0.25]  3.23
+    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci   nnt
+    ## .87 [-1.27; -0.47] <0.001  69.2 [44.08; 83.04] [-1.98; 0.25]  3.23
 
 ``` r
 clinician <- main
@@ -753,8 +753,8 @@ clinician
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p        i2 i2.ci         prediction.ci   nnt
-    ## .02 [-1.6; -0.44] 0.005  64.5 [19.95; 84.2… [-2.28; 0.24]  2.71
+    ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
+    ## .02 [-1.6; -0.44] 0.005  64.5 [19.95; 84.25] [-2.28; 0.24]  2.71
 
 ``` r
 selfreport <- main
@@ -764,8 +764,8 @@ selfreport
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p        i2 i2.ci        prediction.ci   nnt
-    ##  -1 [-1.68; -0.31] 0.010    73 [47.19; 86.… [-2.76; 0.76]  2.76
+    ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
+    ##  -1 [-1.68; -0.31] 0.010    73 [47.19; 86.2] [-2.76; 0.76]  2.76
 
 We summarize these subgroup and sensitivity analyses in **Figure 3**
 below. ![](/analysis/psilodep/paperfigs/Fig_03.png) Our series of
