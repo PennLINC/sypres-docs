@@ -1,0 +1,1249 @@
+---
+layout: single
+title: "Reproducibility Guide: Meta-analysis on MDMA for PTSD"
+output:
+  md_document:
+    variant: markdown_github
+    preserve_yaml: true
+---
+
+# XXX: update these paths/desciptions
+This document provides a comprehensive walk-through of the meta-analysis investigating the efficacy of MDMA for treating PTSD symptoms, using data extracted for the SYPRES project.
+The analysis includes both continuous (PTSD symptom severity scores) and dichotomous (response/remission rates) outcomes, along with extensive subgroup and sensitivity analyses.
+
+Our database for this analysis can be accessed through the R package `metapsyData`.
+It can also be downloaded directly as a CSV file [here](https://github.com/metapsy-project/data-ptsd-mdmactr/blob/master/data.csv).
+Documentation on `metapsyData` is available [here](https://data.metapsy.org).
+
+The meta-analytic portion of this script primarily uses the R package `metapsyTools`.
+Documentation on `metapsyTools` is available [here](https://tools.metapsy.org).
+
+This walk-through has some code chunks hidden for clarity.
+Full source code for this analysis is available [here](https://github.com/pennlinc/sypres-docs/blob/main/analysis/mdmaptsd/mdmaptsd-meta-analysis.Rmd).
+
+## Overview
+
+This meta-analysis synthesizes evidence from randomized controlled trials examining the efficacy of MDMA for treating PTSD.
+The analysis employs meta-analytic methods to provide robust estimates of treatment effects while accounting for study heterogeneity and potential biases.
+
+### Key Features of This Analysis
+
+- **Comprehensive outcome assessment**: Both continuous (PTSD symptom severity) and dichotomous (response/remission) outcomes
+- **Time course analysis**: Three-level hierarchical models to examine treatment effects over time
+- **Robustness testing**: Extensive sensitivity and subgroup analyses
+- **Publication bias assessment**: Multiple methods to evaluate potential bias
+- **Transparent reporting**: Complete code and methodology documentation
+
+## Methods
+
+### Key statistical specifications:
+
+- **Effect size**: Hedges' g for continuous outcomes, log RR for dichotomous outcomes
+- **Heterogeneity estimator**: REML for random-effects models
+- **Confidence intervals**: Q-Profile method for heterogeneity, Knapp-Hartung adjustment for effect sizes
+- **Significance testing**: Knapp-Hartung adjustment for small sample sizes
+
+### Quality Assessment
+
+We conduct sensitivity analyses excluding studies with high risk of bias evaluated using the Cochrane Risk of Bias tool.
+Publication bias is evaluated using a funnel plot and Egger's test.
+
+```{r setup knitr, include=FALSE}
+basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+
+knitr::opts_knit$set(
+  base.dir = basedir,
+  base.url = "/"
+)
+knitr::opts_chunk$set(fig.path = "analysis/mdmaptsd/knitfigs/")
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Load Required Packages
+
+We begin by loading the necessary R packages for data manipulation, meta-analysis, and visualization:
+
+- **Data manipulation**: `readr` and `tidyverse` for data loading and manipulation
+- **Meta-analysis**: `meta` and `metafor` for conducting meta-analytic calculations
+- **Effect sizes**: `esc` for effect size calculation utilities
+- **Specialized tools**: `metapsyTools` for specific meta-analysis functions and `dmetar` for additional meta-analysis tools
+
+```{r packages, results='hide', message=FALSE, warning=FALSE}
+library(readr)
+library(tidyverse)
+library(meta)
+library(metafor)
+library(metapsyTools)
+library(metapsyData)
+library(gt)
+library(dmetar)
+library(bayesmeta)
+```
+
+### Data Loading and Quality Checks
+
+The sypres database `ptsd-mdmactr` is downloaded using the `metapsyData` package.
+Before proceeding with the analysis, we perform quality checks to ensure data integrity and identify potential issues.
+
+```{r load data, results=FALSE, message=FALSE}
+# Load data using metapsyData
+d <- getData("ptsd-mdmactr")
+data <- d$data
+
+
+# Check data format with checkDataFormat
+checkDataFormat(data)
+
+# Check conflicts with checkConflicts
+checkConflicts(data,
+  vars.for.id = c(
+    "study", "outcome_type",
+    "instrument", "study_time_point",
+    "time_weeks",
+    "rating"
+  )
+)
+```
+
+### Data Preparation and Filtering
+
+We prepare the data for analysis by applying several filters to create our primary analysis dataset:
+
+1. **Primary outcomes**: Select only the primary instrument and timepoint for each study
+2. **Study design**: Exclude post-crossover data to avoid double-counting
+3. **Outcome type**: Include only endpoint data (mean/SD or imputed mean/SD)
+4. **Dosing**: Exclude medium-dose arm (10 mg MDMA) from multi-arm study (Goodwin 2022)
+5. **Study exclusions**: Remove specific studies (Grob 2011, Krempien 2023, Carhart-Harris 2021) based on predefined criteria
+
+The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
+
+```{r filter}
+data_main <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
+  )
+```
+
+## Results
+
+### Primary Meta-Analysis
+
+We conduct the main meta-analysis using the `runMetaAnalysis` function from `metapsyTools`.
+This analysis pools all studies in our filtered dataset to estimate the overall effect of MDMA on PTSD severity.
+
+**Key specifications:**
+
+- **Effect size**: Hedges' g (standardized mean difference)
+
+- **Model**: Random-effects meta-analysis using REML estimator
+
+- **Adjustments**: Knapp-Hartung adjustment for significance tests
+
+- **Additional analyses**: Outlier detection and removal
+
+
+The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
+
+```{r primary-meta-analysis, message=FALSE}
+main_results <- runMetaAnalysis(data_main,
+
+  # Specify models to run
+  which.run = c("overall", "outliers"),
+  which.influence = "overall",
+  which.outliers = "overall",
+
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile",
+  hakn = TRUE, # Knapp-Hartung adjustment
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2
+)
+
+summary(main_results$model.overall)
+
+# Create simple forest plot of results
+
+meta::forest(
+  main_results$model.overall,
+  sortvar = main_results$model.overall$data$year,
+  layout = "JAMA"
+)
+```
+
+The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in PTSD scores with MDMA treatment as compared to control conditions, with small to moderate between-study heterogeneity.
+
+```{r main continuous forest plot for indesign, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/continuous_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+
+meta::forest(main_results$model.overall,
+  sortvar = main_results$model.overall$data$year,
+  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 1.5),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
+
+dev.off()
+```
+
+
+### Publication Bias Assessment
+
+We assess potential publication bias using both visual (funnel plot) and statistical (Egger's test) methods.
+
+```{r eggertest}
+# Run Egger's test
+
+eggers.test(main_results$model.overall)
+```
+
+```{r funnelplot, message=FALSE, results='hide'}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
+funnel(main_results$model.overall,
+  studlab = TRUE, # can also use vector with study labels
+  cex.studlab = 0.7, # adjust size of study labels
+  cex = 0.7, # axis tick labels and point size
+  cex.axis = 0.7, # axis number label size
+  cex.lab = 0.7, # axis title (xlab, ylab) size
+  cex.main = 0.95, # main title size
+  xlim = c(-3, 0.2),
+  col = "steelblue",
+  pch = 19, # bold solid circle
+  bg = "white",
+  xlab = "Standardized Mean Difference (SMD)",
+  ylab = "Standard Error (SE)",
+  main = "Funnel Plot of Main Model Continuous Outcomes",
+  las = 1
+)
+dev.off()
+```
+
+![](/analysis/mdmaptsd/paperfigs/SI_Fig_01.png)
+Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's test did not find small study effects, implying minimal evidence of publication bias.
+
+
+
+### Three-level correlated and hierarchical effects (CHE) meta-analysis
+
+We conduct a three-level correlated and hierarchical effects (CHE) meta-analysis to examine how the effect of MDMA changes over time.
+This approach accounts for the hierarchical structure of the data (multiple timepoints within studies) and potential correlations between timepoints.
+
+```{r che, message=FALSE}
+# Select data for the CHE meta-analysis
+
+data_time <- data %>%
+  filter(
+    is.na(multi_arm1) | !str_detect(multi_arm1, "10 mg"),
+    is.na(multi_arm2) | !str_detect(multi_arm2, "10 mg"),
+    !str_detect(study, "Krempien 2023"),
+    !str_detect(study, "Carhart-Harris 2021")
+  ) %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    time_days > 0,
+    post_crossover == 0 | is.na(post_crossover),
+    outcome_type == "msd" | outcome_type == "imsd"
+  )
+
+# Run meta-analysis
+
+time_results <- runMetaAnalysis(data_time,
+  which.run = "threelevel.che",
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile", # N/A for three-level models
+  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
+  hakn = TRUE, # Knapp-Hartung adjustment
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_days",
+  round.digits = 2
+)
+
+time_results$model.threelevel.che
+```
+
+The three-level CHE model reveals an overall significant decrease in PTSD scores under MDMA compared to control conditions.
+
+The CHE model assumes that there is a known correlation "rho" between effect sizes in the same study; and that "rho" has the same value within and across all studies in our meta-analysis (the “constant sampling correlation” assumption, J. E. Pustejovsky and Tipton 2021).
+While these authors have reported that "meta-regression coefficient estimates were largely insensitive to assuming different values of rho between 0.0 and 0.8", our default choice of rho = 0.6 in metapsyTools is nonetheless, a guess.
+It is therefore generally recommended to run sensitivity analyses for varying values of rho:
+
+```{r sweep within study rho, message=FALSE, warning=FALSE, results='hide'}
+# sweep rho in the CHE model for r = seq(0, 1, 0.1)
+rho_seq <- seq(0, 1, 0.1)
+i <- 1
+g_sweep <- numeric(length(rho_seq))
+g_ci_lwr <- numeric(length(rho_seq)) # Initialize the vector
+g_ci_upr <- numeric(length(rho_seq)) # Initialize the vector
+
+for (rho in rho_seq) {
+  time_results_sweep <- runMetaAnalysis(data_time,
+    which.run = "threelevel.che",
+    # Specify statistical parameters
+    es.measure = "g", # Hedges' g
+    method.tau = "REML",
+    method.tau.ci = "Q-Profile", # N/A for three-level models
+    hakn = TRUE, # Knapp-Hartung adjustment
+    rho.within.study = rho,
+    # Specify variables
+    study.var = "study",
+    arm.var.1 = "condition_arm1",
+    arm.var.2 = "condition_arm2",
+    measure.var = "instrument",
+    w1.var = "n_arm1",
+    w2.var = "n_arm2",
+    time.var = "time_days",
+    round.digits = 2
+  )
+
+  g_sweep[i] <- time_results_sweep$summary$g[2]
+  g_ci <- as.numeric(
+    strsplit(gsub("\\[|\\]", "", time_results_sweep$summary$g.ci[2]), ";")[[1]]
+  )
+  g_ci_lwr[i] <- g_ci[1]
+  g_ci_upr[i] <- g_ci[2]
+  i <- i + 1
+}
+```
+
+```{r rho sweep, message=FALSE, results='hide', fig.show='hold'}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_02.png"), res = 315, width = 2500, height = 1500)
+# plot the results (base R with shaded CI ribbon)
+y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
+y_finite <- y_vals[is.finite(y_vals)]
+y_range <- suppressWarnings(range(y_finite))
+if (!all(is.finite(y_range))) y_range <- c(-1, 1)
+
+{
+  plot(rho_seq, g_sweep,
+    type = "n",
+    xlab = "rho", ylab = "Hedges' g",
+    xlim = range(rho_seq, na.rm = TRUE),
+    ylim = y_range
+  )
+
+  mask_ci <- is.finite(g_ci_lwr) & is.finite(g_ci_upr) & is.finite(rho_seq)
+  if (sum(mask_ci) >= 2) {
+    polygon(c(rho_seq[mask_ci], rev(rho_seq[mask_ci])),
+      c(g_ci_lwr[mask_ci], rev(g_ci_upr[mask_ci])),
+      col = grDevices::adjustcolor("red", alpha.f = 0.2),
+      border = NA
+    )
+  }
+
+  lines(rho_seq, g_sweep, col = "blue", lwd = 2)
+  lines(rho_seq, g_ci_lwr, col = "red", lty = 2)
+  lines(rho_seq, g_ci_upr, col = "red", lty = 2)
+}
+dev.off()
+```
+![](/analysis/mdmaptsd/paperfigs/SI_Fig_02.png)
+
+
+#### Meta-Regression
+
+We perform meta-regression to examine the relationship between time since final dose and treatment effect.
+
+```{r meta-regression, message=FALSE, warning=FALSE}
+reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
+reg
+```
+
+```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
+regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
+dev.off()
+```
+
+![](/analysis/mdmaptsd/paperfigs/SI_Fig_03.png)
+Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring MDMA immediately following dosing that was stable over time.
+
+
+
+### Subgroup and Sensitivity Analyses
+
+We conduct comprehensive subgroup and sensitivity analyses to examine the robustness of our findings and explore potential moderators of treatment effects.
+
+These analyses include:
+
+**Subgroup Analyses:**
+
+- MDD as primary diagnosis
+
+- Study design (parallel vs. crossover)
+
+- Exclusion of open-label studies
+
+- Exclusion of high risk-of-bias studies
+
+
+**Sensitivity Analyses:**
+
+- In the multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
+
+- Expanded inclusion criteria
+
+- Clinician-rated vs. self-report outcomes
+
+- Exclusion of outlier studies
+
+- Fixed-effects model
+
+```{r subgroup-and-sensitivity-data-filtering}
+# Build a dataframe for each subgroup and sensitivity analysis
+
+data_dep <- data_main %>%
+  filterPoolingData(
+    diagnosis == "mdd" | diagnosis == "trd"
+  )
+
+data_excol <- data_main %>%
+  filterPoolingData(
+    !Detect(blinding, "open-label"),
+  )
+
+data_rob <- data_main %>%
+  filterPoolingData(
+    !Detect(rob, "High"),
+  )
+
+data_parallel <- data_main %>%
+  filterPoolingData(
+    design == "parallel"
+  )
+
+data_crossover <- data_main %>%
+  filterPoolingData(
+    design == "crossover"
+  )
+
+data_expanded <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !(Detect(study, "Krempien 2023") & (!is.na(multi_arm1)) & Detect(multi_arm1, "12 mg")),
+    !(Detect(study, "Krempien 2023") & (!is.na(multi_arm2)) & Detect(multi_arm2, "12 mg"))
+  )
+
+data_outliers <- data_main %>%
+  filterPoolingData(
+    !Detect(study, "Davis 2021")
+  )
+
+data_fixed <- data_main
+
+data_g10 <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "msd" | outcome_type == "imsd",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "25 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "25 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
+  )
+
+data_clinician <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    rating == "clinician",
+    Detect(instrument_symptom, "depression"),
+    outcome_type != "response",
+    outcome_type != "remission",
+    outcome_type != "change"
+  ) %>%
+  filterPriorityRule(instrument = c("madrs", "grid-ham-d"))
+
+data_selfreport <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021"),
+    rating == "self-report",
+    Detect(instrument_symptom, "depression"),
+    outcome_type != "response",
+    outcome_type != "remission",
+    outcome_type != "change" & outcome_type != "unknown"
+  ) %>%
+  filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
+```
+
+Now we can use `metapsyTools` for quickly looking at subgroup and sensitivity results.
+
+```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
+# Run the main "overall" model for comparison
+
+main <- runMetaAnalysis(data_main,
+
+  # Specify statistical parameters
+  which.run = "overall", # inverse variance random effects
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile",
+  hakn = TRUE, # Knapp-Hartung adjustment
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2
+)
+
+# Use metapsyTools' replacement and rerun functions for quickly changing parameters
+
+dep <- main # copy the main model
+data(dep) <- data_dep # replace the dataframe in the new model
+dep <- rerun(dep) # re-run the model
+dep
+
+excol <- main
+data(excol) <- data_excol
+excol <- rerun(excol)
+excol
+
+rob <- main
+data(rob) <- data_rob
+rob <- rerun(rob)
+rob
+
+parallel <- main
+data(parallel) <- data_parallel
+parallel <- rerun(parallel)
+parallel
+
+crossover <- main
+data(crossover) <- data_crossover
+crossover <- rerun(crossover)
+crossover
+
+expanded <- main
+data(expanded) <- data_expanded
+expanded <- rerun(expanded)
+expanded
+
+outliers <- main
+data(outliers) <- data_outliers
+outliers <- rerun(outliers)
+outliers
+
+fixed <- main
+method.tau(fixed) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
+hakn(fixed) <- FALSE
+fixed <- rerun(fixed)
+fixed
+
+g10 <- main
+data(g10) <- data_g10
+g10 <- rerun(g10)
+g10
+
+clinician <- main
+data(clinician) <- data_clinician
+clinician <- rerun(clinician)
+clinician
+
+selfreport <- main
+data(selfreport) <- data_selfreport
+selfreport <- rerun(selfreport)
+selfreport
+```
+
+```{r create subgroup and sensitivity analysis summary table, include=FALSE}
+# Helper function to parse CI from string to numeric
+parse_ci <- function(ci_string) {
+  nums <- str_extract_all(ci_string, "-?\\d+\\.?\\d*")[[1]]
+  as.numeric(nums)
+}
+
+# Function for one-row summary objects (like goodwin10_results)
+extract_subgroup_summary <- function(obj, label) {
+  s <- obj$summary
+  ci <- parse_ci(s$g.ci)
+  i2_ci <- parse_ci(s$i2.ci)
+
+  tibble(
+    subgroup = label,
+    hedges_g = s$g,
+    lower_ci = ci[1],
+    upper_ci = ci[2],
+    pval = as.numeric(s$p),
+    tau2 = obj$model.overall$tau2,
+    N_studies = s$k,
+    I2 = s$i2,
+    lower_i2_ci = i2_ci[1],
+    upper_i2_ci = i2_ci[2]
+  )
+}
+
+
+
+# Build combined summary table
+full_subgroup_summary <- bind_rows(
+  # subgroup
+  extract_subgroup_summary(main, "Primary model"),
+  extract_subgroup_summary(dep, "Diagnosis of MDD"),
+  extract_subgroup_summary(parallel, "Parallel design"),
+  extract_subgroup_summary(crossover, "Crossover or open-label extension"),
+  extract_subgroup_summary(excol, "Exclude open-label"),
+  extract_subgroup_summary(rob, "Exclude high RoB"),
+  # sensitivity
+  extract_subgroup_summary(g10, "Alternate dosing in Goodwin 2022"),
+  extract_subgroup_summary(expanded, "Expanded inclusion criteria"),
+  extract_subgroup_summary(clinician, "Clinician-rated outcomes"),
+  extract_subgroup_summary(selfreport, "Self-report outcomes"),
+  extract_subgroup_summary(outliers, "Excluding outliers"),
+  extract_subgroup_summary(fixed, "Fixed Effects model")
+)
+
+print(full_subgroup_summary)
+```
+```{r make forest plot with ggplot 5, subgroup - fixed ratio, include=FALSE}
+## Create the forest plot!
+# To edit spacing/sizing:
+#-Adjusting the width and height of how you save out ggplot will change spacing for forest plot. It's easier to change the row spacing of the table to match.
+#-line with data_row.padding, can be adjusted to increase or decrease the spacing of the rows in the table to match the spacing of the rows in the forest plot
+#-If changing image size results in blurry png, then use the zoom argument in gtsave at the end to increase clarity of text
+
+
+library(ggplot2)
+library(dplyr)
+library(forcats)
+library(tidyr)
+library(purrr)
+library(webshot2)
+
+
+# Prepare data
+desired_order <- c(
+  "Primary model",
+  "Diagnosis of MDD",
+  "Exclude open-label",
+  "Exclude high RoB",
+  "Parallel design",
+  "Crossover or open-label extension",
+  "Expanded inclusion criteria",
+  "Excluding outliers",
+  "Fixed Effects model",
+  "Alternate dosing in Goodwin 2022",
+  "Clinician-rated outcomes",
+  "Self-report outcomes"
+)
+
+full_subgroup_summary <- full_subgroup_summary %>%
+  mutate(
+    subgroup = factor(subgroup, levels = desired_order),
+    color = if_else(subgroup == "Primary model", "Main", "Other"),
+    row = as.numeric(fct_rev(subgroup))
+  )
+
+
+# Function to create diamond polygon coordinates
+make_diamond <- function(xmid, xmin, xmax, ymid, height = 0.25) {
+  tibble(
+    x = c(xmid, xmax, xmid, xmin),
+    y = c(ymid + height, ymid, ymid - height, ymid)
+  )
+}
+
+# Build diamonds
+diamond_df <- full_subgroup_summary %>%
+  mutate(diamond = pmap(list(hedges_g, lower_ci, upper_ci, row), make_diamond)) %>%
+  select(subgroup, diamond, color) %>%
+  unnest(diamond)
+
+# Plot using numeric y-position
+subgroup_plot <- ggplot(full_subgroup_summary, aes(x = hedges_g, y = row)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+  geom_polygon(
+    data = diamond_df,
+    aes(x = x, y = y, group = subgroup, fill = color),
+    alpha = 0.3,
+    color = NA
+  ) +
+  geom_point(aes(color = color), shape = 15, size = 3) +
+  geom_errorbarh(aes(xmin = lower_ci, xmax = upper_ci, color = color), height = 0.2) +
+  scale_x_continuous(
+    limits = c(-3, 1),
+    breaks = seq(-3, 1, by = 1),
+    expand = c(0, 0), # removes extra x axis at the ends
+    name = "Hedges' g (95% CI)"
+  ) +
+  scale_y_continuous(
+    breaks = full_subgroup_summary$row,
+    labels = full_subgroup_summary$subgroup
+  ) +
+  scale_color_manual(values = c("Main" = "#000080", "Other" = "forestgreen")) +
+  scale_fill_manual(values = c("Main" = "#000080", "Other" = "forestgreen")) +
+  labs(
+    x = "Hedges' g (95% CI)",
+    y = "Subgroup",
+    title = "Subgroup Meta-Analysis Summary"
+  ) +
+  theme(
+    text = element_text(family = "Arial"),
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank(),
+    axis.line.x = element_line(color = "black"),
+    axis.line.y = element_blank(),
+    axis.ticks = element_line(color = "black"),
+    axis.ticks.length = unit(7, "pt"),
+    legend.position = "none",
+    axis.text = element_text(size = 14), # change font size
+    axis.title.x = element_text(size = 14), # change font size
+    plot.title = element_text(size = 14, face = "bold")
+  )
+
+subgroup_plot
+ggsave(file.path(basedir, "analysis/mdmaptsd/paperfigs/subgroup_forest_ggplot.png"),
+  plot = subgroup_plot, width = 10, height = 8, dpi = 300
+)
+
+
+### BELOW IS CODE FOR TABLE PART OF PLOT
+
+# Create required table_df from full_sensitivity_summary
+table_subgroup_df <- full_subgroup_summary %>%
+  mutate(
+    `95% CI` = paste0("[", round(lower_ci, 2), ", ", round(upper_ci, 2), "]"),
+    # `Tau²` = round(tau2, 2),
+    `Tau²` = formatC(signif(tau2, 2), format = "fg", digits = 2, flag = "#"),
+    `Hedges' g` = round(hedges_g, 2),
+    N = N_studies
+  ) %>%
+  select(
+    Subgroup = subgroup,
+    N,
+    `Tau²`,
+    `Hedges' g`,
+    `95% CI`
+  ) %>%
+  mutate(Subgroup = factor(Subgroup, levels = desired_order)) %>%
+  arrange(Subgroup)
+table_subgroup_df
+
+# Order of rows
+table_subgroup_df <- table_subgroup_df %>%
+  mutate(Subgroup = factor(Subgroup, levels = desired_order)) %>%
+  arrange(Subgroup)
+
+# Create a styled gt table
+subgroup_table <- table_subgroup_df %>%
+  gt() %>%
+  tab_header(title = md("**Meta-Analysis Subgroup Summary**")) %>%
+  cols_label(
+    Subgroup = "Subgroup",
+    N = "N",
+    `Tau²` = html("&tau;<sup>2</sup>"),
+    `Hedges' g` = html("Hedges' *g*"),
+    `95% CI` = "95% CI"
+  ) %>%
+  opt_table_font(font = list(gt::google_font("Arial"))) %>%
+  tab_options(
+    data_row.padding = px(2.65), # HERE control row spacing to match graph!
+    table_body.hlines.style = "none",
+    row.striping.include_table_body = FALSE,
+    table_body.border.top.style = "none",
+    table_body.border.bottom.style = "none",
+    column_labels.border.bottom.style = "solid",
+    table.font.size = 2.7 # change font size
+  ) %>%
+  cols_align(align = "left", columns = everything())
+
+gtsave(subgroup_table, filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/subgroup_table.png"), vwidth = 2000, vheight = 1200, zoom = 10) # setting Zoom higher makes image less blurry/clearer
+```
+
+We summarize these subgroup and sensitivity analyses in **Figure 3** below.
+![](/analysis/mdmaptsd/paperfigs/Fig_03.png)
+Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
+Hedges' g values did not differ greatly from the main model, and 10/11 of the subgroup and sensitivity analyses produced significant results.
+Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
+
+
+```{r expanded model continuous forest plot for indesign, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/expanded_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+
+meta::forest(expanded$model.overall,
+  sortvar = expanded$model.overall$data$year,
+  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 1.5),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
+
+dev.off()
+```
+
+#### Bayesian implementation
+
+As a final sensitivity analysis, we implement our main model using a bayesian framework.
+We do this using the `bayesmeta` package using "weakly informative prior distributions".
+
+Parameters:
+- A normal prior distribution with a 95% probability that the pooled estimate falls between -2 and 2.
+- A half-normal prior distribution for tau, with an s.d. of 0.5
+
+```{r bayes}
+bayes <- bayesmeta(
+  data_main$.g,
+  data_main$.g_se,
+  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+)
+bayes
+```
+
+Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
+The model finds that the 95% interval of the true effect lies between -1.17 and -0.60.
+```{r bayes mu, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior = TRUE,
+  which = 3
+)
+
+dev.off()
+
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayestau.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior = TRUE,
+  which = 4
+)
+
+dev.off()
+```
+We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
+![](/analysis/mdmaptsd/paperfigs/SI_Fig_07.png)
+
+### Dichotomous Outcomes Analysis
+
+In addition to continuous PTSD severity scores, we also analyze dichotomous outcomes including response and remission rates.
+These analyses provide complementary information about the clinical significance of MDMA treatment.
+
+#### Response Rate Analysis
+
+We first analyze response rates, defined as the proportion of participants achieving a clinically meaningful reduction in PTSD symptoms.
+
+```{r response model, message=FALSE}
+# Get response data
+
+data_response <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "response",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023")
+  )
+data_response <- data_response[order(data_response$year), ]
+
+# Run meta-analysis
+
+response_results <- runMetaAnalysis(data_response,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "PM",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = TRUE, # Knapp-Hartung adjustement
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2
+)
+
+# Create simple forest plot of response results
+
+meta::forest(
+  response_results$model.overall,
+  sortvar = response_results$model.overall$data$year,
+  xlab = "Log RR (95% CI)",
+  leftlabs = c("Study", "Log RR"),
+  layout = "JAMA"
+)
+```
+
+Our meta-analysis shows statistically significant greater treatment response with MDMA compared to control conditions.
+
+
+#### Remission Rate Analysis
+
+We also analyze remission rates, defined as the proportion of participants achieving full remission of depressive symptoms.
+
+```{r remission model, message=FALSE}
+# Get remission data
+
+data_remission <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    outcome_type == "remission",
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
+    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !Detect(study, "Krempien 2023")
+  )
+data_remission <- data_remission[order(data_remission$year), ]
+
+# Run meta-analysis
+
+remission_results <- runMetaAnalysis(data_remission,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "PM",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = TRUE, # Knapp-Hartung adjustement
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_weeks",
+  round.digits = 2
+)
+
+# Create simple forest plot of remission results
+
+meta::forest(
+  remission_results$model.overall,
+  sortvar = remission_results$model.overall$data$year,
+  xlab = "Log RR (95% CI)",
+  leftlabs = c("Study", "Log RR"),
+  layout = "JAMA"
+)
+```
+
+Our meta-analysis shows statistically significant higher remission rates with MDMA compared to control conditions.
+
+```{r forest meta response for indesign, include=FALSE}
+### forest plot for response
+
+# grab heterogeneity values
+tau2 <- response_results$model.overall$tau2
+lower_tau2 <- response_results$model.overall$lower.tau2
+upper_tau2 <- response_results$model.overall$upper.tau2
+I2 <- response_results$model.overall$I2
+lower_I2 <- response_results$model.overall$lower.I2
+upper_I2 <- response_results$model.overall$upper.I2
+pval <- response_results$model.overall$pval.Q
+
+# format heterogeneity text
+heterogeneity_text <- sprintf(
+  "Heterogeneity: I² = %.2f%% [%.2f%%, %.2f%%], τ² = %.2f [%.2f, %.2f], p = %.3f",
+  I2 * 100, lower_I2 * 100, upper_I2 * 100,
+  tau2, lower_tau2, upper_tau2,
+  pval
+)
+
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/response_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+
+
+meta::forest(response_results$model.overall,
+  sortvar = response_results$mode.overall$data$year,
+  leftcols = c("studlab", "event_arm1", "totaln_arm1", "event_arm2", "totaln_arm2"),
+  leftlabs = c("Study", "Number of Events", "Total", "Number of Events", "Total"),
+  rightlabs = c("Log RR", "95%-CI", "Weight"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(0.5, 25),
+  label.left = "Favors control",
+  label.right = "Favors intervention",
+  smlab = "Log Risk Ratio"
+)
+
+# add heterogeneity text at the bottom
+grid::grid.text(
+  label = heterogeneity_text,
+  x = 0.5, # Centered horizontally (normalized coordinates)
+  y = unit(1.5, "lines"), # Slightly below the plot
+  just = "center",
+  gp = grid::gpar(fontsize = 9, fontfamily = "Arial")
+)
+
+dev.off()
+```
+
+```{r forest meta remission for indesign, include=FALSE}
+### forest plot for remission
+
+# grab heterogeneity values
+tau2 <- remission_results$model.overall$tau2
+lower_tau2 <- remission_results$model.overall$lower.tau2
+upper_tau2 <- remission_results$model.overall$upper.tau2
+I2 <- remission_results$model.overall$I2
+lower_I2 <- remission_results$model.overall$lower.I2
+upper_I2 <- remission_results$model.overall$upper.I2
+pval <- remission_results$model.overall$pval.Q
+
+# format heterogeneity text
+heterogeneity_text <- sprintf(
+  "Heterogeneity: I² = %.2f%% [%.2f%%, %.2f%%], τ² = %.2f [%.2f, %.2f], p = %.3f",
+  I2 * 100, lower_I2 * 100, upper_I2 * 100,
+  tau2, lower_tau2, upper_tau2,
+  pval
+)
+
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/remission_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+
+
+meta::forest(remission_results$model.overall,
+  sortvar = remission_results$model.overall$data$year,
+  leftcols = c("studlab", "event_arm1", "totaln_arm1", "event_arm2", "totaln_arm2"),
+  leftlabs = c("Study", "Number of Events", "Total", "Number of Events", "Total"),
+  rightlabs = c("Log RR", "95%-CI", "Weight"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(0.5, 25),
+  label.left = "Favors control",
+  label.right = "Favors intervention",
+  smlab = "Log Risk Ratio"
+)
+
+# add heterogeneity text at the bottom
+grid::grid.text(
+  label = heterogeneity_text,
+  x = 0.5, # Centered horizontally (normalized coordinates)
+  y = unit(1.5, "lines"), # Slightly below the plot
+  just = "center",
+  gp = grid::gpar(fontsize = 9, fontfamily = "Arial")
+)
+
+dev.off()
+```
+
+As a sensitivity analysis, we also run a fixed-effects meta-analysis on the response and remission results.
+
+```{r fixed-dichotomous, message=FALSE, warning=FALSE}
+# Fixed response
+method.tau(response_results) <- "FE"
+hakn(response_results) <- FALSE
+rerun(response_results)
+
+# Fixed remission
+method.tau(remission_results) <- "FE"
+hakn(remission_results) <- FALSE
+rerun(remission_results)
+```
+```{r runmetaAnalysis on fixed response results, include=FALSE}
+# Run fixed meta-analysis
+
+fixed_response_results <- runMetaAnalysis(data_response,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "FE",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = FALSE, # Knapp-Hartung adjustement
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "study_time_point",
+  round.digits = 2
+)
+fixed_response_results
+```
+```{r runmetaAnalysis on fixed remission results, message=FALSE, warning=FALSE, include=FALSE}
+# Run fixed meta-analysis
+
+fixed_remission_results <- runMetaAnalysis(data_remission,
+  which.run = "overall",
+  es.measure = "RR", # risk ratio
+  es.type = "raw",
+  method.tau = "FE",
+  method.tau.ci = "Q-Profile",
+  method.random.ci = "HK",
+  hakn = FALSE, # Knapp-Hartung adjustement
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "study_time_point",
+  round.digits = 2
+)
+fixed_remission_results
+```
+
+
+Our fixed effects models yielded results that were in line with the main model, showing statistically significant higher response and remission rates with MDMA compared to control conditions.
+
+```{r calculating n for each study at timepoint, include=FALSE}
+# Create function to get total n at each timepoint
+
+total_n <- function(df) {
+  total <- sum(df$n_arm1 + df$n_arm2, na.rm = TRUE)
+  return(total)
+}
+
+total_n_dichotomous <- function(df) {
+  total <- sum(df$totaln_arm1 + df$totaln_arm2, na.rm = TRUE)
+  return(total)
+}
+
+
+# Apply function to different data frames
+total_data_main <- total_n(data_main)
+print(paste("main n =", total_data_main))
+
+total_data_dep <- total_n(data_dep)
+print(paste("dep n =", total_data_dep))
+
+total_data_excol <- total_n(data_excol)
+print(paste("exclol n =", total_data_excol))
+
+total_data_rob <- total_n(data_rob)
+print(paste("rob n =", total_data_rob))
+
+total_data_parallel <- total_n(data_parallel)
+print(paste("parallel n =", total_data_parallel))
+
+total_data_crossover <- total_n(data_crossover)
+print(paste("crossover n =", total_data_crossover))
+
+total_data_expanded <- total_n(data_expanded)
+print(paste("expanded n =", total_data_expanded))
+
+total_data_outliers <- total_n(data_outliers)
+print(paste("outliers n =", total_data_outliers))
+
+total_data_fixed <- total_n(data_fixed)
+print(paste("fixed n =", total_data_fixed))
+
+total_data_g10 <- total_n(data_g10)
+print(paste("g10 n =", total_data_g10))
+
+total_data_clinician <- total_n(data_clinician)
+print(paste("clinician n =", total_data_clinician))
+
+total_data_selfreport <- total_n(data_selfreport)
+print(paste("selfreport n =", total_data_selfreport))
+
+total_data_response <- total_n_dichotomous(data_response)
+print(paste("response n =", total_data_response))
+
+total_data_remission <- total_n_dichotomous(data_remission)
+print(paste("remission n =", total_data_remission))
+```
+
+
+```{r supplemental analyses for reviewer responses, include=FALSE}
+# test for significant moderation of design on the pooled effect size
+sg <- subgroupAnalysis(main_results, design)
+sg
+
+bayes <- bayesmeta(
+  data_dep$.g,
+  data_dep$.g_se,
+  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+)
+bayes
+```
+
+### Summary and Conclusions
+
+This comprehensive meta-analysis provides promising evidence regarding the efficacy of MDMA for treating PTSD, but should be interpreted with caution.
+
+The analysis includes:
+
+1. **Primary analysis** of continuous PTSD severity outcomes using standardized mean differences
+2. **Time course analysis** examining how treatment effects evolve over time
+3. **Publication bias assessment** using multiple methods
+4. **Extensive subgroup and sensitivity analyses** to examine robustness and moderators
+5. **Dichotomous outcomes analysis** of response and remission rates
+
+The results demonstrate consistent evidence for the efficacy of MDMA in reducing PTSD severity, with effects persisting over time and showing robustness across various sensitivity analyses.
+However, given the small number of studies eligible to include in our meta-analysis and limitations such as the potential for functional unblinding and expectancy effects, results should be interpreted with caution.
+
