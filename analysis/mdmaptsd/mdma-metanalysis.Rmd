@@ -88,23 +88,24 @@ The sypres database `ptsd-mdmactr` is downloaded using the `metapsyData` package
 Before proceeding with the analysis, we perform quality checks to ensure data integrity and identify potential issues.
 
 ```{r load data, results=FALSE, message=FALSE}
-# Load data using metapsyData
-d <- getData("ptsd-mdmactr")
-data <- d$data
-
-
-# Check data format with checkDataFormat
-checkDataFormat(data)
-
-# Check conflicts with checkConflicts
-checkConflicts(data,
-  vars.for.id = c(
-    "study", "outcome_type",
-    "instrument", "study_time_point",
-    "time_weeks",
-    "rating"
-  )
-)
+# # Load data using metapsyData
+# d <- getData("ptsd-mdmactr")
+# data <- d$data
+# 
+# 
+# # Check data format with checkDataFormat
+# checkDataFormat(data)
+# 
+# # Check conflicts with checkConflicts
+# checkConflicts(data,
+#   vars.for.id = c(
+#     "study", "outcome_type",
+#     "instrument", "study_time_point",
+#     "time_weeks",
+#     "rating"
+#   )
+# )
+data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
 ```
 
 ### Data Preparation and Filtering
@@ -125,11 +126,7 @@ data_main <- data %>%
     primary_instrument == "1",
     primary_timepoint == "1",
     is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "msd" | outcome_type == "imsd",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023"),
-    !Detect(study, "Carhart-Harris 2021")
+    outcome_type == "msd"
   )
 ```
 
