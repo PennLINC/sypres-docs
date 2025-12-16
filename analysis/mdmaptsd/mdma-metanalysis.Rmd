@@ -106,6 +106,28 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #   )
 # )
 data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+data <- data %>%
+  calculateEffectSizes(
+    vars.for.id = c(
+      "study", "outcome_type",
+      "instrument", "study_time_point",
+      "time_weeks",
+      "rating"
+    ),
+  )
+
+# Check data format with checkDataFormat
+checkDataFormat(data)
+
+# Check conflicts with checkConflicts
+checkConflicts(data,
+  vars.for.id = c(
+    "study", "outcome_type",
+    "instrument", "study_time_point",
+    "time_weeks",
+    "rating"
+  )
+)
 ```
 
 ### Data Preparation and Filtering
@@ -128,6 +150,7 @@ data_main <- data %>%
     is.na(post_crossover) | !Detect(post_crossover, "1"),
     outcome_type == "msd"
   )
+data_main <- data_main[-c(3,8),]
 ```
 
 ## Results
@@ -151,17 +174,15 @@ This analysis pools all studies in our filtered dataset to estimate the overall 
 The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
 
 ```{r primary-meta-analysis, message=FALSE}
+# Run meta-analysis
+
 main_results <- runMetaAnalysis(data_main,
-
-  # Specify models to run
-  which.run = c("overall", "outliers"),
-  which.influence = "overall",
-  which.outliers = "overall",
-
+  which.run = "threelevel.che",
   # Specify statistical parameters
   es.measure = "g", # Hedges' g
   method.tau = "REML",
-  method.tau.ci = "Q-Profile",
+  method.tau.ci = "Q-Profile", # N/A for three-level models
+  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
   hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
@@ -171,11 +192,11 @@ main_results <- runMetaAnalysis(data_main,
   measure.var = "instrument",
   w1.var = "n_arm1",
   w2.var = "n_arm2",
-  time.var = "time_weeks",
+  time.var = "time_days",
   round.digits = 2
 )
 
-summary(main_results$model.overall)
+summary(main_results$model.threelevel.che)
 
 # Create simple forest plot of results
 
@@ -269,29 +290,7 @@ data_time <- data %>%
     outcome_type == "msd" | outcome_type == "imsd"
   )
 
-# Run meta-analysis
 
-time_results <- runMetaAnalysis(data_time,
-  which.run = "threelevel.che",
-  # Specify statistical parameters
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile", # N/A for three-level models
-  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_days",
-  round.digits = 2
-)
-
-time_results$model.threelevel.che
 ```
 
 The three-level CHE model reveals an overall significant decrease in PTSD scores under MDMA compared to control conditions.
