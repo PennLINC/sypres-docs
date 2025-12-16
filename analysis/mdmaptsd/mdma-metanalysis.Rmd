@@ -264,15 +264,15 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.png
 
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
-  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm1", "multi_arm1", "n_arm2", "mean_arm2", "sd_arm2", "condition_arm2", "multi_arm2"),
-  leftlabs = c("Study", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose"),
+  leftcols = c("studlab", "condition_arm1", "multi_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "multi_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
   col.square = "#000080",
   col.diamond = "#000080",
   col.predict = "gray",
   fontfamily = "Arial",
   colgap.forest = "2cm",
-  xlim = c(-4.5, 1.5),
+  xlim = c(-4.5, 2),
   label.left = "Favors intervention",
   label.right = "Favors control",
   smlab = "SMD"
@@ -291,6 +291,8 @@ We assess potential publication bias using both visual (funnel plot) and statist
 
 eggers.test(main_results$model.overall)
 ```
+Egger's test did not indicate small-study effects/publication bias.
+
 
 ```{r funnelplot, message=FALSE, results='hide'}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
