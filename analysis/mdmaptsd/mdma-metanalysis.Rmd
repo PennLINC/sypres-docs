@@ -237,6 +237,13 @@ meta::forest(
   layout = "JAMA"
 )
 ```
+```{r subgroup analyses}
+# test for significant moderation of design on the pooled effect size
+sg <- subgroupAnalysis(main_results, condition_arm2)
+sg
+plot(sg, "condition_arm2")
+```
+
 
 The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in PTSD scores with MDMA treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
