@@ -49,8 +49,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
-# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -105,7 +105,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #     "rating"
 #   )
 # )
-data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+#data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -256,15 +257,15 @@ plot(sg, "condition_arm2")
 ```
 
 
-The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in PTSD scores with MDMA treatment as compared to control conditions, with small to moderate between-study heterogeneity.
+The primary meta-analysis on continuous outcomes in the 6 studies included in the main model showed a statistically significant reduction in PTSD scores with MDMA treatment as compared to control conditions, with small between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/continuous_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
-  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "n_arm2", "mean_arm2", "sd_arm2"),
-  leftlabs = c("Study", "N", "Mean", "SD", "N", "Mean", "SD"),
+  leftcols = c("studlab", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm1", "multi_arm1", "n_arm2", "mean_arm2", "sd_arm2", "condition_arm2", "multi_arm2"),
+  leftlabs = c("Study", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose"),
   fontsize = 9,
   col.square = "#000080",
   col.diamond = "#000080",
