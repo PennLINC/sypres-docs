@@ -148,9 +148,40 @@ data_main <- data %>%
     primary_instrument == "1",
     primary_timepoint == "1",
     is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "msd"
+    outcome_type == "msd",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
   )
-data_main <- data_main[-c(3,8),]
+
+data_time <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    post_crossover == 0 | is.na(post_crossover),
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "msd",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
+  )
+
+data_response <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "response",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
+  )
+
+data_remission <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "remission",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
+  )
 ```
 
 ## Results
