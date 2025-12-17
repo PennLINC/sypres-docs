@@ -264,7 +264,7 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.png
 
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
-  leftcols = c("studlab", "condition_arm1", "multi_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "multi_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
   col.square = "#000080",
@@ -938,15 +938,6 @@ We first analyze response rates, defined as the proportion of participants achie
 ```{r response model, message=FALSE}
 # Get response data
 
-data_response <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    outcome_type == "response",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023")
-  )
 data_response <- data_response[order(data_response$year), ]
 
 # Run meta-analysis
@@ -992,15 +983,6 @@ We also analyze remission rates, defined as the proportion of participants achie
 ```{r remission model, message=FALSE}
 # Get remission data
 
-data_remission <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    outcome_type == "remission",
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
-    !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023")
-  )
 data_remission <- data_remission[order(data_remission$year), ]
 
 # Run meta-analysis
@@ -1058,13 +1040,13 @@ heterogeneity_text <- sprintf(
   pval
 )
 
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/response_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/response_forest_plot_meta_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
 
 meta::forest(response_results$model.overall,
   sortvar = response_results$mode.overall$data$year,
-  leftcols = c("studlab", "event_arm1", "totaln_arm1", "event_arm2", "totaln_arm2"),
-  leftlabs = c("Study", "Number of Events", "Total", "Number of Events", "Total"),
+  leftcols = c("studlab", "dose_arm1", "condition_arm1", "event_arm1", "totaln_arm1", "dose_arm2", "condition_arm2", "event_arm2", "totaln_arm2"),
+  leftlabs = c("Study", "Dose", "Drug", "Number of Events", "Total", "Dose", "Drug", "Number of Events", "Total"),
   rightlabs = c("Log RR", "95%-CI", "Weight"),
   fontsize = 9,
   col.square = "#000080",
@@ -1110,13 +1092,13 @@ heterogeneity_text <- sprintf(
   pval
 )
 
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/remission_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/remission_forest_plot_meta_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
 
 meta::forest(remission_results$model.overall,
   sortvar = remission_results$model.overall$data$year,
-  leftcols = c("studlab", "event_arm1", "totaln_arm1", "event_arm2", "totaln_arm2"),
-  leftlabs = c("Study", "Number of Events", "Total", "Number of Events", "Total"),
+  leftcols = c("studlab", "dose_arm1", "condition_arm1", "event_arm1", "totaln_arm1", "dose_arm2", "condition_arm2", "event_arm2", "totaln_arm2"),
+  leftlabs = c("Study", "Dose", "Drug", "Number of Events", "Total", "Dose", "Drug", "Number of Events", "Total"),
   rightlabs = c("Log RR", "95%-CI", "Weight"),
   fontsize = 9,
   col.square = "#000080",
