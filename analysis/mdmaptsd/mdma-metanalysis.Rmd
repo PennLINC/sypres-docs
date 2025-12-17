@@ -49,8 +49,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
-basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -105,8 +105,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #     "rating"
 #   )
 # )
-#data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
-data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
+data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+# data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -328,113 +328,43 @@ This approach accounts for the hierarchical structure of the data (multiple time
 ```{r che, message=FALSE}
 # Select data for the CHE meta-analysis
 
-data_time <- data %>%
-  filter(
-    is.na(multi_arm1) | !str_detect(multi_arm1, "10 mg"),
-    is.na(multi_arm2) | !str_detect(multi_arm2, "10 mg"),
-    !str_detect(study, "Krempien 2023"),
-    !str_detect(study, "Carhart-Harris 2021")
-  ) %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    time_days > 0,
-    post_crossover == 0 | is.na(post_crossover),
-    outcome_type == "msd" | outcome_type == "imsd"
-  )
+time_results <- runMetaAnalysis(data_time,
+  which.run = "threelevel.che",
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile", # N/A for three-level models
+  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
+  hakn = TRUE, # Knapp-Hartung adjustment
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "dose_days",
+  round.digits = 2
+)
 
 
 ```
 
 The three-level CHE model reveals an overall significant decrease in PTSD scores under MDMA compared to control conditions.
 
-The CHE model assumes that there is a known correlation "rho" between effect sizes in the same study; and that "rho" has the same value within and across all studies in our meta-analysis (the “constant sampling correlation” assumption, J. E. Pustejovsky and Tipton 2021).
-While these authors have reported that "meta-regression coefficient estimates were largely insensitive to assuming different values of rho between 0.0 and 0.8", our default choice of rho = 0.6 in metapsyTools is nonetheless, a guess.
-It is therefore generally recommended to run sensitivity analyses for varying values of rho:
-
-```{r sweep within study rho, message=FALSE, warning=FALSE, results='hide'}
-# sweep rho in the CHE model for r = seq(0, 1, 0.1)
-rho_seq <- seq(0, 1, 0.1)
-i <- 1
-g_sweep <- numeric(length(rho_seq))
-g_ci_lwr <- numeric(length(rho_seq)) # Initialize the vector
-g_ci_upr <- numeric(length(rho_seq)) # Initialize the vector
-
-for (rho in rho_seq) {
-  time_results_sweep <- runMetaAnalysis(data_time,
-    which.run = "threelevel.che",
-    # Specify statistical parameters
-    es.measure = "g", # Hedges' g
-    method.tau = "REML",
-    method.tau.ci = "Q-Profile", # N/A for three-level models
-    hakn = TRUE, # Knapp-Hartung adjustment
-    rho.within.study = rho,
-    # Specify variables
-    study.var = "study",
-    arm.var.1 = "condition_arm1",
-    arm.var.2 = "condition_arm2",
-    measure.var = "instrument",
-    w1.var = "n_arm1",
-    w2.var = "n_arm2",
-    time.var = "time_days",
-    round.digits = 2
-  )
-
-  g_sweep[i] <- time_results_sweep$summary$g[2]
-  g_ci <- as.numeric(
-    strsplit(gsub("\\[|\\]", "", time_results_sweep$summary$g.ci[2]), ";")[[1]]
-  )
-  g_ci_lwr[i] <- g_ci[1]
-  g_ci_upr[i] <- g_ci[2]
-  i <- i + 1
-}
-```
-
-```{r rho sweep, message=FALSE, results='hide', fig.show='hold'}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_02.png"), res = 315, width = 2500, height = 1500)
-# plot the results (base R with shaded CI ribbon)
-y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
-y_finite <- y_vals[is.finite(y_vals)]
-y_range <- suppressWarnings(range(y_finite))
-if (!all(is.finite(y_range))) y_range <- c(-1, 1)
-
-{
-  plot(rho_seq, g_sweep,
-    type = "n",
-    xlab = "rho", ylab = "Hedges' g",
-    xlim = range(rho_seq, na.rm = TRUE),
-    ylim = y_range
-  )
-
-  mask_ci <- is.finite(g_ci_lwr) & is.finite(g_ci_upr) & is.finite(rho_seq)
-  if (sum(mask_ci) >= 2) {
-    polygon(c(rho_seq[mask_ci], rev(rho_seq[mask_ci])),
-      c(g_ci_lwr[mask_ci], rev(g_ci_upr[mask_ci])),
-      col = grDevices::adjustcolor("red", alpha.f = 0.2),
-      border = NA
-    )
-  }
-
-  lines(rho_seq, g_sweep, col = "blue", lwd = 2)
-  lines(rho_seq, g_ci_lwr, col = "red", lty = 2)
-  lines(rho_seq, g_ci_upr, col = "red", lty = 2)
-}
-dev.off()
-```
-![](/analysis/mdmaptsd/paperfigs/SI_Fig_02.png)
-
-
 #### Meta-Regression
 
 We perform meta-regression to examine the relationship between time since final dose and treatment effect.
 
 ```{r meta-regression, message=FALSE, warning=FALSE}
-reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
+reg <- metaRegression(time_results$model.threelevel.che, ~dose_arm1)
 reg
 ```
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
+regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
 dev.off()
 ```
 
