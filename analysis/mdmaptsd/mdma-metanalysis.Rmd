@@ -244,8 +244,8 @@ summary(main_results$model.threelevel.che)
 # Create simple forest plot of results
 
 meta::forest(
-  main_results$model.overall,
-  sortvar = main_results$model.overall$data$year,
+  main_results$model.threelevel.che,
+  sortvar = main_results$model.threelevel.che$data$year,
   layout = "JAMA"
 )
 ```
@@ -327,7 +327,7 @@ This approach accounts for the hierarchical structure of the data (multiple time
 
 ```{r che, message=FALSE}
 # Select data for the CHE meta-analysis
-
+data_time$dose_arm1 <- as.numeric(gsub("mg", "", data_time$dose_arm1))
 time_results <- runMetaAnalysis(data_time,
   which.run = "threelevel.che",
   # Specify statistical parameters
@@ -357,14 +357,47 @@ The three-level CHE model reveals an overall significant decrease in PTSD scores
 
 We perform meta-regression to examine the relationship between time since final dose and treatment effect.
 
-```{r meta-regression, message=FALSE, warning=FALSE}
+```{r meta-regression n_dosing_sessions, message=FALSE, warning=FALSE}
+reg <- metaRegression(time_results$model.threelevel.che, ~n_dosing_sessions)
+reg
+```
+
+```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png"), res = 315, width = 3000, height = 2200)
+regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
+dev.off()
+```
+
+```{r meta-regression dose, message=FALSE, warning=FALSE}
 reg <- metaRegression(time_results$model.threelevel.che, ~dose_arm1)
 reg
 ```
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dose_regression.png"), res = 315, width = 3000, height = 2200)
+regplot(reg, mod = "dose_arm1", xlab = "Dose (mg)", ylab = "Hedges' g")
+dev.off()
+```
+
+```{r meta-regression cumulative, message=FALSE, warning=FALSE}
+reg <- metaRegression(time_results$model.threelevel.che, ~cumulative_dose_arm1)
+reg
+```
+
+```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.png"), res = 315, width = 3000, height = 2200)
+regplot(reg, mod = "cumulative_dose_arm1", xlab = "cumulative dose (sessions x mg)", ylab = "Hedges' g")
+dev.off()
+```
+
+```{r meta-regression time since dose, message=FALSE, warning=FALSE}
+reg <- metaRegression(time_results$model.threelevel.che, ~dose_days)
+reg
+```
+
+```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/time_since_dosing.png"), res = 315, width = 3000, height = 2200)
+regplot(reg, mod = "dose_days", xlab = "time since dosing (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
