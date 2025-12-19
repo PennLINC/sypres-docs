@@ -766,6 +766,80 @@ fixed_remission_results
 
 Our fixed effects models yielded results that were in line with the main model, showing statistically significant higher response and remission rates with MDMA compared to control conditions.
 
+### Secondary outcome - depression
+
+```{r depression model}
+# Run meta-analysis
+
+dep_results <- runMetaAnalysis(data_depression,
+  which.run = c("overall"),
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile", # N/A for three-level models
+  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
+  hakn = TRUE, # Knapp-Hartung adjustment
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_days",
+  round.digits = 2
+)
+
+summary(dep_results$model.overall)
+
+# Create simple forest plot of results
+
+plot(
+  dep_results,
+  which = "overall"
+)
+```
+
+
+```{r depression continuous forest plot for indesign, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/depression_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+
+# plot(
+#   main_results,
+#   which = "overall",
+#   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+#   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+#   fontsize = 9,
+#   col.square = "#000080",
+#   col.diamond = "#000080",
+#   col.predict = "gray",
+#   fontfamily = "Arial",
+#   colgap.forest = "2cm",
+#   xlim = c(-4.5, 2),
+#   label.left = "Favors intervention",
+#   label.right = "Favors control",
+#   smlab = "SMD")
+meta::forest(dep_results$model.overall,
+  sortvar = dep_results$model.overall$data$year,
+  leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 2),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
+
+
+dev.off()
+```
+
 ```{r calculating n for each study at timepoint, include=FALSE}
 # Create function to get total n at each timepoint
 
@@ -784,59 +858,17 @@ total_n_dichotomous <- function(df) {
 total_data_main <- total_n(data_main)
 print(paste("main n =", total_data_main))
 
-total_data_dep <- total_n(data_dep)
-print(paste("dep n =", total_data_dep))
-
-total_data_excol <- total_n(data_excol)
-print(paste("exclol n =", total_data_excol))
-
-total_data_rob <- total_n(data_rob)
-print(paste("rob n =", total_data_rob))
-
-total_data_parallel <- total_n(data_parallel)
-print(paste("parallel n =", total_data_parallel))
-
-total_data_crossover <- total_n(data_crossover)
-print(paste("crossover n =", total_data_crossover))
-
-total_data_expanded <- total_n(data_expanded)
-print(paste("expanded n =", total_data_expanded))
-
-total_data_outliers <- total_n(data_outliers)
-print(paste("outliers n =", total_data_outliers))
-
-total_data_fixed <- total_n(data_fixed)
-print(paste("fixed n =", total_data_fixed))
-
-total_data_g10 <- total_n(data_g10)
-print(paste("g10 n =", total_data_g10))
-
-total_data_clinician <- total_n(data_clinician)
-print(paste("clinician n =", total_data_clinician))
-
-total_data_selfreport <- total_n(data_selfreport)
-print(paste("selfreport n =", total_data_selfreport))
+total_data_sens <- total_n(data_sens)
+print(paste("sens n =", total_data_sens))
 
 total_data_response <- total_n_dichotomous(data_response)
 print(paste("response n =", total_data_response))
 
 total_data_remission <- total_n_dichotomous(data_remission)
 print(paste("remission n =", total_data_remission))
-```
 
-
-```{r supplemental analyses for reviewer responses, include=FALSE}
-# test for significant moderation of design on the pooled effect size
-sg <- subgroupAnalysis(main_results, design)
-sg
-
-bayes <- bayesmeta(
-  data_dep$.g,
-  data_dep$.g_se,
-  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
-  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
-)
-bayes
+total_data_dep <- total_n(data_depression)
+print(paste("dep n =", total_data_dep))
 ```
 
 ### Summary and Conclusions
