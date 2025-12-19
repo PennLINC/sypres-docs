@@ -22,5 +22,7 @@ if ("metapsyTools" %in% rownames(installed.packages())) {
   gitcreds::gitcreds_set()
   
   # Install metapsyTools
-  remotes::install_github("metapsy-project/metapsyTools")
+  remotes::install_github(
+    "metapsy-project/metapsyTools",
+    build_vignettes = TRUE)
 }
