@@ -223,6 +223,18 @@ data_depression <- data %>%
     outcome_type == "msd"
   ) %>%
   filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
+
+data_sleep <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
+    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2))),
+    Detect(instrument_symptom, "sleep"),
+    outcome_type == "msd"
+  )
 ```
 
 ## Results
@@ -364,6 +376,7 @@ This approach accounts for the hierarchical structure of the data (multiple time
 
 ```{r che, message=FALSE}
 # Select data for the CHE meta-analysis
+data_time$dose_arm1 <- as.numeric(gsub("mg", "", data_time$dose_arm1))
 time_results <- runMetaAnalysis(data_time,
   which.run = "threelevel.che",
   # Specify statistical parameters
@@ -395,8 +408,8 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/three_level_regre
 plot(
   time_results, 
   which = "threelevel.che",
-  leftcols = c("studlab", "n_dosing_sessions", "cumulative_dose_arm1","dose_weeks"),
-  leftlabs = c("Study", "Number of Dosing Sessions", "Cumulative Dose","Weeks since last dose"),
+  leftcols = c("studlab", "n_dosing_sessions", "dose_arm1", "cumulative_dose_arm1","dose_weeks"),
+  leftlabs = c("Study", "Dosing Session", "Dose (mg)", "Cumulative Dose (mg)","Time (weeks)"),
   )
 dev.off()
 ```
