@@ -247,6 +247,19 @@ data_medium_dose <- data %>%
     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
     !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2)))
   )
+
+data_functional <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
+    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2))),
+    Detect(instrument_symptom, "functional impairment") | Detect(instrument_symptom, "psychological functioning"),
+    outcome_type == "msd"
+  )
+
 ```
 
 ## Results
@@ -864,6 +877,84 @@ meta::forest(dep_results$model.overall,
 
 dev.off()
 ```
+
+# Secondary outcome - functional impairment
+
+### Secondary outcome - depression
+
+```{r functional impairment model}
+# Run meta-analysis
+
+functional_results <- runMetaAnalysis(data_functional,
+  which.run = c("overall"),
+  # Specify statistical parameters
+  es.measure = "g", # Hedges' g
+  method.tau = "REML",
+  method.tau.ci = "Q-Profile", # N/A for three-level models
+  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
+  hakn = TRUE, # Knapp-Hartung adjustment
+
+  # Specify variables
+  study.var = "study",
+  arm.var.1 = "condition_arm1",
+  arm.var.2 = "condition_arm2",
+  measure.var = "instrument",
+  w1.var = "n_arm1",
+  w2.var = "n_arm2",
+  time.var = "time_days",
+  round.digits = 2
+)
+
+summary(functional_results$model.overall)
+
+# Create simple forest plot of results
+
+plot(
+  functional_results,
+  which = "overall"
+)
+```
+
+
+```{r functional impairment continuous forest plot for indesign, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/functional_impairment_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+
+# plot(
+#   main_results,
+#   which = "overall",
+#   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+#   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+#   fontsize = 9,
+#   col.square = "#000080",
+#   col.diamond = "#000080",
+#   col.predict = "gray",
+#   fontfamily = "Arial",
+#   colgap.forest = "2cm",
+#   xlim = c(-4.5, 2),
+#   label.left = "Favors intervention",
+#   label.right = "Favors control",
+#   smlab = "SMD")
+meta::forest(functional_results$model.overall,
+  sortvar = functional_results$model.overall$data$year,
+  leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 4),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
+
+
+dev.off()
+```
+
+
 
 As a sensitivity analyses, for the studies that had three arms (Mithoefer 2018 & Ot'aloraG 2018), we replaced the high dose vs. low dose comparisons with medium dose vs. low dose comparisons.
 
