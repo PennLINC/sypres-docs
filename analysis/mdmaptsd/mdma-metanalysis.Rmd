@@ -452,7 +452,23 @@ reg
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png"), res = 315, width = 3000, height = 2200)
+
+par(cex.lab  = 1.8,  # axis titles (xlab, ylab)
+  cex.axis = 1.5,   # tick labels
+  mar = c(5.5, 5.0, 3, 1.5)  # bottom, left, top, right
+)
+
 regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
+
+tab <- coef(summary(reg))
+p_mod <- tab["n_dosing_sessions", "pval"]
+#print(p_mod)
+
+mtext(
+  paste0("p = ", format.pval(p_mod, digits = 2, eps = 0.001)),
+  side = 3, line = 1, adj = 1, cex = 1.6
+)
+
 dev.off()
 ```
 
@@ -463,7 +479,22 @@ reg
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "cumulative_dose_arm1", xlab = "cumulative dose (sessions x mg)", ylab = "Hedges' g")
+
+par(cex.lab  = 1.8,  # axis titles (xlab, ylab)
+  cex.axis = 1.5,   # tick labels
+  mar = c(5.5, 5.0, 3, 1.5)  # bottom, left, top, right
+)
+
+regplot(reg, mod = "cumulative_dose_arm1", xlab = "Cumulative dose (sessions x mg)", ylab = "Hedges' g")
+
+tab <- coef(summary(reg))
+p_mod <- tab["cumulative_dose_arm1", "pval"]
+
+mtext(
+  paste0("p = ", format.pval(p_mod, digits = 2, eps = 0.001)),
+  side = 3, line = 1, adj = 1, cex = 1.6
+)
+
 dev.off()
 ```
 
