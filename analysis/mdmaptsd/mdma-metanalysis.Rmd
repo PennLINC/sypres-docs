@@ -402,6 +402,10 @@ This approach accounts for the hierarchical structure of the data (multiple time
 ```{r che, message=FALSE}
 # Select data for the CHE meta-analysis
 data_time$dose_arm1 <- as.numeric(gsub("mg", "", data_time$dose_arm1))
+data_time$study[data_time$study == "Mithoefer 2018" & data_time$multi_arm1 == "75 mg"] <- "Mithoefer 2018 1"
+data_time$study[data_time$study == "Mithoefer 2018" & data_time$multi_arm1 == "125 mg"] <- "Mithoefer 2018 2"
+data_time$study[data_time$study == "Ot'alora 2018" & data_time$multi_arm1 == "100 mg"] <- "Ot'alora 2018 1"
+data_time$study[data_time$study == "Ot'alora 2018" & data_time$multi_arm1 == "125 mg"] <- "Ot'alora 2018 2"
 time_results <- runMetaAnalysis(data_time,
   which.run = "threelevel.che",
   # Specify statistical parameters
