@@ -470,9 +470,9 @@ slope <- tab["n_dosing_sessions", "estimate"]
 #print(p_mod)
 
 mtext(
-  paste0(
-    expression(beta), " = ", sprintf("%.2f", slope),
-    ", p = ", format.pval(p_mod, digits = 2, eps = 0.001)
+  bquote(
+    italic(beta) == .(format(signif(slope, digits = 1), scientific = FALSE)) * "," ~
+      italic(p) == .(format.pval(p_mod, digits = 2, eps = 0.001))
   ),
   side = 3, line = 1, adj = 1, cex = 1.6
 )
@@ -493,16 +493,16 @@ par(cex.lab  = 1.8,  # axis titles (xlab, ylab)
   mar = c(5.5, 5.0, 3, 1.5)  # bottom, left, top, right
 )
 
-regplot(reg, mod = "cumulative_dose_arm1", xlab = "Cumulative dose (sessions x mg)", ylab = "Hedges' g")
+regplot(reg, mod = "cumulative_dose_arm1", xlab = "Cumulative dose (mg)", ylab = "Hedges' g")
 
 tab <- coef(summary(reg))
 p_mod <- tab["cumulative_dose_arm1", "pval"]
 slope <- tab["cumulative_dose_arm1", "estimate"]
 
 mtext(
-  paste0(
-    expression(beta), " = ", sprintf("%.2f", slope),
-    ", p = ", format.pval(p_mod, digits = 2, eps = 0.001)
+  bquote(
+    italic(beta) == .(format(signif(slope, digits = 1), scientific = FALSE)) * "," ~
+      italic(p) == .(format.pval(p_mod, digits = 2, eps = 0.001))
   ),
   side = 3, line = 1, adj = 1, cex = 1.6
 )
