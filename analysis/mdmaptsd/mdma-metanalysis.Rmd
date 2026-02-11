@@ -49,8 +49,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
-# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+ basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -105,8 +105,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #     "rating"
 #   )
 # )
-data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
-# data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
+# data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+ data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -564,7 +564,7 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/response_forest_p
 
 
 meta::forest(response_results$model.overall,
-  sortvar = response_results$mode.overall$data$year,
+  sortvar = response_results$model.overall$data$year,
   leftcols = c("studlab", "dose_arm1", "condition_arm1", "event_arm1", "totaln_arm1", "dose_arm2", "condition_arm2", "event_arm2", "totaln_arm2"),
   leftlabs = c("Study", "Dose", "Drug", "Number of Events", "Total", "Dose", "Drug", "Number of Events", "Total"),
   rightlabs = c("Log RR", "95%-CI", "Weight"),
