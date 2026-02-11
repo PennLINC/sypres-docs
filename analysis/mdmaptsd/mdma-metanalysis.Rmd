@@ -49,8 +49,8 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-#basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
-basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+# basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
   base.dir = basedir,
@@ -105,8 +105,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #     "rating"
 #   )
 # )
-#data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
-data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
+data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+# data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -144,16 +144,6 @@ We prepare the data for analysis by applying several filters to create our prima
 The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
 
 ```{r filter}
-# data_main <- data %>%
-#   filterPoolingData(
-#     primary_instrument == "1",
-#     primary_timepoint == "1",
-#     is.na(post_crossover) | !Detect(post_crossover, "1"),
-#     outcome_type == "msd",
-#     !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-#     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
-#   )
-
 data_main <- data %>%
   filterPoolingData(
     primary_instrument == "1",
@@ -165,101 +155,6 @@ data_main <- data %>%
     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
     !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
   )
-
-data_time <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    post_crossover == 0 | is.na(post_crossover),
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "msd",
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
-  )
-
-# data_time <- data %>%
-#   filterPoolingData(
-#     primary_instrument == "1",
-#     post_crossover == 0 | is.na(post_crossover),
-#     is.na(post_crossover) | !Detect(post_crossover, "1"),
-#     outcome_type == "msd",
-#     !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-#     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-#     !(Detect(study, "Mithoefer 2011") & Detect(cov_time_point,"Follow-up 1"))
-#   )
-
-data_response <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "response",
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
-  )
-
-data_remission <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "remission",
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
-  )
-
-data_depression <- data %>%
-  filterPoolingData(
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2))),
-    Detect(instrument_symptom, "depression"),
-    outcome_type == "msd"
-  ) %>%
-  filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
-
-data_sleep <- data %>%
-  filterPoolingData(
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2))),
-    Detect(instrument_symptom, "sleep"),
-    outcome_type == "msd"
-  )
-
-data_medium_dose <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "msd",
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2)))
-  )
-
-data_functional <- data %>%
-  filterPoolingData(
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2))),
-    Detect(instrument_symptom, "functional impairment") | Detect(instrument_symptom, "psychological functioning"),
-    outcome_type == "msd"
-  )
-
 ```
 
 ## Results
@@ -287,11 +182,11 @@ The results include the pooled effect size, confidence intervals, heterogeneity 
 
 main_results <- runMetaAnalysis(data_main,
   which.run = c("overall"),
+  
   # Specify statistical parameters
   es.measure = "g", # Hedges' g
   method.tau = "REML",
-  method.tau.ci = "Q-Profile", # N/A for three-level models
-  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
+  method.tau.ci = "Q-Profile",
   hakn = TRUE, # Knapp-Hartung adjustment
 
   # Specify variables
@@ -401,11 +296,23 @@ This approach accounts for the hierarchical structure of the data (multiple time
 
 ```{r che, message=FALSE}
 # Select data for the CHE meta-analysis
+data_time <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    post_crossover == 0 | is.na(post_crossover),
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "msd",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg"))
+  )
+
+# Re-write some data for plotting
 data_time$dose_arm1 <- as.numeric(gsub("mg", "", data_time$dose_arm1))
 data_time$study[data_time$study == "Mithoefer 2018" & data_time$multi_arm1 == "75 mg"] <- "Mithoefer 2018 1"
 data_time$study[data_time$study == "Mithoefer 2018" & data_time$multi_arm1 == "125 mg"] <- "Mithoefer 2018 2"
 data_time$study[data_time$study == "Ot'alora 2018" & data_time$multi_arm1 == "100 mg"] <- "Ot'alora 2018 1"
 data_time$study[data_time$study == "Ot'alora 2018" & data_time$multi_arm1 == "125 mg"] <- "Ot'alora 2018 2"
+
 time_results <- runMetaAnalysis(data_time,
   which.run = "threelevel.che",
   # Specify statistical parameters
@@ -425,6 +332,8 @@ time_results <- runMetaAnalysis(data_time,
   time.var = "dose_days",
   round.digits = 2
 )
+
+summary(time_results$model.threelevel.che)
 
 plot(
   time_results, 
@@ -514,76 +423,8 @@ dev.off()
 ![](/analysis/mdmaptsd/paperfigs/SI_Fig_03.png)
 Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring MDMA immediately following dosing that was stable over time.
 
-### Sensitivity Analyses
 
-We conduct comprehensive subgroup and sensitivity analyses to examine the robustness of our findings and explore potential moderators of treatment effects.
-
-These analyses include:
-
-
-**Sensitivity Analyses:**
-
-- In the multi-arm studies (Mithoefer 2018 and Ot'alora 2018) replace high-dose intervention with medium-dose intervention
-
-- Fixed-effects model
-
-```{r subgroup-and-sensitivity-data-filtering}
-# Build a dataframe for each subgroup and sensitivity analysis
-
-data_sens <- data %>%
-  filterPoolingData(
-    primary_instrument == "1",
-    primary_timepoint == "1",
-    is.na(post_crossover) | !Detect(post_crossover, "1"),
-    outcome_type == "msd",
-    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
-    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2))),
-    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
-    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2)))
-  )
-```
-
-Now we can use `metapsyTools` for quickly looking at subgroup and sensitivity results.
-
-```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
-# Run the main "overall" model for comparison
-
-main <- runMetaAnalysis(data_main,
-
-  # Specify statistical parameters
-  which.run = "overall", # inverse variance random effects
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile",
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_weeks",
-  round.digits = 2
-)
-
-# Use metapsyTools' replacement and rerun functions for quickly changing parameters
-
-sens <- main # copy the main model
-data(sens) <- data_sens # replace the dataframe in the new model
-sense <- rerun(sens) # re-run the model
-sens
-
-fixed <- main
-method.tau(fixed) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
-hakn(fixed) <- FALSE
-fixed <- rerun(fixed)
-fixed
-```
-
-
-### Dichotomous Outcomes Analysis
+### Secondary outcomes
 
 In addition to continuous PTSD severity scores, we also analyze dichotomous outcomes including response and remission rates.
 These analyses provide complementary information about the clinical significance of MDMA treatment.
@@ -594,6 +435,17 @@ We first analyze response rates, defined as the proportion of participants achie
 
 ```{r response model, message=FALSE}
 # Get response data
+data_response <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "response",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
+    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
+  )
 
 data_response <- data_response[order(data_response$year), ]
 
@@ -640,7 +492,17 @@ We also analyze remission rates, defined as the proportion of participants achie
 
 ```{r remission model, message=FALSE}
 # Get remission data
-
+data_remission <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "remission",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
+    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
+  )
 data_remission <- data_remission[order(data_remission$year), ]
 
 # Run meta-analysis
@@ -782,76 +644,24 @@ grid::grid.text(
 dev.off()
 ```
 
-As a sensitivity analysis, we also run a fixed-effects meta-analysis on the response and remission results.
-
-```{r fixed-dichotomous, message=FALSE, warning=FALSE}
-# Fixed response
-method.tau(response_results) <- "FE"
-hakn(response_results) <- FALSE
-rerun(response_results)
-
-# Fixed remission
-method.tau(remission_results) <- "FE"
-hakn(remission_results) <- FALSE
-rerun(remission_results)
-```
-```{r runmetaAnalysis on fixed response results, include=FALSE}
-# Run fixed meta-analysis
-
-fixed_response_results <- runMetaAnalysis(data_response,
-  which.run = "overall",
-  es.measure = "RR", # risk ratio
-  es.type = "raw",
-  method.tau = "FE",
-  method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
-  hakn = FALSE, # Knapp-Hartung adjustement
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "study_time_point",
-  round.digits = 2
-)
-fixed_response_results
-```
-```{r runmetaAnalysis on fixed remission results, message=FALSE, warning=FALSE, include=FALSE}
-# Run fixed meta-analysis
-
-fixed_remission_results <- runMetaAnalysis(data_remission,
-  which.run = "overall",
-  es.measure = "RR", # risk ratio
-  es.type = "raw",
-  method.tau = "FE",
-  method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
-  hakn = FALSE, # Knapp-Hartung adjustement
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "study_time_point",
-  round.digits = 2
-)
-fixed_remission_results
-```
-
-
-Our fixed effects models yielded results that were in line with the main model, showing statistically significant higher response and remission rates with MDMA compared to control conditions.
-
-### Secondary outcome - depression
+#### Secondary outcome - depression
 
 ```{r depression model}
-# Run meta-analysis
+# Select depression data
+data_depression <- data %>%
+  filterPoolingData(
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "75 mg")),
+    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "75 mg") & !is.na(multi_arm2))),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
+    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2))),
+    Detect(instrument_symptom, "depression"),
+    outcome_type == "msd"
+  ) %>%
+  filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
 
+# Run meta-analysis
 dep_results <- runMetaAnalysis(data_depression,
   which.run = c("overall"),
   # Specify statistical parameters
@@ -921,120 +731,74 @@ meta::forest(dep_results$model.overall,
 dev.off()
 ```
 
-# Secondary outcome - functional impairment
+### Sensitivity Analyses
 
-### Secondary outcome - depression
+We conduct comprehensive sensitivity analyses to examine the robustness of our findings.
 
-```{r functional impairment model}
-# Run meta-analysis
+These analyses include:
 
-functional_results <- runMetaAnalysis(data_functional,
-  which.run = c("overall"),
-  # Specify statistical parameters
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile", # N/A for three-level models
-  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
-  hakn = TRUE, # Knapp-Hartung adjustment
 
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_days",
-  round.digits = 2
-)
+- In the multi-arm studies (Mithoefer 2018 and Ot'alora 2018) replace high-dose intervention with medium-dose intervention
 
-summary(functional_results$model.overall)
+- Fixed-effects models for primary continuous outcomes and response and remission rates
+
+- A Bayesian analysis of our primary results
+
+- Within-study correlation coefficient sweep for three-level CHE model
+
+### Medium dose comparison and fixed effects analyses
+
+```{r subgroup-and-sensitivity-data-filtering}
+# Build a dataframe for the first sensitivity analysis
+data_medium_dose <- data %>%
+  filterPoolingData(
+    primary_instrument == "1",
+    primary_timepoint == "1",
+    is.na(post_crossover) | !Detect(post_crossover, "1"),
+    outcome_type == "msd",
+    !(Detect(study, "Mithoefer 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
+    !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2))),
+    !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
+    !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2)))
+  )
+```
+
+Now we can use `metapsyTools` replacement functions for quickly looking running some sensitivity analyses.
+
+```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
+# Use metapsyTools' replacement and rerun functions for quickly changing parameters
+medium <- main_results # copy the main model
+data(medium) <- data_medium_dose # replace the dataframe in the new model
+medium <- rerun(medium) # re-run the model
+medium
 
 # Create simple forest plot of results
-
 plot(
-  functional_results,
+  medium,
   which = "overall"
 )
+
+fixed_continuous <- main_results
+method.tau(fixed_continuous) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
+hakn(fixed_continuous) <- FALSE
+fixed_continuous <- rerun(fixed_continuous)
+fixed_continuous
+
+fixed_response <- response_results
+method.tau(fixed_response) <- "FE"
+hakn(fixed_response) <- FALSE
+fixed_response <- rerun(fixed_response)
+fixed_response
+
+fixed_remission <- remission_results
+method.tau(fixed_remission) <- "FE"
+hakn(fixed_remission) <- FALSE
+fixed_remission <- rerun(fixed_remission)
+fixed_remission
 ```
 
-
-```{r functional impairment continuous forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/functional_impairment_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
-
-# plot(
-#   main_results,
-#   which = "overall",
-#   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-#   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
-#   fontsize = 9,
-#   col.square = "#000080",
-#   col.diamond = "#000080",
-#   col.predict = "gray",
-#   fontfamily = "Arial",
-#   colgap.forest = "2cm",
-#   xlim = c(-4.5, 2),
-#   label.left = "Favors intervention",
-#   label.right = "Favors control",
-#   smlab = "SMD")
-meta::forest(functional_results$model.overall,
-  sortvar = functional_results$model.overall$data$year,
-  leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
-  fontsize = 9,
-  col.square = "#000080",
-  col.diamond = "#000080",
-  col.predict = "gray",
-  fontfamily = "Arial",
-  colgap.forest = "2cm",
-  xlim = c(-4.5, 4),
-  label.left = "Favors intervention",
-  label.right = "Favors control",
-  smlab = "SMD"
-)
-
-
-dev.off()
-```
-
-
-
-As a sensitivity analyses, for the studies that had three arms (Mithoefer 2018 & Ot'aloraG 2018), we replaced the high dose vs. low dose comparisons with medium dose vs. low dose comparisons.
-
-# Medium vs. low dose
-
-```{r primary-meta-analysis, message=FALSE}
-# Run meta-analysis
-
-medium_dose_results <- runMetaAnalysis(data_medium_dose,
-  which.run = c("overall"),
-  # Specify statistical parameters
-  es.measure = "g", # Hedges' g
-  method.tau = "REML",
-  method.tau.ci = "Q-Profile", # N/A for three-level models
-  # i2.ci.boot = TRUE, # Need to use bootstrapping to get het. CI on three-level
-  hakn = TRUE, # Knapp-Hartung adjustment
-
-  # Specify variables
-  study.var = "study",
-  arm.var.1 = "condition_arm1",
-  arm.var.2 = "condition_arm2",
-  measure.var = "instrument",
-  w1.var = "n_arm1",
-  w2.var = "n_arm2",
-  time.var = "time_days",
-  round.digits = 2
-)
-
-summary(medium_dose_results$model.overall)
-
-# Create simple forest plot of results
-
-plot(
-  medium_dose_results,
-  which = "overall"
-)
-```
+Our medium dose comparison yielded similar results to the high dose comparison. 
+Our fixed effects models yielded results that were in line with the random effects models.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/medium_dose_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
@@ -1074,7 +838,124 @@ meta::forest(medium_dose_results$model.overall,
 dev.off()
 ```
 
+#### Bayesian implementation
 
+We implement our main model using a bayesian framework.
+We do this using the `bayesmeta` package using "weakly informative prior distributions".
+
+Parameters:
+- A normal prior distribution with a 95% probability that the pooled estimate falls between -2 and 2.
+- A half-normal prior distribution for tau, with an s.d. of 0.5
+
+```{r bayes}
+bayes <- bayesmeta(
+  data_main$.g,
+  data_main$.g_se,
+  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
+  )
+bayes
+```
+
+Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
+The model finds that the 95% interval of the true effect lies between -1.17 and -0.60.
+```{r bayes mu, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior=TRUE,
+  which=3)
+
+dev.off()
+
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayestau.png"), res = 315, width = 1500, height = 1000)
+
+plot.bayesmeta(
+  bayes,
+  prior=TRUE,
+  which=4)
+
+dev.off()
+```
+We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
+![](/analysis/mdmaptsd/paperfigs/SI_Fig_07.png)
+
+#### Sweep the within-study correlation coefficient for the three-level CHE
+
+The CHE model assumes that there is a known correlation "rho" between effect sizes in the same study; and that "rho" has the same value within and across all studies in our meta-analysis (the “constant sampling correlation” assumption, J. E. Pustejovsky and Tipton 2021).
+While these authors have reported that "meta-regression coefficient estimates were largely insensitive to assuming different values of rho between 0.0 and 0.8", our default choice of rho = 0.6 in metapsyTools is nonetheless, a guess.
+It is therefore generally recommended to run sensitivity analyses for varying values of rho:
+
+```{r sweep within study rho, message=FALSE, warning=FALSE, results='hide'}
+# sweep rho in the CHE model for r = seq(0, 1, 0.1)
+rho_seq <- seq(0, 1, 0.1)
+i <- 1
+g_sweep <- numeric(length(rho_seq))
+g_ci_lwr <- numeric(length(rho_seq)) # Initialize the vector
+g_ci_upr <- numeric(length(rho_seq)) # Initialize the vector
+
+for (rho in rho_seq) {
+  time_results_sweep <- runMetaAnalysis(data_time,
+    which.run = "threelevel.che",
+    # Specify statistical parameters
+    es.measure = "g", # Hedges' g
+    method.tau = "REML",
+    method.tau.ci = "Q-Profile", # N/A for three-level models
+    hakn = TRUE, # Knapp-Hartung adjustment
+    rho.within.study = rho,
+    # Specify variables
+    study.var = "study",
+    arm.var.1 = "condition_arm1",
+    arm.var.2 = "condition_arm2",
+    measure.var = "instrument",
+    w1.var = "n_arm1",
+    w2.var = "n_arm2",
+    time.var = "time_days",
+    round.digits = 2
+  )
+
+  g_sweep[i] <- time_results_sweep$summary$g[2]
+  g_ci <- as.numeric(
+    strsplit(gsub("\\[|\\]", "", time_results_sweep$summary$g.ci[2]), ";")[[1]]
+  )
+  g_ci_lwr[i] <- g_ci[1]
+  g_ci_upr[i] <- g_ci[2]
+  i <- i + 1
+}
+```
+
+```{r rho sweep, message=FALSE, results='hide', fig.show='hold'}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_04.png"), res = 315, width = 2500, height = 1500)
+# plot the results (base R with shaded CI ribbon)
+y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
+y_finite <- y_vals[is.finite(y_vals)]
+y_range <- suppressWarnings(range(y_finite))
+if (!all(is.finite(y_range))) y_range <- c(-1, 1)
+
+{
+  plot(rho_seq, g_sweep,
+    type = "n",
+    xlab = "rho", ylab = "Hedges' g",
+    xlim = range(rho_seq, na.rm = TRUE),
+    ylim = y_range
+  )
+
+  mask_ci <- is.finite(g_ci_lwr) & is.finite(g_ci_upr) & is.finite(rho_seq)
+  if (sum(mask_ci) >= 2) {
+    polygon(c(rho_seq[mask_ci], rev(rho_seq[mask_ci])),
+      c(g_ci_lwr[mask_ci], rev(g_ci_upr[mask_ci])),
+      col = grDevices::adjustcolor("red", alpha.f = 0.2),
+      border = NA
+    )
+  }
+
+  lines(rho_seq, g_sweep, col = "blue", lwd = 2)
+  lines(rho_seq, g_ci_lwr, col = "red", lty = 2)
+  lines(rho_seq, g_ci_upr, col = "red", lty = 2)
+}
+dev.off()
+```
 
 ```{r calculating n for each study at timepoint, include=FALSE}
 # Create function to get total n at each timepoint
@@ -1094,8 +975,8 @@ total_n_dichotomous <- function(df) {
 total_data_main <- total_n(data_main)
 print(paste("main n =", total_data_main))
 
-total_data_sens <- total_n(data_sens)
-print(paste("sens n =", total_data_sens))
+total_data_medium_dose <- total_n(data_medium_dose)
+print(paste("sens n =", total_data_medium_dose))
 
 total_data_response <- total_n_dichotomous(data_response)
 print(paste("response n =", total_data_response))
