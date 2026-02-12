@@ -7,7 +7,6 @@ output:
     preserve_yaml: true
 ---
 
-# XXX: update these paths/desciptions
 This document provides a comprehensive walk-through of the meta-analysis investigating the efficacy of MDMA for treating PTSD symptoms, using data extracted for the SYPRES project.
 The analysis includes both continuous (PTSD symptom severity scores) and dichotomous (response/remission rates) outcomes, along with extensive subgroup and sensitivity analyses.
 
@@ -19,7 +18,7 @@ The meta-analytic portion of this script primarily uses the R package `metapsyTo
 Documentation on `metapsyTools` is available [here](https://tools.metapsy.org).
 
 This walk-through has some code chunks hidden for clarity.
-Full source code for this analysis is available [here](https://github.com/pennlinc/sypres-docs/blob/main/analysis/mdmaptsd/mdmaptsd-meta-analysis.Rmd).
+Full source code for this analysis is available [here](https://github.com/pennlinc/sypres-docs/blob/main/analysis/mdmaptsd/mdma-metanalysis.Rmd).
 
 ## Overview
 
@@ -29,8 +28,9 @@ The analysis employs meta-analytic methods to provide robust estimates of treatm
 ### Key Features of This Analysis
 
 - **Comprehensive outcome assessment**: Both continuous (PTSD symptom severity) and dichotomous (response/remission) outcomes
-- **Time course analysis**: Three-level hierarchical models to examine treatment effects over time
-- **Robustness testing**: Extensive sensitivity and subgroup analyses
+- **Dose-response analysis**: Three-level hierarchical models to examine treatment effects with respect to dosing
+- **Co-morbid depression**: Analysis of self-reported depression symptoms in PTSD
+- **Robustness testing**: Extensive sensitivity analyses
 - **Publication bias assessment**: Multiple methods to evaluate potential bias
 - **Transparent reporting**: Complete code and methodology documentation
 
@@ -45,20 +45,32 @@ The analysis employs meta-analytic methods to provide robust estimates of treatm
 
 ### Quality Assessment
 
-We conduct sensitivity analyses excluding studies with high risk of bias evaluated using the Cochrane Risk of Bias tool.
+Risk of bias was evaluated using the Cochrane Risk of Bias 2.0 tool.
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
-# basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
- basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
+# Resolve project root robustly when knitting from either repository root
+# or from within `analysis/mdmaptsd/`.
+root_candidates <- c(
+  getwd(),
+  normalizePath(file.path(getwd(), ".."), winslash = "/", mustWork = FALSE),
+  normalizePath(file.path(getwd(), "..", ".."), winslash = "/", mustWork = FALSE)
+)
+root_matches <- root_candidates[dir.exists(file.path(root_candidates, "analysis", "mdmaptsd"))]
+basedir <- if (length(root_matches) > 0) {
+  normalizePath(root_matches[1], winslash = "/", mustWork = TRUE)
+} else {
+  normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+}
 
 knitr::opts_knit$set(
   base.dir = basedir,
   base.url = "/"
 )
-knitr::opts_chunk$set(fig.path = "analysis/mdmaptsd/knitfigs/")
-
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  fig.path = "analysis/mdmaptsd/knitfigs/",
+  echo = TRUE
+)
 ```
 
 ### Load Required Packages
@@ -91,11 +103,11 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 # # Load data using metapsyData
 # d <- getData("ptsd-mdmactr")
 # data <- d$data
-# 
-# 
+#
+#
 # # Check data format with checkDataFormat
 # checkDataFormat(data)
-# 
+#
 # # Check conflicts with checkConflicts
 # checkConflicts(data,
 #   vars.for.id = c(
@@ -105,8 +117,8 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #     "rating"
 #   )
 # )
-# data<-read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
- data<-read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") #for brooke
+data<-read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") #for parker
+# data <- read_csv2("/Users/bsevchik/Documents/GitHub/data-ptsd-mdmactr/data.csv") # for brooke
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -136,10 +148,9 @@ checkConflicts(data,
 We prepare the data for analysis by applying several filters to create our primary analysis dataset:
 
 1. **Primary outcomes**: Select only the primary instrument and timepoint for each study
-2. **Study design**: Exclude post-crossover data to avoid double-counting
-3. **Outcome type**: Include only endpoint data (mean/SD or imputed mean/SD)
-4. **Dosing**: Exclude medium-dose arm (10 mg MDMA) from multi-arm study (Goodwin 2022)
-5. **Study exclusions**: Remove specific studies (Grob 2011, Krempien 2023, Carhart-Harris 2021) based on predefined criteria
+2. **Study design**: Exclude post-crossover data
+3. **Outcome type**: Include only endpoint data (mean/SD/N)
+4. **Dosing**: Exclude medium-dose arms from multi-arm studies (Mithoefer 2018, Ot'alora 2018)
 
 The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
 
@@ -172,8 +183,6 @@ This analysis pools all studies in our filtered dataset to estimate the overall 
 
 - **Adjustments**: Knapp-Hartung adjustment for significance tests
 
-- **Additional analyses**: Outlier detection and removal
-
 
 The results include the pooled effect size, confidence intervals, heterogeneity statistics, and the meta-analysis model object.
 
@@ -182,7 +191,7 @@ The results include the pooled effect size, confidence intervals, heterogeneity 
 
 main_results <- runMetaAnalysis(data_main,
   which.run = c("overall"),
-  
+
   # Specify statistical parameters
   es.measure = "g", # Hedges' g
   method.tau = "REML",
@@ -234,7 +243,7 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.png
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
   col.square = "#000080",
   col.diamond = "#000080",
@@ -336,7 +345,7 @@ time_results <- runMetaAnalysis(data_time,
 summary(time_results$model.threelevel.che)
 
 plot(
-  time_results, 
+  time_results,
   which = "threelevel.che"
 )
 ```
@@ -344,11 +353,11 @@ plot(
 ```{r save plot}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/three_level_regression_forest.png"), res = 315, width = 4500, height = 1500)
 plot(
-  time_results, 
+  time_results,
   which = "threelevel.che",
-  leftcols = c("studlab", "n_dosing_sessions", "dose_arm1", "cumulative_dose_arm1","dose_weeks"),
-  leftlabs = c("Study", "Dosing Session", "Dose (mg)", "Cumulative Dose (mg)","Time (weeks)"),
-  )
+  leftcols = c("studlab", "n_dosing_sessions", "dose_arm1", "cumulative_dose_arm1", "dose_weeks"),
+  leftlabs = c("Study", "Dosing Session", "Dose (mg)", "Cumulative Dose (mg)", "Time (weeks)"),
+)
 dev.off()
 ```
 
@@ -366,9 +375,10 @@ reg
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png"), res = 315, width = 3000, height = 2200)
 
-par(cex.lab  = 1.8,  # axis titles (xlab, ylab)
-  cex.axis = 1.5,   # tick labels
-  mar = c(5.5, 5.0, 3, 1.5)  # bottom, left, top, right
+par(
+  cex.lab = 1.8, # axis titles (xlab, ylab)
+  cex.axis = 1.5, # tick labels
+  mar = c(5.5, 5.0, 3, 1.5) # bottom, left, top, right
 )
 
 regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
@@ -376,7 +386,7 @@ regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab
 tab <- coef(summary(reg))
 p_mod <- tab["n_dosing_sessions", "pval"]
 slope <- tab["n_dosing_sessions", "estimate"]
-#print(p_mod)
+# print(p_mod)
 
 mtext(
   bquote(
@@ -397,9 +407,10 @@ reg
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.png"), res = 315, width = 3000, height = 2200)
 
-par(cex.lab  = 1.8,  # axis titles (xlab, ylab)
-  cex.axis = 1.5,   # tick labels
-  mar = c(5.5, 5.0, 3, 1.5)  # bottom, left, top, right
+par(
+  cex.lab = 1.8, # axis titles (xlab, ylab)
+  cex.axis = 1.5, # tick labels
+  mar = c(5.5, 5.0, 3, 1.5) # bottom, left, top, right
 )
 
 regplot(reg, mod = "cumulative_dose_arm1", xlab = "Cumulative dose (mg)", ylab = "Hedges' g")
@@ -647,6 +658,18 @@ dev.off()
 #### Secondary outcome - depression
 
 ```{r depression model}
+data <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+# data <- read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") # for brooke
+data <- data %>%
+  calculateEffectSizes(
+    vars.for.id = c(
+      "study", "outcome_type",
+      "instrument", "study_time_point",
+      "time_weeks",
+      "rating"
+    ),
+  )
+
 # Select depression data
 data_depression <- data %>%
   filterPoolingData(
@@ -714,7 +737,7 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/depression_mdmapt
 meta::forest(dep_results$model.overall,
   sortvar = dep_results$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
   col.square = "#000080",
   col.diamond = "#000080",
@@ -797,7 +820,7 @@ fixed_remission <- rerun(fixed_remission)
 fixed_remission
 ```
 
-Our medium dose comparison yielded similar results to the high dose comparison. 
+Our medium dose comparison yielded similar results to the high dose comparison.
 Our fixed effects models yielded results that were in line with the random effects models.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
@@ -821,7 +844,7 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/medium_dose_mdmap
 meta::forest(medium_dose_results$model.overall,
   sortvar = medium_dose_results$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-  leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
   col.square = "#000080",
   col.diamond = "#000080",
@@ -851,9 +874,9 @@ Parameters:
 bayes <- bayesmeta(
   data_main$.g,
   data_main$.g_se,
-  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
   tau.prior = function(t) dhalfnormal(t, scale = 0.5)
-  )
+)
 bayes
 ```
 
@@ -864,8 +887,9 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayesmu.png"), re
 
 plot.bayesmeta(
   bayes,
-  prior=TRUE,
-  which=3)
+  prior = TRUE,
+  which = 3
+)
 
 dev.off()
 
@@ -873,8 +897,9 @@ png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayestau.png"), r
 
 plot.bayesmeta(
   bayes,
-  prior=TRUE,
-  which=4)
+  prior = TRUE,
+  which = 4
+)
 
 dev.off()
 ```
