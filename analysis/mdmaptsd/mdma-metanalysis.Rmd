@@ -651,9 +651,9 @@ dev.off()
 Our depression outcomes are stored on a separate local database.
 
 ```{r depression model}
-data <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") # for parker
-# data <- read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") # for brooke
-data <- data %>%
+data2 <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") # for parker
+# data2 <- read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") # for brooke
+data2 <- data2 %>%
   calculateEffectSizes(
     vars.for.id = c(
       "study", "outcome_type",
@@ -664,7 +664,7 @@ data <- data %>%
   )
 
 # Select depression data
-data_depression <- data %>%
+data_depression <- data2 %>%
   filterPoolingData(
     primary_timepoint == "1",
     is.na(post_crossover) | !Detect(post_crossover, "1"),
