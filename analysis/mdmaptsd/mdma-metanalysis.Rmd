@@ -117,7 +117,7 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 #     "rating"
 #   )
 # )
-data<-read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") #for parker
+data <- read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") # for parker
 # data <- read_csv2("/Users/bsevchik/Documents/GitHub/data-ptsd-mdmactr/data.csv") # for brooke
 data <- data %>%
   calculateEffectSizes(
@@ -225,21 +225,6 @@ The primary meta-analysis on continuous outcomes in the 6 studies included in th
 ```{r main continuous forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
-# plot(
-#   main_results,
-#   which = "overall",
-#   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-#   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
-#   fontsize = 9,
-#   col.square = "#000080",
-#   col.diamond = "#000080",
-#   col.predict = "gray",
-#   fontfamily = "Arial",
-#   colgap.forest = "2cm",
-#   xlim = c(-4.5, 2),
-#   label.left = "Favors intervention",
-#   label.right = "Favors control",
-#   smlab = "SMD")
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
@@ -255,7 +240,6 @@ meta::forest(main_results$model.overall,
   label.right = "Favors control",
   smlab = "SMD"
 )
-
 
 dev.off()
 ```
@@ -273,7 +257,7 @@ Egger's test did not indicate small-study effects/publication bias.
 
 
 ```{r funnelplot, message=FALSE, results='hide'}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
 funnel(main_results$model.overall,
   studlab = TRUE, # can also use vector with study labels
   cex.studlab = 0.7, # adjust size of study labels
@@ -293,7 +277,7 @@ funnel(main_results$model.overall,
 dev.off()
 ```
 
-![](/analysis/mdmaptsd/paperfigs/SI_Fig_01.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_01.png)
 Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's test did not find small study effects, implying minimal evidence of publication bias.
 
 
@@ -365,13 +349,16 @@ The three-level CHE model reveals an overall significant decrease in PTSD scores
 
 #### Meta-Regression
 
-We perform meta-regression to examine the relationship between time since final dose and treatment effect.
+We perform two separate meta-regressions to examine the relationship between dose and treatment effect:
+
+##### 1. Number of dosing sessions
+
+First, we examine the relationship between the number of dosing sessions and treatment effect.
 
 ```{r meta-regression n_dosing_sessions, message=FALSE, warning=FALSE}
 reg <- metaRegression(time_results$model.threelevel.che, ~n_dosing_sessions)
 reg
 ```
-
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png"), res = 315, width = 3000, height = 2200)
 
@@ -399,11 +386,18 @@ mtext(
 dev.off()
 ```
 
+![](/analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png)
+
+The largest between-group difference in PTSD scores occurs after the first dosing session (Hedges’ *g* \= \-0.39), while additional sessions increase this difference by \-0.20 SMD.
+
+##### 2. Cumulative dose
+
+We also examine the relationship between the cumulative dose and treatment effect.
+Cumulative dose is the total amount of MDMA taken by the participant (excluding booster doses for simplicity - all studies offered booster doses partway through the dosing sessions).
 ```{r meta-regression cumulative, message=FALSE, warning=FALSE}
 reg <- metaRegression(time_results$model.threelevel.che, ~cumulative_dose_arm1)
 reg
 ```
-
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.png"), res = 315, width = 3000, height = 2200)
 
@@ -430,14 +424,15 @@ mtext(
 dev.off()
 ```
 
+![](/analysis/mdmaptsd/paperfigs/cumulative_dose.png)
 
-![](/analysis/mdmaptsd/paperfigs/SI_Fig_03.png)
-Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring MDMA immediately following dosing that was stable over time.
+Here, while the slope is small (Hedges’ *g* \= \-0.002), this is per mg of MDMA.
+This comes out to about -0.20 SMD per 100 mg of MDMA.
 
 
 ### Secondary outcomes
 
-In addition to continuous PTSD severity scores, we also analyze dichotomous outcomes including response and remission rates.
+In addition to continuous PTSD severity scores, we also analyze dichotomous outcomes including response and remission rates of PTSD scores and secondary continuous self-reported depression outcomes.
 These analyses provide complementary information about the clinical significance of MDMA treatment.
 
 #### Response Rate Analysis
@@ -457,8 +452,6 @@ data_response <- data %>%
     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
     !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
   )
-
-data_response <- data_response[order(data_response$year), ]
 
 # Run meta-analysis
 
@@ -514,7 +507,6 @@ data_remission <- data %>%
     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "100 mg")),
     !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "100 mg") & !is.na(multi_arm2)))
   )
-data_remission <- data_remission[order(data_remission$year), ]
 
 # Run meta-analysis
 
@@ -602,7 +594,6 @@ grid::grid.text(
 
 dev.off()
 ```
-
 ```{r forest meta remission for indesign, include=FALSE}
 ### forest plot for remission
 
@@ -657,8 +648,10 @@ dev.off()
 
 #### Secondary outcome - depression
 
+Our depression outcomes are stored on a separate local database.
+
 ```{r depression model}
-data <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") #for parker
+data <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") # for parker
 # data <- read_csv("/Users/bsevchik/Documents/GitHub/psypres/MDMAPTSD/data/data.csv") # for brooke
 data <- data %>%
   calculateEffectSizes(
@@ -714,26 +707,9 @@ plot(
   which = "overall"
 )
 ```
-
-
 ```{r depression continuous forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/depression_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
-# plot(
-#   main_results,
-#   which = "overall",
-#   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-#   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
-#   fontsize = 9,
-#   col.square = "#000080",
-#   col.diamond = "#000080",
-#   col.predict = "gray",
-#   fontfamily = "Arial",
-#   colgap.forest = "2cm",
-#   xlim = c(-4.5, 2),
-#   label.left = "Favors intervention",
-#   label.right = "Favors control",
-#   smlab = "SMD")
 meta::forest(dep_results$model.overall,
   sortvar = dep_results$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
@@ -749,7 +725,6 @@ meta::forest(dep_results$model.overall,
   label.right = "Favors control",
   smlab = "SMD"
 )
-
 
 dev.off()
 ```
@@ -769,7 +744,7 @@ These analyses include:
 
 - Within-study correlation coefficient sweep for three-level CHE model
 
-### Medium dose comparison and fixed effects analyses
+#### Medium dose comparison and fixed effects analyses
 
 ```{r subgroup-and-sensitivity-data-filtering}
 # Build a dataframe for the first sensitivity analysis
@@ -826,23 +801,8 @@ Our fixed effects models yielded results that were in line with the random effec
 ```{r main continuous forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/medium_dose_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
-# plot(
-#   main_results,
-#   which = "overall",
-#   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
-#   leftlabs = c("Study", "Drug", "Dose", "N", "Mean","SD", "Drug", "Dose", "N", "Mean", "SD"),
-#   fontsize = 9,
-#   col.square = "#000080",
-#   col.diamond = "#000080",
-#   col.predict = "gray",
-#   fontfamily = "Arial",
-#   colgap.forest = "2cm",
-#   xlim = c(-4.5, 2),
-#   label.left = "Favors intervention",
-#   label.right = "Favors control",
-#   smlab = "SMD")
-meta::forest(medium_dose_results$model.overall,
-  sortvar = medium_dose_results$model.overall$data$year,
+meta::forest(medium$model.overall,
+  sortvar = medium$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
   leftlabs = c("Study", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
@@ -856,7 +816,6 @@ meta::forest(medium_dose_results$model.overall,
   label.right = "Favors control",
   smlab = "SMD"
 )
-
 
 dev.off()
 ```
@@ -881,7 +840,7 @@ bayes
 ```
 
 Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
-The model finds that the 95% interval of the true effect lies between -1.17 and -0.60.
+The model finds that the 95% interval of the true effect lies between -1.05 and -0.36.
 ```{r bayes mu, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
 
@@ -904,7 +863,7 @@ plot.bayesmeta(
 dev.off()
 ```
 We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
-![](/analysis/mdmaptsd/paperfigs/SI_Fig_07.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_07.png)
 
 #### Sweep the within-study correlation coefficient for the three-level CHE
 
@@ -949,9 +908,8 @@ for (rho in rho_seq) {
   i <- i + 1
 }
 ```
-
 ```{r rho sweep, message=FALSE, results='hide', fig.show='hold'}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/SI_Fig_04.png"), res = 315, width = 2500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_04.png"), res = 315, width = 2500, height = 1500)
 # plot the results (base R with shaded CI ribbon)
 y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
 y_finite <- y_vals[is.finite(y_vals)]
@@ -982,6 +940,9 @@ if (!all(is.finite(y_range))) y_range <- c(-1, 1)
 dev.off()
 ```
 
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_04.png)
+
+The main effect size is not sensitive to the within-study correlation coefficient.
 ```{r calculating n for each study at timepoint, include=FALSE}
 # Create function to get total n at each timepoint
 
@@ -1020,11 +981,11 @@ This comprehensive meta-analysis provides promising evidence regarding the effic
 The analysis includes:
 
 1. **Primary analysis** of continuous PTSD severity outcomes using standardized mean differences
-2. **Time course analysis** examining how treatment effects evolve over time
-3. **Publication bias assessment** using multiple methods
-4. **Extensive subgroup and sensitivity analyses** to examine robustness and moderators
-5. **Dichotomous outcomes analysis** of response and remission rates
+2. **Dose-response analysis** examining how treatment effects are impacted by number of dosing sessions and cumulative dose
+3. **Dichotomous outcomes analysis** of response and remission rates
+4. **Secondary outcomes analysis** of self-reported depression outcomes
+5. **Extensive sensitivity analyses** to examine robustness
 
-The results demonstrate consistent evidence for the efficacy of MDMA in reducing PTSD severity, with effects persisting over time and showing robustness across various sensitivity analyses.
+The results demonstrate consistent evidence for the efficacy of MDMA in reducing PTSD severity, with effects showing robustness across various sensitivity analyses.
 However, given the small number of studies eligible to include in our meta-analysis and limitations such as the potential for functional unblinding and expectancy effects, results should be interpreted with caution.
 
