@@ -124,9 +124,18 @@ If you update the environment with new packages, you can re-export the environme
 Commit and push the updated file to keep everyone in sync.
 
 ### 7. kniting the Rmd for the website
+PSILODEP:
 ```
 rmarkdown::render(
   input = file.path(basedir,"analysis/psilodep/psilodep-meta-analysis.Rmd"),
   output_file = file.path(basedir,"docs/datasets/_posts/2025-06-26-psilodep-meta-analysis.md")
+)
+```
+
+MDMAPTSD:
+```
+rmarkdown::render(
+  input = file.path(basedir,"analysis/mdmaptsd/mdmaptsd-meta-analysis.Rmd"),
+  output_file = file.path(basedir,"docs/datasets/_posts/2026-02-13-mdmaptsd-meta-analysis.md")
 )
 ```
