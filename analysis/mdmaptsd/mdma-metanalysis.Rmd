@@ -461,7 +461,6 @@ response_results <- runMetaAnalysis(data_response,
   es.type = "raw",
   method.tau = "PM",
   method.tau.ci = "Q-Profile",
-  # method.random.ci = "HK", # causes error in new mpT XXXXX
   hakn = TRUE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -516,7 +515,6 @@ remission_results <- runMetaAnalysis(data_remission,
   es.type = "raw",
   method.tau = "PM",
   method.tau.ci = "Q-Profile",
-  # method.random.ci = "HK", # causes error in new mpT XXXXXXX
   hakn = TRUE, # Knapp-Hartung adjustement
 
   # Specify variables
