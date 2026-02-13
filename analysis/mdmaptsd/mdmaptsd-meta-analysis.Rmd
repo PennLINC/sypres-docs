@@ -334,7 +334,7 @@ plot(
 )
 ```
 
-```{r save plot}
+```{r save plot, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/three_level_regression_forest.png"), res = 315, width = 4500, height = 1500)
 plot(
   time_results,
@@ -359,7 +359,7 @@ First, we examine the relationship between the number of dosing sessions and tre
 reg <- metaRegression(time_results$model.threelevel.che, ~n_dosing_sessions)
 reg
 ```
-```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
+```{r plot-meta-regression session, message=FALSE, warning=FALSE, results=FALSE, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png"), res = 315, width = 3000, height = 2200)
 
 par(
@@ -398,7 +398,7 @@ Cumulative dose is the total amount of MDMA taken by the participant (excluding 
 reg <- metaRegression(time_results$model.threelevel.che, ~cumulative_dose_arm1)
 reg
 ```
-```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
+```{r plot-meta-regression cumulative, message=FALSE, warning=FALSE, results=FALSE, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.png"), res = 315, width = 3000, height = 2200)
 
 par(
@@ -528,6 +528,7 @@ remission_results <- runMetaAnalysis(data_remission,
   round.digits = 2
 )
 
+summary(remission_results$model.overall)
 # Create simple forest plot of remission results
 
 meta::forest(
@@ -796,7 +797,7 @@ fixed_remission
 Our medium dose comparison yielded similar results to the high dose comparison.
 Our fixed effects models yielded results that were in line with the random effects models.
 
-```{r main continuous forest plot for indesign, include=FALSE}
+```{r main medium dose forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/medium_dose_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
 meta::forest(medium$model.overall,
@@ -861,7 +862,7 @@ plot.bayesmeta(
 dev.off()
 ```
 We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_07.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_03.png)
 
 #### Sweep the within-study correlation coefficient for the three-level CHE
 
@@ -906,7 +907,7 @@ for (rho in rho_seq) {
   i <- i + 1
 }
 ```
-```{r rho sweep, message=FALSE, results='hide', fig.show='hold'}
+```{r rho sweep, message=FALSE, results='hide', fig.show='hold', include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_04.png"), res = 315, width = 2500, height = 1500)
 # plot the results (base R with shaded CI ribbon)
 y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
