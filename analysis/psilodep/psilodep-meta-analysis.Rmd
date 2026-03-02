@@ -48,7 +48,7 @@ We conduct sensitivity analyses excluding studies with high risk of bias evaluat
 Publication bias is evaluated using a funnel plot and Egger's test.
 
 ```{r setup knitr, include=FALSE}
- basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
+basedir <- "/Users/sps253/Documents/GIT/sypres-docs/" # for parker
 # basedir <- "/Users/bsevchik/Documents/GitHub/sypres-docs" # for brooke
 
 knitr::opts_knit$set(
@@ -573,7 +573,7 @@ expanded
 
 outliers <- main
 data(outliers) <- data_outliers
-outliers<- rerun(outliers)
+outliers <- rerun(outliers)
 outliers
 
 fixed <- main
@@ -756,15 +756,15 @@ ggsave(file.path(basedir, "analysis/psilodep/paperfigs/subgroup_forest_ggplot.pn
 table_subgroup_df <- full_subgroup_summary %>%
   mutate(
     `95% CI` = paste0("[", round(lower_ci, 2), ", ", round(upper_ci, 2), "]"),
-    # `Tau²` = round(tau2, 2),
-    `Tau²` = formatC(signif(tau2, 2), format = "fg", digits = 2, flag = "#"),
+    # `Tau<U+00B2>` = round(tau2, 2),
+    `Tau<U+00B2>` = formatC(signif(tau2, 2), format = "fg", digits = 2, flag = "#"),
     `Hedges' g` = round(hedges_g, 2),
     N = N_studies
   ) %>%
   select(
     Subgroup = subgroup,
     N,
-    `Tau²`,
+    `Tau<U+00B2>`,
     `Hedges' g`,
     `95% CI`
   ) %>%
@@ -784,7 +784,7 @@ subgroup_table <- table_subgroup_df %>%
   cols_label(
     Subgroup = "Subgroup",
     N = "N",
-    `Tau²` = html("&tau;<sup>2</sup>"),
+    `Tau<U+00B2>` = html("&tau;<sup>2</sup>"),
     `Hedges' g` = html("Hedges' *g*"),
     `95% CI` = "95% CI"
   ) %>%
@@ -845,9 +845,9 @@ Parameters:
 bayes <- bayesmeta(
   data_main$.g,
   data_main$.g_se,
-  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
   tau.prior = function(t) dhalfnormal(t, scale = 0.5)
-  )
+)
 bayes
 ```
 
@@ -858,8 +858,9 @@ png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayesmu.png"), re
 
 plot.bayesmeta(
   bayes,
-  prior=TRUE,
-  which=3)
+  prior = TRUE,
+  which = 3
+)
 
 dev.off()
 
@@ -867,8 +868,9 @@ png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayestau.png"), r
 
 plot.bayesmeta(
   bayes,
-  prior=TRUE,
-  which=4)
+  prior = TRUE,
+  which = 4
+)
 
 dev.off()
 ```
@@ -906,7 +908,6 @@ response_results <- runMetaAnalysis(data_response,
   es.type = "raw",
   method.tau = "PM",
   method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -960,7 +961,6 @@ remission_results <- runMetaAnalysis(data_remission,
   es.type = "raw",
   method.tau = "PM",
   method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -1001,7 +1001,7 @@ pval <- response_results$model.overall$pval.Q
 
 # format heterogeneity text
 heterogeneity_text <- sprintf(
-  "Heterogeneity: I² = %.2f%% [%.2f%%, %.2f%%], τ² = %.2f [%.2f, %.2f], p = %.3f",
+  "Heterogeneity: I<U+00B2> = %.2f%% [%.2f%%, %.2f%%], <U+03C4><U+00B2> = %.2f [%.2f, %.2f], p = %.3f",
   I2 * 100, lower_I2 * 100, upper_I2 * 100,
   tau2, lower_tau2, upper_tau2,
   pval
@@ -1053,7 +1053,7 @@ pval <- remission_results$model.overall$pval.Q
 
 # format heterogeneity text
 heterogeneity_text <- sprintf(
-  "Heterogeneity: I² = %.2f%% [%.2f%%, %.2f%%], τ² = %.2f [%.2f, %.2f], p = %.3f",
+  "Heterogeneity: I<U+00B2> = %.2f%% [%.2f%%, %.2f%%], <U+03C4><U+00B2> = %.2f [%.2f, %.2f], p = %.3f",
   I2 * 100, lower_I2 * 100, upper_I2 * 100,
   tau2, lower_tau2, upper_tau2,
   pval
@@ -1113,7 +1113,6 @@ fixed_response_results <- runMetaAnalysis(data_response,
   es.type = "raw",
   method.tau = "FE",
   method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
   hakn = FALSE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -1137,7 +1136,6 @@ fixed_remission_results <- runMetaAnalysis(data_remission,
   es.type = "raw",
   method.tau = "FE",
   method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
   hakn = FALSE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -1223,9 +1221,9 @@ sg
 bayes <- bayesmeta(
   data_dep$.g,
   data_dep$.g_se,
-  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
   tau.prior = function(t) dhalfnormal(t, scale = 0.5)
-  )
+)
 bayes
 ```
 
