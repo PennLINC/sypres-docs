@@ -1,8 +1,8 @@
 # setup.R
 
 # Ensure the script is run in the project directory
-if (basename(getwd()) != "analysis") {
-  stop("Please run this script from the analysis directory. Start a New Project using the sypres-docs/analysis directory if you have not done so already. See README for instructions.")
+if (basename(getwd()) != "psilodep") {
+  stop("Please run this script from the psilodep directory. Start a New Project using the sypres-docs/analysis/psilodep directory if you have not done so already. See README for instructions.")
 }
 
 # Check if 'renv' is installed
@@ -13,7 +13,7 @@ if (!requireNamespace("renv", quietly = TRUE)) {
 # renv::restore()
 
 # Prompt the user for input
-is_first_time <- readline(prompt = "Is this your first time setting up SYPRES on this machine? [y/n]: ")
+is_first_time <- readline(prompt = "Is this your first time setting up PSILODEP on this machine? [y/n]: ")
 
 # Process the user input
 if (tolower(is_first_time) %in% c("y", "yes")) {

@@ -10,14 +10,14 @@ Ensure that you have R and RStudio installed on your machine.
 Current R version: `4.4.1`
 
 ### 3. Set up the R Environment:
-Open RStudio and start a new Project: `File->New Project->From existing directory` and select the `sypres-docs/analysis` directory.
+Open RStudio and start a new Project: `File->New Project->From existing directory` and select the `sypres-docs/analysis/mdmaptsd` directory.
 
 
 Once you are in the project dirctory, run the setup script from the console:
 
 `source("setup.R")`
 
-You will be prompted to answer if this is the first time you're running PSYPRES on this machine. If you respond `y`, you will be asked a second question. Select `1` to restore the project from the lockfile.
+You will be prompted to answer if this is the first time you're running MDMAPTSD on this machine. If you respond `y`, you will be asked a second question. Select `1` to restore the project from the lockfile.
 
 This will install all the required packages as specified in the renv.lock file.
 
@@ -25,7 +25,7 @@ Example readout is below:
 
 ```
 > source("setup/setup.R")
-Is this your first time setting up PSYPRES? [y/n]: y
+Is this your first time setting up MDMAPTSD on this machine? [y/n]: y
 Initializing a new 'renv' project...
 This project already has a lockfile. What would you like to do?
 
@@ -95,11 +95,11 @@ The following package(s) will be updated:
 
 Restarting R session...
 
-- Project '~/Documents/GIT/psypres' loaded. [renv 1.0.7]
+- Project '~/Documents/GIT/sypres-docs/analysis/mdmaptsd' loaded. [renv 1.0.7]
 ```
 
 ### 4. Downloading dmetar and metapsy packages
-Run the `dmetar_setup.R` script. Select option 3. If using metapsyData or metapsyTools package for, run the `metapsyData_setup.R` and/or `metapsyTools_setup.R` script and also select option 3.
+Run the `install_gh_packages.R` script. Select option 3 when prompted for each package.
 
 ### 5. Updating the renv lockfile
 
@@ -116,23 +116,8 @@ Used by the project, as determined by renv::dependencies().
 This ensures that only the packages you truly require for your project will enter the lockfile; development dependencies (e.g. devtools) normally should not.
 
 
-### 6. Using conda for the python env
-Collaborators can set up the exact conda environment by running: `conda env create -f environment.yml`
+### 7. (DEVELOPERS ONLY) Kniting the Rmd for the website
 
-If you update the environment with new packages, you can re-export the environment file: `conda env export > environment.yml`
-
-Commit and push the updated file to keep everyone in sync.
-
-### 7. kniting the Rmd for the website
-PSILODEP:
-```
-rmarkdown::render(
-  input = file.path(basedir,"analysis/psilodep/psilodep-meta-analysis.Rmd"),
-  output_file = file.path(basedir,"docs/datasets/_posts/2025-06-26-psilodep-meta-analysis.md")
-)
-```
-
-MDMAPTSD:
 ```
 rmarkdown::render(
   input = file.path(basedir,"analysis/mdmaptsd/mdmaptsd-meta-analysis.Rmd"),
