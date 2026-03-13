@@ -4,6 +4,8 @@ main:
   sublinks:
     - title: "Psilocybin for Depression"
       url: /docs/datasets/PSILODEP
+    - title: "MDMA for PTSD"
+      url: /docs/datasets/MDMAPTSD
 - title: Team
   url: /docs/team
 - title: Publications
