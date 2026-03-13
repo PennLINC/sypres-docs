@@ -191,7 +191,7 @@ meta::forest(
 The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/psilodep/paperfigs/continuous_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+cairo_pdf(filename = file.path(basedir, "analysis/psilodep/paperfigs/continuous_forest_plot_meta.pdf"), width = 14.3, height = 4.76)
 
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
@@ -745,8 +745,8 @@ subgroup_plot <- ggplot(full_subgroup_summary, aes(x = hedges_g, y = row)) +
   )
 
 subgroup_plot
-ggsave(file.path(basedir, "analysis/psilodep/paperfigs/subgroup_forest_ggplot.png"),
-  plot = subgroup_plot, width = 10, height = 8, dpi = 300
+ggsave(file.path(basedir, "analysis/psilodep/paperfigs/subgroup_forest_ggplot.pdf"),
+  plot = subgroup_plot, width = 10, height = 8, device = cairo_pdf
 )
 
 
@@ -777,30 +777,24 @@ table_subgroup_df <- table_subgroup_df %>%
   mutate(Subgroup = factor(Subgroup, levels = desired_order)) %>%
   arrange(Subgroup)
 
-# Create a styled gt table
-subgroup_table <- table_subgroup_df %>%
-  gt() %>%
-  tab_header(title = md("**Meta-Analysis Subgroup Summary**")) %>%
-  cols_label(
-    Subgroup = "Subgroup",
-    N = "N",
-    `Tau<U+00B2>` = html("&tau;<sup>2</sup>"),
-    `Hedges' g` = html("Hedges' *g*"),
-    `95% CI` = "95% CI"
-  ) %>%
-  opt_table_font(font = list(gt::google_font("Arial"))) %>%
-  tab_options(
-    data_row.padding = px(2.65), # HERE control row spacing to match graph!
-    table_body.hlines.style = "none",
-    row.striping.include_table_body = FALSE,
-    table_body.border.top.style = "none",
-    table_body.border.bottom.style = "none",
-    column_labels.border.bottom.style = "solid",
-    table.font.size = 2.7 # change font size
-  ) %>%
-  cols_align(align = "left", columns = everything())
+# Build a vector-format table using gridExtra (gt + gtsave rasterizes via webshot2)
+library(gridExtra)
 
-gtsave(subgroup_table, filename = file.path(basedir, "analysis/psilodep/paperfigs/subgroup_table.png"), vwidth = 2000, vheight = 1200, zoom = 10) # setting Zoom higher makes image less blurry/clearer
+tg <- tableGrob(
+  table_subgroup_df,
+  rows = NULL,
+  theme = ttheme_minimal(
+    base_family = "Arial",
+    base_size = 10,
+    core    = list(fg_params = list(hjust = 0, x = 0.02)),
+    colhead = list(fg_params = list(hjust = 0, x = 0.02, fontface = "bold"))
+  )
+)
+
+cairo_pdf(file.path(basedir, "analysis/psilodep/paperfigs/subgroup_table.pdf"),
+          width = 12, height = 6)
+grid::grid.draw(tg)
+dev.off()
 ```
 
 We summarize these subgroup and sensitivity analyses in **Figure 3** below.
