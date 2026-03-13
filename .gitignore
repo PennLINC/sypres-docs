@@ -33,6 +33,8 @@ _site
 # R
 .Rproj.user
 analysis/analysis.Rproj
+analysis/psilodep/psilodep.Rproj
+analysis/mdmaptsd/mdmaptsd.Rproj
 .Rprofile
 activate.R
 **/renv/**
