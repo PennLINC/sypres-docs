@@ -117,8 +117,7 @@ checkConflicts(data,
     "rating"
   )
 )
-# data <- read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") # for parker
-# data <- read_csv2("/Users/bsevchik/Documents/GitHub/data-ptsd-mdmactr/data.csv") # for brooke
+
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -210,7 +209,7 @@ plot(
 The primary meta-analysis on continuous outcomes in the 6 studies included in the main model showed a statistically significant reduction in PTSD scores with MDMA treatment as compared to control conditions, with small between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.pdf"), width = 14.3, height = 4.76)
 
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
@@ -322,7 +321,7 @@ plot(
 ```
 
 ```{r save plot, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/three_level_regression_forest.png"), res = 315, width = 4500, height = 1500)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/three_level_regression_forest.pdf"), width = 14.3, height = 4.76)
 plot(
   time_results,
   which = "threelevel.che",
@@ -347,7 +346,7 @@ reg <- metaRegression(time_results$model.threelevel.che, ~n_dosing_sessions)
 reg
 ```
 ```{r plot-meta-regression session, message=FALSE, warning=FALSE, results=FALSE, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.png"), res = 315, width = 3000, height = 2200)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.pdf"), width = 9.51, height = 6.98)
 
 par(
   cex.lab = 1.8, # axis titles (xlab, ylab)
@@ -386,7 +385,7 @@ reg <- metaRegression(time_results$model.threelevel.che, ~cumulative_dose_arm1)
 reg
 ```
 ```{r plot-meta-regression cumulative, message=FALSE, warning=FALSE, results=FALSE, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.png"), res = 315, width = 3000, height = 2200)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.pdf"), width = 9.51, height = 6.98)
 
 par(
   cex.lab = 1.8, # axis titles (xlab, ylab)
@@ -549,7 +548,7 @@ heterogeneity_text <- sprintf(
   pval
 )
 
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/response_forest_plot_meta_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/response_forest_plot_meta_mdmaptsd.pdf"), width = 14.3, height = 4.76)
 
 
 meta::forest(response_results$model.overall,
@@ -600,7 +599,7 @@ heterogeneity_text <- sprintf(
   pval
 )
 
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/remission_forest_plot_meta_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/remission_forest_plot_meta_mdmaptsd.pdf"), width = 14.3, height = 4.76)
 
 
 meta::forest(remission_results$model.overall,
@@ -694,7 +693,7 @@ plot(
 )
 ```
 ```{r depression continuous forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/depression_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/depression_mdmaptsd.pdf"), width = 14.3, height = 4.76)
 
 meta::forest(dep_results$model.overall,
   sortvar = dep_results$model.overall$data$year,

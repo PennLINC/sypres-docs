@@ -98,34 +98,10 @@ package. Before proceeding with the analysis, we perform quality checks
 to ensure data integrity and identify potential issues.
 
 ``` r
-# # Load data using metapsyData
-# d <- getData("ptsd-mdmactr")
-# data <- d$data
-#
-#
-# # Check data format with checkDataFormat
-# checkDataFormat(data)
-#
-# # Check conflicts with checkConflicts
-# checkConflicts(data,
-#   vars.for.id = c(
-#     "study", "outcome_type",
-#     "instrument", "study_time_point",
-#     "time_weeks",
-#     "rating"
-#   )
-# )
-data <- read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") # for parker
-# data <- read_csv2("/Users/bsevchik/Documents/GitHub/data-ptsd-mdmactr/data.csv") # for brooke
-data <- data %>%
-  calculateEffectSizes(
-    vars.for.id = c(
-      "study", "outcome_type",
-      "instrument", "study_time_point",
-      "time_weeks",
-      "rating"
-    ),
-  )
+# Load data using metapsyData
+d <- getData("ptsd-mdmactr")
+data <- d$data
+
 
 # Check data format with checkDataFormat
 checkDataFormat(data)
@@ -139,6 +115,17 @@ checkConflicts(data,
     "rating"
   )
 )
+# data <- read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") # for parker
+# data <- read_csv2("/Users/bsevchik/Documents/GitHub/data-ptsd-mdmactr/data.csv") # for brooke
+data <- data %>%
+  calculateEffectSizes(
+    vars.for.id = c(
+      "study", "outcome_type",
+      "instrument", "study_time_point",
+      "time_weeks",
+      "rating"
+    ),
+  )
 ```
 
 ### Data Preparation and Filtering
@@ -271,8 +258,8 @@ statistical (Egger’s test) methods.
 eggers.test(main_results$model.overall)
 ```
 
-    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 6 studies. Egger's test may lack the statistical power
-    ## to detect bias when the number of studies is small (i.e., k<10).
+    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 6 studies. Egger's test
+    ## may lack the statistical power to detect bias when the number of studies is small (i.e., k<10).
 
     ## Eggers' test of the intercept 
     ## ============================= 
@@ -681,10 +668,10 @@ data2 <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") # for parker
 ```
 
     ## Rows: 183 Columns: 65
-    ## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    ## ── Column specification ────────────────────────────────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (30): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, outcome_type, instrument, rating, instrument_symptom, cov_time_...
-    ## dbl (35): primary_instrument, time_weeks, time_days, primary_timepoint, post_crossover, n_arm1, mean_arm1, sd_arm1, n_arm2, mean_arm2, s...
+    ## chr (30): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, outcome_type, instrument, ratin...
+    ## dbl (35): primary_instrument, time_days, time_weeks, primary_timepoint, post_crossover, n_arm1, mean_arm...
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -916,7 +903,7 @@ bayes
     ## tau prior (proper):
     ## function (t) 
     ## dhalfnormal(t, scale = 0.5)
-    ## <bytecode: 0x15b56f188>
+    ## <bytecode: 0x78119fa10>
     ## 
     ## mu prior (proper):
     ## normal(mean=0, sd=1)
