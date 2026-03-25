@@ -165,6 +165,8 @@ exclude:
   - "*.RData"
   - "*.Rprofile"
   - renv/
+  - analysis/psilodep/renv
+  - analysis/mdmaptsd/renv
 keep_files:
   - .git
   - .svn
