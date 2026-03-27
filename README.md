@@ -1,7 +1,26 @@
 # sypres.io
-:triangular_ruler: Website for [sypres](https:syprs.io) Project
+:triangular_ruler: Website for the [SYPRES](https://sypres.io) Project
 
-### building and serving locally
+## Website Overview
+
+The site is organized into four main sections, accessible from the top navigation bar:
+
+| Section | URL | Description |
+|---------|-----|-------------|
+| **Studies** | `/docs/datasets` | Overview of SYPRES and living evidence, with individual study pages (e.g. Psilocybin for Depression) |
+| **Team** | `/docs/team` | Current SYPRES team members |
+| **Publications** | `/docs/community/publications` | Published papers and citations |
+| **News** | `/docs/blog` | Project updates, conference appearances, and announcements |
+
+Additional pages linked from within the Studies section include search terms, extraction SOPs, effect sizes, and reproducibility guides for each dataset.
+
+## Analysis & Project Setup
+
+For setting up the R and Python environments used in SYPRES analyses, see the [analysis README](analysis/README.md).
+
+## Development
+
+### Building and serving locally
 
 If you haven't installed ruby:
 
