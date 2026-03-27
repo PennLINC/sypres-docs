@@ -161,8 +161,8 @@ def fetch_clones(repo):
 
 if __name__ == "__main__":
     repos = [
-        "metapsy-project/data-ptsd-mdmactr",
         "metapsy-project/data-depression-psiloctr",
+        "metapsy-project/data-ptsd-mdmactr",
     ]
     for repo in repos:
         main(repo)
