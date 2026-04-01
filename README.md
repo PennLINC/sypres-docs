@@ -16,7 +16,7 @@ Additional pages linked from within the Studies section include search terms, ex
 
 ## Analysis & Project Setup
 
-For setting up the R and Python environments used in SYPRES analyses, see the [analysis README](analysis/README.md).
+For setting up the R environments used in SYPRES analyses, see the [analysis README](analysis/README.md).
 
 ## Development
 
