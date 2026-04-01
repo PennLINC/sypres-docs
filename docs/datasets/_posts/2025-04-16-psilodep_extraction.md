@@ -379,7 +379,8 @@ DRUG
 + May be the same (e.g., low dose as placebo) or different between intervention and control arms.
 
 DOSE
-+ Typically reported in mg or mg/kg.
++ mg of MDMA (not including any supplemental dose) for each session (typically reported in mg or mg/kg, specify measurement in response)
++ separate sessions by semi-colon (i.e., 25 mg; 25 mg; 30 mg would mean that the participant received 25 mg during the first experimental dosing session, 25 mg during the second experimental dosing session, and 30 mg during the third experimental dosing session)
 
 NUMBER OF DOSES
 + Include only doses administered BEFORE the primary endpoint. (E.g., if an optional second dose occurs after the primary endpoint, enter '1').
