@@ -218,9 +218,9 @@ summary(main_results$model.overall)
     ## 
     ##                                 g             95%-CI     t p-value
     ## Random effects model (HK) -0.9031 [-1.2561; -0.5501] -5.63  0.0002
-    ## Prediction interval               [-1.7283; -0.0778]              
+    ## Prediction interval               [-1.7183; -0.0879]              
     ## 
-    ## Quantifying heterogeneity:
+    ## Quantifying heterogeneity (with 95%-CIs):
     ##  tau^2 = 0.1174 [0.0140; 1.0125]; tau = 0.3427 [0.1185; 1.0062]
     ##  I^2 = 53.9% [11.4%; 76.0%]; H = 1.47 [1.06; 2.04]
     ## 
@@ -228,12 +228,13 @@ summary(main_results$model.overall)
     ##      Q d.f. p-value
     ##  23.84   11  0.0134
     ## 
-    ## Details on meta-analytical method:
+    ## Details of meta-analysis methods:
     ## - Inverse variance method
     ## - Restricted maximum-likelihood estimator for tau^2
     ## - Q-Profile method for confidence interval of tau^2 and tau
+    ## - Calculation of I^2 based on Q
     ## - Hartung-Knapp adjustment for random effects model (df = 11)
-    ## - Prediction interval based on t-distribution (df = 10)
+    ## - Prediction interval based on t-distribution (df = 11)
 
 ``` r
 # Create simple forest plot of results
@@ -654,7 +655,7 @@ dep
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
-    ## .93 [-1.87; 0.01] 0.051  69.5 [21.89; 88.08] [-3; 1.14]     2.99
+    ## .93 [-1.87; 0.01] 0.051  69.5 [21.89; 88.08] [-2.73; 0.87]  2.99
 
 ``` r
 excol <- main
@@ -664,8 +665,8 @@ excol
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p         i2 i2.ci      prediction.ci    nnt
-    ## .81 [-1.03; -0.6] <0.001   2.9 [0; 65.82] [-1.03; -0.59]  3.46
+    ## Model       k     g g.ci          p         i2 i2.ci      prediction.ci   nnt
+    ## .81 [-1.03; -0.6] <0.001   2.9 [0; 65.82] [-1.03; -0.6]  3.46
 
 ``` r
 rob <- main
@@ -676,7 +677,7 @@ rob
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## .97 [-1.38; -0.57] <0.001  51.2 [0; 77.15] [-1.74; -0.21]  2.83
+    ## .97 [-1.38; -0.57] <0.001  51.2 [0; 77.15] [-1.72; -0.23]  2.83
 
 ``` r
 parallel <- main
@@ -687,7 +688,7 @@ parallel
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## 0.8 [-1.11; -0.49] <0.001  35.5 [0; 72.79] [-1.06; -0.54]  3.52
+    ## 0.8 [-1.11; -0.49] <0.001  35.5 [0; 72.79] [-1.05; -0.55]  3.52
 
 ``` r
 crossover <- main
@@ -698,7 +699,7 @@ crossover
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci          prediction.ci   nnt
-    ## .04 [-2.06; -0.03] 0.046  71.2 [26.88; 88.61] [-3.44; 1.35]  2.63
+    ## .04 [-2.06; -0.03] 0.046  71.2 [26.88; 88.61] [-3.13; 1.04]  2.63
 
 ``` r
 expanded <- main
@@ -709,12 +710,12 @@ expanded
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci    nnt
-    ## .88 [-1.21; -0.56] <0.001  54.8 [19.16; 74.75] [-1.72; -0.04]  3.16
+    ## .88 [-1.21; -0.56] <0.001  54.8 [19.16; 74.75] [-1.72; -0.05]  3.16
 
 ``` r
 outliers <- main
 data(outliers) <- data_outliers
-outliers<- rerun(outliers)
+outliers <- rerun(outliers)
 outliers
 ```
 
@@ -732,7 +733,7 @@ fixed
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci    nnt
-    ## .84 [-1.02; -0.67] <0.001  53.9 [11.39; 75.98] [-1.73; -0.08]  3.32
+    ## .84 [-1.02; -0.67] <0.001  53.9 [11.39; 75.98] [-1.72; -0.09]  3.32
 
 ``` r
 g10 <- main
@@ -743,7 +744,7 @@ g10
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci   nnt
-    ## .87 [-1.27; -0.47] <0.001  69.2 [44.08; 83.04] [-1.98; 0.25]  3.23
+    ## .87 [-1.27; -0.47] <0.001  69.2 [44.08; 83.04] [-1.97; 0.24]  3.23
 
 ``` r
 clinician <- main
@@ -754,7 +755,7 @@ clinician
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
-    ## .02 [-1.6; -0.44] 0.005  64.5 [19.95; 84.25] [-2.28; 0.24]  2.71
+    ## .02 [-1.6; -0.44] 0.005  64.5 [19.95; 84.25] [-2.22; 0.18]  2.71
 
 ``` r
 selfreport <- main
@@ -765,7 +766,7 @@ selfreport
 
     ## Model results ------------------------------------------------ 
     ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
-    ##  -1 [-1.68; -0.31] 0.010    73 [47.19; 86.2] [-2.76; 0.76]  2.76
+    ##  -1 [-1.68; -0.31] 0.010    73 [47.19; 86.2] [-2.72; 0.72]  2.76
 
 We summarize these subgroup and sensitivity analyses in **Figure 3**
 below. ![](/analysis/psilodep/paperfigs/Fig_03.png) Our series of
@@ -790,9 +791,9 @@ distribution for tau, with an s.d. of 0.5
 bayes <- bayesmeta(
   data_main$.g,
   data_main$.g_se,
-  mu.prior = c("mean"=0, "sd"=1), # asserts a 95% prior b/n -2 and 2
+  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
   tau.prior = function(t) dhalfnormal(t, scale = 0.5)
-  )
+)
 bayes
 ```
 
@@ -804,7 +805,7 @@ bayes
     ## tau prior (proper):
     ## function (t) 
     ## dhalfnormal(t, scale = 0.5)
-    ## <bytecode: 0x322a97540>
+    ## <bytecode: 0xbcefc3770>
     ## 
     ## mu prior (proper):
     ## normal(mean=0, sd=1)
@@ -870,7 +871,6 @@ response_results <- runMetaAnalysis(data_response,
   es.type = "raw",
   method.tau = "PM",
   method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -927,7 +927,6 @@ remission_results <- runMetaAnalysis(data_remission,
   es.type = "raw",
   method.tau = "PM",
   method.tau.ci = "Q-Profile",
-  method.random.ci = "HK",
   hakn = TRUE, # Knapp-Hartung adjustement
 
   # Specify variables
@@ -969,7 +968,7 @@ rerun(response_results)
 
     ## Model results ------------------------------------------------ 
     ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
-    ## 2.8 [2.05; 3.83] <0.001     0 [0; 79.2] [1.67; 4.58]   2.81
+    ## 2.8 [2.05; 3.83] <0.001     0 [0; 79.2] [1.78; 4.3]    2.81
 
 ``` r
 # Fixed remission
@@ -980,7 +979,7 @@ rerun(remission_results)
 
     ## Model results ------------------------------------------------ 
     ## Model       k    rr rr.ci        p         i2 i2.ci      prediction.ci   nnt
-    ## .05 [2.67; 6.15] <0.001     0 [0; 74.62] [2.23; 7.31]   2.98
+    ## .05 [2.67; 6.15] <0.001     0 [0; 74.62] [2.33; 6.99]   2.98
 
 Our fixed effects models yielded results that were in line with the main
 model, showing statistically significant higher response and remission

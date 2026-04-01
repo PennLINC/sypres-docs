@@ -7,7 +7,6 @@ This script parses JSON reference files and converts them to HTML format with nu
 
 import json
 import re
-import sys
 from pathlib import Path
 
 
@@ -66,15 +65,28 @@ def process_single_file(input_json_file, output_html_file):
 
 
 def main():
-    # Default configuration for psilodep_refs.json
-    input_json_file = "../docs/_data/psilodep_refs.json"
-    output_html_file = "../_includes/publications/psilodep_refs.html"
+    # Configuration
+    input_dir = Path("../docs/_data")
+    output_dir = Path("../_includes/publications")
 
-    if Path(input_json_file).exists():
-        process_single_file(input_json_file, output_html_file)
-    else:
-        print("Default file not found. Please check the file path.")
-        print(f"Looking for: {input_json_file}")
+    # Find all JSON files matching the pattern <study>_refs.json
+    pattern = "*_refs.json"
+    json_files = list(input_dir.glob(pattern))
+
+    if not json_files:
+        print(f"No files matching pattern '{pattern}' found in {input_dir}")
+        return
+
+    # Process each matching file
+    for json_file in json_files:
+        # Extract study name from filename (e.g., "psilodep" from "psilodep_refs.json")
+        study_name = json_file.stem.replace("_refs", "")
+
+        # Generate output filename as <study>refs.html
+        output_html_file = output_dir / f"{study_name}_refs.html"
+
+        print(f"Processing: {json_file.name} -> {output_html_file.name}")
+        process_single_file(json_file, output_html_file)
 
 
 if __name__ == "__main__":
