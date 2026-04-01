@@ -15,9 +15,7 @@ _Papers using SYPRES data should cite the preprint or peer-reviewed paper that a
 
 Singleton SP, Sevchik BL, Lahey A, Cuijpers P, Harrer M, Jones MT, Nayak SM, Strain EC, Vandekar SN, Dworkin RH, Scott JC, & Satterthwaite TD. Psilocybin treatment for symptoms of depression: a living systematic review, meta-analysis, and data resource. medRxiv. 2025.
 
-and
-
-Singleton, S.P., Sevchik, B.L., Lahey, A., Cuijpers, P., Harrer, M., Jones, M.T., Nayak, S.M., Strain, E.C., Vandekar, S.N., Dworkin, R.H., Scott, J.C., & Satterthwaite, T.D. (2025). Sypres database of depression trials comparing psilocybin-assisted therapy with control conditions. Part of the Metapsy project (Version 25.1.2). URL: docs.metapsy.org/databases/depression-psiloctr. DOI: https://doi.org/10.5281/zenodo.15714852.
+Singleton P, Harrer M, & Sevchik B. metapsy-project/data-depression-psiloctr: Version 25.1.2. Zenodo. 2025. DOI: 10.5281/zenodo.17657950. URL: https://zenodo.org/records/17657950.
 
 ### Core Publications
 
@@ -27,3 +25,7 @@ Singleton, S.P., Sevchik, B.L., Lahey, A., Cuijpers, P., Harrer, M., Jones, M.T.
 ### Psilocybin for Depression
 
 {% include publications/psilodep.html %}
+
+### MDMA for PTSD
+
+{% include publications/mdmaptsd.html %}
