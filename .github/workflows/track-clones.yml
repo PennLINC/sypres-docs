@@ -20,13 +20,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip3 install PyGithub==2.5.0
-          python -m pip install --upgrade pip pandas
+          python -m pip install --upgrade pip pandas pyyaml
       - name: Pull any download-stats changes
         run: git pull
       - name: Run fetch.py
         env:
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
         run: python scripts/clone-tracking/fetch.py
+      - name: Run fetch_zenodo.py
+        run: python scripts/clone-tracking/fetch_zenodo.py
       - name: Run cumulative.py
         run: python scripts/clone-tracking/cumulative.py
       - name: Commit download statistics

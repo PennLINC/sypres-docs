@@ -66,6 +66,11 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
       {% if page.effect_sizes_by_study %}<li><strong>Effect Sizes by Study:</strong> <a
           href="{{ page.effect_sizes_by_study }}" target="_blank" rel="noopener noreferrer">View Table</a></li>{%
       endif %}
+      {% if page.metapsy_repo %}
+        {% assign repo_slug = page.metapsy_repo | remove: "https://github.com/" %}
+        {% assign dl_data = site.data.download_totals[repo_slug] %}
+        {% if dl_data %}<li><strong>Downloads:</strong> {{ dl_data.total }}</li>{% endif %}
+      {% endif %}
     </ul>
   </div>
   {% endif %}
