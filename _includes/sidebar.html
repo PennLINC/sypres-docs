@@ -13,8 +13,6 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
       {% if page.funding %}<li><strong>Funding:</strong> {{ page.funding }}</li>{% endif %}
       {% if page.website and page.website != "n/a" %}<li><strong>Website:</strong> <a href="{{ page.website }}"
           target="_blank" rel="noopener noreferrer">{{ page.website }}</a></li>{% endif %}
-      {% if page.publications and page.publications != "n/a" %}<li><strong>Publications:</strong> <a
-          href="{{ page.publications }}" target="_blank" rel="noopener noreferrer">View Publications</a></li>{% endif %}
       {% if page.number_of_studies %}<li><strong>Number of Studies:</strong> {{ page.number_of_studies }}</li>{% endif
       %}
       {% if page.sample_size %}<li><strong>Sample Size:</strong> {{ page.sample_size }}</li>{% endif %}
@@ -43,6 +41,8 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
           Guide</a></li>{% endif %}
       {% if page.preprint %}<li><strong>Preprint:</strong> <a href="{{ page.preprint }}" target="_blank"
           rel="noopener noreferrer">View Preprint</a></li>{% endif %}
+      {% if page.publications %}<li><strong>Peer-Reviewed Publication:</strong> <a href="{{ page.publications }}"
+          target="_blank" rel="noopener noreferrer">View Publication</a></li>{% endif %}
     </ul>
   </div>
   {% endif %}
@@ -67,9 +67,9 @@ page.author_profile or layout.author_profile or page.sidebar or page.pi or page.
           href="{{ page.effect_sizes_by_study }}" target="_blank" rel="noopener noreferrer">View Table</a></li>{%
       endif %}
       {% if page.metapsy_repo %}
-        {% assign repo_slug = page.metapsy_repo | remove: "https://github.com/" %}
-        {% assign dl_data = site.data.download_totals[repo_slug] %}
-        {% if dl_data %}<li><strong>Downloads:</strong> {{ dl_data.total }}</li>{% endif %}
+      {% assign repo_slug = page.metapsy_repo | remove: "https://github.com/" %}
+      {% assign dl_data = site.data.download_totals[repo_slug] %}
+      {% if dl_data %}<li><strong>Downloads:</strong> {{ dl_data.total }}</li>{% endif %}
       {% endif %}
     </ul>
   </div>
