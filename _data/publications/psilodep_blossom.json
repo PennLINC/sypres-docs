@@ -1,0 +1,3986 @@
+{
+  "dataset": "psilodep",
+  "fetched_at": "2026-04-20T15:38:41.206339+00:00",
+  "blossom_api_version": "v1",
+  "records": {
+    "Grob, 2011": {
+      "status": "ok",
+      "doi": "10.1001/archgenpsychiatry.2010.116",
+      "blossom_slug": "pilot-study-of-psilocybin-treatment-for-anxiety-in-patients-with-advanced-stage-",
+      "blossom_url": "https://www.moreblossom.com/papers/pilot-study-of-psilocybin-treatment-for-anxiety-in-patients-with-advanced-stage-",
+      "title": "Pilot study of psilocybin treatment for anxiety in patients with advanced-stage cancer",
+      "paragraph_summary": "This is the first (modern) double-blind placebo-controlled study (n=12) of psilocybin (14mg/70kg) for the treatment of (end-of-life) anxiety (and depression) related to cancer. Treatment led to a significant reduction in anxiety symptoms up to three months after treatment and improvements in depressive symptoms reached significance after six months. ",
+      "abstract": "Context\n\nResearchers conducted extensive investigations of hallucinogens in the 1950s and 1960s. By the early 1970s, however, political and cultural pressures forced the cessation of all projects. This investigation reexamines a potentially promising clinical application of hallucinogens in the treatment of anxiety reactive to advanced-stage cancer.\n\nObjective\n\nTo explore the safety and efficacy of psilocybin in patients with advanced-stage cancer and reactive anxiety.\n\nDesign\n\nA double-blind, placebo-controlled study of patients with advanced-stage cancer and anxiety, with subjects acting as their own control, using a moderate dose (0.2 mg/kg) of psilocybin.\n\nSetting\n\nA clinical research unit within a large public sector academic medical center.\n\nParticipants\n\nTwelve adults with advanced-stage cancer and anxiety.Main outcome measures: In addition to monitoring safety and subjective experience before and during experimental treatment sessions, follow-up data including results from the Beck Depression Inventory, Profile of Mood States, and State-Trait Anxiety Inventory were collected unblinded for 6 months after treatment.\n\nResults\n\nSafe physiological and psychological responses were documented during treatment sessions. There were no clinically significant adverse events with psilocybin. The State-Trait Anxiety Inventory trait anxiety subscale demonstrated a significant reduction in anxiety at 1 and 3 months after treatment. The Beck Depression Inventory revealed an improvement of mood that reached significance at 6 months; the Profile of Mood States identified mood improvement after treatment with psilocybin that approached but did not reach significance.\n\nConclusions\n\nThis study established the feasibility and safety of administering moderate doses of psilocybin to patients with advanced-stage cancer and anxiety. Some of the data revealed a positive trend toward improved mood and anxiety. These results support the need for more research in this long-neglected field.",
+      "pmid": 20819978,
+      "publication_date": "2011-01-03",
+      "citation_count": null,
+      "study_characteristics": [
+        "placebo-controlled",
+        "double-blind",
+        "randomized",
+        "parallel-group",
+        "follow-up"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Palliative & End-of-Life Distress",
+        "Healthy Volunteers",
+        "Safety & Risk Management"
+      ],
+      "journal": "JAMA Psychiatry",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "lwj5vsrg6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "e9n8pc5jc",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Context"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "6g5n45d53",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "6rfgisiyk",
+                "_type": "span",
+                "marks": [],
+                "text": "Researchers conducted extensive investigations of hallucinogens in the 1950s and 1960s. By the early 1970s, however, political and cultural pressures forced the cessation of all projects. This investigation reexamines a potentially promising clinical application of hallucinogens in the treatment of anxiety reactive to advanced-stage cancer."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "mgmdoqkwy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ek7r7t6io",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Objective"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "g0etny4jc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "p01p5lib6",
+                "_type": "span",
+                "marks": [],
+                "text": "To explore the safety and efficacy of psilocybin in patients with advanced-stage cancer and reactive anxiety."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "jj1g41igb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ub9qgo34r",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Design"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "7ui84dfkd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "vuea4eiur",
+                "_type": "span",
+                "marks": [],
+                "text": "A double-blind, placebo-controlled study of patients with advanced-stage cancer and anxiety, with subjects acting as their own control, using a moderate dose (0.2 mg/kg) of psilocybin."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "lvbdi46zt",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yzidd2dx7",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Setting"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "gfuzravuh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "718mpsb5g",
+                "_type": "span",
+                "marks": [],
+                "text": "A clinical research unit within a large public sector academic medical center."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ifl3jca84",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xeutiriac",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Participants"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "k6vf9linm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "s1irrwv0b",
+                "_type": "span",
+                "marks": [],
+                "text": "Twelve adults with advanced-stage cancer and anxiety.Main outcome measures: In addition to monitoring safety and subjective experience before and during experimental treatment sessions, follow-up data including results from the Beck Depression Inventory, Profile of Mood States, and State-Trait Anxiety Inventory were collected unblinded for 6 months after treatment."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "iu3orfa80",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "9i5exjlvm",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "t2xdqa6ii",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "eqjzi8z1i",
+                "_type": "span",
+                "marks": [],
+                "text": "Safe physiological and psychological responses were documented during treatment sessions. There were no clinically significant adverse events with psilocybin. The State-Trait Anxiety Inventory trait anxiety subscale demonstrated a significant reduction in anxiety at 1 and 3 months after treatment. The Beck Depression Inventory revealed an improvement of mood that reached significance at 6 months; the Profile of Mood States identified mood improvement after treatment with psilocybin that approached but did not reach significance."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "vbgp51pvj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "it1rwhtoc",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "zkdioxdx4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "h8r8zbdao",
+                "_type": "span",
+                "marks": [],
+                "text": "This study established the feasibility and safety of administering moderate doses of psilocybin to patients with advanced-stage cancer and anxiety. Some of the data revealed a positive trend toward improved mood and anxiety. These results support the need for more research in this long-neglected field."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Grob, C. S.",
+          "Danforth, A. L.",
+          "Chopra, G. S.",
+          "Hagerty, M.",
+          "McKay, C. R.",
+          "Halberstadt, A. L.",
+          "Greer, G. R."
+        ],
+        "authors": [
+          {
+            "_id": "j1n4NOKRjdCVmdF3PXdwAY",
+            "name": "Charles Grob",
+            "slug": "charles-grob"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjyvyuB",
+            "name": "Adam Halberstadt",
+            "slug": "adam-halberstadt"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGnJs6I",
+            "name": "Alicia Danforth",
+            "slug": "alicia-danforth"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1001/archgenpsychiatry.2010.116",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "JAMA Psychiatry",
+          "slug": "jama-psychiatry"
+        },
+        "paragraphSummary": "This is the first (modern) double-blind placebo-controlled study (n=12) of psilocybin (14mg/70kg) for the treatment of (end-of-life) anxiety (and depression) related to cancer. Treatment led to a significant reduction in anxiety symptoms up to three months after treatment and improvements in depressive symptoms reached significance after six months. ",
+        "pmid": 20819978,
+        "publicationDate": "2011-01-03",
+        "slug": "pilot-study-of-psilocybin-treatment-for-anxiety-in-patients-with-advanced-stage-",
+        "studyCharacteristics": [
+          "placebo-controlled",
+          "double-blind",
+          "randomized",
+          "parallel-group",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Pilot study of psilocybin treatment for anxiety in patients with advanced-stage cancer",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "palliative-end-of-life-distress",
+            "title": "Palliative & End-of-Life Distress"
+          },
+          {
+            "slug": "healthy-volunteers",
+            "title": "Healthy Volunteers"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Griffiths, 2016": {
+      "status": "ok",
+      "doi": "10.1177/0269881116675513",
+      "blossom_slug": "psilocybin-produces-substantial-and-sustained-decreases-in-depression-and-anxiet",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-produces-substantial-and-sustained-decreases-in-depression-and-anxiet",
+      "title": "Psilocybin produces substantial and sustained decreases in depression and anxiety in patients with life-threatening cancer",
+      "paragraph_summary": "In a randomized, double‑blind, crossover trial of 51 patients with life‑threatening cancer, a single high dose of psilocybin produced large, rapid and sustained reductions in clinician- and self-rated depression and anxiety and increased quality of life, meaning and optimism, with about 80% of participants showing clinically significant improvement at six months. The therapeutic effects were mediated by the intensity of mystical‑type experiences during the session and were corroborated by community observer ratings.",
+      "abstract": "Cancer patients often develop chronic, clinically significant symptoms of depression and anxiety. Previous studies suggest that psilocybin may decrease depression and anxiety in cancer patients. The effects of psilocybin were studied in 51 cancer patients with life-threatening diagnoses and symptoms of depression and/or anxiety. This randomized, double-blind, cross-over trial investigated the effects of a very low (placebo-like) dose (1 or 3 mg/70 kg) vs. a high dose (22 or 30 mg/70 kg) of psilocybin administered in counterbalanced sequence with 5 weeks between sessions and a 6-month follow-up. Instructions to participants and staff minimized expectancy effects. Participants, staff, and community observers rated participant moods, attitudes, and behaviors throughout the study. High-dose psilocybin produced large decreases in clinician- and self-rated measures of depressed mood and anxiety, along with increases in quality of life, life meaning, and optimism, and decreases in death anxiety. At 6-month follow-up, these changes were sustained, with about 80% of participants continuing to show clinically significant decreases in depressed mood and anxiety. Participants attributed improvements in attitudes about life/self, mood, relationships, and spirituality to the high-dose experience, with >80% endorsing moderately or greater increased well-being/life satisfaction. Community observer ratings showed corresponding changes. Mystical-type psilocybin experience on session day mediated the effect of psilocybin dose on therapeutic outcomes.",
+      "pmid": 27909165,
+      "publication_date": "2016-11-30",
+      "citation_count": null,
+      "study_characteristics": [
+        "open-label",
+        "follow-up"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Palliative & End-of-Life Distress"
+      ],
+      "journal": "Journal of Psychopharmacology",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "mtm7pnub3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "8enmag5xr",
+                "_type": "span",
+                "marks": [],
+                "text": "Cancer patients often develop chronic, clinically significant symptoms of depression and anxiety. Previous studies suggest that psilocybin may decrease depression and anxiety in cancer patients. The effects of psilocybin were studied in 51 cancer patients with life-threatening diagnoses and symptoms of depression and/or anxiety. This randomized, double-blind, cross-over trial investigated the effects of a very low (placebo-like) dose (1 or 3 mg/70 kg) vs. a high dose (22 or 30 mg/70 kg) of psilocybin administered in counterbalanced sequence with 5 weeks between sessions and a 6-month follow-up. Instructions to participants and staff minimized expectancy effects. Participants, staff, and community observers rated participant moods, attitudes, and behaviors throughout the study. High-dose psilocybin produced large decreases in clinician- and self-rated measures of depressed mood and anxiety, along with increases in quality of life, life meaning, and optimism, and decreases in death anxiety. At 6-month follow-up, these changes were sustained, with about 80% of participants continuing to show clinically significant decreases in depressed mood and anxiety. Participants attributed improvements in attitudes about life/self, mood, relationships, and spirituality to the high-dose experience, with >80% endorsing moderately or greater increased well-being/life satisfaction. Community observer ratings showed corresponding changes. Mystical-type psilocybin experience on session day mediated the effect of psilocybin dose on therapeutic outcomes."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Griffiths, R. R.",
+          "Johnson, M. W."
+        ],
+        "authors": [
+          {
+            "_id": "7Plaj3xRNp3V1OodHH0tj2",
+            "name": "Roland Griffiths",
+            "slug": "roland-griffiths"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS2CxMv",
+            "name": "Matthew Johnson",
+            "slug": "matthew-johnson"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1177/0269881116675513",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Journal of Psychopharmacology",
+          "slug": "journal-of-psychopharmacology"
+        },
+        "paragraphSummary": "In a randomized, double‑blind, crossover trial of 51 patients with life‑threatening cancer, a single high dose of psilocybin produced large, rapid and sustained reductions in clinician- and self-rated depression and anxiety and increased quality of life, meaning and optimism, with about 80% of participants showing clinically significant improvement at six months. The therapeutic effects were mediated by the intensity of mystical‑type experiences during the session and were corroborated by community observer ratings.",
+        "pmid": 27909165,
+        "publicationDate": "2016-11-30",
+        "slug": "psilocybin-produces-substantial-and-sustained-decreases-in-depression-and-anxiet",
+        "studyCharacteristics": [
+          "open-label",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin produces substantial and sustained decreases in depression and anxiety in patients with life-threatening cancer",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "palliative-end-of-life-distress",
+            "title": "Palliative & End-of-Life Distress"
+          }
+        ]
+      }
+    },
+    "Ross, 2016": {
+      "status": "ok",
+      "doi": "10.1177/0269881116675512",
+      "blossom_slug": "rapid-and-sustained-symptom-reduction-following-psilocybin-treatment-for-anxiety",
+      "blossom_url": "https://www.moreblossom.com/papers/rapid-and-sustained-symptom-reduction-following-psilocybin-treatment-for-anxiety",
+      "title": "Rapid and sustained symptom reduction following psilocybin treatment for anxiety and depression in patients with life-threatening cancer: A randomized controlled trial",
+      "paragraph_summary": "In a double-blind, placebo-controlled crossover trial of 29 patients with cancer-related anxiety and depression, a single moderate dose of psilocybin (0.3 mg/kg) given with psychotherapy produced rapid, substantial and sustained reductions in anxiety and depression versus niacin, with around 60–80% of participants maintaining clinically significant improvements at 6.5 months. Psilocybin also reduced demoralisation and hopelessness, improved spiritual wellbeing, quality of life and attitudes to death, and the intensity of the psilocybin-induced mystical experience mediated its therapeutic effects.",
+      "abstract": "Background\n\nClinically significant anxiety and depression are common in patients with cancer, and are associated with poor psychiatric and medical outcomes. Historical and recent research suggests a role for psilocybin to treat cancer-related anxiety and depression.\n\nMethods\n\nIn this double-blind, placebo-controlled, crossover trial, 29 patients with cancer-related anxiety and depression were randomly assigned and received treatment with single-dose psilocybin (0.3 mg/kg) or niacin, both in conjunction with psychotherapy. The primary outcomes were anxiety and depression assessed between groups prior to the crossover at 7 weeks.\n\nResults\n\nPrior to the crossover, psilocybin produced immediate, substantial, and sustained improvements in anxiety and depression and led to decreases in cancer-related demoralization and hopelessness, improved spiritual wellbeing, and increased quality of life. At the 6.5-month follow-up, psilocybin was associated with enduring anxiolytic and anti-depressant effects (approximately 60–80% of participants continued with clinically significant reductions in depression or anxiety), sustained benefits in existential distress and quality of life, as well as improved attitudes towards death. The psilocybin-induced mystical experience mediated the therapeutic effect of psilocybin on anxiety and depression.\n\nConclusions\n\nIn conjunction with psychotherapy, single moderate-dose psilocybin produced rapid, robust and enduring anxiolytic and anti-depressant effects in patients with cancer-related psychological distress.",
+      "pmid": 27909164,
+      "publication_date": "2016-11-30",
+      "citation_count": null,
+      "study_characteristics": [
+        "double-blind",
+        "placebo-controlled"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Suicidality",
+        "Palliative & End-of-Life Distress"
+      ],
+      "journal": "Journal of Psychopharmacology",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "mztve3xfk",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "dsnunlnre",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "e3ie67m68",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "a0gejepor",
+                "_type": "span",
+                "marks": [],
+                "text": "Clinically significant anxiety and depression are common in patients with cancer, and are associated with poor psychiatric and medical outcomes. Historical and recent research suggests a role for psilocybin to treat cancer-related anxiety and depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "2a6eyn25q",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "0d27yjk5b",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "dogo4ylmi",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hcfts3bam",
+                "_type": "span",
+                "marks": [],
+                "text": "In this double-blind, placebo-controlled, crossover trial, 29 patients with cancer-related anxiety and depression were randomly assigned and received treatment with single-dose psilocybin (0.3 mg/kg) or niacin, both in conjunction with psychotherapy. The primary outcomes were anxiety and depression assessed between groups prior to the crossover at 7 weeks."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "rm20evp34",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "wun15yw3e",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "0597imqfa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "x7uzml2eb",
+                "_type": "span",
+                "marks": [],
+                "text": "Prior to the crossover, psilocybin produced immediate, substantial, and sustained improvements in anxiety and depression and led to decreases in cancer-related demoralization and hopelessness, improved spiritual wellbeing, and increased quality of life. At the 6.5-month follow-up, psilocybin was associated with enduring anxiolytic and anti-depressant effects (approximately 60–80% of participants continued with clinically significant reductions in depression or anxiety), sustained benefits in existential distress and quality of life, as well as improved attitudes towards death. The psilocybin-induced mystical experience mediated the therapeutic effect of psilocybin on anxiety and depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "nkvyp9kjy",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "w1sn9mu52",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "5px22xuvk",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ukq3kpe1w",
+                "_type": "span",
+                "marks": [],
+                "text": "In conjunction with psychotherapy, single moderate-dose psilocybin produced rapid, robust and enduring anxiolytic and anti-depressant effects in patients with cancer-related psychological distress."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Ross, S.",
+          "Bossis, A. P.",
+          "Guss, J.",
+          "Agin-Liebes, G. I.",
+          "Malone, T.",
+          "Cohen, B.",
+          "Mennenga, S. E.",
+          "Belser, A. B.",
+          "Kalliontzi, K.",
+          "Babb, J.",
+          "Corby, P.",
+          "Schmidt, B. L.",
+          "Su, Z."
+        ],
+        "authors": [
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWrThy",
+            "name": "Gabrielle Agin-Liebes",
+            "slug": "gabrielle-agin-liebes"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK743L",
+            "name": "Stephen Ross",
+            "slug": "stephen-ross"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS2NGhb",
+            "name": "James Guss",
+            "slug": "james-guss"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS3AaLm",
+            "name": "Anna Belser",
+            "slug": "anna-belser"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLl46g",
+            "name": "Susan Mennenga",
+            "slug": "susan-mennenga"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS3FXG0",
+            "name": "Alison Bossis",
+            "slug": "alison-bossis"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1177/0269881116675512",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Journal of Psychopharmacology",
+          "slug": "journal-of-psychopharmacology"
+        },
+        "paragraphSummary": "In a double-blind, placebo-controlled crossover trial of 29 patients with cancer-related anxiety and depression, a single moderate dose of psilocybin (0.3 mg/kg) given with psychotherapy produced rapid, substantial and sustained reductions in anxiety and depression versus niacin, with around 60–80% of participants maintaining clinically significant improvements at 6.5 months. Psilocybin also reduced demoralisation and hopelessness, improved spiritual wellbeing, quality of life and attitudes to death, and the intensity of the psilocybin-induced mystical experience mediated its therapeutic effects.",
+        "pmid": 27909164,
+        "publicationDate": "2016-11-30",
+        "slug": "rapid-and-sustained-symptom-reduction-following-psilocybin-treatment-for-anxiety",
+        "studyCharacteristics": [
+          "double-blind",
+          "placebo-controlled"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Rapid and sustained symptom reduction following psilocybin treatment for anxiety and depression in patients with life-threatening cancer: A randomized controlled trial",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "palliative-end-of-life-distress",
+            "title": "Palliative & End-of-Life Distress"
+          }
+        ]
+      }
+    },
+    "Carhart-Harris, 2021": {
+      "status": "ok",
+      "doi": "10.1056/NEJMoa2032994",
+      "blossom_slug": "trial-of-psilocybin-versus-escitalopram-for-depression",
+      "blossom_url": "https://www.moreblossom.com/papers/trial-of-psilocybin-versus-escitalopram-for-depression",
+      "title": "Trial of Psilocybin versus Escitalopram for Depression",
+      "paragraph_summary": "This double-blind placebo-controlled study (n=59) compared psilocybin (2x25mg; 3 weeks apart) to escitalopram (SSRI) over a six-week period and found large improvements in depression scores for those suffering from depression (MDD) in both groups. On the main measure of depression, the QIDS-SR-16, there was no significant difference between both groups. The study did find significant differences, favoring psilocybin, on the HAM-D-17, MADRS, avoidance, flourishing, wellbeing, and suicidality.",
+      "abstract": "Background\n\nPsilocybin may have antidepressant properties, but direct comparisons between psilocybin and established treatments for depression are lacking.\n\nMethods\n\nIn a phase 2, double-blind, randomized, controlled trial involving patients with long-standing, moderate-to-severe major depressive disorder, we compared psilocybin with escitalopram, a selective serotonin-reuptake inhibitor, over a 6-week period. Patients were assigned in a 1:1 ratio to receive two separate doses of 25 mg of psilocybin 3 weeks apart plus 6 weeks of daily placebo (psilocybin group) or two separate doses of 1 mg of psilocybin 3 weeks apart plus 6 weeks of daily oral escitalopram (escitalopram group); all the patients received psychological support. The primary outcome was the change from baseline in the score on the 16-item Quick Inventory of Depressive Symptomatology-Self-Report (QIDS-SR-16; scores range from 0 to 27, with higher scores indicating greater depression) at week 6. There were 16 secondary outcomes, including QIDS-SR-16 response (defined as a reduction in score of >50%) and QIDS-SR-16 remission (defined as a score of ≤5) at week 6.\n\nResults\n\nA total of 59 patients were enrolled; 30 were assigned to the psilocybin group and 29 to the escitalopram group. The mean scores on the QIDS-SR-16 at baseline were 14.5 in the psilocybin group and 16.4 in the escitalopram group. The mean (±SE) changes in the scores from baseline to week 6 were −8.0±1.0 points in the psilocybin group and −6.0±1.0 in the escitalopram group, for a between-group difference of 2.0 points (95% confidence interval [CI], −5.0 to 0.9) (P=0.17). A QIDS-SR-16 response occurred in 70% of the patients in the psilocybin group and in 48% of those in the escitalopram group, for a between-group difference of 22 percentage points (95% CI, −3 to 48); QIDS-SR-16 remission occurred in 57% and 28%, respectively, for a between-group difference of 28 percentage points (95% CI, 2 to 54). Other secondary outcomes generally favored psilocybin over escitalopram, but the analyses were not corrected for multiple comparisons. The incidence of adverse events was similar in the trial groups.\n\nConclusions\n\nOn the basis of the change in depression scores on the QIDS-SR-16 at week 6, this trial did not show a significant difference in antidepressant effects between psilocybin and escitalopram in a selected group of patients. Secondary outcomes generally favored psilocybin over escitalopram, but the analyses of these outcomes lacked correction for multiple comparisons. Larger and longer trials are required to compare psilocybin with established antidepressants.",
+      "pmid": 33852780,
+      "publication_date": "2021-04-15",
+      "citation_count": 927,
+      "study_characteristics": [
+        "randomized",
+        "double-blind",
+        "placebo-controlled",
+        "parallel-group"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Major Depressive Disorder (MDD)",
+        "Treatment-Resistant Depression (TRD)",
+        "Suicidality",
+        "Safety & Risk Management"
+      ],
+      "journal": "New England Journal of Medicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "1n9uq5o3d",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hmdn3afb5",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "7l36fljyw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "x284bbdkd",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin may have antidepressant properties, but direct comparisons between psilocybin and established treatments for depression are lacking."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "9nwangj6v",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "usy02elkf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "77z7cof0s",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "9spximau9",
+                "_type": "span",
+                "marks": [],
+                "text": "In a phase 2, double-blind, randomized, controlled trial involving patients with long-standing, moderate-to-severe major depressive disorder, we compared psilocybin with escitalopram, a selective serotonin-reuptake inhibitor, over a 6-week period. Patients were assigned in a 1:1 ratio to receive two separate doses of 25 mg of psilocybin 3 weeks apart plus 6 weeks of daily placebo (psilocybin group) or two separate doses of 1 mg of psilocybin 3 weeks apart plus 6 weeks of daily oral escitalopram (escitalopram group); all the patients received psychological support. The primary outcome was the change from baseline in the score on the 16-item Quick Inventory of Depressive Symptomatology-Self-Report (QIDS-SR-16; scores range from 0 to 27, with higher scores indicating greater depression) at week 6. There were 16 secondary outcomes, including QIDS-SR-16 response (defined as a reduction in score of >50%) and QIDS-SR-16 remission (defined as a score of ≤5) at week 6."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "4y5lok1td",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "6m494diyn",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "6steaw36w",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "l87u6pg5z",
+                "_type": "span",
+                "marks": [],
+                "text": "A total of 59 patients were enrolled; 30 were assigned to the psilocybin group and 29 to the escitalopram group. The mean scores on the QIDS-SR-16 at baseline were 14.5 in the psilocybin group and 16.4 in the escitalopram group. The mean (±SE) changes in the scores from baseline to week 6 were −8.0±1.0 points in the psilocybin group and −6.0±1.0 in the escitalopram group, for a between-group difference of 2.0 points (95% confidence interval [CI], −5.0 to 0.9) (P=0.17). A QIDS-SR-16 response occurred in 70% of the patients in the psilocybin group and in 48% of those in the escitalopram group, for a between-group difference of 22 percentage points (95% CI, −3 to 48); QIDS-SR-16 remission occurred in 57% and 28%, respectively, for a between-group difference of 28 percentage points (95% CI, 2 to 54). Other secondary outcomes generally favored psilocybin over escitalopram, but the analyses were not corrected for multiple comparisons. The incidence of adverse events was similar in the trial groups."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "oj9r3xdg4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "u3ihdzqqu",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "vtout432c",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d70j0wcfs",
+                "_type": "span",
+                "marks": [],
+                "text": "On the basis of the change in depression scores on the QIDS-SR-16 at week 6, this trial did not show a significant difference in antidepressant effects between psilocybin and escitalopram in a selected group of patients. Secondary outcomes generally favored psilocybin over escitalopram, but the analyses of these outcomes lacked correction for multiple comparisons. Larger and longer trials are required to compare psilocybin with established antidepressants."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Carhart-Harris, R. L.",
+          "Giribaldi, B.",
+          "Watts, R.",
+          "Baker-Jones, M.",
+          "Murphy, R.",
+          "Murphy-Beiner, A.",
+          "Martell, J.",
+          "Blemings, A.",
+          "Erritzoe, D.",
+          "Nutt, D. J."
+        ],
+        "authors": [
+          {
+            "_id": "6XsPwpOTKVBr6XShQDPUEa",
+            "name": "Robin Carhart-Harris",
+            "slug": "robin-carhart-harris"
+          },
+          {
+            "_id": "BN0a6oFMACiVd4bDKZql2C",
+            "name": "David Nutt",
+            "slug": "david-nutt"
+          },
+          {
+            "_id": "6XsPwpOTKVBr6XShQDPUmu",
+            "name": "David Erritzoe",
+            "slug": "david-erritzoe"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWtJzO",
+            "name": "Bruna Giribaldi",
+            "slug": "bruna-giribaldi"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS34NQv",
+            "name": "Rosalind Watts",
+            "slug": "rosalind-watts"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLibBB",
+            "name": "Ashleigh Murphy-Beiner",
+            "slug": "ashleigh-murphy-beiner"
+          },
+          {
+            "_id": "08S2ZWgOccnxn2Q1Yw5s3E",
+            "name": "Robin Murphy",
+            "slug": "robin-murphy"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGnIZmo",
+            "name": "Jonny Martell",
+            "slug": "jonny-martell"
+          }
+        ],
+        "citationCount": 927,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1056/NEJMoa2032994",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "New England Journal of Medicine",
+          "slug": "new-england-journal-of-medicine"
+        },
+        "paragraphSummary": "This double-blind placebo-controlled study (n=59) compared psilocybin (2x25mg; 3 weeks apart) to escitalopram (SSRI) over a six-week period and found large improvements in depression scores for those suffering from depression (MDD) in both groups. On the main measure of depression, the QIDS-SR-16, there was no significant difference between both groups. The study did find significant differences, favoring psilocybin, on the HAM-D-17, MADRS, avoidance, flourishing, wellbeing, and suicidality.",
+        "pmid": 33852780,
+        "publicationDate": "2021-04-15",
+        "slug": "trial-of-psilocybin-versus-escitalopram-for-depression",
+        "studyCharacteristics": [
+          "randomized",
+          "double-blind",
+          "placebo-controlled",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Trial of Psilocybin versus Escitalopram for Depression",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "mdd",
+            "title": "Major Depressive Disorder (MDD)"
+          },
+          {
+            "slug": "trd",
+            "title": "Treatment-Resistant Depression (TRD)"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Davis, 2021": {
+      "status": "ok",
+      "doi": "10.1001/jamapsychiatry.2020.3285",
+      "blossom_slug": "effects-of-psilocybin-assisted-therapy-on-major-depressive-disorder",
+      "blossom_url": "https://www.moreblossom.com/papers/effects-of-psilocybin-assisted-therapy-on-major-depressive-disorder",
+      "title": "Effects of Psilocybin-Assisted Therapy on Major Depressive Disorder",
+      "paragraph_summary": "This randomised open-label study (n=24) found that two sessions with psilocybin (20 and 30mg/70kg) significantly improved depression scores for a population with major depressive disorder (MDD) up to 8 weeks later.",
+      "abstract": "Importance\n\nMajor depressive disorder (MDD) is a substantial public health burden, but current treatments have limited effectiveness and adherence. Recent evidence suggests that 1 or 2 administrations of psilocybin with psychological support produces antidepressant effects in patients with cancer and in those with treatment-resistant depression.\n\nObjective\n\nTo investigate the effect of psilocybin therapy in patients with MDD.\n\nDesign, Setting, and Participants\n\nThis randomized, waiting list-controlled clinical trial was conducted at the Center for Psychedelic and Consciousness Research at Johns Hopkins Bayview Medical Center in Baltimore, Maryland. Adults aged 21 to 75 years with an MDD diagnosis, not currently using antidepressant medications, and without histories of psychotic disorder, serious suicide attempt, or hospitalization were eligible to participate. Enrollment occurred between August 2017 and April 2019, and the 4-week primary outcome assessments were completed in July 2019. A total of 27 participants were randomized to an immediate treatment condition group (n = 15) or delayed treatment condition group (waiting list control condition; n = 12). Data analysis was conducted from July 1, 2019, to July 31, 2020, and included participants who completed the intervention (evaluable population).\n\nInterventions\n\nTwo psilocybin sessions (session 1: 20 mg/70 kg; session 2: 30 mg/70 kg) were given (administered in opaque gelatin capsules with approximately 100 mL of water) in the context of supportive psychotherapy (approximately 11 hours). Participants were randomized to begin treatment immediately or after an 8-week delay.\n\nMain Outcomes and Measures\n\nThe primary outcome, depression severity was assessed with the GRID-Hamilton Depression Rating Scale (GRID-HAMD) scores at baseline (score of ≥17 required for enrollment) and weeks 5 and 8 after enrollment for the delayed treatment group, which corresponded to weeks 1 and 4 after the intervention for the immediate treatment group. Secondary outcomes included the Quick Inventory of Depressive Symptomatology-Self Rated (QIDS-SR).\n\nResults\n\nOf the randomized participants, 24 of 27 (89%) completed the intervention and the week 1 and week 4 postsession assessments. This population had a mean (SD) age of 39.8 (12.2) years, was composed of 16 women (67%), and had a mean (SD) baseline GRID-HAMD score of 22.8 (3.9). The mean (SD) GRID-HAMD scores at weeks 1 and 4 (8.0 [7.1] and 8.5 [5.7]) in the immediate treatment group were statistically significantly lower than the scores at the comparable time points of weeks 5 and 8 (23.8 [5.4] and 23.5 [6.0]) in the delayed treatment group. The effect sizes were large at week 5 (Cohen d = 2.2; 95% CI, 1.4-3.0; P < .001) and week 8 (Cohen d = 2.6; 95% CI, 1.7-3.6; P < .001). The QIDS-SR documented a rapid decrease in mean (SD) depression score from baseline to day 1 after session 1 (16.7 [3.5] vs 6.3 [4.4]; Cohen d = 3.0; 95% CI, 1.9-4.0; P < .001), which remained statistically significantly reduced through the week 4 follow-up (6.0 [5.7]; Cohen d = 3.1; 95% CI, 1.9-4.2; P < .001). In the overall sample, 17* participants (71%*) at week 1 and 17 (71%) at week 4 had a clinically significant response to the intervention (≥50% reduction in GRID-HAMD score), and 14 participants (58%) at week 1 and 13 participants (54%) at week 4 were in remission (≤7 GRID-HAMD score).\n\nConclusions and Relevance\n\nFindings suggest that psilocybin with therapy is efficacious in treating MDD, thus extending the results of previous studies of this intervention in patients with cancer and depression and of a nonrandomized study in patients with treatment-resistant depression.",
+      "pmid": 33146667,
+      "publication_date": "2021-05-01",
+      "citation_count": 1015,
+      "study_characteristics": [
+        "randomized",
+        "open-label",
+        "dose-finding",
+        "follow-up"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Depressive Disorders",
+        "Older Adults",
+        "Major Depressive Disorder (MDD)",
+        "Treatment-Resistant Depression (TRD)",
+        "Substance Use Disorders (SUD)",
+        "Suicidality",
+        "Palliative & End-of-Life Distress",
+        "Schizophrenia",
+        "Public Health, Prevention & Behaviour Change",
+        "Anxiety Disorders"
+      ],
+      "journal": "JAMA Psychiatry",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "TYNNzQYU",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cpCzIExS",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Importance "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "355936712372",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "Major depressive disorder (MDD) is a substantial public health burden, but current treatments have limited effectiveness and adherence. Recent evidence suggests that 1 or 2 administrations of psilocybin with psychological support produces antidepressant effects in patients with cancer and in those with treatment-resistant depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "b9239fe58fb5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Objective "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "6ade3114ae8a",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "To investigate the effect of psilocybin therapy in patients with MDD."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "84b743d2568f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Design, Setting, and Participants "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ca55dfad3c6b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "This randomized, waiting list-controlled clinical trial was conducted at the Center for Psychedelic and Consciousness Research at Johns Hopkins Bayview Medical Center in Baltimore, Maryland. Adults aged 21 to 75 years with an MDD diagnosis, not currently using antidepressant medications, and without histories of psychotic disorder, serious suicide attempt, or hospitalization were eligible to participate. Enrollment occurred between August 2017 and April 2019, and the 4-week primary outcome assessments were completed in July 2019. A total of 27 participants were randomized to an immediate treatment condition group (n = 15) or delayed treatment condition group (waiting list control condition; n = 12). Data analysis was conducted from July 1, 2019, to July 31, 2020, and included participants who completed the intervention (evaluable population)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "2ba5cd3b5a7a",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interventions "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "20a168efb980",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "Two psilocybin sessions (session 1: 20 mg/70 kg; session 2: 30 mg/70 kg) were given (administered in opaque gelatin capsules with approximately 100 mL of water) in the context of supportive psychotherapy (approximately 11 hours). Participants were randomized to begin treatment immediately or after an 8-week delay."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "772e883e6f0e",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Main Outcomes and Measures "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "c5fc429df8f1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "The primary outcome, depression severity was assessed with the GRID-Hamilton Depression Rating Scale (GRID-HAMD) scores at baseline (score of ≥17 required for enrollment) and weeks 5 and 8 after enrollment for the delayed treatment group, which corresponded to weeks 1 and 4 after the intervention for the immediate treatment group. Secondary outcomes included the Quick Inventory of Depressive Symptomatology-Self Rated (QIDS-SR)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "39afc7d011bb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "f824067a7c78",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "Of the randomized participants, 24 of 27 (89%) completed the intervention and the week 1 and week 4 postsession assessments. This population had a mean (SD) age of 39.8 (12.2) years, was composed of 16 women (67%), and had a mean (SD) baseline GRID-HAMD score of 22.8 (3.9). The mean (SD) GRID-HAMD scores at weeks 1 and 4 (8.0 [7.1] and 8.5 [5.7]) in the immediate treatment group were statistically significantly lower than the scores at the comparable time points of weeks 5 and 8 (23.8 [5.4] and 23.5 [6.0]) in the delayed treatment group. The effect sizes were large at week 5 (Cohen d = 2.2; 95% CI, 1.4-3.0; P < .001) and week 8 (Cohen d = 2.6; 95% CI, 1.7-3.6; P < .001). The QIDS-SR documented a rapid decrease in mean (SD) depression score from baseline to day 1 after session 1 (16.7 [3.5] vs 6.3 [4.4]; Cohen d = 3.0; 95% CI, 1.9-4.0; P < .001), which remained statistically significantly reduced through the week 4 follow-up (6.0 [5.7]; Cohen d = 3.1; 95% CI, 1.9-4.2; P < .001). In the overall sample, 17* participants (71%*) at week 1 and 17 (71%) at week 4 had a clinically significant response to the intervention (≥50% reduction in GRID-HAMD score), and 14 participants (58%) at week 1 and 13 participants (54%) at week 4 were in remission (≤7 GRID-HAMD score)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "110c89143d3e",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions and Relevance "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "e03a3160020f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d6451ac491bf",
+                "_type": "span",
+                "marks": [],
+                "text": "Findings suggest that psilocybin with therapy is efficacious in treating MDD, thus extending the results of previous studies of this intervention in patients with cancer and depression and of a nonrandomized study in patients with treatment-resistant depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Davis, A. K.",
+          "Barrett, F. S.",
+          "May, D. G.",
+          "Cosimano, M. P.",
+          "Sepeda, N. D.",
+          "Johnson, M. W.",
+          "Finan, P. H.",
+          "Griffiths, R. R."
+        ],
+        "authors": [
+          {
+            "_id": "4sAl3Cu14In3HRPINJv9B5",
+            "name": "Alan Davis",
+            "slug": "alan-davis"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINJvUdJ",
+            "name": "Frederick Barrett",
+            "slug": "frederick-barrett"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK8PgJ",
+            "name": "Nathan Sepeda",
+            "slug": "nathan-sepeda"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS2CxMv",
+            "name": "Matthew Johnson",
+            "slug": "matthew-johnson"
+          },
+          {
+            "_id": "7Plaj3xRNp3V1OodHH0tj2",
+            "name": "Roland Griffiths",
+            "slug": "roland-griffiths"
+          }
+        ],
+        "citationCount": 1015,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1001/jamapsychiatry.2020.3285",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "JAMA Psychiatry",
+          "slug": "jama-psychiatry"
+        },
+        "paragraphSummary": "This randomised open-label study (n=24) found that two sessions with psilocybin (20 and 30mg/70kg) significantly improved depression scores for a population with major depressive disorder (MDD) up to 8 weeks later.",
+        "pmid": 33146667,
+        "publicationDate": "2021-05-01",
+        "slug": "effects-of-psilocybin-assisted-therapy-on-major-depressive-disorder",
+        "studyCharacteristics": [
+          "randomized",
+          "open-label",
+          "dose-finding",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Effects of Psilocybin-Assisted Therapy on Major Depressive Disorder",
+        "topics": [
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "older-adults",
+            "title": "Older Adults"
+          },
+          {
+            "slug": "mdd",
+            "title": "Major Depressive Disorder (MDD)"
+          },
+          {
+            "slug": "trd",
+            "title": "Treatment-Resistant Depression (TRD)"
+          },
+          {
+            "slug": "sud",
+            "title": "Substance Use Disorders (SUD)"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "palliative-end-of-life-distress",
+            "title": "Palliative & End-of-Life Distress"
+          },
+          {
+            "slug": "schizophrenia",
+            "title": "Schizophrenia"
+          },
+          {
+            "slug": "public-health-prevention-and-behaviour-change",
+            "title": "Public Health, Prevention & Behaviour Change"
+          },
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          }
+        ]
+      }
+    },
+    "Goodwin, 2022": {
+      "status": "ok",
+      "doi": "10.1056/NEJMoa2206443",
+      "blossom_slug": "single-dose-psilocybin-for-a-treatment-resistant-episode-of-major-depression",
+      "blossom_url": "https://www.moreblossom.com/papers/single-dose-psilocybin-for-a-treatment-resistant-episode-of-major-depression",
+      "title": "Single-Dose Psilocybin for a Treatment-Resistant Episode of Major Depression",
+      "paragraph_summary": "This double-blind active-placebo controlled trial (n=233) tested the effect of a single dose of psilocybin (25/10/1mg) with supportive therapy for treatment-resistant depression. The primary endpoint at three weeks finds a significant reduction in depressive symptoms (MADRS, 12-point drop from baseline of 32) that was significantly greater in the 25mg group vs the 1mg (placebo) group (6.6 points larger drop). The response (>50% drop in MADRS score) in the 25mg group dropped from 37% at 3 weeks to 20% at 12 weeks.",
+      "abstract": "Background\n\nPsilocybin is being studied for use in treatment-resistant depression.\n\nMethods\n\nIn this phase 2 double-blind trial, we randomly assigned adults with treatment-resistant depression to receive a single dose of a proprietary, synthetic formulation of psilocybin [COMP360] at a dose of 25 mg, 10 mg, or 1 mg (control), along with psychological support. The primary endpoint was the change from baseline to week 3 in the total score on the Montgomery-Åsberg Depression Rating Scale (MADRS; range, 0 to 60, with higher scores indicating more severe depression). Secondary endpoints included response at week 3 (≥50% decrease from baseline in the MADRS total score), remission at week 3 (MADRS total score ≤10), and sustained response at 12 weeks (meeting response criteria at week 3 and all subsequent visits).\n\nResults\n\nA total of 79 participants were in the 25-mg group, 75 in the 10-mg group, and 79 in the 1-mg group. The mean MADRS total score at baseline was 32 or 33 in each group. Least-squares mean changes from baseline to week 3 in the score were −12.0 for 25 mg, −7.9 for 10 mg, and −5.4 for 1 mg; the difference between the 25-mg group and 1-mg group was −6.6 (95% confidence interval [CI], −10.2 to −2.9; P<0.001) and between the 10-mg group and 1-mg group was −2.5 (95% CI, −6.2 to 1.2; P=0.18). In the 25-mg group, the incidences of response and remission at 3 weeks, but not sustained response at 12 weeks, were generally supportive of the primary results. Adverse events occurred in 179 of 233 participants (77%) and included headache, nausea, and dizziness. Suicidal ideation or behavior or self-injury occurred in all dose groups.\n\nConclusion\n\nIn this phase 2 trial involving participants with treatment-resistant depression, psilocybin at a single dose of 25 mg, but not 10 mg, reduced depression scores significantly more than a 1-mg dose over a period of 3 weeks but was associated with adverse effects. Larger and longer trials, including comparison with existing treatments, are required to determine the efficacy and safety of psilocybin for this disorder.",
+      "pmid": 36322843,
+      "publication_date": "2022-11-03",
+      "citation_count": 656,
+      "study_characteristics": [
+        "placebo-controlled",
+        "active-placebo",
+        "double-blind",
+        "randomized",
+        "parallel-group",
+        "dose-finding",
+        "multi-site",
+        "follow-up"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Treatment-Resistant Depression (TRD)",
+        "Headache Disorders (Cluster & Migraine)",
+        "Suicidality",
+        "Safety & Risk Management",
+        "Chronic Pain"
+      ],
+      "journal": "New England Journal of Medicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "FJ6cHd1I",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yBtDxu8d",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ce5f9965dcfd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin is being studied for use in treatment-resistant depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "8119beaae8d2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "f47e658b1791",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [],
+                "text": "In this phase 2 double-blind trial, we randomly assigned adults with treatment-resistant depression to receive a single dose of a proprietary, synthetic formulation of psilocybin [COMP360] at a dose of 25 mg, 10 mg, or 1 mg (control), along with psychological support. The primary endpoint was the change from baseline to week 3 in the total score on the Montgomery-Åsberg Depression Rating Scale (MADRS; range, 0 to 60, with higher scores indicating more severe depression). Secondary endpoints included response at week 3 (≥50% decrease from baseline in the MADRS total score), remission at week 3 (MADRS total score ≤10), and sustained response at 12 weeks (meeting response criteria at week 3 and all subsequent visits)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "002192419c47",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "da88e604ae4a",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [],
+                "text": "A total of 79 participants were in the 25-mg group, 75 in the 10-mg group, and 79 in the 1-mg group. The mean MADRS total score at baseline was 32 or 33 in each group. Least-squares mean changes from baseline to week 3 in the score were −12.0 for 25 mg, −7.9 for 10 mg, and −5.4 for 1 mg; the difference between the 25-mg group and 1-mg group was −6.6 (95% confidence interval [CI], −10.2 to −2.9; P<0.001) and between the 10-mg group and 1-mg group was −2.5 (95% CI, −6.2 to 1.2; P=0.18). In the 25-mg group, the incidences of response and remission at 3 weeks, but not sustained response at 12 weeks, were generally supportive of the primary results. Adverse events occurred in 179 of 233 participants (77%) and included headache, nausea, and dizziness. Suicidal ideation or behavior or self-injury occurred in all dose groups."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "5c1423eef361",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusion "
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "17311c147b38",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ceed8095338c",
+                "_type": "span",
+                "marks": [],
+                "text": "In this phase 2 trial involving participants with treatment-resistant depression, psilocybin at a single dose of 25 mg, but not 10 mg, reduced depression scores significantly more than a 1-mg dose over a period of 3 weeks but was associated with adverse effects. Larger and longer trials, including comparison with existing treatments, are required to determine the efficacy and safety of psilocybin for this disorder."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "paywall",
+        "authorNames": [
+          "Goodwin, G. M.",
+          "Aaronson, S. T.",
+          "Alvarez, O.",
+          "Arden, P. C.",
+          "Baker, A.",
+          "Bennett, J. C.",
+          "Bird, C.",
+          "Blom, R. E.",
+          "Brennan, C.",
+          "Brusch, D.",
+          "Burke, L.",
+          "Campbell-Coker, K.",
+          "Carhart-Harris, R.",
+          "Cattell, J.",
+          "Daniel, A.",
+          "Debattista, C.",
+          "Dunlop, B. W.",
+          "Eisen, K.",
+          "Feifel, D.",
+          "Forbes, M. K.",
+          "Haumann, H. M.",
+          "Hellerstein, D. J.",
+          "Hoppe, A. I.",
+          "Husain, M. I.",
+          "Jelen, L. A.",
+          "Kamphuis, J.",
+          "Kawasaki, J.",
+          "Kelly, J. R.",
+          "Key, R. E.",
+          "Kishon, R.",
+          "Peck, S. K.",
+          "Knight, G.",
+          "Koolen, M. H. B.",
+          "Lean, M.",
+          "Licht, R. W.",
+          "Maples-Keller, J. L.",
+          "Mars, J.",
+          "Marwood, L.",
+          "Mcelhiney, M. C.",
+          "Miller, T. L.",
+          "Mirow, A.",
+          "Mistry, S.",
+          "Mletzko-Crowe, T.",
+          "Modlin, L. N.",
+          "Nielsen, R. E.",
+          "Nielson, E. M.",
+          "Offerhaus, S. R.",
+          "O'keane, V.",
+          "Páleníček, T.",
+          "Printz, D.",
+          "Rademaker, M. C.",
+          "Van Reemst, A.",
+          "Reinholdt, F.",
+          "Repantis, D.",
+          "Rucker, J.",
+          "Rudow, S.",
+          "Ruffell, S.",
+          "Rush, A. J.",
+          "Schoevers, R. A.",
+          "Seynaeve, M.",
+          "Shao, S.",
+          "Soares, J. C.",
+          "Somers, M.",
+          "Stansfield, S. C.",
+          "Sterling, D.",
+          "Strockis, A.",
+          "Tsai, J.",
+          "Visser, L.",
+          "Wahba, M.",
+          "Williams, S.",
+          "Young, A. H.",
+          "Ywema, P.",
+          "Zisook, S.",
+          "Malievskaia, E."
+        ],
+        "authors": [
+          {
+            "_id": "6XsPwpOTKVBr6XShQDPUEa",
+            "name": "Robin Carhart-Harris",
+            "slug": "robin-carhart-harris"
+          },
+          {
+            "_id": "BN0a6oFMACiVd4bDKZuYyy",
+            "name": "James Rucker",
+            "slug": "james-rucker"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK5I79",
+            "name": "Allan Young",
+            "slug": "allan-young"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWrQ10",
+            "name": "Tomáš Páleníček",
+            "slug": "tom-p-len-ek"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS35t1x",
+            "name": "Guy Goodwin",
+            "slug": "guy-goodwin"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLbPYI",
+            "name": "Robert Schoevers",
+            "slug": "robert-schoevers"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLkhdL",
+            "name": "Katharine Dunlop",
+            "slug": "katharine-dunlop"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PXpukg",
+            "name": "Ekaterina Malievskaia",
+            "slug": "ekaterina-malievskaia"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhTiaqW",
+            "name": "Jeanine Kamphuis",
+            "slug": "jeanine-kamphuis"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhTlbmy",
+            "name": "Mathieu Seynaeve",
+            "slug": "mathieu-seynaeve"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGmHgHU",
+            "name": "Boadie Dunlop",
+            "slug": "boadie-dunlop"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjz3lMR",
+            "name": "Elizabeth Nielson",
+            "slug": "elizabeth-nielson"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjz4q5D",
+            "name": "Sunil Mistry",
+            "slug": "sunil-mistry"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhTwox6",
+            "name": "John Kelly",
+            "slug": "john-kelly"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjz5Cdv",
+            "name": "Muhammad Ishrat Husain",
+            "slug": "muhammad-ishrat-husain"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjz5XSF",
+            "name": "Luke Jelen",
+            "slug": "luke-jelen"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhUK73Q",
+            "name": "Scott Tyler Aaronson",
+            "slug": "scott-tyler-aaronson"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjzHyMN",
+            "name": "Lindsey Marwood",
+            "slug": "lindsey-marwood"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhUL54y",
+            "name": "Catherine Bird",
+            "slug": "catherine-bird"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhUQZNg",
+            "name": "Jessica Maples-Keller",
+            "slug": "jessica-maples-keller"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGmzDsY",
+            "name": "Charles Debattista",
+            "slug": "charles-debattista"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGnGQRi",
+            "name": "Stephanie Peck",
+            "slug": "stephanie-peck"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhUl17I",
+            "name": "David Feifel",
+            "slug": "david-feifel"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhUnonw",
+            "name": "David Hellerstein",
+            "slug": "david-hellerstein"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGnR03s",
+            "name": "Veronica O'keane",
+            "slug": "veronica-o-keane"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjzZoSR",
+            "name": "Joyce Tsai",
+            "slug": "joyce-tsai"
+          }
+        ],
+        "citationCount": 656,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1056/NEJMoa2206443",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "New England Journal of Medicine",
+          "slug": "new-england-journal-of-medicine"
+        },
+        "paragraphSummary": "This double-blind active-placebo controlled trial (n=233) tested the effect of a single dose of psilocybin (25/10/1mg) with supportive therapy for treatment-resistant depression. The primary endpoint at three weeks finds a significant reduction in depressive symptoms (MADRS, 12-point drop from baseline of 32) that was significantly greater in the 25mg group vs the 1mg (placebo) group (6.6 points larger drop). The response (>50% drop in MADRS score) in the 25mg group dropped from 37% at 3 weeks to 20% at 12 weeks.",
+        "pmid": 36322843,
+        "publicationDate": "2022-11-03",
+        "slug": "single-dose-psilocybin-for-a-treatment-resistant-episode-of-major-depression",
+        "studyCharacteristics": [
+          "placebo-controlled",
+          "active-placebo",
+          "double-blind",
+          "randomized",
+          "parallel-group",
+          "dose-finding",
+          "multi-site",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Single-Dose Psilocybin for a Treatment-Resistant Episode of Major Depression",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "trd",
+            "title": "Treatment-Resistant Depression (TRD)"
+          },
+          {
+            "slug": "headache-disorders",
+            "title": "Headache Disorders (Cluster & Migraine)"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          },
+          {
+            "slug": "chronic-pain",
+            "title": "Chronic Pain"
+          }
+        ]
+      }
+    },
+    "Krempien, 2023": {
+      "status": "not_found",
+      "reason": "no DOI; gray literature"
+    },
+    "von Rotz, 2023": {
+      "status": "ok",
+      "doi": "10.1016/j.eclinm.2022.101809",
+      "blossom_slug": "single-dose-psilocybin-assisted-therapy-in-major-depressive-disorder-a-placebo-c",
+      "blossom_url": "https://www.moreblossom.com/papers/single-dose-psilocybin-assisted-therapy-in-major-depressive-disorder-a-placebo-c",
+      "title": "Single-dose psilocybin-assisted therapy in major depressive disorder: A placebo-controlled, double-blind, randomised clinical trial",
+      "paragraph_summary": "This double-blind placebo-controlled study (n=56) found that one psilocybin-assisted therapy (16mg/70kg, 2 prep + 3 integration meetings) session significantly reduced depressive symptoms (MADRS & BDI) in those suffering from a major depressive disorder (MDD, n=26). Fourteen days after the intervention, 54% of those in the psilocybin group met remission criteria (<10 on MADRS).",
+      "abstract": "Background\n\nPsilocybin has been suggested as a novel, rapid-acting treatment for depression. Two consecutive doses have been shown to markedly decrease symptom severity in an open-label setting or when compared to a waiting list group. To date, to our knowledge, no other trial compared a single, moderate dose of psilocybin to a placebo condition.\n\nMethods\n\nIn this double-blind, randomised clinical trial, 52 participants diagnosed with major depressive disorder and no unstable somatic conditions were allocated to receive either a single, moderate dose (0.215 mg/kg body weight) of psilocybin or placebo in conjunction with psychological support. MADRS and BDI scores were assessed to estimate depression severity, while changes from baseline to 14 days after the intervention were defined as primary endpoints. The trial took place between April 11th, 2019 and October 12th, 2021 at the psychiatric university hospital in Zürich, Switzerland and was registered with clinicaltrials.gov (NCT03715127).\n\nFindings\n\nThe psilocybin condition showed an absolute decrease in symptom severity of −13.0 points compared to baseline and were significantly larger than those in the placebo condition (95% CI −15.0 to −1.3; Cohens' d = 0.97; P = 0.0011; MADRS) and −13.2 points (95% CI; −13.4 to −1.3; Cohens’ d = 0.67; P = 0.019; BDI) 14 days after the intervention. 14/26 (54%) participants met the MADRS remission criteria in the psilocybin condition.\n\nInterpretation\n\nThese results suggest that a single, moderate dose of psilocybin significantly reduces depressive symptoms compared to a placebo condition for at least two weeks. No serious adverse events were recorded. Larger, multi-centric trials with longer follow-up periods are needed to inform further optimisation of this novel treatment paradigm.",
+      "pmid": 36636296,
+      "publication_date": "2023-02-01",
+      "citation_count": null,
+      "study_characteristics": [
+        "double-blind",
+        "placebo-controlled",
+        "randomized",
+        "parallel-group",
+        "follow-up"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Depressive Disorders",
+        "Major Depressive Disorder (MDD)",
+        "Safety & Risk Management"
+      ],
+      "journal": "EClinicalMedicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "vt9e8576q",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "04oe3ynm0",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "lqdsix9eg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ccshq3mw1",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin has been suggested as a novel, rapid-acting treatment for depression. Two consecutive doses have been shown to markedly decrease symptom severity in an open-label setting or when compared to a waiting list group. To date, to our knowledge, no other trial compared a single, moderate dose of psilocybin to a placebo condition."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "1ri8dpc14",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "z4gyfui45",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "5spquutqf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "k0ksrgqf3",
+                "_type": "span",
+                "marks": [],
+                "text": "In this double-blind, randomised clinical trial, 52 participants diagnosed with major depressive disorder and no unstable somatic conditions were allocated to receive either a single, moderate dose (0.215 mg/kg body weight) of psilocybin or placebo in conjunction with psychological support. MADRS and BDI scores were assessed to estimate depression severity, while changes from baseline to 14 days after the intervention were defined as primary endpoints. The trial took place between April 11th, 2019 and October 12th, 2021 at the psychiatric university hospital in Zürich, Switzerland and was registered with clinicaltrials.gov (NCT03715127)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "nol5299y8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "mnh7igtcr",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Findings"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "866sgpcv4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "21sml2pj1",
+                "_type": "span",
+                "marks": [],
+                "text": "The psilocybin condition showed an absolute decrease in symptom severity of −13.0 points compared to baseline and were significantly larger than those in the placebo condition (95% CI −15.0 to −1.3; Cohens' d = 0.97; P = 0.0011; MADRS) and −13.2 points (95% CI; −13.4 to −1.3; Cohens’ d = 0.67; P = 0.019; BDI) 14 days after the intervention. 14/26 (54%) participants met the MADRS remission criteria in the psilocybin condition."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "6nvg92iyz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xe6305lp6",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interpretation"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "f2na4tzkd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "yxry850hs",
+                "_type": "span",
+                "marks": [],
+                "text": "These results suggest that a single, moderate dose of psilocybin significantly reduces depressive symptoms compared to a placebo condition for at least two weeks. No serious adverse events were recorded. Larger, multi-centric trials with longer follow-up periods are needed to inform further optimisation of this novel treatment paradigm."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Schindowski, E. M.",
+          "Jungwirth, J.",
+          "Schuldt, A.",
+          "Rieser, N. M.",
+          "Zahoranszky, K.",
+          "Seifritz, E.",
+          "Nowak, A.",
+          "Nowak, P.",
+          "Jäncke, L.",
+          "Preller, K. H.",
+          "Vollenweider, F. X.",
+          "van Rotz, R."
+        ],
+        "authors": [
+          {
+            "_id": "BN0a6oFMACiVd4bDKZuT4S",
+            "name": "Erich Seifritz",
+            "slug": "erich-seifritz"
+          },
+          {
+            "_id": "7Plaj3xRNp3V1OodHH0uJj",
+            "name": "Franz Vollenweider",
+            "slug": "franz-vollenweider"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWlRos",
+            "name": "Katrin Preller",
+            "slug": "katrin-preller"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGnGDee",
+            "name": "Nathalie Rieser",
+            "slug": "nathalie-rieser"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1016/j.eclinm.2022.101809",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "EClinicalMedicine",
+          "slug": "eclinicalmedicine"
+        },
+        "paragraphSummary": "This double-blind placebo-controlled study (n=56) found that one psilocybin-assisted therapy (16mg/70kg, 2 prep + 3 integration meetings) session significantly reduced depressive symptoms (MADRS & BDI) in those suffering from a major depressive disorder (MDD, n=26). Fourteen days after the intervention, 54% of those in the psilocybin group met remission criteria (<10 on MADRS).",
+        "pmid": 36636296,
+        "publicationDate": "2023-02-01",
+        "slug": "single-dose-psilocybin-assisted-therapy-in-major-depressive-disorder-a-placebo-c",
+        "studyCharacteristics": [
+          "double-blind",
+          "placebo-controlled",
+          "randomized",
+          "parallel-group",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Single-dose psilocybin-assisted therapy in major depressive disorder: A placebo-controlled, double-blind, randomised clinical trial",
+        "topics": [
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "mdd",
+            "title": "Major Depressive Disorder (MDD)"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Raison, 2023": {
+      "status": "ok",
+      "doi": "10.1001/jama.2023.14530",
+      "blossom_slug": "single-dose-psilocybin-treatment-for-major-depressive-disorder-a-randomized-clin",
+      "blossom_url": "https://www.moreblossom.com/papers/single-dose-psilocybin-treatment-for-major-depressive-disorder-a-randomized-clin",
+      "title": "Single-Dose Psilocybin Treatment for Major Depressive Disorder: A Randomized Clinical Trial",
+      "paragraph_summary": "In a randomised, double‑blind phase 2 trial of 104 adults with moderate-to-severe major depressive disorder, a single 25 mg dose of psilocybin with psychological support produced significantly greater and sustained reductions in depressive symptoms (MADRS mean difference −12.3 at day 43) and functional disability versus niacin placebo. No serious treatment‑emergent adverse events were reported, although psilocybin was associated with higher overall and severe adverse event rates.",
+      "abstract": "Importance\n\nPsilocybin shows promise as a treatment for major depressive disorder (MDD).\n\nObjective\n\nTo evaluate the magnitude, timing, and durability of antidepressant effects and safety of a single dose of psilocybin in patients with MDD.\n\nDesign, Setting, and Participants\n\nIn this phase 2 trial conducted between December 2019 and June 2022 at 11 research sites in the US, participants were randomized in a 1:1 ratio to receive a single dose of psilocybin vs niacin placebo administered with psychological support. Participants were adults aged 21 to 65 years with a Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition diagnosis of MDD of at least 60 days’ duration and moderate or greater symptom severity. Exclusion criteria included history of psychosis or mania, active substance use disorder, and active suicidal ideation with intent. Participants taking psychotropic agents who otherwise met inclusion/exclusion criteria were eligible following medication taper. Primary and secondary outcomes and adverse events (AEs) were assessed at baseline (conducted within 7 days before dosing) and at 2, 8, 15, 29, and 43 days after dosing.\n\nInterventions\n\nInterventions were a 25-mg dose of synthetic psilocybin or a 100-mg dose of niacin in identical-appearing capsules, each administered with psychological support.\n\nMain Outcomes and Measures\n\nThe primary outcome was change in central rater–assessed Montgomery-Asberg Depression Rating Scale (MADRS) score (range, 0-60; higher scores indicate more severe depression) from baseline to day 43. The key secondary outcome measure was change in MADRS score from baseline to day 8. Other secondary outcomes were change in Sheehan Disability Scale score from baseline to day 43 and MADRS-defined sustained response and remission. Participants, study site personnel, study sponsor, outcome assessors (raters), and statisticians were blinded to treatment assignment.\n\nResults\n\nA total of 104 participants (mean [SD] age, 41.1 [11.3] years; 52 [50%] women) were randomized (51 to the psilocybin group and 53 to the niacin group). Psilocybin treatment was associated with significantly reduced MADRS scores compared with niacin from baseline to day 43 (mean difference,−12.3 [95% CI, −17.5 to −7.2]; P &amp;lt;.001) and from baseline to day 8 (mean difference, −12.0 [95% CI, −16.6 to −7.4]; P &amp;lt; .001). Psilocybin treatment was also associated with significantly reduced Sheehan Disability Scale scores compared with niacin (mean difference, −2.31 [95% CI, −3.50 to −1.11]; P &amp;lt; .001) from baseline to day 43. More participants receiving psilocybin had sustained response (but not remission) than those receiving niacin. There were no serious treatment-emergent AEs; however, psilocybin treatment was associated with a higher rate of overall AEs and a higher rate of severe AEs.\n\nConclusions and Relevance\n\nPsilocybin treatment was associated with a clinically significant sustained reduction in depressive symptoms and functional disability, without serious adverse events. These findings add to increasing evidence that psilocybin—when administered with psychological support—may hold promise as a novel intervention for MDD.",
+      "pmid": 37651119,
+      "publication_date": "2023-09-05",
+      "citation_count": 375,
+      "study_characteristics": [
+        "randomized",
+        "placebo-controlled",
+        "active-placebo",
+        "double-blind",
+        "parallel-group"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Bipolar Disorder",
+        "Depressive Disorders",
+        "Suicidality",
+        "Older Adults",
+        "Major Depressive Disorder (MDD)",
+        "Substance Use Disorders (SUD)",
+        "Schizophrenia",
+        "Safety & Risk Management"
+      ],
+      "journal": "JAMA",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "bq0ifk548",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "cm4rd9131",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Importance"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "w3ou3a4k1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ve6rwlbj3",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin shows promise as a treatment for major depressive disorder (MDD)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hni4l7e8b",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "uw84v7fck",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Objective"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "lkuie0tnu",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "9xue9w0no",
+                "_type": "span",
+                "marks": [],
+                "text": "To evaluate the magnitude, timing, and durability of antidepressant effects and safety of a single dose of psilocybin in patients with MDD."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "comh5ydu1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xmc2660uj",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Design, Setting, and Participants"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "lvm241o1u",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "vxfbv7bi6",
+                "_type": "span",
+                "marks": [],
+                "text": "In this phase 2 trial conducted between December 2019 and June 2022 at 11 research sites in the US, participants were randomized in a 1:1 ratio to receive a single dose of psilocybin vs niacin placebo administered with psychological support. Participants were adults aged 21 to 65 years with a Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition diagnosis of MDD of at least 60 days’ duration and moderate or greater symptom severity. Exclusion criteria included history of psychosis or mania, active substance use disorder, and active suicidal ideation with intent. Participants taking psychotropic agents who otherwise met inclusion/exclusion criteria were eligible following medication taper. Primary and secondary outcomes and adverse events (AEs) were assessed at baseline (conducted within 7 days before dosing) and at 2, 8, 15, 29, and 43 days after dosing."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "yntrammbh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "p2kxum8qh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interventions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "bsjwl0bsp",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lonqepae1",
+                "_type": "span",
+                "marks": [],
+                "text": "Interventions were a 25-mg dose of synthetic psilocybin or a 100-mg dose of niacin in identical-appearing capsules, each administered with psychological support."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hlovfb3g1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "sn320192e",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Main Outcomes and Measures"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "w1zyp70ul",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "1d9ofzn7t",
+                "_type": "span",
+                "marks": [],
+                "text": "The primary outcome was change in central rater–assessed Montgomery-Asberg Depression Rating Scale (MADRS) score (range, 0-60; higher scores indicate more severe depression) from baseline to day 43. The key secondary outcome measure was change in MADRS score from baseline to day 8. Other secondary outcomes were change in Sheehan Disability Scale score from baseline to day 43 and MADRS-defined sustained response and remission. Participants, study site personnel, study sponsor, outcome assessors (raters), and statisticians were blinded to treatment assignment."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "0gi3i5vlx",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ig6h5p4rs",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "slmqasxz1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "hvgttfx8t",
+                "_type": "span",
+                "marks": [],
+                "text": "A total of 104 participants (mean [SD] age, 41.1 [11.3] years; 52 [50%] women) were randomized (51 to the psilocybin group and 53 to the niacin group). Psilocybin treatment was associated with significantly reduced MADRS scores compared with niacin from baseline to day 43 (mean difference,−12.3 [95% CI, −17.5 to −7.2]; P &amp;lt;.001) and from baseline to day 8 (mean difference, −12.0 [95% CI, −16.6 to −7.4]; P &amp;lt; .001). Psilocybin treatment was also associated with significantly reduced Sheehan Disability Scale scores compared with niacin (mean difference, −2.31 [95% CI, −3.50 to −1.11]; P &amp;lt; .001) from baseline to day 43. More participants receiving psilocybin had sustained response (but not remission) than those receiving niacin. There were no serious treatment-emergent AEs; however, psilocybin treatment was associated with a higher rate of overall AEs and a higher rate of severe AEs."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "mxgm7vs82",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "stx160bn7",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions and Relevance"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "tj1mmsut5",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "8zld16uae",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin treatment was associated with a clinically significant sustained reduction in depressive symptoms and functional disability, without serious adverse events. These findings add to increasing evidence that psilocybin—when administered with psychological support—may hold promise as a novel intervention for MDD."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "paywall",
+        "authorNames": [
+          "Raison, C. L.",
+          "Sanacora, G.",
+          "Woolley, J. D.",
+          "Ross, S.",
+          "Griffiths, R. R."
+        ],
+        "authors": [
+          {
+            "_id": "7Plaj3xRNp3V1OodHH0tj2",
+            "name": "Roland Griffiths",
+            "slug": "roland-griffiths"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS2G0H5",
+            "name": "Joshua Woolley",
+            "slug": "joshua-woolley"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK0pmQ",
+            "name": "Gerard Sanacora",
+            "slug": "gerard-sanacora"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK743L",
+            "name": "Stephen Ross",
+            "slug": "stephen-ross"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLdeNv",
+            "name": "Charles Raison",
+            "slug": "charles-raison"
+          }
+        ],
+        "citationCount": 375,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1001/jama.2023.14530",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "JAMA",
+          "slug": "jama"
+        },
+        "paragraphSummary": "In a randomised, double‑blind phase 2 trial of 104 adults with moderate-to-severe major depressive disorder, a single 25 mg dose of psilocybin with psychological support produced significantly greater and sustained reductions in depressive symptoms (MADRS mean difference −12.3 at day 43) and functional disability versus niacin placebo. No serious treatment‑emergent adverse events were reported, although psilocybin was associated with higher overall and severe adverse event rates.",
+        "pmid": 37651119,
+        "publicationDate": "2023-09-05",
+        "slug": "single-dose-psilocybin-treatment-for-major-depressive-disorder-a-randomized-clin",
+        "studyCharacteristics": [
+          "randomized",
+          "placebo-controlled",
+          "active-placebo",
+          "double-blind",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Single-Dose Psilocybin Treatment for Major Depressive Disorder: A Randomized Clinical Trial",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "bipolar-disorder",
+            "title": "Bipolar Disorder"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "older-adults",
+            "title": "Older Adults"
+          },
+          {
+            "slug": "mdd",
+            "title": "Major Depressive Disorder (MDD)"
+          },
+          {
+            "slug": "sud",
+            "title": "Substance Use Disorders (SUD)"
+          },
+          {
+            "slug": "schizophrenia",
+            "title": "Schizophrenia"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Back, 2024": {
+      "status": "ok",
+      "doi": "10.1001/jamanetworkopen.2024.49026",
+      "blossom_slug": "psilocybin-therapy-for-clinicians-with-symptoms-of-depression-from-frontline-car",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-therapy-for-clinicians-with-symptoms-of-depression-from-frontline-car",
+      "title": "Psilocybin Therapy for Clinicians With Symptoms of Depression From Frontline Care During the COVID-19 Pandemic",
+      "paragraph_summary": "In a double‑blind randomised clinical trial of 30 US frontline clinicians with pandemic‑related depression, a single 25 mg psilocybin session (with preparatory and integration visits) produced a significantly greater reduction in clinician‑rated depressive symptoms at 28 days than 100 mg niacin (mean MADRS change −21.33 vs −9.33; mean difference −12.00, 95% CI −17.67 to −6.33; P < .001). Improvements in burnout and PTSD symptoms were numerically larger with psilocybin but did not reach statistical significance.",
+      "abstract": "Importance\n\nThe psychological morbidity experienced by physicians, advanced practice practitioners (APPs), and nurses from working during the COVID-19 pandemic includes burnout, depression, and posttraumatic stress disorder (PTSD).\n\nObjective\n\nTo investigate whether psilocybin therapy could improve symptoms of depression, burnout, and PTSD in US clinicians who developed these symptoms from frontline clinical work during the pandemic.\n\nDesign, Setting, and Participants\n\nThis double-blind randomized clinical trial enrolled participants from February to December 2022. Participants included physicians, APPs, and nurses who provided frontline care for more than 1 month during the pandemic and had no prepandemic mental health diagnoses but had moderate or severe symptoms of depression at enrollment. Participants were randomly assigned to either the psilocybin or niacin arm. Data analysis was conducted between December 2023 and May 2024 and was based on the intention-to-treat principle.\n\nIntervention\n\nOne intervention episode consisted of 2 preparation visits, 1 medication session, and 3 integration visits. At the medication session, participants received psilocybin, 25 mg, or niacin, 100 mg, orally.\n\nMain Outcome and Measures\n\nThe primary outcome was a change from baseline (preparation 1 session) to day 28 (after medication administration) in symptoms of depression as measured by the clinician-administered Montgomery-Asberg Depression Rating Scale (MADRS) used by blinded raters. The secondary outcomes were a change in symptoms of burnout (measured with the Stanford Professional Fulfillment Index [SPFI]) and symptoms of PTSD (measured with the Posttraumatic Stress Disorder Checklist for Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition [PCL-5]).\n\nResults\n\nA total of 30 clinicians (15 females [50%]; mean [range] age, 38 [29-60] years) participated, of whom 15 were randomly assigned to receive psilocybin and 15 to receive niacin. The mean change in symptoms of depression (MADRS scores) from preparation 1 session to day 28 was −21.33 (7.84) in the psilocybin arm compared with −9.33 (7.32) in the niacin arm, with a mean difference between arms of −12.00 (95% CI, −17.67 to −6.33; P &amp;lt; .001), a decrease in MADRS scores indicating improvement. The mean change in SPFI scores from preparation 1 session to day 28 showed a numerically larger improvement in symptoms of burnout in the psilocybin compared with the niacin arm (−6.40 [5.00] vs −2.33 [5.97]; P = .05) but was not statistically significant. Since the SPFI score change did not reach statistical significance, the PCL-5 score change was evaluated descriptively. The mean change in PCL-5 scores showed a numerically larger decrease in symptoms of PTSD from preparation 1 session to day 28 in the psilocybin vs the niacin arm (−16.67 [15.04] vs −6.73 [10.69]), but this difference was not statistically tested.\n\nConclusions and Relevance\n\nThis randomized clinical trial found that psilocybin therapy resulted in a significant, sustained reduction in symptoms of depression experienced by clinicians after frontline work during the COVID-19 pandemic. The findings establish psilocybin therapy as a new paradigm of treatment for this postpandemic condition.",
+      "pmid": 39636638,
+      "publication_date": "2024-12-05",
+      "citation_count": 18,
+      "study_characteristics": [
+        "double-blind",
+        "randomized",
+        "placebo-controlled",
+        "active-placebo",
+        "parallel-group"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Depressive Disorders",
+        "PTSD",
+        "Major Depressive Disorder (MDD)",
+        "Treatment-Resistant Depression (TRD)",
+        "Anxiety Disorders",
+        "Palliative & End-of-Life Distress"
+      ],
+      "journal": "JAMA Network Open",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "f8djj3eqa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xh34td6ds",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Importance"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "xj08stm6f",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "dry980n66",
+                "_type": "span",
+                "marks": [],
+                "text": "The psychological morbidity experienced by physicians, advanced practice practitioners (APPs), and nurses from working during the COVID-19 pandemic includes burnout, depression, and posttraumatic stress disorder (PTSD)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "9gnjax4jb",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b3wk8ib2l",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Objective"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "v74o9ultc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "7g8m82lsl",
+                "_type": "span",
+                "marks": [],
+                "text": "To investigate whether psilocybin therapy could improve symptoms of depression, burnout, and PTSD in US clinicians who developed these symptoms from frontline clinical work during the pandemic."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "yft637gxz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "nlqfk7zjh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Design, Setting, and Participants"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "8v1j1d8dt",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "inx7zo60p",
+                "_type": "span",
+                "marks": [],
+                "text": "This double-blind randomized clinical trial enrolled participants from February to December 2022. Participants included physicians, APPs, and nurses who provided frontline care for more than 1 month during the pandemic and had no prepandemic mental health diagnoses but had moderate or severe symptoms of depression at enrollment. Participants were randomly assigned to either the psilocybin or niacin arm. Data analysis was conducted between December 2023 and May 2024 and was based on the intention-to-treat principle."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ipkxubse8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "t9f36cmja",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Intervention"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "25bu3r5d0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "z0cjbfuk1",
+                "_type": "span",
+                "marks": [],
+                "text": "One intervention episode consisted of 2 preparation visits, 1 medication session, and 3 integration visits. At the medication session, participants received psilocybin, 25 mg, or niacin, 100 mg, orally."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "rm1i256jf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "p49qpj0c0",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Main Outcome and Measures"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "tbos25333",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rdi9o41nj",
+                "_type": "span",
+                "marks": [],
+                "text": "The primary outcome was a change from baseline (preparation 1 session) to day 28 (after medication administration) in symptoms of depression as measured by the clinician-administered Montgomery-Asberg Depression Rating Scale (MADRS) used by blinded raters. The secondary outcomes were a change in symptoms of burnout (measured with the Stanford Professional Fulfillment Index [SPFI]) and symptoms of PTSD (measured with the Posttraumatic Stress Disorder Checklist for Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition [PCL-5])."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "zpjridzuu",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lch0mojej",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "eeo964171",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ojhlw8lyb",
+                "_type": "span",
+                "marks": [],
+                "text": "A total of 30 clinicians (15 females [50%]; mean [range] age, 38 [29-60] years) participated, of whom 15 were randomly assigned to receive psilocybin and 15 to receive niacin. The mean change in symptoms of depression (MADRS scores) from preparation 1 session to day 28 was −21.33 (7.84) in the psilocybin arm compared with −9.33 (7.32) in the niacin arm, with a mean difference between arms of −12.00 (95% CI, −17.67 to −6.33; P &amp;lt; .001), a decrease in MADRS scores indicating improvement. The mean change in SPFI scores from preparation 1 session to day 28 showed a numerically larger improvement in symptoms of burnout in the psilocybin compared with the niacin arm (−6.40 [5.00] vs −2.33 [5.97]; P = .05) but was not statistically significant. Since the SPFI score change did not reach statistical significance, the PCL-5 score change was evaluated descriptively. The mean change in PCL-5 scores showed a numerically larger decrease in symptoms of PTSD from preparation 1 session to day 28 in the psilocybin vs the niacin arm (−16.67 [15.04] vs −6.73 [10.69]), but this difference was not statistically tested."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "cndjy79wa",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "d2x5hp4yr",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions and Relevance"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ovlg23pkc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "1bum4fa68",
+                "_type": "span",
+                "marks": [],
+                "text": "This randomized clinical trial found that psilocybin therapy resulted in a significant, sustained reduction in symptoms of depression experienced by clinicians after frontline work during the COVID-19 pandemic. The findings establish psilocybin therapy as a new paradigm of treatment for this postpandemic condition."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Back, A.",
+          "Freeman-Young, T. K.",
+          "Morgan, L.",
+          "Sethi, T.",
+          "Baker, K. K.",
+          "Myers, S.",
+          "McGregor, B.",
+          "Harvey, K.",
+          "Tai, M.",
+          "Kollefrath, A.",
+          "Thomas, B. J.",
+          "Sorta, D.",
+          "Kaelen, M.",
+          "Kelmendi, B.",
+          "Gooley, T. A."
+        ],
+        "authors": [
+          {
+            "_id": "7Plaj3xRNp3V1OodHH9rxK",
+            "name": "Mendel Kaelen",
+            "slug": "mendel-kaelen"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLXpx6",
+            "name": "Benjamin Kelmendi",
+            "slug": "benjamin-kelmendi"
+          }
+        ],
+        "citationCount": 18,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1001/jamanetworkopen.2024.49026",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "JAMA Network Open",
+          "slug": "jama-network-open"
+        },
+        "paragraphSummary": "In a double‑blind randomised clinical trial of 30 US frontline clinicians with pandemic‑related depression, a single 25 mg psilocybin session (with preparatory and integration visits) produced a significantly greater reduction in clinician‑rated depressive symptoms at 28 days than 100 mg niacin (mean MADRS change −21.33 vs −9.33; mean difference −12.00, 95% CI −17.67 to −6.33; P < .001). Improvements in burnout and PTSD symptoms were numerically larger with psilocybin but did not reach statistical significance.",
+        "pmid": 39636638,
+        "publicationDate": "2024-12-05",
+        "slug": "psilocybin-therapy-for-clinicians-with-symptoms-of-depression-from-frontline-car",
+        "studyCharacteristics": [
+          "double-blind",
+          "randomized",
+          "placebo-controlled",
+          "active-placebo",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin Therapy for Clinicians With Symptoms of Depression From Frontline Care During the COVID-19 Pandemic",
+        "topics": [
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "mdd",
+            "title": "Major Depressive Disorder (MDD)"
+          },
+          {
+            "slug": "trd",
+            "title": "Treatment-Resistant Depression (TRD)"
+          },
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "palliative-end-of-life-distress",
+            "title": "Palliative & End-of-Life Distress"
+          }
+        ]
+      }
+    },
+    "Rosenblat, 2024": {
+      "status": "ok",
+      "doi": "10.1016/j.medj.2024.01.005",
+      "blossom_slug": "psilocybin-assisted-psychotherapy-for-treatment-resistant-depression-a-randomize",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-assisted-psychotherapy-for-treatment-resistant-depression-a-randomize",
+      "title": "Psilocybin-assisted psychotherapy for treatment resistant depression: A randomized clinical trial evaluating repeated doses of psilocybin",
+      "paragraph_summary": "This open-label waitlist trial (n=30) assessed the feasibility of psilocybin-assisted psychotherapy (PAP/PAT) in a complex population with treatment-resistant depression (TRD), including major depressive and bipolar II disorders, baseline suicidality, and significant comorbidity. Participants received one, two, or three sessions of PAP with psilocybin (25mg), accompanied by preparation and integration psychotherapy sessions. Immediate treatment showed greater reductions in depression severity (MADRS) compared to the waitlist period, with a large effect size (g = 1.07, p < 0.01). Repeated doses were associated with further reductions in depression severity. Adverse events were transient, and the study demonstrated feasibility, preliminary antidepressant efficacy, safety, and tolerability in this population.",
+      "abstract": "Background\n\nPsilocybin-assisted psychotherapy (PAP) has been associated with antidepressant effects. Trials to date have typically excluded participants with complex presentations. Our aim was to determine the feasibility of PAP in a complex population, including high levels of treatment resistance in major depressive and bipolar disorder and patients with baseline suicidality and significant comorbidity. We also evaluated flexible repeated doses over a 6-month period.\n\nMethods\n\nAdults with treatment-resistant depression as part of major depressive or bipolar II disorder without psychosis or a substance use disorder were eligible to participate. Subjects were randomized to immediate treatment or waitlist control, with all eventually receiving PAP. Participants had one, two, or three psilocybin sessions with a fixed dose of 25 mg. Each dose was accompanied by preparation and integration psychotherapy sessions. Acceptability, safety, tolerability, and efficacy were evaluated (this study was registered at ClinicalTrials.gov: NCT05029466).\n\nFindings\n\nParticipants were randomized to immediate treatment (n = 16) or delayed treatment (n = 14). 29/30 were retained to the week-2 primary endpoint. Adverse events were transient, with no serious adverse events. Greater reductions in depression severity as measured by the Montgomery-Åsberg Depression Rating Scale (MADRS) were observed in the immediate treatment arm compared to the waitlist period arm with a large hedge’s g effect size of 1.07 (p < 0.01). Repeated doses were associated with further reductions in MADRS scores compared to baseline.\n\nConclusions\n\nPAP was feasible in complex patients with preliminary antidepressant efficacy and adequate safety and tolerability. Repeated doses were associated with greater reductions in depression severity.Funding: This work was funded by Brain and Cognition Discovery Foundation (BCDF), Usona, and Braxia Scientific.",
+      "pmid": 38359838,
+      "publication_date": "2024-03-01",
+      "citation_count": null,
+      "study_characteristics": [
+        "open-label"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Depressive Disorders",
+        "Major Depressive Disorder (MDD)",
+        "Treatment-Resistant Depression (TRD)",
+        "Bipolar Disorder",
+        "Substance Use Disorders (SUD)",
+        "Suicidality",
+        "Schizophrenia",
+        "Safety & Risk Management",
+        "Personality Disorders"
+      ],
+      "journal": "Med",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "701r7r5kh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xtvmvjtsu",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ecehrrbs1",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "vx40s33wy",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin-assisted psychotherapy (PAP) has been associated with antidepressant effects. Trials to date have typically excluded participants with complex presentations. Our aim was to determine the feasibility of PAP in a complex population, including high levels of treatment resistance in major depressive and bipolar disorder and patients with baseline suicidality and significant comorbidity. We also evaluated flexible repeated doses over a 6-month period."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "pkpkgstp4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "uycse5y5p",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "p97y05jg4",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "fuwpjcw24",
+                "_type": "span",
+                "marks": [],
+                "text": "Adults with treatment-resistant depression as part of major depressive or bipolar II disorder without psychosis or a substance use disorder were eligible to participate. Subjects were randomized to immediate treatment or waitlist control, with all eventually receiving PAP. Participants had one, two, or three psilocybin sessions with a fixed dose of 25 mg. Each dose was accompanied by preparation and integration psychotherapy sessions. Acceptability, safety, tolerability, and efficacy were evaluated (this study was registered at ClinicalTrials.gov: NCT05029466)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "0mh60dtqs",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "mb5hsibg6",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Findings"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "lvg1yr0ua",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "u3ay9cj7q",
+                "_type": "span",
+                "marks": [],
+                "text": "Participants were randomized to immediate treatment (n = 16) or delayed treatment (n = 14). 29/30 were retained to the week-2 primary endpoint. Adverse events were transient, with no serious adverse events. Greater reductions in depression severity as measured by the Montgomery-Åsberg Depression Rating Scale (MADRS) were observed in the immediate treatment arm compared to the waitlist period arm with a large hedge’s g effect size of 1.07 (p < 0.01). Repeated doses were associated with further reductions in MADRS scores compared to baseline."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "nw69pznmz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "kx95fnq62",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "9k1gzrhfm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "s0vzc0ejz",
+                "_type": "span",
+                "marks": [],
+                "text": "PAP was feasible in complex patients with preliminary antidepressant efficacy and adequate safety and tolerability. Repeated doses were associated with greater reductions in depression severity.Funding: This work was funded by Brain and Cognition Discovery Foundation (BCDF), Usona, and Braxia Scientific."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "paywall",
+        "authorNames": [
+          "Rosenblat, J. D.",
+          "Meshkat, S.",
+          "Doyle, Z.",
+          "Zumrova, A.",
+          "Marlborough, M.",
+          "Mcintyre, R. S.",
+          "Kaczmarek, E.",
+          "Brudner, R. M.",
+          "Kratiuk, K.",
+          "Mansur, R. B.",
+          "Schulz-Quach, C.",
+          "Sethi, R.",
+          "Abate, A.",
+          "Ali, S.",
+          "Bawks, J.",
+          "Blainey, M. G.",
+          "Brietzke, E.",
+          "Cronin, V.",
+          "Danilewitz, J.",
+          "Dhawan, S.",
+          "Fonzo, A. D.",
+          "Fonzo, M. D.",
+          "Drzadzewski, P.",
+          "Dunlop, W.",
+          "Fiszter, H.",
+          "Gomes, F. A.",
+          "Grewal, S.",
+          "Leon-Carlyle, M.",
+          "Mccallum, M.",
+          "Mofidi, N.",
+          "Offman, H.",
+          "Riva-Cambrin, J.",
+          "Schmidt, J.",
+          "Smolkin, M.",
+          "Quinn, J. M."
+        ],
+        "authors": [
+          {
+            "_id": "7Plaj3xRNp3V1OodHHFRAx",
+            "name": "Roger McIntyre",
+            "slug": "roger-mcintyre"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS36Xq8",
+            "name": "Shokouh Meshkat",
+            "slug": "shokouh-meshkat"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINLsQm6",
+            "name": "Rodrigo Mansur",
+            "slug": "rodrigo-mansur"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGmMPTU",
+            "name": "Zoe Doyle",
+            "slug": "zoe-doyle"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjzFwjz",
+            "name": "Kevin Kratiuk",
+            "slug": "kevin-kratiuk"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGmsRw0",
+            "name": "Ryan Brudner",
+            "slug": "ryan-brudner"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1016/j.medj.2024.01.005",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Med",
+          "slug": "med"
+        },
+        "paragraphSummary": "This open-label waitlist trial (n=30) assessed the feasibility of psilocybin-assisted psychotherapy (PAP/PAT) in a complex population with treatment-resistant depression (TRD), including major depressive and bipolar II disorders, baseline suicidality, and significant comorbidity. Participants received one, two, or three sessions of PAP with psilocybin (25mg), accompanied by preparation and integration psychotherapy sessions. Immediate treatment showed greater reductions in depression severity (MADRS) compared to the waitlist period, with a large effect size (g = 1.07, p < 0.01). Repeated doses were associated with further reductions in depression severity. Adverse events were transient, and the study demonstrated feasibility, preliminary antidepressant efficacy, safety, and tolerability in this population.",
+        "pmid": 38359838,
+        "publicationDate": "2024-03-01",
+        "slug": "psilocybin-assisted-psychotherapy-for-treatment-resistant-depression-a-randomize",
+        "studyCharacteristics": [
+          "open-label"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin-assisted psychotherapy for treatment resistant depression: A randomized clinical trial evaluating repeated doses of psilocybin",
+        "topics": [
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "mdd",
+            "title": "Major Depressive Disorder (MDD)"
+          },
+          {
+            "slug": "trd",
+            "title": "Treatment-Resistant Depression (TRD)"
+          },
+          {
+            "slug": "bipolar-disorder",
+            "title": "Bipolar Disorder"
+          },
+          {
+            "slug": "sud",
+            "title": "Substance Use Disorders (SUD)"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "schizophrenia",
+            "title": "Schizophrenia"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          },
+          {
+            "slug": "personality-disorders",
+            "title": "Personality Disorders"
+          }
+        ]
+      }
+    },
+    "Lewis, 2025": {
+      "status": "ok",
+      "doi": "10.1101/2024.12.31.24319806",
+      "blossom_slug": "psilocybin-assisted-group-psychotherapy-mindfulness-based-stress-reduction-mbsr-",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-assisted-group-psychotherapy-mindfulness-based-stress-reduction-mbsr-",
+      "title": "Psilocybin-Assisted Group Psychotherapy + Mindfulness Based Stress Reduction (MBSR) for Frontline Healthcare Provider COVID-19 Related Depression and Burnout: A Randomized Clinical Trial",
+      "paragraph_summary": "This randomised controlled trial in 25 frontline physicians and nurses found that adding group psilocybin‑assisted psychotherapy (25 mg) to an 8‑week MBSR curriculum produced larger reductions in depressive symptoms at two weeks and greater improvements on burnout subscales, demoralisation and connectedness than MBSR alone. The intervention was well tolerated (only grade 1–2 adverse events, no serious AEs), suggesting that combining psilocybin with mindfulness training may be a promising treatment for COVID‑19‑related depression and burnout in healthcare providers.",
+      "abstract": "Objective\n\nThis clinical trial sought to evaluate the safety and preliminary efficacy of psilocybin and MBSR for frontline healthcare providers with symptoms of depression and burnout related to the COVID-19 pandemic.\n\nMethods\n\nThis was a randomized controlled trial that enrolled physicians and nurses with frontline clinical work during the COVID-19 pandemic and symptoms of depression and burnout. Participants were randomized in a 1:1 ratio to either an 8-week MBSR curriculum alone or an 8-week MBSR curriculum plus group psilocybin-assisted psychotherapy (PAP) with 25mg psilocybin. Symptoms of depression and burnout were assessed at baseline, and 2-weeks and 6-months post intervention utilizing the Quick Inventory of Depressive Symptoms (QIDS-SR-16) and Maslach Burnout Inventory Human Services Survey for Medical Professionals (MBI-HSS-MP), respectively. Secondary outcome measures included the Demoralization Scale (DS-II) and the Watt’s Connectedness Scale (WCS). Adverse events and suicidality were assessed through 6-month follow-up. Results 25 participants were enrolled and randomized. There were 12 study-related AEs recorded that were Grade 1-2 and no serious AEs. There was larger decrease in QIDS score for the MBSR+PAP arm compared to MBSR-only from baseline to 2-weeks post-intervention and significant between-group differences favoring MBSR+PAP on subscales of the MBI-HSS-MP as well as the DS-II and WCS.\n\nConclusions\n\nGroup psilocybin-assisted therapy plus MBSR was associated with clinically significant improvement in depressive symptoms without serious adverse events and with greater reduction in symptoms than MBSR alone. Study findings suggest that integrating psilocybin with mindfulness training may represent a promising treatment for depression and burnout among physicians and nurses.",
+      "pmid": 39802794,
+      "publication_date": "2025-01-01",
+      "citation_count": null,
+      "study_characteristics": [
+        "randomized",
+        "parallel-group"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Depressive Disorders",
+        "Suicidality",
+        "Anxiety Disorders",
+        "Safety & Risk Management"
+      ],
+      "journal": "PLOS Medicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "bnuqmoezs",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "gfb351jmx",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Objective"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "kpdg2pcnr",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "wifxvbma7",
+                "_type": "span",
+                "marks": [],
+                "text": "This clinical trial sought to evaluate the safety and preliminary efficacy of psilocybin and MBSR for frontline healthcare providers with symptoms of depression and burnout related to the COVID-19 pandemic."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "menwi9qlm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "2mklblccf",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "73pex78td",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "7as4qar2i",
+                "_type": "span",
+                "marks": [],
+                "text": "This was a randomized controlled trial that enrolled physicians and nurses with frontline clinical work during the COVID-19 pandemic and symptoms of depression and burnout. Participants were randomized in a 1:1 ratio to either an 8-week MBSR curriculum alone or an 8-week MBSR curriculum plus group psilocybin-assisted psychotherapy (PAP) with 25mg psilocybin. Symptoms of depression and burnout were assessed at baseline, and 2-weeks and 6-months post intervention utilizing the Quick Inventory of Depressive Symptoms (QIDS-SR-16) and Maslach Burnout Inventory Human Services Survey for Medical Professionals (MBI-HSS-MP), respectively. Secondary outcome measures included the Demoralization Scale (DS-II) and the Watt’s Connectedness Scale (WCS). Adverse events and suicidality were assessed through 6-month follow-up. Results 25 participants were enrolled and randomized. There were 12 study-related AEs recorded that were Grade 1-2 and no serious AEs. There was larger decrease in QIDS score for the MBSR+PAP arm compared to MBSR-only from baseline to 2-weeks post-intervention and significant between-group differences favoring MBSR+PAP on subscales of the MBI-HSS-MP as well as the DS-II and WCS."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "iyjtt5ma3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "sbikyaxlh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "i0wf2tr9p",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bi1ku743c",
+                "_type": "span",
+                "marks": [],
+                "text": "Group psilocybin-assisted therapy plus MBSR was associated with clinically significant improvement in depressive symptoms without serious adverse events and with greater reduction in symptoms than MBSR alone. Study findings suggest that integrating psilocybin with mindfulness training may represent a promising treatment for depression and burnout among physicians and nurses."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Lewis, B. R.",
+          "Hendrick, J.",
+          "Byrne, K.",
+          "Msph, M. O.",
+          "Wu, C.",
+          "Garland, E. L."
+        ],
+        "authors": null,
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1101/2024.12.31.24319806",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "PLOS Medicine",
+          "slug": "plos-medicine"
+        },
+        "paragraphSummary": "This randomised controlled trial in 25 frontline physicians and nurses found that adding group psilocybin‑assisted psychotherapy (25 mg) to an 8‑week MBSR curriculum produced larger reductions in depressive symptoms at two weeks and greater improvements on burnout subscales, demoralisation and connectedness than MBSR alone. The intervention was well tolerated (only grade 1–2 adverse events, no serious AEs), suggesting that combining psilocybin with mindfulness training may be a promising treatment for COVID‑19‑related depression and burnout in healthcare providers.",
+        "pmid": 39802794,
+        "publicationDate": "2025-01-01",
+        "slug": "psilocybin-assisted-group-psychotherapy-mindfulness-based-stress-reduction-mbsr-",
+        "studyCharacteristics": [
+          "randomized",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin-Assisted Group Psychotherapy + Mindfulness Based Stress Reduction (MBSR) for Frontline Healthcare Provider COVID-19 Related Depression and Burnout: A Randomized Clinical Trial",
+        "topics": [
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Luquiens, 2025": {
+      "status": "ok",
+      "doi": "10.1111/add.70152",
+      "blossom_slug": "psilocybin-in-alcohol-use-disorder-and-comorbid-depressive-symptoms-results-from",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-in-alcohol-use-disorder-and-comorbid-depressive-symptoms-results-from",
+      "title": "Psilocybin in alcohol use disorder and comorbid depressive symptoms: Results from a feasibility randomized clinical trial",
+      "paragraph_summary": "In this double‑blind, randomised pilot trial of recently detoxified patients with severe alcohol use disorder and comorbid depression, two 25 mg psilocybin‑assisted psychotherapy sessions (versus 1 mg control) were feasible, acceptable and safe. At 12 weeks the 25 mg group showed higher abstinence (55% vs 11%) and significant reductions in percent drinking days and craving frequency, although blinding was imperfect and the study was small and preliminary.",
+      "abstract": "Background and AimsPsilocybin has emerged as a potential treatment for alcohol use disorder (AUD), but early efficacy data are inconsistent. Depression following alcohol detoxification significantly increases the risk of relapse. This pilot study aimed to evaluate the feasibility, acceptability, and preliminary efficacy of psilocybin‐assisted psychotherapy for patients with comorbid AUD and depression.\n\nDesign\n\nA prospective, single‐center, double‐blind, parallel (2:1), randomized controlled pilot study.\n\nSetting\n\nThe study was conducted in a French inpatient addiction treatment program offering intensive relapse prevention interventions.\n\nParticipants\n\nOf 350 screened patients, 30 adults (mean age 49 ± 10 years; 43% female) with severe AUD (Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition [DSM‐5] criteria) and a Beck Depression Inventory‐II (BDI‐II) score ≥14 were included. Participants had completed detoxification between 14 and 60 days prior to inclusion.\n\nInterventions\n\nParticipants received either two oral sessions of 25 mg (n = 20) or 1 mg (n = 10) psilocybin‐assisted psychotherapy spaced three weeks apart, as an add‐on to standard care. Patients, investigators and outcome assessors were all blinded to patient group.\n\nMeasurements\n\nThe primary outcome was feasibility, according to participation in both dosing sessions and recruitment/inclusion rates. Secondary outcomes included alcohol use (Alcohol Timeline Followback), time to relapse, craving (Craving Experience Questionnaire), depression (BDI‐II), safety and blinding integrity.\n\nFindings\n\nOne participant in the 25 mg group could not receive the second dose due to myocardial infarction occurring three days earlier, unrelated to the treatment. Four participants in the control group refused the second session after guessing their group assignment (p‐value = 0.019), with one participant self‐administering 3,4‐Methylenedioxymethamphetamine (MDMA). At 12 weeks, the 25 mg group showed significantly greater abstinent rate (11/20 (55%) vs 1/9 (11%) (one lost of follow up) (difference = −44%, [95% confidence interval [CI]: −82% to −5.9%]), p = 0.043), reductions in % drinking days −100 (−100 to −49) vs − 93 (−96 to 0), p = 0.038 and craving frequency −8 (−23 to −1) vs + 7 (−2 to 11), p = 0.045, respectively in the 25 vs 1 mg groups (median [25;75]). Relapse rates were 35% in the 25 mg group and 50% in the control group (HR = 0.52 [0.16 to1.65]). No efficacy differences were observed based on antidepressant use in terms of drinking and depression. Blinding was imperfect (correct guess by patients: 93.3%; investigators: 86.7%). Twenty‐five adverse events were reported in 10 patients (50%) in the 25 mg group versus 6 patients (60%) in the control group.\n\nConclusions\n\nPsilocybin‐assisted psychotherapy appears feasible, acceptable, and safe in recently detoxified patients with comorbid alcohol use disorder and depression.",
+      "pmid": 40702912,
+      "publication_date": "2025-07-24",
+      "citation_count": null,
+      "study_characteristics": [
+        "randomized",
+        "double-blind",
+        "placebo-controlled",
+        "parallel-group"
+      ],
+      "compounds": [
+        "MDMA",
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Alcohol Use Disorder (AUD)",
+        "Substance Use Disorders (SUD)",
+        "Safety & Risk Management",
+        "Public Health, Prevention & Behaviour Change"
+      ],
+      "journal": "Addiction",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "0fvhezi4o",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "alrd4tgym",
+                "_type": "span",
+                "marks": [],
+                "text": "Background and AimsPsilocybin has emerged as a potential treatment for alcohol use disorder (AUD), but early efficacy data are inconsistent. Depression following alcohol detoxification significantly increases the risk of relapse. This pilot study aimed to evaluate the feasibility, acceptability, and preliminary efficacy of psilocybin‐assisted psychotherapy for patients with comorbid AUD and depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "g04uearqv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "oviu4b7lh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Design"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "9jdmff38u",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bb3el7syu",
+                "_type": "span",
+                "marks": [],
+                "text": "A prospective, single‐center, double‐blind, parallel (2:1), randomized controlled pilot study."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "63ygrfy99",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "7xuaobcas",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Setting"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "mibf7bzjf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "q6r9ok5l3",
+                "_type": "span",
+                "marks": [],
+                "text": "The study was conducted in a French inpatient addiction treatment program offering intensive relapse prevention interventions."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ktua6b4fv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "w5b2mlk96",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Participants"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "v52v1sd5u",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "lh7njwiyl",
+                "_type": "span",
+                "marks": [],
+                "text": "Of 350 screened patients, 30 adults (mean age 49 ± 10 years; 43% female) with severe AUD (Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition [DSM‐5] criteria) and a Beck Depression Inventory‐II (BDI‐II) score ≥14 were included. Participants had completed detoxification between 14 and 60 days prior to inclusion."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "xrbr0ov28",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "77om9bp1x",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interventions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "c1a194qwh",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "7ojqi1npe",
+                "_type": "span",
+                "marks": [],
+                "text": "Participants received either two oral sessions of 25 mg (n = 20) or 1 mg (n = 10) psilocybin‐assisted psychotherapy spaced three weeks apart, as an add‐on to standard care. Patients, investigators and outcome assessors were all blinded to patient group."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "t2ajj4xw2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "1k55nmbqz",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Measurements"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "qnk0pcrmz",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "wjwcgltwy",
+                "_type": "span",
+                "marks": [],
+                "text": "The primary outcome was feasibility, according to participation in both dosing sessions and recruitment/inclusion rates. Secondary outcomes included alcohol use (Alcohol Timeline Followback), time to relapse, craving (Craving Experience Questionnaire), depression (BDI‐II), safety and blinding integrity."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "z8axua4yv",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "qdfzrciuy",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Findings"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "wct0rdy30",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "p5o413asm",
+                "_type": "span",
+                "marks": [],
+                "text": "One participant in the 25 mg group could not receive the second dose due to myocardial infarction occurring three days earlier, unrelated to the treatment. Four participants in the control group refused the second session after guessing their group assignment (p‐value = 0.019), with one participant self‐administering 3,4‐Methylenedioxymethamphetamine (MDMA). At 12 weeks, the 25 mg group showed significantly greater abstinent rate (11/20 (55%) vs 1/9 (11%) (one lost of follow up) (difference = −44%, [95% confidence interval [CI]: −82% to −5.9%]), p = 0.043), reductions in % drinking days −100 (−100 to −49) vs − 93 (−96 to 0), p = 0.038 and craving frequency −8 (−23 to −1) vs + 7 (−2 to 11), p = 0.045, respectively in the 25 vs 1 mg groups (median [25;75]). Relapse rates were 35% in the 25 mg group and 50% in the control group (HR = 0.52 [0.16 to1.65]). No efficacy differences were observed based on antidepressant use in terms of drinking and depression. Blinding was imperfect (correct guess by patients: 93.3%; investigators: 86.7%). Twenty‐five adverse events were reported in 10 patients (50%) in the 25 mg group versus 6 patients (60%) in the control group."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "s3jvxh257",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "44idrhsrj",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "qrtxxt0op",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "i4ul47c7x",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin‐assisted psychotherapy appears feasible, acceptable, and safe in recently detoxified patients with comorbid alcohol use disorder and depression."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "paywall",
+        "authorNames": [
+          "Luquiens, A.",
+          "Belahda, D.",
+          "Graux, C.",
+          "Igounenc, N.",
+          "Serrand, C.",
+          "Rochefort, P.",
+          "Mura, T.",
+          "Sergent, F."
+        ],
+        "authors": null,
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          },
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1111/add.70152",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Addiction",
+          "slug": "addiction"
+        },
+        "paragraphSummary": "In this double‑blind, randomised pilot trial of recently detoxified patients with severe alcohol use disorder and comorbid depression, two 25 mg psilocybin‑assisted psychotherapy sessions (versus 1 mg control) were feasible, acceptable and safe. At 12 weeks the 25 mg group showed higher abstinence (55% vs 11%) and significant reductions in percent drinking days and craving frequency, although blinding was imperfect and the study was small and preliminary.",
+        "pmid": 40702912,
+        "publicationDate": "2025-07-24",
+        "slug": "psilocybin-in-alcohol-use-disorder-and-comorbid-depressive-symptoms-results-from",
+        "studyCharacteristics": [
+          "randomized",
+          "double-blind",
+          "placebo-controlled",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin in alcohol use disorder and comorbid depressive symptoms: Results from a feasibility randomized clinical trial",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "aud",
+            "title": "Alcohol Use Disorder (AUD)"
+          },
+          {
+            "slug": "sud",
+            "title": "Substance Use Disorders (SUD)"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          },
+          {
+            "slug": "public-health-prevention-and-behaviour-change",
+            "title": "Public Health, Prevention & Behaviour Change"
+          }
+        ]
+      }
+    },
+    "Rieser, 2025": {
+      "status": "ok",
+      "doi": "10.1016/j.eclinm.2025.103149",
+      "blossom_slug": "psilocybin-assisted-therapy-for-relapse-prevention-in-alcohol-use-disorder-a-pha",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-assisted-therapy-for-relapse-prevention-in-alcohol-use-disorder-a-pha",
+      "title": "Psilocybin-assisted therapy for relapse prevention in alcohol use disorder: a phase 2 randomized clinical trial",
+      "paragraph_summary": "This double-blind randomised clinical trial (n=37) found that a single dose of psilocybin (25mg) with brief psychotherapy did not significantly reduce alcohol relapse rates or consumption compared to placebo in patients with alcohol use disorder (AUD) at 4-week or 6-month follow-up, though psilocybin participants reported additional reductions in craving and temptation to drink, suggesting larger trials are needed to evaluate this approach for severely affected patients.",
+      "abstract": "Background\n\nDespite the promising therapeutic effects of psilocybin, its efficacy in preventing relapse after withdrawal treatment for alcohol use disorder (AUD) remains unknown. This study aims to assess whether a single dose of psilocybin combined with brief psychotherapy could reduce relapse rates and alcohol use in AUD patients.\n\nMethods\n\nThis single-center, double-blind, randomized clinical trial was conducted in Switzerland. We recruited participants with AUD between June 8, 2020, and August 16, 2023 who completed withdrawal treatment within six weeks prior to enrollment. Participants were randomized (1:1) to receive either a single oral dose of psilocybin (25 mg) or placebo (mannitol), combined with brief psychotherapy. The primary outcomes were abstinence and mean alcohol use at 4-week follow-up. Participants completed the timeline followback to assess daily alcohol use.\n\nFindings\n\nWe included 37 participants who completed the 4-week follow-up (female:male = 14:23; psilocybin = 18, placebo = 19) in the analysis. There were no significant differences between groups in abstinence duration (p = 0.55, psilocybin mean = 16.80 days, 95% CI: 14.31-19.29; placebo mean = 13.80 days, 95% CI: 10.97-16.63; Cohen’s d = 0.151) or mean alcohol use per day (p = 0.51, psilocybin: median = 0.48 standard alcohol units, range: 0-3.99, placebo: median = 0.54 standard alcohol units, range: 0-5.96; Cohen’s d = 0.11) at 4-week or 6-month follow-up (abstinence: Cohen’s d = 0.10, alcohol use: Cohen’s d = 0.075). Participants in both groups reported reduced craving and temptation to drink alcohol after the dosing visit, with an additional reduction observed in the psilocybin group. Thirteen adverse events occurred in the psilocybin and seven in the placebo group. One serious adverse event occurred in the psilocybin and four in the placebo group, all related to inpatient withdrawal treatments.\n\nInterpretation\n\nA single dose of psilocybin combined with five psychotherapy sessions may not be sufficient to reduce relapse rates and alcohol use in severely affected AUD patients following withdrawal treatment. However, given the limited sample size of our study, larger trials are needed in the future to confirm these findings.",
+      "pmid": 40144690,
+      "publication_date": "2025-04-01",
+      "citation_count": null,
+      "study_characteristics": [
+        "double-blind",
+        "randomized",
+        "placebo-controlled",
+        "follow-up",
+        "parallel-group"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Alcohol Use Disorder (AUD)",
+        "Safety & Risk Management",
+        "Public Health, Prevention & Behaviour Change",
+        "Substance Use Disorders (SUD)"
+      ],
+      "journal": "EClinicalMedicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "4v7xtqxsl",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "myfvhiqm7",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "vzka5ekom",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "b0wcrovro",
+                "_type": "span",
+                "marks": [],
+                "text": "Despite the promising therapeutic effects of psilocybin, its efficacy in preventing relapse after withdrawal treatment for alcohol use disorder (AUD) remains unknown. This study aims to assess whether a single dose of psilocybin combined with brief psychotherapy could reduce relapse rates and alcohol use in AUD patients."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "qwge16mcd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xhsfk7kov",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "cosd3wvce",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ulgr4mwis",
+                "_type": "span",
+                "marks": [],
+                "text": "This single-center, double-blind, randomized clinical trial was conducted in Switzerland. We recruited participants with AUD between June 8, 2020, and August 16, 2023 who completed withdrawal treatment within six weeks prior to enrollment. Participants were randomized (1:1) to receive either a single oral dose of psilocybin (25 mg) or placebo (mannitol), combined with brief psychotherapy. The primary outcomes were abstinence and mean alcohol use at 4-week follow-up. Participants completed the timeline followback to assess daily alcohol use."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "g3gn06vib",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "vr5y1z6s1",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Findings"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "l59tdmior",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "jbzz5svow",
+                "_type": "span",
+                "marks": [],
+                "text": "We included 37 participants who completed the 4-week follow-up (female:male = 14:23; psilocybin = 18, placebo = 19) in the analysis. There were no significant differences between groups in abstinence duration (p = 0.55, psilocybin mean = 16.80 days, 95% CI: 14.31-19.29; placebo mean = 13.80 days, 95% CI: 10.97-16.63; Cohen’s d = 0.151) or mean alcohol use per day (p = 0.51, psilocybin: median = 0.48 standard alcohol units, range: 0-3.99, placebo: median = 0.54 standard alcohol units, range: 0-5.96; Cohen’s d = 0.11) at 4-week or 6-month follow-up (abstinence: Cohen’s d = 0.10, alcohol use: Cohen’s d = 0.075). Participants in both groups reported reduced craving and temptation to drink alcohol after the dosing visit, with an additional reduction observed in the psilocybin group. Thirteen adverse events occurred in the psilocybin and seven in the placebo group. One serious adverse event occurred in the psilocybin and four in the placebo group, all related to inpatient withdrawal treatments."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "fal5wf1ig",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ieqd7rb05",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interpretation"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "wgu0bo1ow",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "6x7zymdwu",
+                "_type": "span",
+                "marks": [],
+                "text": "A single dose of psilocybin combined with five psychotherapy sessions may not be sufficient to reduce relapse rates and alcohol use in severely affected AUD patients following withdrawal treatment. However, given the limited sample size of our study, larger trials are needed in the future to confirm these findings."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Rieser, N. M.",
+          "Bitar, R.",
+          "Halm, S.",
+          "Rossgoderer, C.",
+          "Gubser, L. P.",
+          "Thévenaz, M.",
+          "Kreis, Y.",
+          "Von Rotz, R.",
+          "Nordt, C.",
+          "Visentini, M.",
+          "Moujaes, F.",
+          "Engeli, E. J. E.",
+          "Ort, A.",
+          "Seifritz, E.",
+          "Vollenweider, F. X.",
+          "Herdener, M.",
+          "Preller, K. H."
+        ],
+        "authors": [
+          {
+            "_id": "BN0a6oFMACiVd4bDKZuT4S",
+            "name": "Erich Seifritz",
+            "slug": "erich-seifritz"
+          },
+          {
+            "_id": "7Plaj3xRNp3V1OodHH0uJj",
+            "name": "Franz Vollenweider",
+            "slug": "franz-vollenweider"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWlRos",
+            "name": "Katrin Preller",
+            "slug": "katrin-preller"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjzGrLf",
+            "name": "Robin Von Rotz",
+            "slug": "robin-von-rotz"
+          },
+          {
+            "_id": "p5iK3Uz4Pv0YBycDGnGDee",
+            "name": "Nathalie Rieser",
+            "slug": "nathalie-rieser"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1016/j.eclinm.2025.103149",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "EClinicalMedicine",
+          "slug": "eclinicalmedicine"
+        },
+        "paragraphSummary": "This double-blind randomised clinical trial (n=37) found that a single dose of psilocybin (25mg) with brief psychotherapy did not significantly reduce alcohol relapse rates or consumption compared to placebo in patients with alcohol use disorder (AUD) at 4-week or 6-month follow-up, though psilocybin participants reported additional reductions in craving and temptation to drink, suggesting larger trials are needed to evaluate this approach for severely affected patients.",
+        "pmid": 40144690,
+        "publicationDate": "2025-04-01",
+        "slug": "psilocybin-assisted-therapy-for-relapse-prevention-in-alcohol-use-disorder-a-pha",
+        "studyCharacteristics": [
+          "double-blind",
+          "randomized",
+          "placebo-controlled",
+          "follow-up",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin-assisted therapy for relapse prevention in alcohol use disorder: a phase 2 randomized clinical trial",
+        "topics": [
+          {
+            "slug": "aud",
+            "title": "Alcohol Use Disorder (AUD)"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          },
+          {
+            "slug": "public-health-prevention-and-behaviour-change",
+            "title": "Public Health, Prevention & Behaviour Change"
+          },
+          {
+            "slug": "sud",
+            "title": "Substance Use Disorders (SUD)"
+          }
+        ]
+      }
+    },
+    "Ross, 2025": {
+      "status": "ok",
+      "doi": "10.1016/j.genhosppsych.2025.08.001",
+      "blossom_slug": "psilocybin-assisted-psychotherapy-for-depression-and-anxiety-associated-with-lif",
+      "blossom_url": "https://www.moreblossom.com/papers/psilocybin-assisted-psychotherapy-for-depression-and-anxiety-associated-with-lif",
+      "title": "Psilocybin-assisted psychotherapy for depression and anxiety associated with life threatening illness: A phase 2b randomized controlled trial",
+      "paragraph_summary": "This double-blind placebo-controlled trial (n=35) found that psilocybin-assisted psychotherapy (25mg) significantly reduced depression and anxiety symptoms in adults with life-threatening illnesses compared to an active placebo (100mg niacin), with benefits sustained at 26 weeks and improvements in spiritual well-being, quality of life, demoralisation, and death anxiety.",
+      "abstract": "Importance\n\nPsilocybin-assisted psychotherapy may offer a novel approach to treating depression, anxiety, and existential distress in individuals with life threatening illnesses, where current treatments show limited efficacy.\n\nObjective\n\nTo evaluate the efficacy and safety of psilocybin-assisted psychotherapy versus active placebo and psychotherapy in adults with life-threatening illnesses.\n\nDesign\n\nDouble-blind, randomized controlled phase 2b trial (RCT) with an open-label extension and 6-month follow-up (January 2020 - October 2023).\n\nSetting\n\nSingle-site study at a tertiary hospital's palliative care department (St. Vincent's Hospital Melbourne affiliated with the University of Melbourne).\n\nParticipants\n\nAdults aged 18-80 with a life-threatening illness and clinically significant depression and/or anxiety.\n\nInterventions\n\nParticipants were randomized to receive 25 mg psilocybin or 100 mg niacin (active placebo), alongside three preparatory psychotherapy and six post-dose integration psychotherapy sessions. After 6-7 weeks post double blind dose, all participants received 25 mg psilocybin in an open-label extension, enabling a two dose versus one dose group comparator. Participants were followed up to 26 weeks post open label dose.Main outcomes and measures Primary outcome was change in depression and anxiety symptoms, assessed using the Hospital Anxiety and Depression Scale (HADS), from baseline to 6-7 weeks post-dose. Key secondary outcomes included the Beck Depression Inventory-II (BDI-II) and the State-Trait Anxiety Inventory - State version (STAI-S), which provided complementary, dimensional measures of depression and anxiety over the same time period. Additional secondary outcomes included Death Attitudes Profile, WHOQOL-BREF, State-Trait Anxiety Inventory (STAI-Trait scale), Mystical Experiences Questionnaire, and Persisting Effects Questionnaire. Exploratory outcomes included spiritual well-being, hopelessness, demoralization, and HADS-Trait scores.\n\nResults\n\nThirty-five participants (mean age 56.0; 54.3 % female) were randomized (psilocybin: n = 17; placebo: n = 18). At 6-7 weeks, psilocybin produced significantly greater reductions in HADS depression (B = -2.49; P = .02; d = 1.12), BDI-II (B = -7.56; P = .004; d = 2.97), and STAI-State anxiety (B = -12.59; P = .005; d = 4.51) compared to placebo. Benefits were sustained at 26 weeks. Exploratory outcomes demonstrated enhanced spiritual well-being, quality of life, and significant reductions in demoralization, death anxiety and hopelessness. No serious treatment-emergent adverse events occurred. Psilocybin was associated with more mild-to-moderate adverse events. One participant withdrew due to anxiety during dosing.Conclusions and relevance Psilocybin-assisted psychotherapy appears safe and may offer durable relief from depression and anxiety in individuals with a life-threatening illness.",
+      "pmid": 40858059,
+      "publication_date": "2025-09-01",
+      "citation_count": null,
+      "study_characteristics": [
+        "placebo-controlled",
+        "active-placebo",
+        "double-blind",
+        "randomized",
+        "parallel-group",
+        "follow-up"
+      ],
+      "compounds": [
+        "Psilocybin"
+      ],
+      "topics": [
+        "Anxiety Disorders",
+        "Depressive Disorders",
+        "Older Adults",
+        "Chronic Pain",
+        "Palliative & End-of-Life Distress",
+        "Safety & Risk Management"
+      ],
+      "journal": "General Hospital Psychiatry",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "999b7rle2",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "8bo1i0jp6",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Importance"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "9nsou01fu",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "j3f9lya6n",
+                "_type": "span",
+                "marks": [],
+                "text": "Psilocybin-assisted psychotherapy may offer a novel approach to treating depression, anxiety, and existential distress in individuals with life threatening illnesses, where current treatments show limited efficacy."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "ih557zfmw",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "f1t2nv0d2",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Objective"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "5tcgyibdi",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "236q5unm8",
+                "_type": "span",
+                "marks": [],
+                "text": "To evaluate the efficacy and safety of psilocybin-assisted psychotherapy versus active placebo and psychotherapy in adults with life-threatening illnesses."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "w1nkheaea",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "5piyktulm",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Design"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "rb0yxbp8a",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "zj7j9uwn2",
+                "_type": "span",
+                "marks": [],
+                "text": "Double-blind, randomized controlled phase 2b trial (RCT) with an open-label extension and 6-month follow-up (January 2020 - October 2023)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "r0doydifj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "kou5hjp2q",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Setting"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "vnxg7exxf",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bguaafa4o",
+                "_type": "span",
+                "marks": [],
+                "text": "Single-site study at a tertiary hospital's palliative care department (St. Vincent's Hospital Melbourne affiliated with the University of Melbourne)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "93duqgv33",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "dt5lsoac9",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Participants"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "dynwt5q6s",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "dkxajv3wd",
+                "_type": "span",
+                "marks": [],
+                "text": "Adults aged 18-80 with a life-threatening illness and clinically significant depression and/or anxiety."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "9auobbf88",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "2kxf9vldh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interventions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "4f11bh0w3",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "j5nbkxxsd",
+                "_type": "span",
+                "marks": [],
+                "text": "Participants were randomized to receive 25 mg psilocybin or 100 mg niacin (active placebo), alongside three preparatory psychotherapy and six post-dose integration psychotherapy sessions. After 6-7 weeks post double blind dose, all participants received 25 mg psilocybin in an open-label extension, enabling a two dose versus one dose group comparator. Participants were followed up to 26 weeks post open label dose.Main outcomes and measures Primary outcome was change in depression and anxiety symptoms, assessed using the Hospital Anxiety and Depression Scale (HADS), from baseline to 6-7 weeks post-dose. Key secondary outcomes included the Beck Depression Inventory-II (BDI-II) and the State-Trait Anxiety Inventory - State version (STAI-S), which provided complementary, dimensional measures of depression and anxiety over the same time period. Additional secondary outcomes included Death Attitudes Profile, WHOQOL-BREF, State-Trait Anxiety Inventory (STAI-Trait scale), Mystical Experiences Questionnaire, and Persisting Effects Questionnaire. Exploratory outcomes included spiritual well-being, hopelessness, demoralization, and HADS-Trait scores."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "92fuqgwqd",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "23ld1vpqh",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "hh10wpf3s",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "bq8ufnnt0",
+                "_type": "span",
+                "marks": [],
+                "text": "Thirty-five participants (mean age 56.0; 54.3 % female) were randomized (psilocybin: n = 17; placebo: n = 18). At 6-7 weeks, psilocybin produced significantly greater reductions in HADS depression (B = -2.49; P = .02; d = 1.12), BDI-II (B = -7.56; P = .004; d = 2.97), and STAI-State anxiety (B = -12.59; P = .005; d = 4.51) compared to placebo. Benefits were sustained at 26 weeks. Exploratory outcomes demonstrated enhanced spiritual well-being, quality of life, and significant reductions in demoralization, death anxiety and hopelessness. No serious treatment-emergent adverse events occurred. Psilocybin was associated with more mild-to-moderate adverse events. One participant withdrew due to anxiety during dosing.Conclusions and relevance Psilocybin-assisted psychotherapy appears safe and may offer durable relief from depression and anxiety in individuals with a life-threatening illness."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Ross, M. L.",
+          "Iyer, R.",
+          "Williams, M. L.",
+          "Boughey, M.",
+          "O'callaghan, C.",
+          "Hiscock, R.",
+          "Dwyer, J."
+        ],
+        "authors": null,
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "psilocybin",
+            "title": "Psilocybin"
+          }
+        ],
+        "doi": "https://doi.org/10.1016/j.genhosppsych.2025.08.001",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "General Hospital Psychiatry",
+          "slug": "general-hospital-psychiatry"
+        },
+        "paragraphSummary": "This double-blind placebo-controlled trial (n=35) found that psilocybin-assisted psychotherapy (25mg) significantly reduced depression and anxiety symptoms in adults with life-threatening illnesses compared to an active placebo (100mg niacin), with benefits sustained at 26 weeks and improvements in spiritual well-being, quality of life, demoralisation, and death anxiety.",
+        "pmid": 40858059,
+        "publicationDate": "2025-09-01",
+        "slug": "psilocybin-assisted-psychotherapy-for-depression-and-anxiety-associated-with-lif",
+        "studyCharacteristics": [
+          "placebo-controlled",
+          "active-placebo",
+          "double-blind",
+          "randomized",
+          "parallel-group",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "Psilocybin-assisted psychotherapy for depression and anxiety associated with life threatening illness: A phase 2b randomized controlled trial",
+        "topics": [
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "older-adults",
+            "title": "Older Adults"
+          },
+          {
+            "slug": "chronic-pain",
+            "title": "Chronic Pain"
+          },
+          {
+            "slug": "palliative-end-of-life-distress",
+            "title": "Palliative & End-of-Life Distress"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    }
+  }
+}

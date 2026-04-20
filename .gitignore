@@ -40,3 +40,6 @@ activate.R
 **/renv/**
 .Rhistory
 .RData
+
+# Blossom API cache
+scripts/.blossom_cache/

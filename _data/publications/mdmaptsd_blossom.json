@@ -1,0 +1,1084 @@
+{
+  "dataset": "mdmaptsd",
+  "fetched_at": "2026-04-20T15:46:57.935116+00:00",
+  "blossom_api_version": "v1",
+  "records": {
+    "Mitchell, 2021": {
+      "status": "ok",
+      "doi": "10.1038/s41591-021-01336-3",
+      "blossom_slug": "mdma-assisted-therapy-for-severe-ptsd-a-randomized-double-blind-placebo-controll",
+      "blossom_url": "https://www.moreblossom.com/papers/mdma-assisted-therapy-for-severe-ptsd-a-randomized-double-blind-placebo-controll",
+      "title": "MDMA-assisted therapy for severe PTSD: a randomized, double-blind, placebo-controlled phase 3 study",
+      "paragraph_summary": "In a randomized, double‑blind, placebo‑controlled phase 3 trial of 90 patients with severe PTSD (including common comorbidities), MDMA‑assisted therapy produced a large, significant reduction in PTSD symptoms versus placebo (mean CAPS‑5 change −24.4 vs −13.9; P<0.0001, d=0.91) and improved functioning (SDS: P=0.0116, d=0.43). Treatment was well tolerated with no signals of abuse potential, increased suicidality or QT prolongation, indicating MDMA‑assisted therapy is a promising intervention warranting expedited evaluation.",
+      "abstract": "Post-traumatic stress disorder (PTSD) presents a major public health problem for which currently available treatments are modestly effective. We report the findings of a randomized, double-blind, placebo-controlled, multi-site phase 3 clinical trial (NCT03537014) to test the efficacy and safety of 3,4-methylenedioxymethamphetamine (MDMA)-assisted therapy for the treatment of patients with severe PTSD, including those with common comorbidities such as dissociation, depression, a history of alcohol and substance use disorders, and childhood trauma. After psychiatric medication washout, participants ( n = 90) were randomized 1:1 to receive manualized therapy with MDMA or with placebo, combined with three preparatory and nine integrative therapy sessions. PTSD symptoms, measured with the Clinician-Administered PTSD Scale for DSM-5 (CAPS-5, the primary endpoint), and functional impairment, measured with the Sheehan Disability Scale (SDS, the secondary endpoint) were assessed at baseline and at 2 months after the last experimental session. Adverse events and suicidality were tracked throughout the study. MDMA was found to induce significant and robust attenuation in CAPS-5 score compared with placebo ( P < 0.0001, d = 0.91) and to significantly decrease the SDS total score ( P = 0.0116, d = 0.43). The mean change in CAPS-5 scores in participants completing treatment was −24.4 (s.d. 11.6) in the MDMA group and −13.9 (s.d. 11.5) in the placebo group. MDMA did not induce adverse events of abuse potential, suicidality or QT prolongation. These data indicate that, compared with manualized therapy with inactive placebo, MDMA-assisted therapy is highly efficacious in individuals with severe PTSD, and treatment is safe and well-tolerated, even in those with comorbidities. We conclude that MDMA-assisted therapy represents a potential breakthrough treatment that merits expedited clinical evaluation.",
+      "pmid": 33972795,
+      "publication_date": "2021-05-10",
+      "citation_count": null,
+      "study_characteristics": [
+        "randomized",
+        "double-blind",
+        "placebo-controlled",
+        "parallel-group"
+      ],
+      "compounds": [
+        "MDMA"
+      ],
+      "topics": [
+        "Depressive Disorders",
+        "PTSD",
+        "Suicidality",
+        "Substance Use Disorders (SUD)",
+        "Safety & Risk Management",
+        "Public Health, Prevention & Behaviour Change"
+      ],
+      "journal": "Nature Medicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "uqt1iz5zj",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "a284cp7gc",
+                "_type": "span",
+                "marks": [],
+                "text": "Post-traumatic stress disorder (PTSD) presents a major public health problem for which currently available treatments are modestly effective. We report the findings of a randomized, double-blind, placebo-controlled, multi-site phase 3 clinical trial (NCT03537014) to test the efficacy and safety of 3,4-methylenedioxymethamphetamine (MDMA)-assisted therapy for the treatment of patients with severe PTSD, including those with common comorbidities such as dissociation, depression, a history of alcohol and substance use disorders, and childhood trauma. After psychiatric medication washout, participants ( n = 90) were randomized 1:1 to receive manualized therapy with MDMA or with placebo, combined with three preparatory and nine integrative therapy sessions. PTSD symptoms, measured with the Clinician-Administered PTSD Scale for DSM-5 (CAPS-5, the primary endpoint), and functional impairment, measured with the Sheehan Disability Scale (SDS, the secondary endpoint) were assessed at baseline and at 2 months after the last experimental session. Adverse events and suicidality were tracked throughout the study. MDMA was found to induce significant and robust attenuation in CAPS-5 score compared with placebo ( P < 0.0001, d = 0.91) and to significantly decrease the SDS total score ( P = 0.0116, d = 0.43). The mean change in CAPS-5 scores in participants completing treatment was −24.4 (s.d. 11.6) in the MDMA group and −13.9 (s.d. 11.5) in the placebo group. MDMA did not induce adverse events of abuse potential, suicidality or QT prolongation. These data indicate that, compared with manualized therapy with inactive placebo, MDMA-assisted therapy is highly efficacious in individuals with severe PTSD, and treatment is safe and well-tolerated, even in those with comorbidities. We conclude that MDMA-assisted therapy represents a potential breakthrough treatment that merits expedited clinical evaluation."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Mitchell, J.",
+          "Bogenschutz, M. P.",
+          "Lilienstein, A.",
+          "Harrison, C.",
+          "Kleiman, S.",
+          "Parker-Guilbert, K.",
+          "Ot’alora G, M.",
+          "Garas, W.",
+          "Paleos, C.",
+          "Gorman, I.",
+          "Nicholas, C. R.",
+          "Mithoefer, A. T.",
+          "Mithoefer, M. C.",
+          "Carlin, S. C.",
+          "Poulter, B.",
+          "Quevedo, S.",
+          "Wells, G.",
+          "Klaire, S. S.",
+          "van der Kolk, B.",
+          "Tzarfaty, K.",
+          "Amiaz, R.",
+          "Worthy, R.",
+          "Shannon, S.",
+          "Woolley, J. D.",
+          "Marta, C. J.",
+          "Gelfand, Y.",
+          "Hapke, E.",
+          "Amar, S.",
+          "Wallach, Y.",
+          "Brown, R.",
+          "Hamilton, S.",
+          "Wang, J. B.",
+          "Coker, A.",
+          "Matthews, R.",
+          "de Boer, A.",
+          "Yazar-Klosinski, B.",
+          "Emerson, A.",
+          "Doblin, R."
+        ],
+        "authors": [
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKbI",
+            "name": "Rick Doblin",
+            "slug": "rick-doblin"
+          },
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKlE",
+            "name": "Berra Yazar-Klosinski",
+            "slug": "berra-yazar-klosinski"
+          },
+          {
+            "_id": "2dd68afa-860b-4e7a-9c5d-841796555430",
+            "name": "Michael Mithoefer",
+            "slug": "michael-mithoefer"
+          },
+          {
+            "_id": "448774db-df47-4265-bed1-1b20332d5802",
+            "name": "Michael Bogenschutz",
+            "slug": "michael-bogenschutz"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS2G0H5",
+            "name": "Joshua Woolley",
+            "slug": "joshua-woolley"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK5hig",
+            "name": "Amy Emerson",
+            "slug": "amy-emerson"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PXlhEk",
+            "name": "Samuel Hamilton",
+            "slug": "samuel-hamilton"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS3DbD5",
+            "name": "Christopher Nicholas",
+            "slug": "christopher-nicholas"
+          },
+          {
+            "_id": "nTZxlPe3773l4RADjz02tP",
+            "name": "Julie Wang",
+            "slug": "julie-wang"
+          },
+          {
+            "_id": "0nzRCu4Z8bwe3sCRhUcD7g",
+            "name": "Ingmar Gorman",
+            "slug": "ingmar-gorman"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          }
+        ],
+        "doi": "https://doi.org/10.1038/s41591-021-01336-3",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Nature Medicine",
+          "slug": "nature-medicine"
+        },
+        "paragraphSummary": "In a randomized, double‑blind, placebo‑controlled phase 3 trial of 90 patients with severe PTSD (including common comorbidities), MDMA‑assisted therapy produced a large, significant reduction in PTSD symptoms versus placebo (mean CAPS‑5 change −24.4 vs −13.9; P<0.0001, d=0.91) and improved functioning (SDS: P=0.0116, d=0.43). Treatment was well tolerated with no signals of abuse potential, increased suicidality or QT prolongation, indicating MDMA‑assisted therapy is a promising intervention warranting expedited evaluation.",
+        "pmid": 33972795,
+        "publicationDate": "2021-05-10",
+        "slug": "mdma-assisted-therapy-for-severe-ptsd-a-randomized-double-blind-placebo-controll",
+        "studyCharacteristics": [
+          "randomized",
+          "double-blind",
+          "placebo-controlled",
+          "parallel-group"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "MDMA-assisted therapy for severe PTSD: a randomized, double-blind, placebo-controlled phase 3 study",
+        "topics": [
+          {
+            "slug": "depressive-disorders",
+            "title": "Depressive Disorders"
+          },
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "sud",
+            "title": "Substance Use Disorders (SUD)"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          },
+          {
+            "slug": "public-health-prevention-and-behaviour-change",
+            "title": "Public Health, Prevention & Behaviour Change"
+          }
+        ]
+      }
+    },
+    "Mitchell, 2023": {
+      "status": "ok",
+      "doi": "10.1038/s41591-023-02565-4",
+      "blossom_slug": "mdma-assisted-therapy-for-moderate-to-severe-ptsd-a-randomized-placebo-controlle",
+      "blossom_url": "https://www.moreblossom.com/papers/mdma-assisted-therapy-for-moderate-to-severe-ptsd-a-randomized-placebo-controlle",
+      "title": "MDMA-assisted therapy for moderate to severe PTSD: a randomized, placebo-controlled phase 3 trial",
+      "paragraph_summary": "This multi-site, randomised, double-blind, Phase IIIb trial (n=104) evaluated the efficacy and safety of MDMA-assisted therapy (MDMA-AT) for individuals with moderate to severe PTSD. The study found significant reductions in PTSD severity (CAPS-5 score) and functional impairment (SDS score) for the MDMA-AT group compared to placebo with therapy. Seven participants experienced severe treatment-emergent adverse events, but no deaths or serious adverse events were reported. The treatment was found to be generally well tolerated in a diverse population.",
+      "abstract": "This multi-site, randomized, double-blind, confirmatory phase 3 study evaluated the efficacy and safety of 3,4-methylenedioxymethamphetamine-assisted therapy (MDMA-AT) versus placebo with identical therapy in participants with moderate to severe post-traumatic stress disorder (PTSD). Changes in Clinician-Administered PTSD Scale for DSM-5 (CAPS-5) total severity score (primary endpoint) and Sheehan Disability Scale (SDS) functional impairment score (key secondary endpoint) were assessed by blinded independent assessors. Participants were randomized to MDMA-AT (n = 53) or placebo with therapy (n = 51). Overall, 26.9% (28/104) of participants had moderate PTSD, and 73.1% (76/104) of participants had severe PTSD. Participants were ethnoracially diverse: 28 of 104 (26.9%) identified as Hispanic/Latino, and 35 of 104 (33.7%) identified as other than White. Least squares (LS) mean change in CAPS-5 score (95% confidence interval (CI)) was −23.7 (−26.94, −20.44) for MDMA-AT versus −14.8 (−18.28, −11.28) for placebo with therapy (P < 0.001, d = 0.7). LS mean change in SDS score (95% CI) was −3.3 (−4.03, −2.60) for MDMA-AT versus −2.1 (−2.89, −1.33) for placebo with therapy (P = 0.03, d = 0.4). Seven participants had a severe treatment emergent adverse event (TEAE) (MDMA-AT, n = 5 (9.4%); placebo with therapy, n = 2 (3.9%)). There were no deaths or serious TEAEs. These data suggest that MDMA-AT reduced PTSD symptoms and functional impairment in a diverse population with moderate to severe PTSD and was generally well tolerated.",
+      "pmid": 37709999,
+      "publication_date": "2023-09-14",
+      "citation_count": 399,
+      "study_characteristics": [
+        "randomized",
+        "double-blind",
+        "placebo-controlled",
+        "parallel-group",
+        "multi-site"
+      ],
+      "compounds": [
+        "MDMA",
+        "Placebo"
+      ],
+      "topics": [
+        "PTSD",
+        "Safety & Risk Management"
+      ],
+      "journal": "Nature Medicine",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "1xfdilK8",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "Im1Pi3bX",
+                "_type": "span",
+                "marks": [],
+                "text": "This multi-site, randomized, double-blind, confirmatory phase 3 study evaluated the efficacy and safety of 3,4-methylenedioxymethamphetamine-assisted therapy (MDMA-AT) versus placebo with identical therapy in participants with moderate to severe post-traumatic stress disorder (PTSD). Changes in Clinician-Administered PTSD Scale for DSM-5 (CAPS-5) total severity score (primary endpoint) and Sheehan Disability Scale (SDS) functional impairment score (key secondary endpoint) were assessed by blinded independent assessors. Participants were randomized to MDMA-AT (n = 53) or placebo with therapy (n = 51). Overall, 26.9% (28/104) of participants had moderate PTSD, and 73.1% (76/104) of participants had severe PTSD. Participants were ethnoracially diverse: 28 of 104 (26.9%) identified as Hispanic/Latino, and 35 of 104 (33.7%) identified as other than White. Least squares (LS) mean change in CAPS-5 score (95% confidence interval (CI)) was −23.7 (−26.94, −20.44) for MDMA-AT versus −14.8 (−18.28, −11.28) for placebo with therapy (P < 0.001, d = 0.7). LS mean change in SDS score (95% CI) was −3.3 (−4.03, −2.60) for MDMA-AT versus −2.1 (−2.89, −1.33) for placebo with therapy (P = 0.03, d = 0.4). Seven participants had a severe treatment emergent adverse event (TEAE) (MDMA-AT, n = 5 (9.4%); placebo with therapy, n = 2 (3.9%)). There were no deaths or serious TEAEs. These data suggest that MDMA-AT reduced PTSD symptoms and functional impairment in a diverse population with moderate to severe PTSD and was generally well tolerated."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "paywall",
+        "authorNames": [
+          "Mitchell, J.",
+          "Ot’alora G, M.",
+          "van der Kolk, B.",
+          "Shannon, S.",
+          "Bogenschutz, M. P.",
+          "Gelfand, Y.",
+          "Paleos, C.",
+          "Nicholas, C. R.",
+          "Quevedo, S.",
+          "Balliett, B.",
+          "Hamilton, S.",
+          "Mithoefer, A. T.",
+          "Kleiman, S.",
+          "Parker-Guilbert, K.",
+          "Tzarfaty, K.",
+          "Harrison, C.",
+          "de Boer, A.",
+          "Doblin, R.",
+          "Yazar-Klosinski, B."
+        ],
+        "authors": [
+          {
+            "_id": "2dd68afa-860b-4e7a-9c5d-841796555430",
+            "name": "Michael Mithoefer",
+            "slug": "michael-mithoefer"
+          },
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKbI",
+            "name": "Rick Doblin",
+            "slug": "rick-doblin"
+          },
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKlE",
+            "name": "Berra Yazar-Klosinski",
+            "slug": "berra-yazar-klosinski"
+          },
+          {
+            "_id": "448774db-df47-4265-bed1-1b20332d5802",
+            "name": "Michael Bogenschutz",
+            "slug": "michael-bogenschutz"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PXlhEk",
+            "name": "Samuel Hamilton",
+            "slug": "samuel-hamilton"
+          },
+          {
+            "_id": "cQ5I5aRF7jFk4c6XS3DbD5",
+            "name": "Christopher Nicholas",
+            "slug": "christopher-nicholas"
+          }
+        ],
+        "citationCount": 399,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          },
+          {
+            "slug": "placebo",
+            "title": "Placebo"
+          }
+        ],
+        "doi": "https://doi.org/10.1038/s41591-023-02565-4",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Nature Medicine",
+          "slug": "nature-medicine"
+        },
+        "paragraphSummary": "This multi-site, randomised, double-blind, Phase IIIb trial (n=104) evaluated the efficacy and safety of MDMA-assisted therapy (MDMA-AT) for individuals with moderate to severe PTSD. The study found significant reductions in PTSD severity (CAPS-5 score) and functional impairment (SDS score) for the MDMA-AT group compared to placebo with therapy. Seven participants experienced severe treatment-emergent adverse events, but no deaths or serious adverse events were reported. The treatment was found to be generally well tolerated in a diverse population.",
+        "pmid": 37709999,
+        "publicationDate": "2023-09-14",
+        "slug": "mdma-assisted-therapy-for-moderate-to-severe-ptsd-a-randomized-placebo-controlle",
+        "studyCharacteristics": [
+          "randomized",
+          "double-blind",
+          "placebo-controlled",
+          "parallel-group",
+          "multi-site"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "MDMA-assisted therapy for moderate to severe PTSD: a randomized, placebo-controlled phase 3 trial",
+        "topics": [
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Mithoefer, 2018": {
+      "status": "ok",
+      "doi": "10.1016/S2215-0366(18)30135-4",
+      "blossom_slug": "34-methylenedioxymethamphetamine-mdma-assisted-psychotherapy-for-post-traumatic-",
+      "blossom_url": "https://www.moreblossom.com/papers/34-methylenedioxymethamphetamine-mdma-assisted-psychotherapy-for-post-traumatic-",
+      "title": "3,4-methylenedioxymethamphetamine (MDMA)-assisted psychotherapy for post-traumatic stress disorder in military veterans, firefighters, and police officers: a randomised, double-blind, dose-response, phase 2 clinical trial",
+      "paragraph_summary": "This Phase II clinical trial (n=26) finds that MDMA-assisted psychotherapy (75-125 mg) led to significant and sustained decreases in PTSD (CAPS-IV) scores as compared to an active placebo (30 mg). At the 12-month follow-up, the average CAPS-IV score had dropped from 87 to 39 (67% no longer qualified for PTSD diagnosis).",
+      "abstract": "Background\n\nPost-traumatic stress disorder (PTSD) is prevalent in military personnel and first responders, many of whom do not respond to currently available treatments. This study aimed to assess the efficacy and safety of 3,4-methylenedioxymethamphetamine (MDMA)-assisted psychotherapy for treating chronic PTSD in this population.\n\nMethods\n\nWe did a randomised, double-blind, dose-response, phase 2 trial at an outpatient psychiatric clinic in the USA. We included service personnel who were 18 years or older, with chronic PTSD duration of 6 months or more, and who had a Clinician-Administered PTSD Scale (CAPS-IV) total score of 50 or greater. Using a web-based randomisation system, we randomly assigned participants (1:1:2) to three different dose groups of MDMA plus psychotherapy: 30 mg (active control), 75 mg, or 125 mg. We masked investigators, independent outcome raters, and participants until after the primary endpoint. MDMA was administered orally in two 8-h sessions with concomitant manualised psychotherapy. The primary outcome was mean change in CAPS-IV total score from baseline to 1 month after the second experimental session. Participants in the 30 mg and 75 mg groups subsequently underwent three 100-125 mg MDMA-assisted psychotherapy sessions in an open-label crossover, and all participants were assessed 12 months after the last MDMA session. Safety was monitored through adverse events, spontaneously reported expected reactions, vital signs, and suicidal ideation and behaviour.\n\nFindings\n\nBetween Nov 10, 2010, and Jan 29, 2015, 26 veterans and first responders met eligibility criteria and were randomly assigned to receive 30 mg (n=7), 75 mg (n=7), or 125 mg (n=12) of MDMA plus psychotherapy. At the primary endpoint, the 75 mg and 125 mg groups had significantly greater decreases in PTSD symptom severity (mean change CAPS-IV total scores of −58·3 [SD 9·8] and −44·3 [28·7]; p=0·001) than the 30 mg group (−11·4 [12·7]). Compared with the 30 mg group, Cohen's d effect sizes were large: 2·8 (95% CI 1·19-4·39) for the 75 mg group and 1·1 (0·04-2·08) for the 125 mg group. In the open-label crossover with full-dose MDMA (100-125 mg), PTSD symptom severity significantly decreased in the group that had previously received 30 mg (p=0·01), whereas no further significant decreases were observed in the group that previously achieved a large response after 75 mg doses in the blinded segment (p=0·81). PTSD symptoms were significantly reduced at the 12-month follow-up compared with baseline after all groups had full-dose MDMA (mean CAPS-IV total score of 38·8 [SD 28·1] vs 87·1 [16·1]; p<0·0001). 85 adverse events were reported by 20 participants. Of these adverse events, four (5%) were serious: three were deemed unrelated and one possibly related to study drug treatment.\n\nInterpretation\n\nActive doses (75 mg and 125 mg) of MDMA with adjunctive psychotherapy in a controlled setting were effective and well-tolerated in reducing PTSD symptoms in veterans and first responders.",
+      "pmid": 29728331,
+      "publication_date": "2018-06-01",
+      "citation_count": 274,
+      "study_characteristics": [
+        "randomized",
+        "parallel-group",
+        "placebo-controlled",
+        "active-placebo",
+        "double-blind",
+        "follow-up"
+      ],
+      "compounds": [
+        "MDMA"
+      ],
+      "topics": [
+        "PTSD",
+        "Suicidality",
+        "Veterans",
+        "Safety & Risk Management"
+      ],
+      "journal": "Lancet Psychiatry",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "sw9z37btg",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "kwnk69gbm",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "s9qmrsx4w",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "j9f6czghc",
+                "_type": "span",
+                "marks": [],
+                "text": "Post-traumatic stress disorder (PTSD) is prevalent in military personnel and first responders, many of whom do not respond to currently available treatments. This study aimed to assess the efficacy and safety of 3,4-methylenedioxymethamphetamine (MDMA)-assisted psychotherapy for treating chronic PTSD in this population."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "3hdp53yi9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "30cqhkeqt",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "vdlv564s0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "x3uez9cid",
+                "_type": "span",
+                "marks": [],
+                "text": "We did a randomised, double-blind, dose-response, phase 2 trial at an outpatient psychiatric clinic in the USA. We included service personnel who were 18 years or older, with chronic PTSD duration of 6 months or more, and who had a Clinician-Administered PTSD Scale (CAPS-IV) total score of 50 or greater. Using a web-based randomisation system, we randomly assigned participants (1:1:2) to three different dose groups of MDMA plus psychotherapy: 30 mg (active control), 75 mg, or 125 mg. We masked investigators, independent outcome raters, and participants until after the primary endpoint. MDMA was administered orally in two 8-h sessions with concomitant manualised psychotherapy. The primary outcome was mean change in CAPS-IV total score from baseline to 1 month after the second experimental session. Participants in the 30 mg and 75 mg groups subsequently underwent three 100-125 mg MDMA-assisted psychotherapy sessions in an open-label crossover, and all participants were assessed 12 months after the last MDMA session. Safety was monitored through adverse events, spontaneously reported expected reactions, vital signs, and suicidal ideation and behaviour."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "nt26ig5k9",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "rht54tlqk",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Findings"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "onmotu226",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "59mo1lsox",
+                "_type": "span",
+                "marks": [],
+                "text": "Between Nov 10, 2010, and Jan 29, 2015, 26 veterans and first responders met eligibility criteria and were randomly assigned to receive 30 mg (n=7), 75 mg (n=7), or 125 mg (n=12) of MDMA plus psychotherapy. At the primary endpoint, the 75 mg and 125 mg groups had significantly greater decreases in PTSD symptom severity (mean change CAPS-IV total scores of −58·3 [SD 9·8] and −44·3 [28·7]; p=0·001) than the 30 mg group (−11·4 [12·7]). Compared with the 30 mg group, Cohen's d effect sizes were large: 2·8 (95% CI 1·19-4·39) for the 75 mg group and 1·1 (0·04-2·08) for the 125 mg group. In the open-label crossover with full-dose MDMA (100-125 mg), PTSD symptom severity significantly decreased in the group that had previously received 30 mg (p=0·01), whereas no further significant decreases were observed in the group that previously achieved a large response after 75 mg doses in the blinded segment (p=0·81). PTSD symptoms were significantly reduced at the 12-month follow-up compared with baseline after all groups had full-dose MDMA (mean CAPS-IV total score of 38·8 [SD 28·1] vs 87·1 [16·1]; p<0·0001). 85 adverse events were reported by 20 participants. Of these adverse events, four (5%) were serious: three were deemed unrelated and one possibly related to study drug treatment."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "7lh83jbbt",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "si9mp02sd",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Interpretation"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "12epqm8s0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "ejh948biz",
+                "_type": "span",
+                "marks": [],
+                "text": "Active doses (75 mg and 125 mg) of MDMA with adjunctive psychotherapy in a controlled setting were effective and well-tolerated in reducing PTSD symptoms in veterans and first responders."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Mithoefer, A. T.",
+          "Mithoefer, M. C.",
+          "Feduccia, A. A.",
+          "Jerome, L.",
+          "Wagner, M. T.",
+          "Wymer, J.",
+          "Holland, J.",
+          "Hamilton, S.",
+          "Yazar-Klosinski, B.",
+          "Emerson, A.",
+          "Doblin, R."
+        ],
+        "authors": [
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKbI",
+            "name": "Rick Doblin",
+            "slug": "rick-doblin"
+          },
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKlE",
+            "name": "Berra Yazar-Klosinski",
+            "slug": "berra-yazar-klosinski"
+          },
+          {
+            "_id": "2dd68afa-860b-4e7a-9c5d-841796555430",
+            "name": "Michael Mithoefer",
+            "slug": "michael-mithoefer"
+          },
+          {
+            "_id": "BN0a6oFMACiVd4bDKZuYt6",
+            "name": "Lisa Jerome",
+            "slug": "lisa-jerome"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK5hig",
+            "name": "Amy Emerson",
+            "slug": "amy-emerson"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWv9mc",
+            "name": "Anna Feduccia",
+            "slug": "anna-feduccia"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PXlhEk",
+            "name": "Samuel Hamilton",
+            "slug": "samuel-hamilton"
+          }
+        ],
+        "citationCount": 274,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          }
+        ],
+        "doi": "https://doi.org/10.1016/S2215-0366(18)30135-4",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Lancet Psychiatry",
+          "slug": "lancet-psychiatry"
+        },
+        "paragraphSummary": "This Phase II clinical trial (n=26) finds that MDMA-assisted psychotherapy (75-125 mg) led to significant and sustained decreases in PTSD (CAPS-IV) scores as compared to an active placebo (30 mg). At the 12-month follow-up, the average CAPS-IV score had dropped from 87 to 39 (67% no longer qualified for PTSD diagnosis).",
+        "pmid": 29728331,
+        "publicationDate": "2018-06-01",
+        "slug": "34-methylenedioxymethamphetamine-mdma-assisted-psychotherapy-for-post-traumatic-",
+        "studyCharacteristics": [
+          "randomized",
+          "parallel-group",
+          "placebo-controlled",
+          "active-placebo",
+          "double-blind",
+          "follow-up"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "3,4-methylenedioxymethamphetamine (MDMA)-assisted psychotherapy for post-traumatic stress disorder in military veterans, firefighters, and police officers: a randomised, double-blind, dose-response, phase 2 clinical trial",
+        "topics": [
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "suicidality",
+            "title": "Suicidality"
+          },
+          {
+            "slug": "veterans",
+            "title": "Veterans"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Mithoefer, 2011": {
+      "status": "ok",
+      "doi": "10.1177/0269881110378371",
+      "blossom_slug": "the-safety-and-efficacy-of-34-methylenedioxymethamphetamine-assisted-psychothera",
+      "blossom_url": "https://www.moreblossom.com/papers/the-safety-and-efficacy-of-34-methylenedioxymethamphetamine-assisted-psychothera",
+      "title": "The safety and efficacy of ±3,4-methylenedioxymethamphetamine-assisted psychotherapy in subjects with chronic, treatment-resistant posttraumatic stress disorder: the first randomized controlled pilot study",
+      "paragraph_summary": "In the first randomised controlled pilot trial, MDMA-assisted psychotherapy produced significantly greater reductions in Clinician-Administered PTSD Scale scores than placebo in 20 patients with chronic, treatment‑resistant post‑traumatic stress disorder (83% response vs 25%). There were no drug‑related serious adverse events, adverse neurocognitive effects or clinically significant blood pressure increases, suggesting MDMA may be a safe and effective adjunct to psychotherapy in refractory PTSD.",
+      "abstract": "Case reports indicate that psychiatrists administered ±3,4-methylenedioxymethamphetamine (MDMA) as a catalyst to psychotherapy before recreational use of MDMA as ‘Ecstasy’ resulted in its criminalization in 1985. Over two decades later, this study is the first completed clinical trial evaluating MDMA as a therapeutic adjunct. Twenty patients with chronic posttraumatic stress disorder, refractory to both psychotherapy and psychopharmacology, were randomly assigned to psychotherapy with concomitant active drug ( n = 12) or inactive placebo ( n = 8) administered during two 8-h experimental psychotherapy sessions. Both groups received preparatory and follow-up non-drug psychotherapy. The primary outcome measure was the Clinician-Administered PTSD Scale, administered at baseline, 4 days after each experimental session, and 2 months after the second session. Neurocognitive testing, blood pressure, and temperature monitoring were performed. After 2-month follow-up, placebo subjects were offered the option to re-enroll in the experimental procedure with open-label MDMA. Decrease in Clinician-Administered PTSD Scale scores from baseline was significantly greater for the group that received MDMA than for the placebo group at all three time points after baseline. The rate of clinical response was 10/12 (83%) in the active treatment group versus 2/8 (25%) in the placebo group. There were no drug-related serious adverse events, adverse neurocognitive effects or clinically significant blood pressure increases. MDMA-assisted psychotherapy can be administered to posttraumatic stress disorder patients without evidence of harm, and it may be useful in patients refractory to other treatments.",
+      "pmid": 20643699,
+      "publication_date": "2010-07-19",
+      "citation_count": null,
+      "study_characteristics": [
+        "placebo-controlled",
+        "double-blind",
+        "randomized"
+      ],
+      "compounds": [
+        "MDMA"
+      ],
+      "topics": [
+        "PTSD",
+        "Anxiety Disorders",
+        "Neurocognitive Disorders",
+        "Safety & Risk Management"
+      ],
+      "journal": "Journal of Psychopharmacology",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "abstract0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "span0",
+                "_type": "span",
+                "marks": [],
+                "text": "Case reports indicate that psychiatrists administered ±3,4-methylenedioxymethamphetamine (MDMA) as a catalyst to psychotherapy before recreational use of MDMA as ‘Ecstasy’ resulted in its criminalization in 1985. Over two decades later, this study is the first completed clinical trial evaluating MDMA as a therapeutic adjunct. Twenty patients with chronic posttraumatic stress disorder, refractory to both psychotherapy and psychopharmacology, were randomly assigned to psychotherapy with concomitant active drug ( n = 12) or inactive placebo ( n = 8) administered during two 8-h experimental psychotherapy sessions. Both groups received preparatory and follow-up non-drug psychotherapy. The primary outcome measure was the Clinician-Administered PTSD Scale, administered at baseline, 4 days after each experimental session, and 2 months after the second session. Neurocognitive testing, blood pressure, and temperature monitoring were performed. After 2-month follow-up, placebo subjects were offered the option to re-enroll in the experimental procedure with open-label MDMA. Decrease in Clinician-Administered PTSD Scale scores from baseline was significantly greater for the group that received MDMA than for the placebo group at all three time points after baseline. The rate of clinical response was 10/12 (83%) in the active treatment group versus 2/8 (25%) in the placebo group. There were no drug-related serious adverse events, adverse neurocognitive effects or clinically significant blood pressure increases. MDMA-assisted psychotherapy can be administered to posttraumatic stress disorder patients without evidence of harm, and it may be useful in patients refractory to other treatments."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Mithoefer, M. C.",
+          "Wagner, M. T.",
+          "Mithoefer, A. T.",
+          "Jerome, L.",
+          "Doblin, R."
+        ],
+        "authors": [
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKbI",
+            "name": "Rick Doblin",
+            "slug": "rick-doblin"
+          },
+          {
+            "_id": "2dd68afa-860b-4e7a-9c5d-841796555430",
+            "name": "Michael Mithoefer",
+            "slug": "michael-mithoefer"
+          },
+          {
+            "_id": "BN0a6oFMACiVd4bDKZuYt6",
+            "name": "Lisa Jerome",
+            "slug": "lisa-jerome"
+          }
+        ],
+        "citationCount": null,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          }
+        ],
+        "doi": "https://doi.org/10.1177/0269881110378371",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Journal of Psychopharmacology",
+          "slug": "journal-of-psychopharmacology"
+        },
+        "paragraphSummary": "In the first randomised controlled pilot trial, MDMA-assisted psychotherapy produced significantly greater reductions in Clinician-Administered PTSD Scale scores than placebo in 20 patients with chronic, treatment‑resistant post‑traumatic stress disorder (83% response vs 25%). There were no drug‑related serious adverse events, adverse neurocognitive effects or clinically significant blood pressure increases, suggesting MDMA may be a safe and effective adjunct to psychotherapy in refractory PTSD.",
+        "pmid": 20643699,
+        "publicationDate": "2010-07-19",
+        "slug": "the-safety-and-efficacy-of-34-methylenedioxymethamphetamine-assisted-psychothera",
+        "studyCharacteristics": [
+          "placebo-controlled",
+          "double-blind",
+          "randomized"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "The safety and efficacy of ±3,4-methylenedioxymethamphetamine-assisted psychotherapy in subjects with chronic, treatment-resistant posttraumatic stress disorder: the first randomized controlled pilot study",
+        "topics": [
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "anxiety-disorders",
+            "title": "Anxiety Disorders"
+          },
+          {
+            "slug": "neurocognitive-disorders",
+            "title": "Neurocognitive Disorders"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    },
+    "Oehen, 2013": {
+      "status": "ok",
+      "doi": "10.1177/0269881112464827",
+      "blossom_slug": "a-randomized-controlled-pilot-study-of-mdma-34-methylenedioxymethamphetamine-ass",
+      "blossom_url": "https://www.moreblossom.com/papers/a-randomized-controlled-pilot-study-of-mdma-34-methylenedioxymethamphetamine-ass",
+      "title": "A randomized, controlled pilot study of MDMA (±3,4-Methylenedioxymethamphetamine)- assisted psychotherapy for treatment of resistant, chronic Post-Traumatic Stress Disorder (PTSD)",
+      "paragraph_summary": "In a randomized, double‑blind, active‑placebo controlled pilot trial of 12 patients with treatment‑resistant chronic PTSD, MDMA‑assisted psychotherapy was safely administered with no drug‑related serious adverse events. The intervention produced significant self‑reported symptom improvement (PDS, p=0.014), a non‑significant clinician‑rated CAPS reduction at end‑of‑treatment (p=0.066) that improved by 1‑year follow‑up, and three MDMA sessions were more effective than two (p=0.016).",
+      "abstract": "Psychiatrists and psychotherapists in the US (1970s to 1985) and Switzerland (1988–1993) used MDMA legally as a prescription drug, to enhance the effectiveness of psychotherapy. Early reports suggest that it is useful in treating trauma-related disorders. Recently, the first completed pilot study of MDMA-assisted psychotherapy for PTSD yielded encouraging results. Designed to test the safety and efficacy of MDMA-assisted psychotherapy in patients with treatment-resistant PTSD; our randomized, double-blind, active-placebo controlled trial enrolled 12 patients for treatment with either low-dose (25 mg, plus 12.5 mg supplemental dose) or full-dose MDMA (125 mg, plus 62.5 mg supplemental dose). MDMA was administered during three experimental sessions, interspersed with weekly non-drug-based psychotherapy sessions. Outcome measures used were the Clinician-Administered PTSD Scale (CAPS) and the Posttraumatic Diagnostic Scale (PDS). Patients were assessed at baseline, three weeks after the second and third MDMA session (end of treatment), and at the 2-month and 1-year follow-ups. We found that MDMA-assisted psychotherapy can be safely administered in a clinical setting. No drug-related serious adverse events occurred. We did not see statistically significant reductions in CAPS scores ( p = 0.066), although there was clinically and statistically significant self-reported (PDS) improvement ( p = 0.014). CAPS scores improved further at the 1-year follow-up. In addition, three MDMA sessions were more effective than two ( p = 0.016).",
+      "pmid": 23118021,
+      "publication_date": "2012-10-31",
+      "citation_count": 328,
+      "study_characteristics": [
+        "dose-finding",
+        "placebo-controlled",
+        "double-blind",
+        "randomized",
+        "active-placebo"
+      ],
+      "compounds": [
+        "MDMA"
+      ],
+      "topics": [
+        "PTSD",
+        "Safety & Risk Management",
+        "Interpersonal Functioning & Social Connectedness"
+      ],
+      "journal": "Journal of Psychopharmacology",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "abstract0",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "span0",
+                "_type": "span",
+                "marks": [],
+                "text": "Psychiatrists and psychotherapists in the US (1970s to 1985) and Switzerland (1988–1993) used MDMA legally as a prescription drug, to enhance the effectiveness of psychotherapy. Early reports suggest that it is useful in treating trauma-related disorders. Recently, the first completed pilot study of MDMA-assisted psychotherapy for PTSD yielded encouraging results. Designed to test the safety and efficacy of MDMA-assisted psychotherapy in patients with treatment-resistant PTSD; our randomized, double-blind, active-placebo controlled trial enrolled 12 patients for treatment with either low-dose (25 mg, plus 12.5 mg supplemental dose) or full-dose MDMA (125 mg, plus 62.5 mg supplemental dose). MDMA was administered during three experimental sessions, interspersed with weekly non-drug-based psychotherapy sessions. Outcome measures used were the Clinician-Administered PTSD Scale (CAPS) and the Posttraumatic Diagnostic Scale (PDS). Patients were assessed at baseline, three weeks after the second and third MDMA session (end of treatment), and at the 2-month and 1-year follow-ups. We found that MDMA-assisted psychotherapy can be safely administered in a clinical setting. No drug-related serious adverse events occurred. We did not see statistically significant reductions in CAPS scores ( p = 0.066), although there was clinically and statistically significant self-reported (PDS) improvement ( p = 0.014). CAPS scores improved further at the 1-year follow-up. In addition, three MDMA sessions were more effective than two ( p = 0.016)."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Oehen, P.",
+          "Traber, R.",
+          "Widmer, V.",
+          "Schnyder, U."
+        ],
+        "authors": null,
+        "citationCount": 328,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          }
+        ],
+        "doi": "https://doi.org/10.1177/0269881112464827",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Journal of Psychopharmacology",
+          "slug": "journal-of-psychopharmacology"
+        },
+        "paragraphSummary": "In a randomized, double‑blind, active‑placebo controlled pilot trial of 12 patients with treatment‑resistant chronic PTSD, MDMA‑assisted psychotherapy was safely administered with no drug‑related serious adverse events. The intervention produced significant self‑reported symptom improvement (PDS, p=0.014), a non‑significant clinician‑rated CAPS reduction at end‑of‑treatment (p=0.066) that improved by 1‑year follow‑up, and three MDMA sessions were more effective than two (p=0.016).",
+        "pmid": 23118021,
+        "publicationDate": "2012-10-31",
+        "slug": "a-randomized-controlled-pilot-study-of-mdma-34-methylenedioxymethamphetamine-ass",
+        "studyCharacteristics": [
+          "dose-finding",
+          "placebo-controlled",
+          "double-blind",
+          "randomized",
+          "active-placebo"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "A randomized, controlled pilot study of MDMA (±3,4-Methylenedioxymethamphetamine)- assisted psychotherapy for treatment of resistant, chronic Post-Traumatic Stress Disorder (PTSD)",
+        "topics": [
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          },
+          {
+            "slug": "interpersonal-functioning-and-social-connectedness",
+            "title": "Interpersonal Functioning & Social Connectedness"
+          }
+        ]
+      }
+    },
+    "Ot'alora, 2018": {
+      "status": "ok",
+      "doi": "10.1177/0269881118806297",
+      "blossom_slug": "34-methylenedioxymethamphetamine-assisted-psychotherapy-for-treatment-of-chronic",
+      "blossom_url": "https://www.moreblossom.com/papers/34-methylenedioxymethamphetamine-assisted-psychotherapy-for-treatment-of-chronic",
+      "title": "3,4-Methylenedioxymethamphetamine-assisted psychotherapy for treatment of chronic posttraumatic stress dis - order: a randomized phase 2 controlled trial",
+      "paragraph_summary": "In this randomised phase 2 dose‑response trial, two active MDMA doses (100 mg and 125 mg) given with eight‑hour psychotherapy sessions produced larger reductions in clinician‑rated PTSD severity than a low (40 mg) dose. Benefits were sustained at 12‑month follow‑up (76% no longer met PTSD criteria) and the treatment was well tolerated with no drug‑related serious adverse events.",
+      "abstract": "Background\n\nPosttraumatic stress disorder often does not resolve after conventional psychotherapies or pharmacotherapies. Pilot studies have reported that 3,4-methylenedioxymethamphetamine (MDMA) combined with psychotherapy reduces posttraumatic stress disorder symptoms.\n\nAims\n\nThis pilot dose response trial assessed efficacy and safety of MDMA-assisted psychotherapy across multiple therapy teams.\n\nMethods\n\nTwenty-eight people with chronic posttraumatic stress disorder were randomized in a double-blind dose response comparison of two active doses (100 and 125 mg) with a low dose (40 mg) of MDMA administered during eight-hour psychotherapy sessions. Change in the Clinician-Administered PTSD Scale total scores one month after two sessions of MDMA served as the primary outcome. Active dose groups had one additional open-label session; the low dose group crossed over for three open-label active dose sessions. A 12-month follow-up assessment occurred after the final MDMA session.\n\nResults\n\nIn the intent-to-treat set, the active groups had the largest reduction in Clinician-Administered PTSD Scale total scores at the primary endpoint, with mean (standard deviation) changes of −26.3 (29.5) for 125 mg, −24.4 (24.2) for 100 mg, and −11.5 (21.2) for 40 mg, though statistical significance was reached only in the per protocol set ( p=0.03). Posttraumatic stress disorder symptoms remained lower than baseline at 12-month follow-up ( p<0.001) with 76% ( n=25) not meeting posttraumatic stress disorder criteria. There were no drug-related serious adverse events, and the treatment was well-tolerated.\n\nConclusions\n\nOur findings support previous investigations of MDMA-assisted psychotherapy as an innovative, efficacious treatment for posttraumatic stress disorder.",
+      "pmid": 30371148,
+      "publication_date": "2018-10-29",
+      "citation_count": 182,
+      "study_characteristics": [
+        "double-blind",
+        "randomized",
+        "parallel-group",
+        "dose-finding",
+        "follow-up",
+        "placebo-controlled"
+      ],
+      "compounds": [
+        "MDMA"
+      ],
+      "topics": [
+        "PTSD",
+        "Safety & Risk Management"
+      ],
+      "journal": "Journal of Psychopharmacology",
+      "raw": {
+        "abstract": [
+          {
+            "_key": "8oquxfs83",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "51bbpnyiz",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Background"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "mgm02kasm",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "jy3gi0atx",
+                "_type": "span",
+                "marks": [],
+                "text": "Posttraumatic stress disorder often does not resolve after conventional psychotherapies or pharmacotherapies. Pilot studies have reported that 3,4-methylenedioxymethamphetamine (MDMA) combined with psychotherapy reduces posttraumatic stress disorder symptoms."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "suqiq41wc",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "qur3xfpxr",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Aims"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "yw1h3lj0k",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "7etpwywjb",
+                "_type": "span",
+                "marks": [],
+                "text": "This pilot dose response trial assessed efficacy and safety of MDMA-assisted psychotherapy across multiple therapy teams."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "4vet6tzqi",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "99eferbjw",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Methods"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "vfqg8iery",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "0cdof1vif",
+                "_type": "span",
+                "marks": [],
+                "text": "Twenty-eight people with chronic posttraumatic stress disorder were randomized in a double-blind dose response comparison of two active doses (100 and 125 mg) with a low dose (40 mg) of MDMA administered during eight-hour psychotherapy sessions. Change in the Clinician-Administered PTSD Scale total scores one month after two sessions of MDMA served as the primary outcome. Active dose groups had one additional open-label session; the low dose group crossed over for three open-label active dose sessions. A 12-month follow-up assessment occurred after the final MDMA session."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "1ukra2zc6",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "8nwy3jx6u",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Results"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "sojwphufx",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "wvu82rd8b",
+                "_type": "span",
+                "marks": [],
+                "text": "In the intent-to-treat set, the active groups had the largest reduction in Clinician-Administered PTSD Scale total scores at the primary endpoint, with mean (standard deviation) changes of −26.3 (29.5) for 125 mg, −24.4 (24.2) for 100 mg, and −11.5 (21.2) for 40 mg, though statistical significance was reached only in the per protocol set ( p=0.03). Posttraumatic stress disorder symptoms remained lower than baseline at 12-month follow-up ( p<0.001) with 76% ( n=25) not meeting posttraumatic stress disorder criteria. There were no drug-related serious adverse events, and the treatment was well-tolerated."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "kuiisgm0h",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "f1krgf6lw",
+                "_type": "span",
+                "marks": [
+                  "strong"
+                ],
+                "text": "Conclusions"
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          },
+          {
+            "_key": "uqbfrin88",
+            "_type": "block",
+            "children": [
+              {
+                "_key": "xfv4lgxbd",
+                "_type": "span",
+                "marks": [],
+                "text": "Our findings support previous investigations of MDMA-assisted psychotherapy as an innovative, efficacious treatment for posttraumatic stress disorder."
+              }
+            ],
+            "markDefs": [],
+            "style": "normal"
+          }
+        ],
+        "accessType": "open",
+        "authorNames": [
+          "Ot'alora G, M.",
+          "Grigsby, J.",
+          "Poulter, B.",
+          "Van Derveer, J. W.",
+          "Giron, S. G.",
+          "Jerome, L.",
+          "Feduccia, A. A.",
+          "Hamilton, S.",
+          "Yazar-Klosinski, B.",
+          "Emerson, A.",
+          "Mithoefer, M. C.",
+          "Doblin, R."
+        ],
+        "authors": [
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKbI",
+            "name": "Rick Doblin",
+            "slug": "rick-doblin"
+          },
+          {
+            "_id": "6XsPwpOTKVBr6XShQDUKlE",
+            "name": "Berra Yazar-Klosinski",
+            "slug": "berra-yazar-klosinski"
+          },
+          {
+            "_id": "2dd68afa-860b-4e7a-9c5d-841796555430",
+            "name": "Michael Mithoefer",
+            "slug": "michael-mithoefer"
+          },
+          {
+            "_id": "BN0a6oFMACiVd4bDKZuYt6",
+            "name": "Lisa Jerome",
+            "slug": "lisa-jerome"
+          },
+          {
+            "_id": "4sAl3Cu14In3HRPINK5hig",
+            "name": "Amy Emerson",
+            "slug": "amy-emerson"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PWv9mc",
+            "name": "Anna Feduccia",
+            "slug": "anna-feduccia"
+          },
+          {
+            "_id": "j1n4NOKRjdCVmdF3PXlhEk",
+            "name": "Samuel Hamilton",
+            "slug": "samuel-hamilton"
+          }
+        ],
+        "citationCount": 182,
+        "compounds": [
+          {
+            "slug": "mdma",
+            "title": "MDMA"
+          }
+        ],
+        "doi": "https://doi.org/10.1177/0269881118806297",
+        "isTrialPaper": "clinical-trial",
+        "journal": {
+          "name": "Journal of Psychopharmacology",
+          "slug": "journal-of-psychopharmacology"
+        },
+        "paragraphSummary": "In this randomised phase 2 dose‑response trial, two active MDMA doses (100 mg and 125 mg) given with eight‑hour psychotherapy sessions produced larger reductions in clinician‑rated PTSD severity than a low (40 mg) dose. Benefits were sustained at 12‑month follow‑up (76% no longer met PTSD criteria) and the treatment was well tolerated with no drug‑related serious adverse events.",
+        "pmid": 30371148,
+        "publicationDate": "2018-10-29",
+        "slug": "34-methylenedioxymethamphetamine-assisted-psychotherapy-for-treatment-of-chronic",
+        "studyCharacteristics": [
+          "double-blind",
+          "randomized",
+          "parallel-group",
+          "dose-finding",
+          "follow-up",
+          "placebo-controlled"
+        ],
+        "studySubjects": [
+          "humans"
+        ],
+        "studyType": "individual",
+        "title": "3,4-Methylenedioxymethamphetamine-assisted psychotherapy for treatment of chronic posttraumatic stress dis - order: a randomized phase 2 controlled trial",
+        "topics": [
+          {
+            "slug": "ptsd",
+            "title": "PTSD"
+          },
+          {
+            "slug": "safety-and-risk-management",
+            "title": "Safety & Risk Management"
+          }
+        ]
+      }
+    }
+  }
+}
