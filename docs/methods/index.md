@@ -62,19 +62,26 @@ main_results <- runMetaAnalysis(data_main,
 - `es.measure = "g"` — **Hedges' *g***, a standardized mean difference with
   a small-sample bias correction. Standard choice when studies use different
   rating scales. See
-  [Doing Meta-Analysis ch. 3 (Effect Sizes)](https://doing-meta.guide).
+  [Doing Meta-Analysis ch. 3.4.1 (Effect Sizes - Small Sample Bias)](https://doing-meta.guide/effects).
 - `method.tau = "REML"` — restricted maximum likelihood for the
-  between-study variance τ². REML is the default recommendation for continuous
-  outcomes; it is approximately unbiased and well-behaved with few studies.
-  See [Doing Meta-Analysis ch. 4 (Pooling)](https://doing-meta.guide).
+  between-study variance τ². REML is the default estimator for between-study variance in metaPsyTools;
+  it gives less biased and more reliable estimates of τ² in a wide range of conditions, and
+  is performs well with a small amount of studies, especially when combined with the Knapp-Hartung Sidik-Jonkman adjustment
+  for inference described below.
+  See [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis)
+  See [Doing Meta-Analysis ch. 4.1.2.1 (Pooling Effect Sizes - Estimators of the Between-Study Heterogeneity)](https://doing-meta.guide/pooling-es).
+  See ["A comparison of heterogeneity variance estimators in simulated random-effects meta-analyses"](https://doi.org/10.1002/jrsm.1316).
+  See ["Methods to estimate the between-study variance and its uncertainty in meta-analysis"](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci = "Q-Profile"` — Q-profile method for the confidence
-  interval around τ²/I². More accurate than the default Jackson method when
-  heterogeneity is moderate.
+  interval around τ²/I². Generally more accurate when number of studies is small and heterogeneity is moderate to large.
+  This is the default and recommended method in metapsyTools.
+  See [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis).
+  See ["Confidence intervals for the amount of heterogeneity in meta-analysis](https://doi.org/10.1002/sim.2514).
 - `hakn = TRUE` — Knapp–Hartung–Sidik–Jonkman adjustment to the
   standard error of the pooled effect. Produces wider, more conservative
-  confidence intervals that are better calibrated when *k* is small. We use it
-  by default. See
-  [Doing Meta-Analysis ch. 4.2.2](https://doing-meta.guide).
+  confidence intervals that are better calibrated when *k* is small; most robust to changes
+  in the heterogeneity variance estimate.
+  See [Doing Meta-Analysis ch. 4.1.2.2 (Pooling Effect Sizes - Knapp-Hartung Adjustments)](https://doing-meta.guide/pooling-es).
 - `study.var`, `arm.var.1`, `arm.var.2`, `measure.var`, `w1.var`, `w2.var`,
   `time.var` — column names that point `runMetaAnalysis()` at study labels,
   the two arms being contrasted, the outcome instrument, the per-arm sample
@@ -83,16 +90,14 @@ main_results <- runMetaAnalysis(data_main,
 - `round.digits = 2` — display rounding only.
 
 > **Why these defaults?** Hedges' *g* + REML + Knapp–Hartung is the
-> recommended combination in the [`metapsyTools` documentation](https://tools.metapsy.org/articles/metapsytools.html)
-> and matches Cochrane practice for continuous outcomes pooled across
-> instruments.
+> recommended combination in the [`metapsyTools` documentation](https://tools.metapsy.org/articles/metapsytools.html).
 
 ---
 
 ## 2. Dichotomous outcomes (response/remission)
 
-Used for binary clinical outcomes such as **response** (≥50% symptom reduction)
-or **remission** (score below a clinical threshold).
+Used for binary clinical outcomes such as **response** (defined per study as a threshold (i.e.,≥50%) in symptom reduction)
+or **remission** (score below a clinical threshold to meet diagnostic criteria).
 
 ```r
 response_results <- runMetaAnalysis(data_response,
@@ -118,14 +123,16 @@ response_results <- runMetaAnalysis(data_response,
 **What changes vs. the continuous model:**
 
 - `es.measure = "RR"` — **risk ratio** (intervention events ÷ control events).
-  RR is generally preferred over odds ratios in clinical meta-analyses because
-  it is more interpretable and behaves better when the outcome is common.
-  See [Doing Meta-Analysis ch. 3.4 (Binary outcomes)](https://doing-meta.guide).
+  RR is more easily interpretable than odds ratios, and odds ratios are sometimes mistakenly interpreted as RRs, so RRs are
+  generally preferable in clinical meta-analyses.
+  See [Doing Meta-Analysis ch. 3.3.2.1 (Effect Sizes - Risk Ratio)](https://doing-meta.guide/effects).
 - `es.type = "raw"` — tells `metapsyTools` the input columns are raw event
   counts (`event_arm1`, `totaln_arm1`, …) rather than precomputed effect sizes.
 - `method.tau = "PM"` — **Paule–Mandel** estimator for τ². Recommended for
-  binary outcomes (Veroniki et al. 2016) where REML can be biased; this is the
-  estimator used by Cochrane RevMan for risk ratios.
+  binary outcomes (Veroniki et al. 2016) where REML can be biased.
+  See [Doing Meta-Analysis ch. 4.1.2.1 (Pooling Effect Sizes - Estimators of the Between-Study Heterogeneity)](https://doing-meta.guide/pooling-es).
+  See ["A comparison of heterogeneity variance estimators in simulated random-effects meta-analyses"](https://doi.org/10.1002/jrsm.1316).
+  See ["Methods to estimate the between-study variance and its uncertainty in meta-analysis"](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci`, `hakn` — same rationale as the continuous model.
 - The variable mapping is identical to the continuous case; `runMetaAnalysis()`
   picks up the event/total columns automatically based on `es.type = "raw"`.
@@ -173,7 +180,7 @@ time_results <- runMetaAnalysis(data_time,
   `{metafor}`'s `rma.mv()` with cluster-robust ("RVE") inference. Effect sizes
   are nested within studies, with two heterogeneity components: within-study
   (level 2) and between-study (level 3). See
-  [Doing Meta-Analysis ch. 10 (Multilevel/three-level)](https://doing-meta.guide).
+  [Doing Meta-Analysis ch. 10 ("Multilevel" Meta-Analysis)](https://doing-meta.guide/multilevel-ma).
 - `time.var = "time_days"` — the variable that distinguishes effect sizes
   *within* the same study. Each timepoint becomes a separate row in the
   long-format input.
@@ -220,8 +227,8 @@ reg
 argument that preserves the parent model's τ² estimator, RVE settings, and
 Knapp–Hartung adjustment, so the moderator test inherits the same inference
 machinery as the parent model. See
-[Doing Meta-Analysis ch. 8 (Meta-Regression)](https://doing-meta.guide) and
-the [`metafor` meta-regression docs](https://www.metafor-project.org/doku.php/analyses:viechtbauer2010c).
+[Doing Meta-Analysis ch. 8 (Meta-Regression)](https://doing-meta.guide/metareg) and
+the [`metafor` meta-regression docs](https://cran.r-project.org/web/packages/metafor/metafor.pdf).
 
 **Tips:**
 
@@ -242,6 +249,6 @@ the [`metafor` meta-regression docs](https://www.metafor-project.org/doku.php/an
 - [*Doing Meta-Analysis with R*](https://doing-meta.guide) — the textbook the SYPRES models are built around.
 - [Metapsy data format](https://docs.metapsy.org/data-preparation/format/) — what `study.var`, `arm.var.*`, etc. expect to find in your input data.
 - [`metafor` project site](https://www.metafor-project.org/) — for the underlying estimators (`rma`, `rma.mv`) and diagnostic tools.
-- Worked examples in this repo:
+- Worked examples in this repo corresponding to our meta-analytic studies:
   [Psilocybin for Depression Rmd](https://github.com/PennLINC/sypres-docs/blob/main/analysis/psilodep/psilodep-meta-analysis.Rmd)
   · [MDMA for PTSD Rmd](https://github.com/PennLINC/sypres-docs/blob/main/analysis/mdmaptsd/mdmaptsd-meta-analysis.Rmd).
