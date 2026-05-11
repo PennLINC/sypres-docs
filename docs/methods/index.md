@@ -127,7 +127,7 @@ response_results <- runMetaAnalysis(data_response,
   counts (`event_arm1`, `totaln_arm1`, …) rather than precomputed effect sizes.
 - `method.tau = "PM"` — **Paule–Mandel** estimator for τ². Recommended for
   binary outcomes (Veroniki et al. 2016) where REML can be biased.
-  For more information, see [here](https://doing-meta.guide/pooling-es), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164).
+  For more information, see [here](https://doing-meta.guide/pooling-es), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci`, `hakn` — same rationale as the continuous model.
 - The variable mapping is identical to the continuous case; `runMetaAnalysis()`
   picks up the event/total columns automatically based on `es.type = "raw"`.
