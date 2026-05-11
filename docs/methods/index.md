@@ -68,15 +68,11 @@ main_results <- runMetaAnalysis(data_main,
   it gives less biased and more reliable estimates of τ² in a wide range of conditions, and
   is performs well with a small amount of studies, especially when combined with the Knapp-Hartung Sidik-Jonkman adjustment
   for inference described below.
-  See [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis)
-  See [Doing Meta-Analysis ch. 4.1.2.1 (Pooling Effect Sizes - Estimators of the Between-Study Heterogeneity)](https://doing-meta.guide/pooling-es).
-  See ["A comparison of heterogeneity variance estimators in simulated random-effects meta-analyses"](https://doi.org/10.1002/jrsm.1316).
-  See ["Methods to estimate the between-study variance and its uncertainty in meta-analysis"](https://doi.org/10.1002/jrsm.1164).
+  For more information, see [here](https://doing-meta.guide/pooling-es), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci = "Q-Profile"` — Q-profile method for the confidence
-  interval around τ²/I². Generally more accurate when number of studies is small and heterogeneity is moderate to large.
-  This is the default and recommended method in metapsyTools.
-  See [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis).
-  See ["Confidence intervals for the amount of heterogeneity in meta-analysis](https://doi.org/10.1002/sim.2514).
+  interval around τ²/I². This method also holds up well when there are only few trials in a meta-analysis and when heterogeneity is moderate to large, since it does not rely on large-sample normal approximations.
+  This is the default and recommended method in [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis).
+  See also ["Confidence intervals for the amount of heterogeneity in meta-analysis"](https://doi.org/10.1002/sim.2514).
 - `hakn = TRUE` — Knapp–Hartung–Sidik–Jonkman adjustment to the
   standard error of the pooled effect. Produces wider, more conservative
   confidence intervals that are better calibrated when *k* is small; most robust to changes
@@ -89,8 +85,9 @@ main_results <- runMetaAnalysis(data_main,
   [Metapsy data standard](https://docs.metapsy.org/data-preparation/format/).
 - `round.digits = 2` — display rounding only.
 
-> **Why these defaults?** Hedges' *g* + REML + Knapp–Hartung is the
-> recommended combination in the [`metapsyTools` documentation](https://tools.metapsy.org/articles/metapsytools.html).
+> **Why these defaults?** In addition to the justifications provided above,
+> Hedges' *g* + REML + Knapp–Hartung is the
+> recommended combination in the [`metapsyTools` documentation](https://tools.metapsy.org/articles/metapsytools.html), and is also reflected in the current peer-reviewed literature, e.g. [here](https://onlinelibrary.wiley.com/doi/full/10.1002/jrsm.1356), [here](https://onlinelibrary.wiley.com/doi/full/10.1002/sim.7411), and [here](https://link.springer.com/article/10.1186/1471-2288-14-25?report=reader).
 
 ---
 
@@ -130,16 +127,10 @@ response_results <- runMetaAnalysis(data_response,
   counts (`event_arm1`, `totaln_arm1`, …) rather than precomputed effect sizes.
 - `method.tau = "PM"` — **Paule–Mandel** estimator for τ². Recommended for
   binary outcomes (Veroniki et al. 2016) where REML can be biased.
-  See [Doing Meta-Analysis ch. 4.1.2.1 (Pooling Effect Sizes - Estimators of the Between-Study Heterogeneity)](https://doing-meta.guide/pooling-es).
-  See ["A comparison of heterogeneity variance estimators in simulated random-effects meta-analyses"](https://doi.org/10.1002/jrsm.1316).
-  See ["Methods to estimate the between-study variance and its uncertainty in meta-analysis"](https://doi.org/10.1002/jrsm.1164).
+  For more information, see [here](https://doing-meta.guide/pooling-es), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci`, `hakn` — same rationale as the continuous model.
 - The variable mapping is identical to the continuous case; `runMetaAnalysis()`
   picks up the event/total columns automatically based on `es.type = "raw"`.
-
-> **Why no `es.measure = "OR"`?** RR is what we report in the paper for
-> clinical interpretability. Switching to OR would only require changing this
-> single argument.
 
 ---
 
