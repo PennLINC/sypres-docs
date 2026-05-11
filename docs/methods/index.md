@@ -73,7 +73,7 @@ main_results <- runMetaAnalysis(data_main,
   See ["A comparison of heterogeneity variance estimators in simulated random-effects meta-analyses"](https://doi.org/10.1002/jrsm.1316).
   See ["Methods to estimate the between-study variance and its uncertainty in meta-analysis"](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci = "Q-Profile"` — Q-profile method for the confidence
-  interval around τ²/I². Generally more accurate when number of studies is small and heterogeneity is moderate to large.
+  interval around τ²/I². This method also holds up well when there are only few trials in a meta-analysis and when heterogeneity is moderate to large, since it does not rely on large-sample normal approximations.
   This is the default and recommended method in metapsyTools.
   See [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis).
   See ["Confidence intervals for the amount of heterogeneity in meta-analysis](https://doi.org/10.1002/sim.2514).
@@ -82,6 +82,9 @@ main_results <- runMetaAnalysis(data_main,
   confidence intervals that are better calibrated when *k* is small; most robust to changes
   in the heterogeneity variance estimate.
   See [Doing Meta-Analysis ch. 4.1.2.2 (Pooling Effect Sizes - Knapp-Hartung Adjustments)](https://doing-meta.guide/pooling-es).
+  See ["A new justification of the Hartung-Knapp method for random-effects meta-analysis..."](https://onlinelibrary.wiley.com/doi/full/10.1002/jrsm.1356).
+  See ["The Hartung-Knapp modification for random-effects meta-analysis..."](https://onlinelibrary.wiley.com/doi/full/10.1002/sim.7411).
+  See ["The Hartung-Knapp-Sidik-Jonkman method for random effects meta-analysis is straightforward and considerably outperforms the standard DerSimonian-Laird method"](https://link.springer.com/article/10.1186/1471-2288-14-25?report=reader).
 - `study.var`, `arm.var.1`, `arm.var.2`, `measure.var`, `w1.var`, `w2.var`,
   `time.var` — column names that point `runMetaAnalysis()` at study labels,
   the two arms being contrasted, the outcome instrument, the per-arm sample
@@ -89,7 +92,8 @@ main_results <- runMetaAnalysis(data_main,
   [Metapsy data standard](https://docs.metapsy.org/data-preparation/format/).
 - `round.digits = 2` — display rounding only.
 
-> **Why these defaults?** Hedges' *g* + REML + Knapp–Hartung is the
+> **Why these defaults?** In addition to the justifications provided above, 
+> Hedges' *g* + REML + Knapp–Hartung is the
 > recommended combination in the [`metapsyTools` documentation](https://tools.metapsy.org/articles/metapsytools.html).
 
 ---
@@ -136,10 +140,6 @@ response_results <- runMetaAnalysis(data_response,
 - `method.tau.ci`, `hakn` — same rationale as the continuous model.
 - The variable mapping is identical to the continuous case; `runMetaAnalysis()`
   picks up the event/total columns automatically based on `es.type = "raw"`.
-
-> **Why no `es.measure = "OR"`?** RR is what we report in the paper for
-> clinical interpretability. Switching to OR would only require changing this
-> single argument.
 
 ---
 
