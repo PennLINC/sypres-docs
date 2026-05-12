@@ -15,7 +15,7 @@ author_profile: false
 <p style="text-align:center;">
      <p style="display:flex;">
           <b>
-               An initiative for living-evidence synthesis in clinical psychedelic research.
+               An initiative for living-evidence synthesis in clinical psychedelic research
           </b>
      </p>
      <p>
