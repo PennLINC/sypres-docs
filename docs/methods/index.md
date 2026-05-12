@@ -66,11 +66,11 @@ main_results <- runMetaAnalysis(data_main,
 - `method.tau = "REML"` — restricted maximum likelihood for the
   between-study variance τ². REML is the default estimator for between-study variance in metaPsyTools;
   it gives less biased and more reliable estimates of τ² in a wide range of conditions, and
-  is performs well with a small amount of studies, especially when combined with the Knapp-Hartung Sidik-Jonkman adjustment
+  it performs well with a small amount of studies, especially when combined with the Knapp-Hartung Sidik-Jonkman adjustment
   for inference described below.
   For more information, see [here](https://doing-meta.guide/pooling-es), [here](https://doi.org/10.1002/jrsm.1316), and [here](https://doi.org/10.1002/jrsm.1164).
 - `method.tau.ci = "Q-Profile"` — Q-profile method for the confidence
-  interval around τ²/I². This method also holds up well when there are only few trials in a meta-analysis and when heterogeneity is moderate to large, since it does not rely on large-sample normal approximations.
+  interval around τ²/I². This method also holds up well when there are only a few trials in a meta-analysis and when heterogeneity is moderate to large, since it does not rely on large-sample normal approximations.
   This is the default and recommended method in [metapsyTools](https://tools.metapsy.org/reference/runmetaanalysis).
   See also ["Confidence intervals for the amount of heterogeneity in meta-analysis"](https://doi.org/10.1002/sim.2514).
 - `hakn = TRUE` — Knapp–Hartung–Sidik–Jonkman adjustment to the
@@ -94,7 +94,7 @@ main_results <- runMetaAnalysis(data_main,
 ## 2. Dichotomous outcomes (response/remission)
 
 Used for binary clinical outcomes such as **response** (defined per study as a threshold (i.e.,≥50%) in symptom reduction)
-or **remission** (score below a clinical threshold to meet diagnostic criteria).
+or **remission** (score below a threshold that is considered to indicate the probable presence of the disorder).
 
 ```r
 response_results <- runMetaAnalysis(data_response,
@@ -136,8 +136,9 @@ response_results <- runMetaAnalysis(data_response,
 
 ## 3. Three-level (CHE) models
 
-Used when a study contributes **multiple effect sizes** — typically several
-post-treatment timepoints from the same trial. A standard random-effects
+Used when a study contributes **multiple effect sizes** — such as several
+post-treatment timepoints from the same trial, multiple treatment groups compared to the same control group, or 
+several endpoints of similar outcomes, such as multiple depression scales. A standard random-effects
 model assumes effect sizes are independent; ignoring within-study dependence
 underestimates standard errors. The **correlated and hierarchical effects
 (CHE)** model of Pustejovsky & Tipton (2021) handles both sources of
