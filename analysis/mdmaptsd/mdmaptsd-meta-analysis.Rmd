@@ -723,6 +723,8 @@ These analyses include:
 
 - In the multi-arm studies (Mithoefer 2018 and Ot'alora 2018) replace high-dose intervention with medium-dose intervention
 
+- Main model, excluding Mithoefer 2011 that had some concerns in risk of bias assessment
+
 - Fixed-effects models for primary continuous outcomes and response and remission rates
 
 - A Bayesian analysis of our primary results
@@ -744,6 +746,12 @@ data_medium_dose <- data %>%
     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
     !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2)))
   )
+
+# Build a dataframe for the second sensitivity analysis
+data_robconcerns <- data_main %>%
+  filterPoolingData(
+    !Detect(study, "Mithoefer 2011")
+  )
 ```
 
 Now we can use `metapsyTools` replacement functions for quickly looking running some sensitivity analyses.
@@ -755,39 +763,32 @@ data(medium) <- data_medium_dose # replace the dataframe in the new model
 medium <- rerun(medium) # re-run the model
 medium
 
+robconcerns <- main_results
+data(robconcerns) <- data_robconcerns
+robconcerns <- rerun(robconcerns)
+robconcerns
+
 # Create simple forest plot of results
 plot(
   medium,
   which = "overall"
 )
 
-fixed_continuous <- main_results
-method.tau(fixed_continuous) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
-hakn(fixed_continuous) <- FALSE
-fixed_continuous <- rerun(fixed_continuous)
-fixed_continuous
-
-fixed_response <- response_results
-method.tau(fixed_response) <- "FE"
-hakn(fixed_response) <- FALSE
-fixed_response <- rerun(fixed_response)
-fixed_response
-
-fixed_remission <- remission_results
-method.tau(fixed_remission) <- "FE"
-hakn(fixed_remission) <- FALSE
-fixed_remission <- rerun(fixed_remission)
-fixed_remission
+plot(
+  robconcerns,
+  which = "overall"
+)
 ```
 
 Our medium dose comparison yielded similar results to the high dose comparison.
 Our fixed effects models yielded results that were in line with the random effects models.
+Our model excluding Mithoefer 2011 yielded...
 
 ```{r main medium dose forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/medium_dose_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/robconcerns_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
-meta::forest(medium$model.overall,
-  sortvar = medium$model.overall$data$year,
+meta::forest(robconcerns$model.overall,
+  sortvar = robconcerns$model.overall$data$year,
   leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
   leftlabs = c("Study", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose", "N", "Mean", "SD"),
   fontsize = 9,
@@ -804,6 +805,7 @@ meta::forest(medium$model.overall,
 
 dev.off()
 ```
+
 
 #### Bayesian implementation
 
