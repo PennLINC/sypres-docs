@@ -731,7 +731,7 @@ These analyses include:
 
 - Within-study correlation coefficient sweep for three-level CHE model
 
-#### Medium dose comparison and fixed effects analyses
+#### Medium dose comparison, excluding Mithoefer 2011, and fixed effects analyses
 
 ```{r subgroup-and-sensitivity-data-filtering}
 # Build a dataframe for the first sensitivity analysis
@@ -782,9 +782,31 @@ plot(
 
 Our medium dose comparison yielded similar results to the high dose comparison.
 Our fixed effects models yielded results that were in line with the random effects models.
-Our model excluding Mithoefer 2011 yielded...
+Our model excluding Mithoefer 2011 yielded similar results to the main model.
 
 ```{r main medium dose forest plot for indesign, include=FALSE}
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/mediumdose_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
+
+meta::forest(medium$model.overall,
+  sortvar = medium$model.overall$data$year,
+  leftcols = c("studlab", "condition_arm1", "dose_arm1", "n_arm1", "mean_arm1", "sd_arm1", "condition_arm2", "dose_arm2", "n_arm2", "mean_arm2", "sd_arm2"),
+  leftlabs = c("Study", "Drug", "Dose", "N", "Mean", "SD", "Drug", "Dose", "N", "Mean", "SD"),
+  fontsize = 9,
+  col.square = "#000080",
+  col.diamond = "#000080",
+  col.predict = "gray",
+  fontfamily = "Arial",
+  colgap.forest = "2cm",
+  xlim = c(-4.5, 2),
+  label.left = "Favors intervention",
+  label.right = "Favors control",
+  smlab = "SMD"
+)
+
+dev.off()
+```
+
+```{r main excluding some concerns RoB forest plot for indesign, include=FALSE}
 png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/robconcerns_mdmaptsd.png"), res = 315, width = 4500, height = 1500)
 
 meta::forest(robconcerns$model.overall,
@@ -959,6 +981,9 @@ print(paste("remission n =", total_data_remission))
 
 total_data_dep <- total_n(data_depression)
 print(paste("dep n =", total_data_dep))
+
+total_data_robconcerns <-total_n(data_robconcerns)
+print(paste("robconcerns n =", total_data_robconcerns))
 ```
 
 ### Summary and Conclusions
