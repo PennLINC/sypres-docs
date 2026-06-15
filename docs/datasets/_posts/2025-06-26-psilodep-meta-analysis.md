@@ -99,8 +99,11 @@ quality checks to ensure data integrity and identify potential issues.
 
 ``` r
 # Load data using metapsyData
-d <- getData("depression-psiloctr")
-data <- d$data
+# d <- getData("depression-psiloctr")
+# data <- d$data
+
+# load data locally for testing
+data <- read_csv2("~/Documents/GIT/data-depression-psiloctr/data.csv")
 
 
 # Check data format with checkDataFormat
@@ -348,21 +351,21 @@ time_results$model.threelevel.che
 ```
 
     ## 
-    ## Multivariate Meta-Analysis Model (k = 37; method: REML)
+    ## Multivariate Meta-Analysis Model (k = 39; method: REML)
     ## 
     ## Variance Components:
     ## 
     ##             estim    sqrt  nlvls  fixed       factor 
-    ## sigma^2.1  0.0822  0.2866     12     no        study 
-    ## sigma^2.2  0.0450  0.2121     37     no  study/es.id 
+    ## sigma^2.1  0.1015  0.3186     12     no        study 
+    ## sigma^2.2  0.0425  0.2060     39     no  study/es.id 
     ## 
     ## Test for Heterogeneity:
-    ## Q(df = 36) = 94.2903, p-val < .0001
+    ## Q(df = 38) = 96.8249, p-val < .0001
     ## 
     ## Model Results:
     ## 
     ## estimate      se     tval  df    pval    ci.lb    ci.ub      
-    ##  -0.8221  0.1254  -6.5542  36  <.0001  -1.0765  -0.5677  *** 
+    ##  -0.8166  0.1315  -6.2088  38  <.0001  -1.0829  -0.5504  *** 
     ## 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -458,37 +461,37 @@ We perform meta-regression to examine the relationship between time
 since final dose and treatment effect.
 
 ``` r
-reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
+reg <- metaRegression(time_results$model.threelevel.che, ~dose_days)
 reg
 ```
 
     ## 
-    ## Multivariate Meta-Analysis Model (k = 37; method: REML)
+    ## Multivariate Meta-Analysis Model (k = 38; method: REML)
     ## 
     ## Variance Components:
     ## 
     ##             estim    sqrt  nlvls  fixed       factor 
-    ## sigma^2.1  0.0767  0.2770     12     no        study 
-    ## sigma^2.2  0.0451  0.2123     37     no  study/es.id 
+    ## sigma^2.1  0.1009  0.3176     12     no        study 
+    ## sigma^2.2  0.0439  0.2095     38     no  study/es.id 
     ## 
     ## Test for Residual Heterogeneity:
-    ## QE(df = 35) = 90.3819, p-val < .0001
+    ## QE(df = 36) = 92.9118, p-val < .0001
     ## 
     ## Test of Moderators (coefficient 2):
-    ## F(df1 = 1, df2 = 35) = 1.9272, p-val = 0.1738
+    ## F(df1 = 1, df2 = 36) = 1.7179, p-val = 0.1983
     ## 
     ## Model Results:
     ## 
     ##            estimate      se     tval  df    pval    ci.lb    ci.ub      
-    ## intrcpt     -0.8796  0.1307  -6.7275  35  <.0001  -1.1450  -0.6142  *** 
-    ## time_days    0.0019  0.0013   1.3882  35  0.1738  -0.0009   0.0046      
+    ## intrcpt     -0.8742  0.1382  -6.3257  36  <.0001  -1.1544  -0.5939  *** 
+    ## dose_days    0.0017  0.0013   1.3107  36  0.1983  -0.0010   0.0045      
     ## 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ``` r
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
+regplot(reg, mod = "dose_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
@@ -805,7 +808,7 @@ bayes
     ## tau prior (proper):
     ## function (t) 
     ## dhalfnormal(t, scale = 0.5)
-    ## <bytecode: 0xbcefc3770>
+    ## <bytecode: 0x9780c82e0>
     ## 
     ## mu prior (proper):
     ## normal(mean=0, sd=1)
@@ -979,7 +982,7 @@ rerun(remission_results)
 
     ## Model results ------------------------------------------------ 
     ## Model       k    rr rr.ci        p         i2 i2.ci      prediction.ci   nnt
-    ## .05 [2.67; 6.15] <0.001     0 [0; 74.62] [2.33; 6.99]   2.98
+    ## 4.2 [2.74; 6.45] <0.001     0 [0; 74.62] [2.39; 7.36]   2.98
 
 Our fixed effects models yielded results that were in line with the main
 model, showing statistically significant higher response and remission
