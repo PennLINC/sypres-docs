@@ -1,0 +1,567 @@
+---
+title: "Psychedelic RCT Database"
+excerpt: "A searchable, filterable database of randomized controlled trials administering a psychedelic drug."
+layout: single
+classes: wide
+permalink: /docs/datasets/master-db/
+---
+
+<p style="font-size:1.05em;">
+  An open, searchable database of <strong>randomized controlled trials (RCTs) that administered a psychedelic
+  drug</strong> &mdash; across drugs, conditions, and healthy-volunteer studies. Search and filter the records,
+  inspect the extracted metadata, and export your filtered selection as <strong>CSV</strong> or <strong>RIS</strong>
+  to seed your own systematic review.
+</p>
+
+<div style="background-color:#fff8e6;border-left:4px solid #f0ad4e;padding:12px 15px;margin:18px 0;border-radius:4px;">
+  <strong>🚧 Pilot.</strong> This is an early preview. Every included study appears below, but full data extraction
+  has only been completed for a subset (look for the <em>Extracted</em> badge). For records still pending extraction,
+  the <em>Drug</em> and <em>Condition</em> facets are auto-derived from the title/abstract and may be imprecise.
+  See <a href="#mdb-about">About this database</a> for methods and the data dictionary.
+</div>
+
+<!-- PRISMA study-flow (rendered server-side from _data/master_db.json → prisma) -->
+{% assign p = site.data.master_db.prisma %}
+<style>
+  .prisma-details { border: 1px solid #e3e8ee; border-radius: 12px; margin: 18px 0; background: #fff; }
+  .prisma-details > summary {
+    cursor: pointer; padding: 12px 16px; font-weight: 600; color: #1f5fb0; list-style: none;
+  }
+  .prisma-details > summary::-webkit-details-marker { display: none; }
+  .prisma-details > summary::before { content: "▸ "; color: #6b7785; }
+  .prisma-details[open] > summary::before { content: "▾ "; }
+  .prisma-details > summary small { color: #8a96a3; font-weight: 400; }
+  .prisma { padding: 4px 18px 6px; max-width: 640px; margin: 0 auto; }
+  .prisma-box {
+    border: 1px solid #cfdcf0; background: #f6f9fe; border-radius: 8px; padding: 9px 13px;
+    text-align: center; font-size: .86rem; color: #2f3a47;
+  }
+  .prisma-box b { color: #1f5fb0; font-size: 1.05rem; }
+  .prisma-box small { display: block; color: #8a96a3; font-size: .74rem; }
+  .prisma-top { background: #eef4ff; }
+  .prisma-final { background: #e6f5ec; border-color: #bfe3cd; }
+  .prisma-final b { color: #1f8f4e; }
+  .prisma-arrow { text-align: center; color: #9aa6b3; font-size: 1.1rem; line-height: 1.2; }
+  .prisma-row { display: flex; gap: 10px; align-items: stretch; }
+  .prisma-row .prisma-box { flex: 1; }
+  .prisma-aside {
+    flex: 1; border: 1px dashed #d8dee7; border-radius: 8px; padding: 8px 12px;
+    font-size: .8rem; color: #6b7785; background: #fbfcfe;
+  }
+  .prisma-aside b { color: #4a5868; }
+  .prisma-excl ul { margin: 4px 0 6px; padding-left: 18px; }
+  .prisma-excl li { margin: 1px 0; }
+  .prisma-pending { border-top: 1px solid #eef0f4; padding-top: 5px; margin-top: 4px; }
+  .prisma-note { max-width: 640px; margin: 6px auto 14px; color: #8a96a3; font-size: .78rem; padding: 0 18px; }
+  .prisma-warn { max-width: 640px; margin: 0 auto 10px; background: #fff8e6; border: 1px solid #f3e2bd; color: #8a6d3b; border-radius: 8px; padding: 9px 13px; font-size: .8rem; line-height: 1.45; }
+  .prisma-warn code { background: #fbf1d6; padding: 0 4px; border-radius: 3px; }
+</style>
+<details class="prisma-details">
+  <summary>📊 PRISMA study-flow &nbsp;<small>— live, review in progress</small></summary>
+  {% assign pm = p.manual %}
+  <div class="prisma">
+    {% if pm.complete %}
+    <div class="prisma-box"><b>{{ pm.records_identified }}</b> records identified across databases<small>− {{ pm.duplicates_removed }} duplicates removed</small></div>
+    <div class="prisma-arrow">↓</div>
+    <div class="prisma-row">
+      <div class="prisma-box"><b>{{ pm.records_screened }}</b> records screened (title/abstract)</div>
+      <div class="prisma-aside"><b>{{ pm.excluded_title_abstract }}</b> excluded at title/abstract screening</div>
+    </div>
+    <div class="prisma-arrow">↓</div>
+    {% else %}
+    <div class="prisma-warn">⚠ <b>Upstream counts not yet entered.</b> Records identified, duplicates removed, and the studies <b>excluded at title/abstract screening</b> are tracked in Covidence but are <b>not</b> in these stage exports — so this funnel starts mid-stream and does not reflect total records screened. Add them in <code>analysis/master-db/prisma_manual.json</code> and rebuild.</div>
+    {% endif %}
+    <div class="prisma-box prisma-top"><b>{{ p.records_in_review }}</b> records currently in the review<small>{% if pm.complete %}still screening or beyond{% else %}in screening or beyond — excludes title/abstract rejections{% endif %}</small></div>
+    <div class="prisma-arrow">↓</div>
+    <div class="prisma-row">
+      <div class="prisma-box"><b>{{ p.advanced_to_fulltext }}</b> advanced to full-text review</div>
+      <div class="prisma-aside"><b>{{ p.in_screening }}</b> still in title/abstract screening</div>
+    </div>
+    <div class="prisma-arrow">↓</div>
+    <div class="prisma-row">
+      <div class="prisma-box"><b>{{ p.included }}</b> studies included</div>
+      <div class="prisma-aside prisma-excl">
+        <div><b>{{ p.fulltext_excluded }}</b> excluded at full-text:</div>
+        <ul>{% for r in p.fulltext_excluded_reasons %}<li>{{ r[1] }} — {{ r[0] }}</li>{% endfor %}</ul>
+        <div class="prisma-pending"><b>{{ p.fulltext_in_review }}</b> still under full-text review</div>
+      </div>
+    </div>
+    <div class="prisma-arrow">↓</div>
+    <div class="prisma-box prisma-final"><b>{{ p.extracted }}</b> of {{ p.included }} included studies extracted<small>extraction in progress</small></div>
+  </div>
+  <p class="prisma-note">Generated from the Covidence stage exports ({{ site.data.master_db.meta.generated }}). Identification, de-duplication, and title/abstract-screening exclusion counts are supplied via <code>prisma_manual.json</code> (see CLAUDE.md) — until then they are omitted.</p>
+</details>
+
+<!-- Data is injected at build time from _data/master_db.json (generated by analysis/master-db/build_database.py) -->
+<script id="mdb-data" type="application/json">{{ site.data.master_db | jsonify }}</script>
+
+{% raw %}
+<style>
+  :root {
+    --mdb-blue: #2c79de;
+    --mdb-blue-dark: #1f5fb0;
+    --mdb-ink: #2f3a47;
+    --mdb-muted: #6b7785;
+    --mdb-line: #e3e8ee;
+    --mdb-bg-soft: #f6f8fb;
+  }
+  #mdb-app { color: var(--mdb-ink); font-size: 0.92rem; margin-top: 1rem; }
+  #mdb-app *, #mdb-app *::before, #mdb-app *::after { box-sizing: border-box; }
+
+  /* ---- summary stat cards ---- */
+  .mdb-stats { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+  .mdb-stat {
+    flex: 1 1 130px; background: var(--mdb-bg-soft); border: 1px solid var(--mdb-line);
+    border-radius: 10px; padding: 12px 14px;
+  }
+  .mdb-stat b { display: block; font-size: 1.6rem; line-height: 1.1; color: var(--mdb-blue-dark); }
+  .mdb-stat span { font-size: 0.78rem; color: var(--mdb-muted); text-transform: uppercase; letter-spacing: .04em; }
+
+  /* ---- controls ---- */
+  .mdb-controls {
+    background: #fff; border: 1px solid var(--mdb-line); border-radius: 12px;
+    padding: 14px; margin-bottom: 14px;
+  }
+  .mdb-search { position: relative; margin-bottom: 12px; }
+  .mdb-search input {
+    width: 100%; padding: 11px 14px 11px 38px; font-size: 0.95rem;
+    border: 1px solid var(--mdb-line); border-radius: 8px; background: #fff; color: var(--mdb-ink);
+  }
+  .mdb-search input:focus { outline: none; border-color: var(--mdb-blue); box-shadow: 0 0 0 3px rgba(44,121,222,.12); }
+  .mdb-search::before {
+    content: "🔍"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: .9rem; opacity: .6;
+  }
+  .mdb-filters { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: flex-end; }
+  .mdb-field { display: flex; flex-direction: column; gap: 4px; }
+  .mdb-field label { font-size: .72rem; font-weight: 600; color: var(--mdb-muted); text-transform: uppercase; letter-spacing: .03em; }
+  .mdb-field select, .mdb-field input {
+    padding: 7px 9px; border: 1px solid var(--mdb-line); border-radius: 7px; background: #fff;
+    color: var(--mdb-ink); font-size: .86rem; min-width: 130px;
+  }
+  .mdb-field input[type=number] { width: 86px; min-width: 0; }
+  .mdb-year { display: flex; align-items: center; gap: 6px; }
+  .mdb-year span { color: var(--mdb-muted); }
+  .mdb-clear {
+    background: none; border: 1px solid var(--mdb-line); color: var(--mdb-muted);
+    padding: 7px 12px; border-radius: 7px; cursor: pointer; font-size: .82rem;
+  }
+  .mdb-clear:hover { border-color: var(--mdb-blue); color: var(--mdb-blue); }
+
+  /* ---- toolbar ---- */
+  .mdb-toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 10px;
+  }
+  .mdb-count { font-size: .9rem; color: var(--mdb-muted); }
+  .mdb-count b { color: var(--mdb-ink); }
+  .mdb-exports { display: flex; gap: 8px; }
+  .mdb-btn {
+    display: inline-flex; align-items: center; gap: 6px; background: var(--mdb-blue); color: #fff;
+    border: none; padding: 8px 14px; border-radius: 7px; cursor: pointer; font-size: .85rem; font-weight: 600;
+  }
+  .mdb-btn:hover { background: var(--mdb-blue-dark); color: #fff; }
+  .mdb-btn.ghost { background: #fff; color: var(--mdb-blue); border: 1px solid var(--mdb-blue); }
+  .mdb-btn.ghost:hover { background: var(--mdb-bg-soft); }
+
+  /* ---- table ---- */
+  .mdb-tablewrap { overflow-x: auto; border: 1px solid var(--mdb-line); border-radius: 12px; background: #fff; }
+  table.mdb-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 0; }
+  .mdb-table thead th {
+    position: sticky; top: 0; background: var(--mdb-bg-soft); z-index: 1;
+    text-align: left; padding: 11px 12px; font-size: .74rem; text-transform: uppercase; letter-spacing: .03em;
+    color: var(--mdb-muted); border-bottom: 2px solid var(--mdb-line); white-space: nowrap;
+  }
+  .mdb-table th.sortable { cursor: pointer; user-select: none; }
+  .mdb-table th.sortable:hover { color: var(--mdb-blue); }
+  .mdb-table th .arrow { opacity: .4; font-size: .7rem; }
+  .mdb-table th.active .arrow { opacity: 1; color: var(--mdb-blue); }
+  .mdb-table tbody td { padding: 10px 12px; border-bottom: 1px solid var(--mdb-line); vertical-align: top; }
+  .mdb-row { cursor: pointer; }
+  .mdb-row:hover { background: #fafcff; }
+  .mdb-row.open { background: #f0f6ff; }
+  .mdb-study b { color: var(--mdb-ink); }
+  .mdb-study .mdb-title-sm { display: block; color: var(--mdb-muted); font-size: .8rem; margin-top: 2px; max-width: 360px; }
+  .mdb-chev { color: var(--mdb-muted); transition: transform .15s; display: inline-block; }
+  .mdb-row.open .mdb-chev { transform: rotate(90deg); color: var(--mdb-blue); }
+
+  /* ---- badges & chips ---- */
+  .mdb-badge {
+    display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: .76rem; font-weight: 600; white-space: nowrap;
+  }
+  .mdb-drug { background: #eef4ff; color: var(--mdb-blue-dark); }
+  .mdb-drug.MDMA { background: #fdeef0; color: #c0395a; }
+  .mdb-drug.LSD { background: #eef7f0; color: #2f8f57; }
+  .mdb-drug.Psilocybin { background: #f3eefe; color: #6b3fc0; }
+  .mdb-ind { background: #f0f2f5; color: #4a5868; }
+  .mdb-status-ext { background: #e6f5ec; color: #1f8f4e; }
+  .mdb-status-pend { background: #f0f2f5; color: #8a96a3; }
+  .mdb-auto { font-size: .68rem; color: var(--mdb-muted); margin-left: 3px; cursor: help; }
+  .mdb-chip {
+    display: inline-block; background: var(--mdb-bg-soft); border: 1px solid var(--mdb-line);
+    color: var(--mdb-ink); padding: 1px 8px; border-radius: 6px; font-size: .76rem; margin: 1px 3px 1px 0;
+  }
+  .mdb-links a { color: var(--mdb-blue); text-decoration: none; font-size: .82rem; white-space: nowrap; }
+  .mdb-links a:hover { text-decoration: underline; }
+  .mdb-links span { color: var(--mdb-line); }
+
+  /* ---- detail panel ---- */
+  .mdb-detail td { background: #f7faff; padding: 0 !important; }
+  .mdb-detail-inner { padding: 16px 18px; }
+  .mdb-detail h4 { margin: 0 0 4px; font-size: 1.02rem; color: var(--mdb-ink); }
+  .mdb-detail .mdb-meta-line { color: var(--mdb-muted); font-size: .84rem; margin-bottom: 10px; }
+  .mdb-detail .mdb-abstract { font-size: .86rem; line-height: 1.55; margin: 10px 0 14px; max-width: 70ch; }
+  .mdb-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 22px; }
+  .mdb-dl { font-size: .85rem; }
+  .mdb-dl .k { color: var(--mdb-muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .03em; }
+  .mdb-dl .v { color: var(--mdb-ink); }
+  .mdb-pending-note {
+    background: #fff8e6; border: 1px solid #f3e2bd; color: #8a6d3b; padding: 10px 12px;
+    border-radius: 8px; font-size: .84rem; margin-top: 8px;
+  }
+  .mdb-empty { padding: 40px; text-align: center; color: var(--mdb-muted); }
+</style>
+
+<div id="mdb-app">
+  <div class="mdb-stats" id="mdb-stats"></div>
+
+  <div class="mdb-controls">
+    <div class="mdb-search"><input type="text" id="mdb-q" placeholder="Search title, authors, abstract, year…" autocomplete="off"></div>
+    <div class="mdb-filters">
+      <div class="mdb-field"><label for="mdb-drug">Drug</label><select id="mdb-drug"></select></div>
+      <div class="mdb-field"><label for="mdb-ind">Condition</label><select id="mdb-ind"></select></div>
+      <div class="mdb-field"><label for="mdb-outcome">Outcome</label><select id="mdb-outcome"></select></div>
+      <div class="mdb-field"><label for="mdb-micro">Microdosing</label><select id="mdb-micro"></select></div>
+      <div class="mdb-field"><label for="mdb-stat">Extraction</label><select id="mdb-stat"></select></div>
+      <div class="mdb-field"><label>Year range</label>
+        <div class="mdb-year"><input type="number" id="mdb-ymin" placeholder="from"><span>–</span><input type="number" id="mdb-ymax" placeholder="to"></div>
+      </div>
+      <button class="mdb-clear" id="mdb-clear">Clear filters</button>
+    </div>
+  </div>
+
+  <div class="mdb-toolbar">
+    <div class="mdb-count" id="mdb-count"></div>
+    <div class="mdb-exports">
+      <button class="mdb-btn ghost" id="mdb-csv">⬇ CSV</button>
+      <button class="mdb-btn" id="mdb-ris">⬇ RIS</button>
+    </div>
+  </div>
+
+  <div class="mdb-tablewrap">
+    <table class="mdb-table">
+      <thead>
+        <tr>
+          <th style="width:18px;"></th>
+          <th class="sortable" data-sort="study_id">Study <span class="arrow"></span></th>
+          <th class="sortable" data-sort="year">Year <span class="arrow"></span></th>
+          <th class="sortable" data-sort="drug">Drug <span class="arrow"></span></th>
+          <th class="sortable" data-sort="indication">Condition <span class="arrow"></span></th>
+          <th class="sortable" data-sort="n_arms">Arms <span class="arrow"></span></th>
+          <th>Outcome domains</th>
+          <th>Status</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+      <tbody id="mdb-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+(function () {
+  var DB = JSON.parse(document.getElementById("mdb-data").textContent);
+  var STUDIES = DB.studies || [];
+  var META = DB.meta || {};
+
+  var state = { q: "", drug: "", ind: "", outcome: "", micro: "", stat: "", ymin: null, ymax: null, sort: "year", dir: -1, open: {} };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return (s == null ? "" : String(s)).replace(/[&<>"]/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+
+  // ---- populate stat cards ----
+  function renderStats() {
+    var cards = [
+      [META.n_included, "Included studies"],
+      [META.n_extracted, "Fully extracted"],
+      [(META.drugs || []).length, "Drugs"],
+      [(META.year_min || "") + "–" + (META.year_max || ""), "Year span"]
+    ];
+    $("mdb-stats").innerHTML = cards.map(function (c) {
+      return '<div class="mdb-stat"><b>' + esc(c[0]) + "</b><span>" + esc(c[1]) + "</span></div>";
+    }).join("");
+  }
+
+  // ---- populate filter dropdowns ----
+  function fillSelect(el, values, allLabel) {
+    el.innerHTML = '<option value="">' + allLabel + "</option>" +
+      values.map(function (v) { return '<option value="' + esc(v) + '">' + esc(v) + "</option>"; }).join("");
+  }
+  function initFilters() {
+    var drugs = uniq(STUDIES.map(function (s) { return s.drug; })).sort();
+    var inds = uniq(STUDIES.map(function (s) { return s.indication; })).sort();
+    var outcomes = (META.outcomes && META.outcomes.length)
+      ? META.outcomes
+      : uniq([].concat.apply([], STUDIES.map(function (s) { return s.outcomes || []; }))).sort();
+    fillSelect($("mdb-drug"), drugs, "All drugs");
+    fillSelect($("mdb-ind"), inds, "All conditions");
+    fillSelect($("mdb-outcome"), outcomes, "Any outcome");
+    fillSelect($("mdb-micro"), ["yes", "no", "unknown"], "Any");
+    fillSelect($("mdb-stat"), ["extracted", "pending"], "All records");
+    $("mdb-ymin").placeholder = META.year_min || "from";
+    $("mdb-ymax").placeholder = META.year_max || "to";
+  }
+  function uniq(a) { return a.filter(function (v, i) { return v && a.indexOf(v) === i; }); }
+
+  // ---- filtering ----
+  function matches(s) {
+    if (state.drug && s.drug !== state.drug) return false;
+    if (state.ind && s.indication !== state.ind) return false;
+    if (state.outcome && (s.outcomes || []).indexOf(state.outcome) === -1) return false;
+    if (state.micro && s.microdosing !== state.micro) return false;
+    if (state.stat === "extracted" && !s.extracted) return false;
+    if (state.stat === "pending" && s.extracted) return false;
+    if (state.ymin && (s.year || 0) < state.ymin) return false;
+    if (state.ymax && (s.year || 9999) > state.ymax) return false;
+    if (state.q) {
+      var hay = [s.study_id, s.title, s.authors_str, s.abstract, s.journal, s.year, s.drug, s.indication]
+        .join(" ").toLowerCase();
+      if (state.q.toLowerCase().split(/\s+/).some(function (t) { return hay.indexOf(t) === -1; })) return false;
+    }
+    return true;
+  }
+  function filtered() {
+    var rows = STUDIES.filter(matches);
+    var k = state.sort, d = state.dir;
+    rows.sort(function (a, b) {
+      var av = a[k], bv = b[k];
+      if (k === "year" || k === "n_arms") { av = av || 0; bv = bv || 0; return (av - bv) * d; }
+      av = (av || "").toString().toLowerCase(); bv = (bv || "").toString().toLowerCase();
+      return av < bv ? -d : av > bv ? d : 0;
+    });
+    return rows;
+  }
+
+  // ---- render table ----
+  function drugBadge(s) { return '<span class="mdb-badge mdb-drug ' + esc(s.drug) + '">' + esc(s.drug) + "</span>"; }
+  function autoMark(src) {
+    return src === "auto" ? '<span class="mdb-auto" title="Auto-derived from title/abstract — not yet verified by extraction">auto</span>' : "";
+  }
+  function outcomesCell(s) {
+    if (!s.outcomes || !s.outcomes.length) return '<span style="color:#b7c0cb;">—</span>';
+    var shown = s.outcomes.slice(0, 2).map(function (o) {
+      return '<span class="mdb-chip">' + esc(o.replace(/^Other:\s*/i, "")) + "</span>"; }).join("");
+    var more = s.outcomes.length > 2 ? '<span class="mdb-chip">+' + (s.outcomes.length - 2) + "</span>" : "";
+    return shown + more;
+  }
+  function linksCell(s) {
+    var out = [];
+    if (s.url) out.push('<a href="' + esc(s.url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">DOI&#8599;</a>');
+    if (s.registry_url) out.push('<a href="' + esc(s.registry_url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">Trial&#8599;</a>');
+    return out.join(' <span>·</span> ') || '<span style="color:#b7c0cb;">—</span>';
+  }
+
+  function detailPanel(s) {
+    var cite = [s.journal, s.year ? (s.year + (s.volume ? "; " + s.volume : "") + (s.issue ? "(" + s.issue + ")" : "") + (s.pages ? ": " + s.pages : "")) : ""]
+      .filter(Boolean).join(" ");
+    var ids = [];
+    if (s.url) ids.push('<a href="' + esc(s.url) + '" target="_blank" rel="noopener">' + (s.doi ? "DOI" : "PubMed") + "&#8599;</a>");
+    if (s.pmid) ids.push("PMID " + esc(s.pmid));
+    if (s.registry_url) ids.push('<a href="' + esc(s.registry_url) + '" target="_blank" rel="noopener">' + esc(s.registry) + "&#8599;</a>");
+    else if (s.registry) ids.push(esc(s.registry));
+
+    var body = "";
+    if (s.extracted) {
+      var items = [
+        ["Reviewer", s.reviewer], ["Study type", s.study_type],
+        ["Intervention drug(s)", s.drugs_raw], ["Derivative", s.derivative],
+        ["Microdosing", s.microdosing], ["Conditions / arms", s.n_arms_raw],
+        ["Comparator", s.comparator], ["Target population", s.population],
+        ["Outcome domains", (s.outcomes || []).join("; ")],
+        ["Qualitative outcome", s.qualitative_outcome], ["Parent study DOI", s.parent_study_doi],
+        ["Extraction notes", s.extraction_notes]
+      ].filter(function (p) { return p[1]; });
+      body = '<div class="mdb-grid">' + items.map(function (p) {
+        return '<div class="mdb-dl"><div class="k">' + esc(p[0]) + '</div><div class="v">' + esc(p[1]) + "</div></div>";
+      }).join("") + "</div>";
+    } else {
+      body = '<div class="mdb-pending-note"><strong>Extraction pending.</strong> This is a bibliographic record only. ' +
+        "The <em>Drug</em> (" + esc(s.drug) + ") and <em>Condition</em> (" + esc(s.indication) +
+        ") shown are auto-derived from the title/abstract and have not yet been verified.</div>";
+    }
+
+    return '<div class="mdb-detail-inner">' +
+      "<h4>" + esc(s.title) + "</h4>" +
+      '<div class="mdb-meta-line">' + esc(s.authors_str) + (cite ? " &middot; <em>" + esc(cite) + "</em>" : "") +
+      (ids.length ? "<br>" + ids.join(" &nbsp;·&nbsp; ") : "") + "</div>" +
+      (s.abstract ? '<div class="mdb-abstract">' + esc(s.abstract) + "</div>" : "") +
+      body + "</div>";
+  }
+
+  function render() {
+    var rows = filtered();
+    $("mdb-count").innerHTML = "Showing <b>" + rows.length + "</b> of " + STUDIES.length + " studies";
+
+    // sort arrows
+    document.querySelectorAll(".mdb-table th.sortable").forEach(function (th) {
+      var on = th.dataset.sort === state.sort;
+      th.classList.toggle("active", on);
+      th.querySelector(".arrow").textContent = on ? (state.dir === 1 ? "▲" : "▼") : "↕";
+    });
+
+    if (!rows.length) {
+      $("mdb-tbody").innerHTML = '<tr><td colspan="9" class="mdb-empty">No studies match your filters.</td></tr>';
+      return;
+    }
+
+    $("mdb-tbody").innerHTML = rows.map(function (s) {
+      var open = state.open[s.covidence_id];
+      var main = '<tr class="mdb-row' + (open ? " open" : "") + '" data-id="' + s.covidence_id + '">' +
+        '<td><span class="mdb-chev">▸</span></td>' +
+        '<td class="mdb-study"><b>' + esc(s.study_id || s.title) + "</b>" +
+          '<span class="mdb-title-sm">' + esc(s.title) + "</span></td>" +
+        "<td>" + esc(s.year || "—") + "</td>" +
+        "<td>" + drugBadge(s) + autoMark(s.drug_source) + "</td>" +
+        '<td><span class="mdb-badge mdb-ind">' + esc(s.indication) + "</span>" + autoMark(s.indication_source) + "</td>" +
+        "<td>" + esc(s.n_arms != null ? s.n_arms : "—") + "</td>" +
+        '<td>' + outcomesCell(s) + "</td>" +
+        '<td><span class="mdb-badge ' + (s.extracted ? "mdb-status-ext" : "mdb-status-pend") + '">' +
+          (s.extracted ? "Extracted" : "Pending") + "</span></td>" +
+        '<td class="mdb-links">' + linksCell(s) + "</td></tr>";
+      var detail = open ? '<tr class="mdb-detail"><td colspan="9">' + detailPanel(s) + "</td></tr>" : "";
+      return main + detail;
+    }).join("");
+
+    document.querySelectorAll(".mdb-row").forEach(function (tr) {
+      tr.addEventListener("click", function () {
+        var id = tr.dataset.id;
+        state.open[id] = !state.open[id];
+        render();
+      });
+    });
+  }
+
+  // ---- exports ----
+  var EXPORT_COLS = [
+    "covidence_id", "study_id", "title", "authors_str", "year", "journal", "volume", "issue", "pages",
+    "doi", "pmid", "registry", "drug", "drug_source", "indication", "indication_source", "extracted",
+    "study_type", "n_arms", "drugs_raw", "derivative", "microdosing", "comparator", "population",
+    "outcomes", "qualitative_outcome", "extraction_notes", "url"
+  ];
+  function csvCell(v) {
+    if (Array.isArray(v)) v = v.join("; ");
+    v = v == null ? "" : String(v);
+    return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+  function exportCSV() {
+    var rows = filtered();
+    var lines = [EXPORT_COLS.join(",")];
+    rows.forEach(function (s) { lines.push(EXPORT_COLS.map(function (c) { return csvCell(s[c]); }).join(",")); });
+    download(lines.join("\n"), "csv", "text/csv");
+  }
+  function risAuthor(name) {
+    var m = name.match(/^(.+?)\s+([A-Za-z][A-Za-z.\-]{0,4})$/);
+    return m ? m[1] + ", " + m[2] : name;
+  }
+  function exportRIS() {
+    var rows = filtered();
+    var out = [];
+    rows.forEach(function (s) {
+      var L = ["TY  - JOUR"];
+      (s.authors || []).forEach(function (a) { L.push("AU  - " + risAuthor(a)); });
+      if (s.title) L.push("TI  - " + s.title);
+      if (s.year) L.push("PY  - " + s.year);
+      if (s.journal) { L.push("JO  - " + s.journal); L.push("JF  - " + s.journal); }
+      if (s.volume) L.push("VL  - " + s.volume);
+      if (s.issue) L.push("IS  - " + s.issue);
+      if (s.page_start) L.push("SP  - " + s.page_start);
+      if (s.page_end) L.push("EP  - " + s.page_end);
+      if (s.doi) L.push("DO  - " + s.doi.replace(/^https?:\/\/doi\.org\//, ""));
+      if (s.abstract) L.push("AB  - " + s.abstract);
+      if (s.pmid) L.push("AN  - " + s.pmid);
+      if (s.url) L.push("UR  - " + s.url);
+      [s.drug, s.indication].forEach(function (k) { if (k && k !== "Unclear") L.push("KW  - " + k); });
+      if (s.registry) L.push("C1  - Trial registry: " + s.registry);
+      L.push("ER  - ");
+      out.push(L.join("\r\n"));
+    });
+    download(out.join("\r\n\r\n") + "\r\n", "ris", "application/x-research-info-systems");
+  }
+  function download(content, ext, mime) {
+    var stamp = new Date().toISOString().slice(0, 10);
+    var blob = new Blob([content], { type: mime + ";charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "sypres-psychedelic-rcts_" + stamp + "." + ext;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  // ---- wire up ----
+  function debounce(fn) { var t; return function () { clearTimeout(t); t = setTimeout(fn, 120); }; }
+  $("mdb-q").addEventListener("input", debounce(function () { state.q = $("mdb-q").value; render(); }));
+  $("mdb-drug").addEventListener("change", function () { state.drug = this.value; render(); });
+  $("mdb-ind").addEventListener("change", function () { state.ind = this.value; render(); });
+  $("mdb-outcome").addEventListener("change", function () { state.outcome = this.value; render(); });
+  $("mdb-micro").addEventListener("change", function () { state.micro = this.value; render(); });
+  $("mdb-stat").addEventListener("change", function () { state.stat = this.value; render(); });
+  $("mdb-ymin").addEventListener("input", function () { state.ymin = parseInt(this.value) || null; render(); });
+  $("mdb-ymax").addEventListener("input", function () { state.ymax = parseInt(this.value) || null; render(); });
+  $("mdb-clear").addEventListener("click", function () {
+    state.q = state.drug = state.ind = state.outcome = state.micro = state.stat = ""; state.ymin = state.ymax = null;
+    ["mdb-q", "mdb-drug", "mdb-ind", "mdb-outcome", "mdb-micro", "mdb-stat", "mdb-ymin", "mdb-ymax"].forEach(function (id) { $(id).value = ""; });
+    render();
+  });
+  $("mdb-csv").addEventListener("click", exportCSV);
+  $("mdb-ris").addEventListener("click", exportRIS);
+  document.querySelectorAll(".mdb-table th.sortable").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var k = th.dataset.sort;
+      if (state.sort === k) state.dir = -state.dir;
+      else { state.sort = k; state.dir = (k === "year" || k === "n_arms") ? -1 : 1; }
+      render();
+    });
+  });
+
+  renderStats(); initFilters(); render();
+})();
+</script>
+{% endraw %}
+
+<h2 id="mdb-about" style="margin-top:2.4em;">About this database</h2>
+
+<p>
+  This database is built from our living screening and extraction workflow in <a href="https://www.covidence.org/">Covidence</a>.
+  Records progress through search &rarr; title/abstract screening &rarr; full-text review &rarr; <strong>inclusion</strong>
+  &rarr; <strong>data extraction</strong>. Every <em>included</em> study is listed here; the extracted metadata is added as
+  each study is processed against our extraction template.
+</p>
+
+<h3>How facets are derived</h3>
+<ul>
+  <li><strong>Drug</strong> and <strong>Condition</strong> come from the extraction template when a study has been extracted
+    (<em>Extracted</em> badge). For studies still pending, they are auto-derived from the title/abstract by keyword and flagged
+    <span class="mdb-auto" style="border:1px solid #e3e8ee;border-radius:3px;padding:0 4px;">auto</span>. Treat auto values as provisional.</li>
+  <li><strong>Outcome domains</strong>, <strong>arms</strong>, <strong>comparator</strong>, and <strong>population</strong> are
+    only shown for extracted studies.</li>
+</ul>
+
+<h3>Exporting</h3>
+<p>
+  The <strong>CSV</strong> and <strong>RIS</strong> buttons export <em>exactly the rows currently shown</em> (after search and
+  filters). CSV contains the full field set for analysis; RIS imports cleanly into Zotero, EndNote, Mendeley, Covidence, and
+  Rayyan to bootstrap a new review.
+</p>
+
+<h3>Rebuilding</h3>
+<p>
+  The data on this page is generated from the Covidence exports in <code>analysis/master-db/data/</code> by
+  <code>analysis/master-db/build_database.py</code>, which writes <code>_data/master_db.json</code>. After dropping in a new
+  export, re-run the script and rebuild the site. See <code>analysis/master-db/CLAUDE.md</code> for the full data dictionary
+  and contributor guide.
+</p>
+
+<p style="color:#6b7785;font-size:.85rem;margin-top:1.5em;">
+  Database generated {{ site.data.master_db.meta.generated }} · review {{ site.data.master_db.meta.review_id }} ·
+  {{ site.data.master_db.meta.n_included }} included, {{ site.data.master_db.meta.n_extracted }} extracted.
+</p>

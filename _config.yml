@@ -167,6 +167,11 @@ exclude:
   - renv/
   - analysis/psilodep/renv
   - analysis/mdmaptsd/renv
+  # master-db source files (raw Covidence exports, build script, tests, docs) are
+  # working files, not web assets — the data reaches the site via _data/master_db.json.
+  # Excluded so they are not published under /analysis/master-db/. (psilodep/mdmaptsd
+  # figures above ARE still published because their dataset pages embed them.)
+  - analysis/master-db
 keep_files:
   - .git
   - .svn

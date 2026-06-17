@@ -46,3 +46,28 @@ pre.highlight {
   font-size: 0.9em;
   color: #333;
 }
+
+/* ---------------------------------------------------------------------------
+   Full-width content on pages without a left sidebar.
+
+   The Minimal Mistakes .page / .archive columns reserve a left gutter at the
+   large breakpoint (float: right; width: calc(100% - sidebar-width)) for the
+   author/details sidebar. Our _includes/sidebar.html only emits that sidebar on
+   dataset pages; on pages without it (Methods, Team, Overview, the RCT database,
+   etc.) the gutter is left empty and content renders shifted right / off-center
+   — and `classes: wide` does NOT fix it (it only removes the right TOC padding).
+
+   When #main contains no .sidebar, drop the float so content uses the full
+   width. Pages WITH a sidebar (PSILODEP, MDMAPTSD) are unaffected. Uses :has(),
+   supported by all current browsers; older browsers fall back to the prior look.
+
+   ⚠ KNOWN REGRESSION (fix next session): this over-corrects. Home, News, and
+   Team now render LEFT-shifted (they want a centered column, not full width).
+   Plan in analysis/master-db/CLAUDE.md → "TODO next session — sidebar fix
+   over-corrected": keep full-width only for .wide pages; center the rest.
+   --------------------------------------------------------------------------- */
+#main:not(:has(.sidebar)) > .page,
+#main:not(:has(.sidebar)) > .archive {
+  float: none;
+  width: 100%;
+}

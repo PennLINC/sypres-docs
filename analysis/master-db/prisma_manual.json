@@ -1,0 +1,6 @@
+{
+  "_comment": "PRISMA numbers that the Covidence STAGE EXPORTS DO NOT CONTAIN. Covidence tracks these on its dashboard (Import + Title/abstract screening stats) but they are not in any per-stage CSV, so they must be entered by hand. Fill in the integers below and re-run `python3 analysis/master-db/build_database.py`. Leave a value as null until known; the dashboard shows a reminder while any are missing.",
+  "records_identified": null,
+  "duplicates_removed": null,
+  "excluded_title_abstract": null
+}

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "jekyll",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-lc", "export PATH=\"$HOME/.rbenv/shims:$PATH\"; export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8; exec bundle exec jekyll serve --no-watch --port 4112"],
+      "port": 4112
+    }
+  ]
+}

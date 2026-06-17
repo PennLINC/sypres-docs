@@ -2,6 +2,8 @@ main:
 - title: Studies
   url: /docs/datasets
   sublinks:
+    - title: "Psychedelic RCT Database (pilot)"
+      url: /docs/datasets/master-db
     - title: "Psilocybin for Depression"
       url: /docs/datasets/PSILODEP
     - title: "MDMA for PTSD"
