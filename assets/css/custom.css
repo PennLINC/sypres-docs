@@ -48,26 +48,35 @@ pre.highlight {
 }
 
 /* ---------------------------------------------------------------------------
-   Full-width content on pages without a left sidebar.
+   Centering on pages without a left sidebar.
 
    The Minimal Mistakes .page / .archive columns reserve a left gutter at the
    large breakpoint (float: right; width: calc(100% - sidebar-width)) for the
-   author/details sidebar. Our _includes/sidebar.html only emits that sidebar on
-   dataset pages; on pages without it (Methods, Team, Overview, the RCT database,
-   etc.) the gutter is left empty and content renders shifted right / off-center
-   — and `classes: wide` does NOT fix it (it only removes the right TOC padding).
+   author/details sidebar, plus right padding for the TOC. Our
+   _includes/sidebar.html only emits that sidebar on dataset pages; on pages
+   without it the empty gutter shifts content right (`classes: wide` doesn't fix
+   it — it only removes the right TOC padding). Uses :has(); supported by all
+   current browsers, older ones fall back to the prior look.
 
-   When #main contains no .sidebar, drop the float so content uses the full
-   width. Pages WITH a sidebar (PSILODEP, MDMAPTSD) are unaffected. Uses :has(),
-   supported by all current browsers; older browsers fall back to the prior look.
-
-   ⚠ KNOWN REGRESSION (fix next session): this over-corrects. Home, News, and
-   Team now render LEFT-shifted (they want a centered column, not full width).
-   Plan in analysis/master-db/CLAUDE.md → "TODO next session — sidebar fix
-   over-corrected": keep full-width only for .wide pages; center the rest.
-   --------------------------------------------------------------------------- */
+   (1) Drop the float so the column isn't pushed into the missing left gutter,
+       and reclaim the right TOC padding too — EXCEPT where a TOC actually renders
+       into it (single + toc, e.g. Methods, keeps .sidebar__right room). Without
+       this, centered/fixed-width content centers inside a left-offset box and
+       looks left-shifted. .archive never has a TOC, so it always reclaims it.
+   (2) Landing (home) and News read best as a centered, constrained column rather
+       than edge-to-edge prose. */
 #main:not(:has(.sidebar)) > .page,
 #main:not(:has(.sidebar)) > .archive {
   float: none;
   width: 100%;
+}
+#main:not(:has(.sidebar)) > .archive,
+#main:not(:has(.sidebar)) > .page:not(:has(.sidebar__right)) {
+  padding-right: 0;
+}
+body.layout--home #main:not(:has(.sidebar)) > .archive,
+body.layout--blog #main:not(:has(.sidebar)) > .archive {
+  max-width: 40rem; /* ~880px (root font is 22px at large breakpoints) */
+  margin-left: auto;
+  margin-right: auto;
 }

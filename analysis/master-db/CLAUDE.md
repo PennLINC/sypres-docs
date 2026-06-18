@@ -14,42 +14,24 @@ meta-analyses. The master DB is a broad, structured catalogue of the evidence ba
 > **Status:** Pilot. 19 studies included; 4 fully extracted against the pilot template.
 > The extraction template is still being refined — see "Recommended metadata additions".
 
-## ⚠ TODO next session — sidebar fix over-corrected (layout regression)
+## Site layout note — sidebar-less page centering (resolved)
 
-The site-wide rule added to `assets/css/custom.css` to fix the off-center gutter went too far.
-It forces **every** sidebar-less page to full-width + left-aligned:
+Minimal Mistakes reserves a left gutter on `.page`/`.archive` (`float: right;
+width: calc(100% - 250px)`) for a sidebar that our `_includes/sidebar.html` only emits on
+dataset pages. On pages without it, content was shifted off-center. The fix lives in
+`assets/css/custom.css` (verified across Home/News/Team/Methods/Overview/Publications/database
++ a sidebar page at ≥1024px):
 
-```css
-#main:not(:has(.sidebar)) > .page,
-#main:not(:has(.sidebar)) > .archive { float: none; width: 100%; }
-```
-
-**Regressions reported (desktop width):**
-- **Home / landing** (`index.md`, `layout: home` → `.archive`) — was centered, now **left-shifted**.
-- **News** (`/docs/blog/index`, `layout: blog` → `.archive`) — was centered, now **left-shifted**.
-- **Team** (`/docs/team`, `layout: archive` → `.archive`) — was right-shifted, now left-shifted; **wants centered**.
-  (Team's content is a fixed `width: 1000px` `<table>` — centering the column alone won't center it;
-  the table likely also needs `margin: 0 auto`.)
-
-**Looks correct and should stay as-is:** the RCT database, Methods, Overview, Publications.
-
-**Why:** the database *wants* full width (`classes: wide` + a wide dashboard/table); the landing/
-list pages want a **centered, constrained column**. One blanket rule can't serve both.
-
-**Candidate fix (don't blanket full-width):**
-- Keep `float: none; width: 100%` **only** for `.wide` sidebar-less pages (the database).
-- For non-wide sidebar-less pages, **center** the existing column instead of widening it, e.g.
-  `#main:not(:has(.sidebar)) > .page, … > .archive { float: none; margin-left: auto; margin-right: auto; }`
-  (keep the theme's `width: calc(100% - sidebar)`; possibly also zero the leftover `padding-right`
-  for symmetry). Then add `margin: 0 auto` to the Team table.
-- Mechanics: `.page` rules in `_sass/minimal-mistakes/_page.scss`, `.archive` in `_archive.scss`;
-  `.wide` (which only zeroes right padding) in both.
-
-**Test matrix (≥ ~1024px, where the float applies):** Home `/`, News `/docs/blog/index`,
-Team `/docs/team`, Methods `/docs/methods`, Overview `/docs/datasets`, Publications
-`/docs/community/publications`, database `/docs/datasets/master-db`, and a **sidebar** page
-(`/docs/datasets/PSILODEP`) to confirm no regression there. Each uses a different layout, so
-check them all.
+- **Drop the float** on sidebar-less `.page`/`.archive` so the column isn't pushed into the
+  empty gutter; also **reclaim the right TOC padding** — except where a TOC actually renders
+  (`single` + `toc`, e.g. Methods, keeps `.sidebar__right` room via `:not(:has(.sidebar__right))`).
+  Without reclaiming the padding, centered/fixed-width content centers inside a left-offset box.
+- **Home & News** (`body.layout--home` / `body.layout--blog`) are constrained to a centered
+  `max-width: 40rem` column (note: root font is **22px** at large breakpoints, so `40rem ≈ 880px`;
+  don't reason about `rem` here as 16px).
+- **Team's** fixed `width: 1000px` tables get `margin: 0 auto` (centering the column alone won't
+  center a fixed-width child) — set inline in `docs/team/index.html`.
+- Pages **with** a sidebar (PSILODEP, MDMAPTSD) are untouched (`#main:has(.sidebar)` short-circuits).
 
 ## Data flow
 

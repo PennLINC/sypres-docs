@@ -12,7 +12,7 @@ title: SYPRES Team
 {% if team_in_section.size > 0 %}
 <h2 style="text-align: center;">{{ section_titles[forloop.index0] }}</h2>
 <br>
-<table style="justify-content: center; width: 1000px; display: table; table-layout: fixed;">
+<table style="width: 1000px; max-width: 100%; margin: 0 auto; display: table; table-layout: fixed;">
     {% tablerow member in team_in_section cols:2 %}
     {% if member.image != "n/a" %}
     {% assign image = member.image %}
@@ -49,7 +49,7 @@ title: SYPRES Team
 {% if other_team.size > 0 %}
 <h2 style="text-align: center;">Other</h2>
 <br>
-<table style="justify-content: center; width: 1000px; display: table;">
+<table style="width: 1000px; max-width: 100%; margin: 0 auto; display: table;">
     {% tablerow member in other_team cols:2 %}
     {% if member.image %}
     {% assign image = member.image %}
