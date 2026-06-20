@@ -43,3 +43,6 @@ activate.R
 
 # Blossom API cache
 scripts/.blossom_cache/
+# Python bytecode
+__pycache__/
+*.pyc

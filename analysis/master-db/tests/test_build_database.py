@@ -93,6 +93,31 @@ class TestHelpers(unittest.TestCase):
         if exc:
             self.assertIn("excluded", os.path.basename(exc).lower())
 
+    def test_norm_registry(self):
+        self.assertEqual(bd._norm_registry("NCT04865653"), "NCT04865653")
+        self.assertEqual(bd._norm_registry("ClinicalTrials.gov/NCT03790358"), "NCT03790358")
+        self.assertEqual(bd._norm_registry("NL70508.068.1; NL-OMON55178"), "NL70508.068.1")
+        self.assertEqual(bd._norm_registry("WOS:000645683800249"), "")  # not a registry
+        self.assertEqual(bd._norm_registry(""), "")
+
+    def test_link_trials_groups_shared_registry(self):
+        studies = [
+            {"covidence_id": 1, "doi": "10.1/primary", "registry": "NCT999", "parent_study_doi": ""},
+            {"covidence_id": 2, "doi": "10.2/secondary", "registry": "ClinicalTrials.gov/NCT999",
+             "parent_study_doi": ""},
+            # registry-less secondary analysis linked to #1 via parent DOI
+            {"covidence_id": 3, "doi": "10.3/reanalysis", "registry": "",
+             "parent_study_doi": "https://doi.org/10.1/primary"},
+            # unrelated, unregistered → its own (singleton) trial
+            {"covidence_id": 4, "doi": "10.4/solo", "registry": "", "parent_study_doi": ""},
+        ]
+        by_key = bd._link_trials(studies)
+        self.assertEqual(sorted(by_key["NCT999"]), [1, 2, 3])
+        self.assertEqual(set(studies[0]["connected_ids"]), {2, 3})
+        self.assertEqual(studies[2]["trial_key"], "NCT999")   # via parent DOI
+        self.assertIsNone(studies[3]["trial_key"])            # unregistered singleton
+        self.assertEqual(studies[3]["connected_ids"], [])
+
 
 class TestBuildIntegration(unittest.TestCase):
     @classmethod
@@ -136,6 +161,22 @@ class TestBuildIntegration(unittest.TestCase):
         all_outcomes = {o for s in self.studies for o in s["outcomes"]}
         self.assertEqual(set(self.meta["outcomes"]), all_outcomes)
         self.assertEqual(self.meta["outcomes"], sorted(self.meta["outcomes"]))
+
+    def test_trial_linkage(self):
+        for s in self.studies:
+            self.assertIn("registry_norm", s)
+            self.assertIn("connected_ids", s)
+            # a study never lists itself as connected
+            self.assertNotIn(s["covidence_id"], s["connected_ids"])
+            # connections are symmetric and share the trial key
+            for cid in s["connected_ids"]:
+                other = next(x for x in self.studies if x["covidence_id"] == cid)
+                self.assertEqual(other["trial_key"], s["trial_key"])
+                self.assertIn(s["covidence_id"], other["connected_ids"])
+        # meta exposes the registry list + trial counts for the dashboard facet
+        self.assertEqual(self.meta["registries"],
+                         sorted({s["registry_norm"] for s in self.studies if s["registry_norm"]}))
+        self.assertLessEqual(self.meta["n_trials"], self.meta["n_included"])
 
     def test_prisma_reconciles(self):
         p = self.prisma

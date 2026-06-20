@@ -137,6 +137,66 @@ def _registry_url(reg: str) -> str:
     return ""
 
 
+# Recognized trial-registry id formats (used as the trial-grouping key). Anything
+# not matching — e.g. a Web of Science accession (WOS:...) — is treated as "no
+# registry" so it doesn't masquerade as a trial id.
+_REGISTRY_RE = re.compile(
+    r"(NCT\d+|ISRCTN\d+|EudraCT[\s:-]*[\d-]+|ACTRN\d+|DRKS\d+|ChiCTR[\w-]+|NTR\d+"
+    r"|NL[-\w.]+|JPRN[-\w]+|UMIN\d+|PACTR\d+|IRCT[\w-]+)",
+    re.IGNORECASE,
+)
+
+
+def _norm_registry(registry: str) -> str:
+    """Canonical trial id from a registry/accession string, or '' if not a registry.
+
+    Prefers an NCT id (most common); falls back to other known registry formats.
+    """
+    if not registry:
+        return ""
+    nct = re.search(r"NCT\d+", registry)
+    if nct:
+        return nct.group()
+    m = _REGISTRY_RE.search(registry)
+    return m.group(1).strip() if m else ""
+
+
+def _link_trials(studies: list) -> dict:
+    """Group studies into trials so the dashboard can show papers sharing a trial.
+
+    A trial is keyed by its normalized registry id. A secondary-analysis paper with
+    no registry of its own is attached to its parent's trial via `Parent Study DOI`.
+    Mutates each study (adds `registry_norm`, `trial_key`, `connected_ids`) and
+    returns {trial_key: [covidence_id, ...]} for trials that have a registry.
+    """
+    from collections import defaultdict
+
+    for s in studies:
+        s["registry_norm"] = _norm_registry(s.get("registry", ""))
+        s["trial_key"] = s["registry_norm"] or None
+
+    # Attach registry-less secondary analyses to their parent study's trial.
+    by_doi = {s["doi"].lower(): s for s in studies if s.get("doi")}
+    for s in studies:
+        if s["trial_key"]:
+            continue
+        parent_doi = re.sub(r"^https?://doi\.org/", "", (s.get("parent_study_doi") or "").lower())
+        parent = by_doi.get(parent_doi)
+        if parent and parent.get("trial_key"):
+            s["trial_key"] = parent["trial_key"]
+
+    by_key: dict = defaultdict(list)
+    for s in studies:
+        if s["trial_key"]:
+            by_key[s["trial_key"]].append(s["covidence_id"])
+
+    for s in studies:
+        ids = by_key.get(s["trial_key"], []) if s["trial_key"] else []
+        s["connected_ids"] = [cid for cid in ids if cid != s["covidence_id"]]
+
+    return dict(by_key)
+
+
 def _study_url(doi: str, pmid: str) -> str:
     if doi:
         doi = re.sub(r"^https?://doi\.org/", "", doi.strip())
@@ -374,6 +434,10 @@ def build() -> dict:
     # sort newest first, then alphabetically by study id
     studies.sort(key=lambda s: (-(s["year"] or 0), s["study_id"].lower()))
 
+    # group papers into trials (by registry, + parent-DOI for secondary analyses)
+    by_key = _link_trials(studies)
+    n_trials = len(by_key) + sum(1 for s in studies if not s["trial_key"])
+
     n_extracted = sum(1 for s in studies if s["extracted"])
     out = {
         "meta": {
@@ -384,6 +448,9 @@ def build() -> dict:
             "drugs": sorted({s["drug"] for s in studies if s["drug"] != "Unclear"}),
             "indications": sorted({s["indication"] for s in studies if s["indication"] != "Unclear"}),
             "outcomes": sorted({o for s in studies for o in s["outcomes"]}),
+            "registries": sorted({s["registry_norm"] for s in studies if s["registry_norm"]}),
+            "n_trials": n_trials,
+            "n_multi_paper_trials": sum(1 for ids in by_key.values() if len(ids) > 1),
             "year_min": min((s["year"] for s in studies if s["year"]), default=None),
             "year_max": max((s["year"] for s in studies if s["year"]), default=None),
             "source_included": os.path.relpath(inc_path, REPO),

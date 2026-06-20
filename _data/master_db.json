@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-06-17",
+    "generated": "2026-06-20",
     "review_id": "772559",
     "n_included": 19,
     "n_extracted": 4,
@@ -29,6 +29,17 @@
       "safety/tolerability/adverse events",
       "subjective effects"
     ],
+    "registries": [
+      "NCT01211405",
+      "NCT03181763",
+      "NCT03300947",
+      "NCT03429075",
+      "NCT03790358",
+      "NCT04865653",
+      "NL70508.068.1"
+    ],
+    "n_trials": 19,
+    "n_multi_paper_trials": 0,
     "year_min": 1964,
     "year_max": 2026,
     "source_included": "analysis/master-db/data/review_772559_included_csv_20260618032642.csv",
@@ -109,7 +120,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NCT03300947",
+      "trial_key": "NCT03300947",
+      "connected_ids": []
     },
     {
       "covidence_id": 28373,
@@ -165,7 +179,10 @@
         "subjective effects"
       ],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NCT04865653",
+      "trial_key": "NCT04865653",
+      "connected_ids": []
     },
     {
       "covidence_id": 30267,
@@ -222,7 +239,10 @@
         "Other: pain"
       ],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NL70508.068.1",
+      "trial_key": "NL70508.068.1",
+      "connected_ids": []
     },
     {
       "covidence_id": 30158,
@@ -276,7 +296,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NCT03429075",
+      "trial_key": "NCT03429075",
+      "connected_ids": []
     },
     {
       "covidence_id": 29299,
@@ -331,7 +354,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NCT03181763",
+      "trial_key": "NCT03181763",
+      "connected_ids": []
     },
     {
       "covidence_id": 36974,
@@ -374,7 +400,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28999,
@@ -430,7 +459,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28451,
@@ -483,7 +515,10 @@
         "blinding"
       ],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NCT03790358",
+      "trial_key": "NCT03790358",
+      "connected_ids": []
     },
     {
       "covidence_id": 28937,
@@ -537,7 +572,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "NCT01211405",
+      "trial_key": "NCT01211405",
+      "connected_ids": []
     },
     {
       "covidence_id": 28435,
@@ -585,7 +623,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28543,
@@ -640,7 +681,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28318,
@@ -691,7 +735,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28994,
@@ -738,7 +785,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28443,
@@ -790,7 +840,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 29099,
@@ -843,7 +896,10 @@
         "Other: PET"
       ],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 38621,
@@ -889,7 +945,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 39177,
@@ -936,7 +995,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 29697,
@@ -981,7 +1043,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     },
     {
       "covidence_id": 28728,
@@ -1024,7 +1089,10 @@
       "population": "",
       "outcomes": [],
       "qualitative_outcome": "",
-      "extraction_notes": ""
+      "extraction_notes": "",
+      "registry_norm": "",
+      "trial_key": null,
+      "connected_ids": []
     }
   ]
 }

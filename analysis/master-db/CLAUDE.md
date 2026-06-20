@@ -166,10 +166,18 @@ Extraction template (only populated when `extracted: true`):
 `reviewer, study_type, parent_study_doi, n_arms, n_arms_raw, drugs_raw, derivative,
 microdosing, comparator, population, outcomes[], qualitative_outcome, extraction_notes`
 
+Trial linkage (all studies):
+- `registry_norm` — canonical trial id (NCT preferred; other registries recognized;
+  non-registry accessions like `WOS:…` normalize to `""`). See `_norm_registry()`.
+- `trial_key` — the grouping key: `registry_norm`, or (for a registry-less secondary
+  analysis) the parent study's `trial_key` resolved via `parent_study_doi`; else `null`.
+- `connected_ids[]` — Covidence #s of **other papers in the DB sharing this trial**.
+
 `meta` block: `generated, review_id, n_included, n_extracted, drugs[], indications[],
-outcomes[], year_min, year_max, source_included, source_extraction`.
-`meta.outcomes[]` is the sorted union of all extracted outcome domains — it populates the
-dashboard's **Outcome** facet.
+outcomes[], registries[], n_trials, n_multi_paper_trials, year_min, year_max,
+source_included, source_extraction`.
+`meta.outcomes[]` / `meta.registries[]` populate the dashboard's **Outcome** / **Trial
+registry** facets.
 
 `prisma` block: `records_in_review, in_screening, advanced_to_fulltext, fulltext_in_review,
 fulltext_excluded, fulltext_excluded_reasons{reason: count}, included, extracted, source_files,
@@ -185,11 +193,37 @@ manual{records_identified, duplicates_removed, excluded_title_abstract, records_
   only surfaces extracted studies (pending records have no outcomes yet).
 - A collapsible **PRISMA study-flow** box (top of page) is rendered server-side from the
   `prisma` block via Liquid, so it needs no JS and stays in sync with the data.
+- **Trial linkage.** Each expanded card shows a *Trial* line (registry link) and *Connected
+  papers* — clickable chips for other DB papers sharing that trial (opens/scrolls to them).
+  Trials are grouped by `registry_norm` (plus `parent_study_doi` for registry-less secondary
+  analyses). **Currently every trial has exactly one paper** (`n_multi_paper_trials: 0`) and
+  11/19 studies have no registry — so the connected list shows "only paper from this trial so
+  far" everywhere. It activates as companion/secondary papers get included with a shared
+  registry, or once `Parent Study DOI` is filled for secondary analyses (e.g. Walpola 2017,
+  Nayak 2023). (A trial-registry *filter* was prototyped and removed — not useful.)
+  `meta.registries[]` is still emitted (used by tests / future registry enrichment).
+
+> **Possible next step — auto-enrich trials from the registry.** ClinicalTrials.gov API v2
+> (`https://clinicaltrials.gov/api/v2/studies/<NCT>`, free, no key) returns structured trial
+> details: official title, status, study type, **phase**, **design (allocation / model /
+> masking)**, **enrollment**, conditions, **arms + doses**, **sponsor + industry flag**, dates,
+> country, **primary outcome instrument**, results-posted. Covers NCT ids only (6/7 registered
+> studies; the Dutch NL/OMON one and other registries are case-by-case). Would add a cached
+> fetch step (like the Blossom enrichment cache) + a `registry_details` block, clearly labelled
+> "from the registry" (planned protocol, may differ from the published paper). Not yet built.
 - **Export buttons export exactly the filtered rows.** CSV = full field set; RIS = importable
   into Zotero/EndNote/Mendeley/Covidence/Rayyan.
 - Pure client-side; data is embedded at build time (no fetch / no CORS issues). Fine for
   hundreds of rows. If the included set grows into the thousands, add pagination/virtualized
   rendering and consider fetching the JSON from `assets/` instead of embedding.
+- **Feedback links** open a pre-filled GitHub issue via URL params
+  (`issues/new?title=…&body=…&labels=…`), so they work without merged templates. The repo
+  comes from `{{ site.repository }}` (rendered onto `#mdb-data[data-repo]`, read by `issueUrl()`):
+  - *"Report a missing study"* (top of page, Liquid-built) → label `missing-study`.
+  - *"Report inaccurate or incomplete data"* (per study, in the expanded card) → label
+    `data-correction`, body pre-filled with that study's id / Covidence # / DOI / record URL.
+  - Optional: create the `missing-study` and `data-correction` labels in the repo (unknown
+    labels are silently dropped, so the links still work without them).
 
 ## Tests
 
