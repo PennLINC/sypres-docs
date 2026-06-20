@@ -61,6 +61,7 @@ docs/datasets/master-db/index.html     (dashboard; embeds the JSON via {{ site.d
 | `data/*.csv` | Raw Covidence exports. Drop new ones here. Filenames are timestamped by Covidence. |
 | `build_database.py` | `build()` returns the dict; `main()` writes `_data/master_db.json`. Re-run after every new export. |
 | `tests/test_build_database.py` | Stdlib `unittest` suite for the build pipeline. See [Tests](#tests). |
+| `.registry_cache/` | Gitignored cache of fetched ClinicalTrials.gov responses (parsed details are committed in `_data/master_db.json`). |
 | `CLAUDE.md` | This file. |
 | `../../_data/master_db.json` | Generated data consumed by the site. **Do not hand-edit** — regenerate. |
 | `../../docs/datasets/master-db/index.html` | The dashboard page (HTML + scoped CSS + vanilla JS). |
@@ -74,9 +75,12 @@ docs/datasets/master-db/index.html     (dashboard; embeds the JSON via {{ site.d
 2. Drop them into `analysis/master-db/data/` (old exports can stay — newest of each is used).
 3. Rebuild + test:
    ```bash
-   python3 analysis/master-db/build_database.py
+   python3 analysis/master-db/build_database.py      # fetches NCT registry details (network)
+   #   --no-fetch  cache-only / offline      --refresh  re-fetch, ignore the 30-day cache TTL
    python3 -m unittest discover -s analysis/master-db/tests
    ```
+   The fetch only touches new/stale NCT ids and is resilient (see
+   [enrichment failure modes](#failure-modes-the-build-never-crashes-on-a-registry-problem)).
 4. Rebuild/serve the site. Locale must be UTF-8 (a vendored Sass file is UTF-8):
    ```bash
    LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 bundle exec jekyll serve --no-watch
@@ -173,11 +177,18 @@ Trial linkage (all studies):
   analysis) the parent study's `trial_key` resolved via `parent_study_doi`; else `null`.
 - `connected_ids[]` — Covidence #s of **other papers in the DB sharing this trial**.
 
+`trials[]` (one per **registered** trial; powers the Trials tab):
+`trial_key, registry, registry_url, source, fetched, fetch_status, details{…}|null, paper_ids[]`.
+`details` (when `fetch_status == "ok"`): `title, status, study_type, phase, allocation, model,
+masking, enrollment, enrollment_type, conditions[], arms[], sponsor, industry, start,
+completion, countries[], primary_outcomes[], results_posted`. See
+[enrichment](#trial-registry-enrichment--trial-cards) for `fetch_status` values.
+
 `meta` block: `generated, review_id, n_included, n_extracted, drugs[], indications[],
-outcomes[], registries[], n_trials, n_multi_paper_trials, year_min, year_max,
-source_included, source_extraction`.
-`meta.outcomes[]` / `meta.registries[]` populate the dashboard's **Outcome** / **Trial
-registry** facets.
+outcomes[], registries[], n_trials, n_registered_trials, n_trials_enriched,
+n_multi_paper_trials, year_min, year_max, source_included, source_extraction`.
+`meta.outcomes[]` populates the **Outcome** facet. (`registries[]` is retained for tests /
+future use — the trial-registry *filter* was removed.)
 
 `prisma` block: `records_in_review, in_screening, advanced_to_fulltext, fulltext_in_review,
 fulltext_excluded, fulltext_excluded_reasons{reason: count}, included, extracted, source_files,
@@ -193,24 +204,16 @@ manual{records_identified, duplicates_removed, excluded_title_abstract, records_
   only surfaces extracted studies (pending records have no outcomes yet).
 - A collapsible **PRISMA study-flow** box (top of page) is rendered server-side from the
   `prisma` block via Liquid, so it needs no JS and stays in sync with the data.
-- **Trial linkage.** Each expanded card shows a *Trial* line (registry link) and *Connected
-  papers* — clickable chips for other DB papers sharing that trial (opens/scrolls to them).
-  Trials are grouped by `registry_norm` (plus `parent_study_doi` for registry-less secondary
-  analyses). **Currently every trial has exactly one paper** (`n_multi_paper_trials: 0`) and
-  11/19 studies have no registry — so the connected list shows "only paper from this trial so
-  far" everywhere. It activates as companion/secondary papers get included with a shared
-  registry, or once `Parent Study DOI` is filled for secondary analyses (e.g. Walpola 2017,
-  Nayak 2023). (A trial-registry *filter* was prototyped and removed — not useful.)
-  `meta.registries[]` is still emitted (used by tests / future registry enrichment).
-
-> **Possible next step — auto-enrich trials from the registry.** ClinicalTrials.gov API v2
-> (`https://clinicaltrials.gov/api/v2/studies/<NCT>`, free, no key) returns structured trial
-> details: official title, status, study type, **phase**, **design (allocation / model /
-> masking)**, **enrollment**, conditions, **arms + doses**, **sponsor + industry flag**, dates,
-> country, **primary outcome instrument**, results-posted. Covers NCT ids only (6/7 registered
-> studies; the Dutch NL/OMON one and other registries are case-by-case). Would add a cached
-> fetch step (like the Blossom enrichment cache) + a `registry_details` block, clearly labelled
-> "from the registry" (planned protocol, may differ from the published paper). Not yet built.
+- **Papers / Trials tabs.** A tab bar switches between the **Papers** view (default — the
+  search/table; trials never appear here) and the **Trials** view (a supplement). Trials are
+  registered trials only (registered papers grouped by `registry_norm`, + `parent_study_doi`
+  for registry-less secondary analyses); unregistered papers are paper-only.
+- **Trial cards** (Trials tab) show the registry details auto-pulled from ClinicalTrials.gov
+  (see [enrichment](#trial-registry-enrichment--trial-cards)) plus *Papers in this database
+  from this trial*. **Cross-navigation:** a paper card's *"View trial details →"* opens the
+  trial card; a trial card's paper chips open the paper (flipping tabs as needed). Each paper
+  card also still shows a *Connected papers* line for siblings sharing its trial.
+  (A trial-registry *filter* was prototyped and removed — not useful.)
 - **Export buttons export exactly the filtered rows.** CSV = full field set; RIS = importable
   into Zotero/EndNote/Mendeley/Covidence/Rayyan.
 - Pure client-side; data is embedded at build time (no fetch / no CORS issues). Fine for
@@ -224,6 +227,47 @@ manual{records_identified, duplicates_removed, excluded_title_abstract, records_
     `data-correction`, body pre-filled with that study's id / Covidence # / DOI / record URL.
   - Optional: create the `missing-study` and `data-correction` labels in the repo (unknown
     labels are silently dropped, so the links still work without them).
+
+## Trial-registry enrichment & trial cards
+
+`build_trials()` groups registered papers into trials and, for **ClinicalTrials.gov (NCT)** ids,
+fetches structured details from the free API v2 (`https://clinicaltrials.gov/api/v2/studies/<NCT>`),
+parses them with `_parse_ctgov()`, and
+stores them in `trials[].details`. Stdlib only (`urllib`); responses are cached under
+`analysis/master-db/.registry_cache/<NCT>.json` (gitignored). The **parsed details are committed
+inside `_data/master_db.json`**, so the *site* build never needs the network — only
+`build_database.py` does, and only for NCTs missing/stale in the cache.
+
+Run flags (see [How to update](#how-to-update-the-database)):
+- default `python3 build_database.py` → fetches missing/stale (TTL 30 days) NCTs.
+- `--no-fetch` → cache-only (offline / CI); uncached NCTs get `fetch_status: not_fetched`.
+- `--refresh` → ignore TTL and re-fetch everything.
+
+### Failure modes (the build never crashes on a registry problem)
+
+| `fetch_status` | When | Card shows |
+|---|---|---|
+| `ok` | fetched or cached + parsed | full registry details |
+| `unsupported_registry` | **not an NCT** — e.g. Cavarra's Dutch `NL70508.068.1`, ISRCTN, EudraCT | registry id only + "automated details aren't available for this registry" |
+| `not_found` | API 404 (withdrawn / embargoed / **mistyped NCT** — doubles as QC) | registry link + "could not be found" note |
+| `error` | network down / rate-limited / parse failure → **falls back to stale cache** if present | last good details, or the error note |
+| `not_fetched` | `--no-fetch` and nothing cached | "details haven't been fetched yet" note |
+
+**Gotchas / how to handle:**
+- **Non-NCT registries** (the big one): the CT.gov API can't resolve them. The Dutch CCMO/OMON
+  has no clean public API → stays manual. Others have their own APIs (ISRCTN, EU-CTIS, ANZCTR)
+  — add a per-registry adapter in `_registry_raw`/`build_trials` keyed off the id prefix if/when
+  needed. Until then they render gracefully as `unsupported_registry`.
+- **Registry ≠ paper.** Details are the *planned protocol* (e.g. *planned* vs *actual*
+  enrollment, status, results-posted) and can differ from the published paper — the card labels
+  them "from ClinicalTrials.gov." Do **not** overwrite extracted fields with registry values.
+- **Staleness.** Each cache entry has a `fetched` date; details drift over time (status, results
+  posted). Re-run with `--refresh` periodically, or delete `.registry_cache/`.
+- **API versioning.** v1 is retired; this pins v2 and isolates field paths in `_parse_ctgov()`
+  (defensive `.get()` throughout) so a schema change is a one-function fix and partial data
+  still renders.
+- **Offline/CI builds.** Use `--no-fetch`; the committed JSON already carries the details, so
+  the published site is unaffected.
 
 ## Tests
 

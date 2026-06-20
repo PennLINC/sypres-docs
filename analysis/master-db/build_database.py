@@ -31,6 +31,9 @@ import json
 import os
 import re
 import sys
+import time
+import urllib.error
+import urllib.request
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -41,6 +44,11 @@ DATA_DIR = os.path.join(HERE, "data")
 OUT_PATH = os.path.join(REPO, "_data", "master_db.json")
 # Optional manual PRISMA numbers not present in the Covidence stage exports.
 MANUAL_PATH = os.path.join(HERE, "prisma_manual.json")
+# Local cache of fetched registry responses (gitignored; parsed details live in
+# the committed _data/master_db.json so the *site* build never needs the network).
+CACHE_DIR = os.path.join(HERE, ".registry_cache")
+CTGOV_API = "https://clinicaltrials.gov/api/v2/studies/{}"
+CACHE_TTL_DAYS = 30
 
 # ---------------------------------------------------------------------------
 # Controlled vocabularies for light auto-derivation (drug + indication).
@@ -197,6 +205,173 @@ def _link_trials(studies: list) -> dict:
     return dict(by_key)
 
 
+# ---------------------------------------------------------------------------
+# Trial-registry enrichment (ClinicalTrials.gov API v2; NCT ids only)
+#
+# Failure modes are first-class: see fetch_status values below. The build never
+# raises on a registry problem — it records the status and emits null details, so
+# a missing/renamed/non-NCT registry can't break the database.
+#   ok                   – fetched (or cached) and parsed
+#   not_found            – API returned 404 (withdrawn / typo'd NCT)
+#   error                – network/API/parse failure (falls back to stale cache)
+#   unsupported_registry – not an NCT id (e.g. the Dutch NL/OMON registry); the
+#                          CT.gov API can't resolve it. Handle upstream (manual /
+#                          a per-registry adapter) — details stay null.
+#   not_fetched          – fetching disabled (--no-fetch) and nothing cached yet
+# ---------------------------------------------------------------------------
+def _enum(s: str) -> str:
+    """ClinicalTrials.gov enums are SCREAMING_SNAKE → 'Title Case'."""
+    return (s or "").replace("_", " ").title()
+
+
+def _phase(p: str) -> str:
+    p = (p or "").upper()
+    return {"NA": "N/A", "EARLY_PHASE1": "Early Phase 1"}.get(p, p.replace("PHASE", "Phase ").strip())
+
+
+def _registry_raw(nct: str, fetch: bool, refresh: bool):
+    """Return (raw_json|None, status, fetched_date|None). Cache-first; never raises."""
+    path = os.path.join(CACHE_DIR, nct + ".json")
+    if os.path.exists(path) and not refresh:
+        try:
+            c = json.load(open(path, encoding="utf-8"))
+            age = (_dt.date.today() - _dt.date.fromisoformat(c.get("fetched", "1900-01-01"))).days
+            # use cache if fresh, or whenever we're not allowed to fetch
+            if c.get("status") == "ok" and c.get("raw") and (age < CACHE_TTL_DAYS or not fetch):
+                return c["raw"], "ok", c.get("fetched")
+        except Exception:
+            pass
+    if not fetch:
+        return None, "not_fetched", None
+    try:
+        req = urllib.request.Request(
+            CTGOV_API.format(nct),
+            headers={"User-Agent": "SYPRES-master-db/1.0 (+https://sypres.io)"},
+        )
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            raw = json.loads(resp.read().decode("utf-8"))
+        fetched = _dt.date.today().isoformat()
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump({"fetched": fetched, "status": "ok", "raw": raw}, fh, ensure_ascii=False)
+        time.sleep(0.34)  # be polite to the API
+        return raw, "ok", fetched
+    except urllib.error.HTTPError as e:
+        status = "not_found" if e.code == 404 else "error"
+    except Exception:
+        status = "error"
+    # fetch failed: fall back to a stale cached copy if we have one
+    if os.path.exists(path):
+        try:
+            c = json.load(open(path, encoding="utf-8"))
+            if c.get("raw"):
+                return c["raw"], "ok", c.get("fetched")
+        except Exception:
+            pass
+    return None, status, None
+
+
+def _parse_ctgov(raw: dict) -> dict | None:
+    """Pull the trial-card fields out of a CT.gov v2 study record (defensively)."""
+    if not isinstance(raw, dict):
+        return None
+    ps = raw.get("protocolSection")
+    if not ps:
+        return None
+    ident = ps.get("identificationModule", {}) or {}
+    stt = ps.get("statusModule", {}) or {}
+    dz = ps.get("designModule", {}) or {}
+    sp = ps.get("sponsorCollaboratorsModule", {}) or {}
+    ai = ps.get("armsInterventionsModule", {}) or {}
+    om = ps.get("outcomesModule", {}) or {}
+    cl = ps.get("contactsLocationsModule", {}) or {}
+    cm = ps.get("conditionsModule", {}) or {}
+    di = dz.get("designInfo", {}) or {}
+    mi = di.get("maskingInfo", {}) or {}
+    lead = sp.get("leadSponsor", {}) or {}
+    en = dz.get("enrollmentInfo", {}) or {}
+
+    masking = _enum(mi.get("masking"))
+    who = mi.get("whoMasked") or []
+    if masking and who:
+        masking += " (" + ", ".join(_enum(w).lower() for w in who) + ")"
+
+    countries = []
+    for loc in (cl.get("locations") or []):
+        c = loc.get("country")
+        if c and c not in countries:
+            countries.append(c)
+
+    completion = (stt.get("completionDateStruct", {}) or {}).get("date") or \
+        (stt.get("primaryCompletionDateStruct", {}) or {}).get("date") or ""
+
+    return {
+        "title": ident.get("officialTitle") or ident.get("briefTitle") or "",
+        "status": _enum(stt.get("overallStatus")),
+        "study_type": _enum(dz.get("studyType")),
+        "phase": ", ".join(_phase(p) for p in (dz.get("phases") or [])),
+        "allocation": _enum(di.get("allocation")),
+        "model": _enum(di.get("interventionModel")),
+        "masking": masking,
+        "enrollment": (en.get("count") if isinstance(en.get("count"), int) else None),
+        "enrollment_type": _enum(en.get("type")),
+        "conditions": cm.get("conditions") or [],
+        "arms": [a.get("label", "") + (" — " + _enum(a.get("type")) if a.get("type") else "")
+                 for a in (ai.get("armGroups") or []) if a.get("label")],
+        "sponsor": lead.get("name", ""),
+        "industry": lead.get("class") == "INDUSTRY",
+        "start": (stt.get("startDateStruct", {}) or {}).get("date", ""),
+        "completion": completion,
+        "countries": countries,
+        "primary_outcomes": [
+            (o.get("measure", "") + (" — " + o["timeFrame"] if o.get("timeFrame") else ""))
+            for o in (om.get("primaryOutcomes") or []) if o.get("measure")
+        ],
+        "results_posted": bool(raw.get("hasResults")) or bool(stt.get("resultsFirstPostDateStruct")),
+    }
+
+
+def build_trials(studies: list, fetch: bool = False, refresh: bool = False) -> list:
+    """One entry per *registered* trial: registry details (enriched) + linked papers.
+
+    Unregistered papers (no `trial_key`) are paper-only and never become trials.
+    """
+    groups: dict = {}
+    order: list = []
+    for s in studies:
+        k = s.get("trial_key")
+        if k:
+            if k not in groups:
+                groups[k] = []
+                order.append(k)
+            groups[k].append(s["covidence_id"])
+
+    trials = []
+    for k in order:
+        nct = k if re.fullmatch(r"NCT\d+", k) else None
+        if nct:
+            raw, status, fetched = _registry_raw(nct, fetch, refresh)
+            details = _parse_ctgov(raw)
+            if status == "ok" and details is None:
+                status = "error"  # had data but couldn't parse it
+            trials.append({
+                "trial_key": k, "registry": k,
+                "registry_url": f"https://clinicaltrials.gov/study/{nct}",
+                "source": "clinicaltrials.gov", "fetched": fetched,
+                "fetch_status": status, "details": details, "paper_ids": groups[k],
+            })
+        else:
+            trials.append({
+                "trial_key": k, "registry": k, "registry_url": "",
+                "source": "other", "fetched": None,
+                "fetch_status": "unsupported_registry", "details": None,
+                "paper_ids": groups[k],
+            })
+    # most papers first, then by registry id
+    trials.sort(key=lambda t: (-len(t["paper_ids"]), t["trial_key"]))
+    return trials
+
+
 def _study_url(doi: str, pmid: str) -> str:
     if doi:
         doi = re.sub(r"^https?://doi\.org/", "", doi.strip())
@@ -305,9 +480,14 @@ def build_prisma(n_extracted: int) -> dict:
     }
 
 
-def build() -> dict:
+def build(fetch: bool = False, refresh: bool = False) -> dict:
     """Read the Covidence exports and return the full database dict
-    (`{meta, prisma, studies}`). Pure — does not touch the filesystem to write."""
+    (`{meta, prisma, trials, studies}`).
+
+    `fetch` controls registry enrichment (network). It defaults to False so tests
+    and offline builds stay hermetic; `main()` turns it on. `refresh` ignores cache
+    TTL and re-fetches. The *site* build never needs the network — it reads the
+    committed _data/master_db.json, which already contains the parsed details."""
     csvs = glob.glob(os.path.join(DATA_DIR, "*.csv"))
     included_files, extraction_files = [], []
     for path in csvs:
@@ -437,6 +617,7 @@ def build() -> dict:
     # group papers into trials (by registry, + parent-DOI for secondary analyses)
     by_key = _link_trials(studies)
     n_trials = len(by_key) + sum(1 for s in studies if not s["trial_key"])
+    trials = build_trials(studies, fetch=fetch, refresh=refresh)
 
     n_extracted = sum(1 for s in studies if s["extracted"])
     out = {
@@ -450,6 +631,8 @@ def build() -> dict:
             "outcomes": sorted({o for s in studies for o in s["outcomes"]}),
             "registries": sorted({s["registry_norm"] for s in studies if s["registry_norm"]}),
             "n_trials": n_trials,
+            "n_registered_trials": len(trials),
+            "n_trials_enriched": sum(1 for t in trials if t["fetch_status"] == "ok"),
             "n_multi_paper_trials": sum(1 for ids in by_key.values() if len(ids) > 1),
             "year_min": min((s["year"] for s in studies if s["year"]), default=None),
             "year_max": max((s["year"] for s in studies if s["year"]), default=None),
@@ -457,18 +640,24 @@ def build() -> dict:
             "source_extraction": os.path.relpath(ext_path, REPO) if ext_path else None,
         },
         "prisma": build_prisma(n_extracted),
+        "trials": trials,
         "studies": studies,
     }
     return out
 
 
 def main() -> int:
-    out = build()
+    argv = sys.argv[1:]
+    fetch = "--no-fetch" not in argv          # fetch registry details by default
+    refresh = "--refresh" in argv             # ignore cache TTL, re-fetch
+    out = build(fetch=fetch, refresh=refresh)
     os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=2)
 
     m, p = out["meta"], out["prisma"]
+    from collections import Counter
+    statuses = Counter(t["fetch_status"] for t in out["trials"])
     print(f"Wrote {os.path.relpath(OUT_PATH, REPO)}")
     print(f"  included : {m['n_included']}  extracted: {m['n_extracted']}")
     print(f"  drugs    : {', '.join(m['drugs'])}")
@@ -476,6 +665,8 @@ def main() -> int:
     print(f"  prisma   : {p['records_in_review']} in review -> "
           f"{p['advanced_to_fulltext']} full-text -> {p['included']} included "
           f"-> {p['extracted']} extracted")
+    print(f"  trials   : {m['n_registered_trials']} registered, "
+          f"{m['n_trials_enriched']} enriched  ({dict(statuses)})")
     return 0
 
 

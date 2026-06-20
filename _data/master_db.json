@@ -39,6 +39,8 @@
       "NL70508.068.1"
     ],
     "n_trials": 19,
+    "n_registered_trials": 7,
+    "n_trials_enriched": 6,
     "n_multi_paper_trials": 0,
     "year_min": 1964,
     "year_max": 2026,
@@ -71,6 +73,271 @@
       "excluded": "analysis/master-db/data/review_772559_excluded_csv_20260618041846.csv"
     }
   },
+  "trials": [
+    {
+      "trial_key": "NCT01211405",
+      "registry": "NCT01211405",
+      "registry_url": "https://clinicaltrials.gov/study/NCT01211405",
+      "source": "clinicaltrials.gov",
+      "fetched": "2026-06-20",
+      "fetch_status": "ok",
+      "details": {
+        "title": "Randomized, Triple-Blind, Phase 2 Pilot Study Comparing 3 Different Doses of MDMA in Conjunction With Manualized Therapy in 24 Veterans, Firefighters and Police Officers With Chronic Posttraumatic Stress Disorder (PTSD)",
+        "status": "Completed",
+        "study_type": "Interventional",
+        "phase": "Phase 2",
+        "allocation": "Randomized",
+        "model": "Parallel",
+        "masking": "Triple (participant, investigator, outcomes assessor)",
+        "enrollment": 26,
+        "enrollment_type": "Actual",
+        "conditions": [
+          "Posttraumatic Stress Disorder"
+        ],
+        "arms": [
+          "Low dose MDMA-assisted therapy — Active Comparator",
+          "Medium dose MDMA-assisted therapy — Active Comparator",
+          "Full dose MDMA-assisted therapy — Experimental"
+        ],
+        "sponsor": "Resilient Pharmaceuticals",
+        "industry": true,
+        "start": "2010-11-10",
+        "completion": "2016-08-02",
+        "countries": [
+          "United States"
+        ],
+        "primary_outcomes": [
+          "Change in Clinician-Administered PTSD Scale (CAPS-IV) From Baseline to Primary Endpoint — Baseline to one month after second experimental session"
+        ],
+        "results_posted": true
+      },
+      "paper_ids": [
+        28937
+      ]
+    },
+    {
+      "trial_key": "NCT03181763",
+      "registry": "NCT03181763",
+      "registry_url": "https://clinicaltrials.gov/study/NCT03181763",
+      "source": "clinicaltrials.gov",
+      "fetched": "2026-06-20",
+      "fetch_status": "ok",
+      "details": {
+        "title": "Evaluation of 3,4-methylenedioxymethamphetamine (MDMA) on Startle Response",
+        "status": "Completed",
+        "study_type": "Interventional",
+        "phase": "Phase 1",
+        "allocation": "Randomized",
+        "model": "Parallel",
+        "masking": "Double (participant, investigator)",
+        "enrollment": 34,
+        "enrollment_type": "Actual",
+        "conditions": [
+          "Startle Response"
+        ],
+        "arms": [
+          "100 mg MDMA HCl — Experimental",
+          "Placebo — Placebo Comparator"
+        ],
+        "sponsor": "Resilient Pharmaceuticals",
+        "industry": true,
+        "start": "2017-03-14",
+        "completion": "2020-08-01",
+        "countries": [
+          "United States"
+        ],
+        "primary_outcomes": [
+          "EMG of right orbicularis oculi muscle — Four days post-enrollment"
+        ],
+        "results_posted": false
+      },
+      "paper_ids": [
+        29299
+      ]
+    },
+    {
+      "trial_key": "NCT03300947",
+      "registry": "NCT03300947",
+      "registry_url": "https://clinicaltrials.gov/study/NCT03300947",
+      "source": "clinicaltrials.gov",
+      "fetched": "2026-06-20",
+      "fetch_status": "ok",
+      "details": {
+        "title": "Psilocybin for Treatment of Obsessive Compulsive Disorder",
+        "status": "Completed",
+        "study_type": "Interventional",
+        "phase": "Phase 1",
+        "allocation": "Randomized",
+        "model": "Parallel",
+        "masking": "Quadruple (participant, care provider, investigator, outcomes assessor)",
+        "enrollment": 15,
+        "enrollment_type": "Actual",
+        "conditions": [
+          "Obsessive-compulsive Disorder (OCD)"
+        ],
+        "arms": [
+          "High-dose Psilocybin — Experimental",
+          "High- or Low-dose Psilocybin — Experimental",
+          "High-dose Psilocybin or Lorazepam — Placebo Comparator"
+        ],
+        "sponsor": "University of Arizona",
+        "industry": false,
+        "start": "2019-01-02",
+        "completion": "2023-12-30",
+        "countries": [
+          "United States"
+        ],
+        "primary_outcomes": [
+          "Treatment-phase effects on Obsessive-Compulsive symptom severity — weekly Y-BOCS rating prior to ingestion of study drug on Week 1 through 8, and week 9 (follow up week 1)"
+        ],
+        "results_posted": false
+      },
+      "paper_ids": [
+        30694
+      ]
+    },
+    {
+      "trial_key": "NCT03429075",
+      "registry": "NCT03429075",
+      "registry_url": "https://clinicaltrials.gov/study/NCT03429075",
+      "source": "clinicaltrials.gov",
+      "fetched": "2026-06-20",
+      "fetch_status": "ok",
+      "details": {
+        "title": "Psilocybin vs Escitalopram for Major Depressive Disorder: Comparative Mechanisms",
+        "status": "Completed",
+        "study_type": "Interventional",
+        "phase": "Phase 2",
+        "allocation": "Randomized",
+        "model": "Parallel",
+        "masking": "Double (participant, investigator)",
+        "enrollment": 59,
+        "enrollment_type": "Actual",
+        "conditions": [
+          "Depressive Disorder, Major"
+        ],
+        "arms": [
+          "Psilocybin — Experimental",
+          "Escitalopram — Active Comparator"
+        ],
+        "sponsor": "Imperial College London",
+        "industry": false,
+        "start": "2019-01-07",
+        "completion": "2020-10-17",
+        "countries": [
+          "United Kingdom"
+        ],
+        "primary_outcomes": [
+          "Percentage Change of the BOLD Signal — Baseline measure vs 6 weeks post 1st psilocybin dosing",
+          "Change in QIDS-16: Quick Inventory of Depressive Symptomatology Self-Rated (QIDS-16) — Baseline vs 6 weeks post 1st psilocybin dosing"
+        ],
+        "results_posted": true
+      },
+      "paper_ids": [
+        30158
+      ]
+    },
+    {
+      "trial_key": "NCT03790358",
+      "registry": "NCT03790358",
+      "registry_url": "https://clinicaltrials.gov/study/NCT03790358",
+      "source": "clinicaltrials.gov",
+      "fetched": "2026-06-20",
+      "fetch_status": "ok",
+      "details": {
+        "title": "Mood Effects of Serotonin Agonists",
+        "status": "Completed",
+        "study_type": "Interventional",
+        "phase": "Phase 1",
+        "allocation": "Randomized",
+        "model": "Crossover",
+        "masking": "Triple (participant, care provider, outcomes assessor)",
+        "enrollment": 80,
+        "enrollment_type": "Actual",
+        "conditions": [
+          "Healthy"
+        ],
+        "arms": [
+          "Placebo — Placebo Comparator",
+          "low dose MDMA — Experimental",
+          "medium dose — Experimental",
+          "high dose — Experimental"
+        ],
+        "sponsor": "University of Chicago",
+        "industry": false,
+        "start": "2018-05-01",
+        "completion": "2023-01-27",
+        "countries": [
+          "United States"
+        ],
+        "primary_outcomes": [
+          "Change From Baseline in Profile of Mood States (POMS) — End of study (Baseline - time 0 and approximately 8 weeks later)"
+        ],
+        "results_posted": false
+      },
+      "paper_ids": [
+        28451
+      ]
+    },
+    {
+      "trial_key": "NCT04865653",
+      "registry": "NCT04865653",
+      "registry_url": "https://clinicaltrials.gov/study/NCT04865653",
+      "source": "clinicaltrials.gov",
+      "fetched": "2026-06-20",
+      "fetch_status": "ok",
+      "details": {
+        "title": "LSD Base and LSD Tartrate Bioequivalence and Bioavailability in Healthy Subjects",
+        "status": "Completed",
+        "study_type": "Interventional",
+        "phase": "Phase 1",
+        "allocation": "Randomized",
+        "model": "Crossover",
+        "masking": "Triple (participant, care provider, investigator)",
+        "enrollment": 20,
+        "enrollment_type": "Actual",
+        "conditions": [
+          "Healthy"
+        ],
+        "arms": [
+          "Oral drinking solution of LSD base — Experimental",
+          "Solid orodispersible film containing LSD base — Experimental",
+          "Oral drinking solution of LSD tartrate — Experimental",
+          "Intravenous administration of LSD tartrate — Experimental",
+          "Placebo — Placebo Comparator"
+        ],
+        "sponsor": "University Hospital, Basel, Switzerland",
+        "industry": false,
+        "start": "2022-03-17",
+        "completion": "2023-10-11",
+        "countries": [
+          "Switzerland"
+        ],
+        "primary_outcomes": [
+          "LSD plasma AUC — 18 months",
+          "LSD Cmax — 18 months",
+          "Bioavailability of LSD base — 18 months",
+          "Bioavailability of LSD tartrate — 18 months"
+        ],
+        "results_posted": false
+      },
+      "paper_ids": [
+        28373
+      ]
+    },
+    {
+      "trial_key": "NL70508.068.1",
+      "registry": "NL70508.068.1",
+      "registry_url": "",
+      "source": "other",
+      "fetched": null,
+      "fetch_status": "unsupported_registry",
+      "details": null,
+      "paper_ids": [
+        30267
+      ]
+    }
+  ],
   "studies": [
     {
       "covidence_id": 30694,

@@ -245,11 +245,47 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     border-radius: 8px; font-size: .84rem; margin-top: 8px;
   }
   .mdb-empty { padding: 40px; text-align: center; color: var(--mdb-muted); }
+
+  /* ---- tabs ---- */
+  .mdb-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--mdb-line); margin-bottom: 16px; }
+  .mdb-tab {
+    background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px;
+    padding: 9px 16px; font-size: .95rem; font-weight: 600; color: var(--mdb-muted); cursor: pointer;
+  }
+  .mdb-tab:hover { color: var(--mdb-ink); }
+  .mdb-tab.active { color: var(--mdb-blue-dark); border-bottom-color: var(--mdb-blue); }
+  .mdb-tab span { font-weight: 400; color: var(--mdb-muted); }
+
+  /* ---- trial cards ---- */
+  .mdb-trials-intro { color: var(--mdb-muted); font-size: .9rem; margin: 0 0 16px; max-width: 80ch; }
+  .mdb-tc { border: 1px solid var(--mdb-line); border-radius: 12px; background: #fff; padding: 16px 18px; margin-bottom: 14px; }
+  .mdb-tc-flash { animation: mdb-flash 1.5s ease-out; }
+  @keyframes mdb-flash { 0% { box-shadow: 0 0 0 3px rgba(44,121,222,.45); } 100% { box-shadow: 0 0 0 3px rgba(44,121,222,0); } }
+  .mdb-tc-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+  .mdb-tc-reg { font-size: 1.02rem; font-weight: 700; }
+  .mdb-tc-reg a { color: var(--mdb-blue); text-decoration: none; }
+  .mdb-tc-reg a:hover { text-decoration: underline; }
+  .mdb-tc-status { background: #eef4ff; color: var(--mdb-blue-dark); }
+  .mdb-tc-n { margin-left: auto; color: var(--mdb-muted); font-size: .82rem; }
+  .mdb-tc-title { font-size: .92rem; color: var(--mdb-ink); margin: 4px 0 12px; max-width: 80ch; }
+  .mdb-tc .mdb-grid { margin-bottom: 10px; }
+  .mdb-tc-src { color: var(--mdb-muted); font-size: .76rem; border-top: 1px solid var(--mdb-line); padding-top: 8px; margin-top: 6px; }
+  .mdb-tc-papers { margin-top: 10px; }
+  .mdb-goto-paper { display: inline-block; background: #eef4ff; color: var(--mdb-blue-dark); padding: 1px 8px; border-radius: 6px; margin: 1px 3px 1px 0; font-size: .8rem; text-decoration: none; }
+  .mdb-goto-paper:hover { background: #dfeaff; }
+  .mdb-goto-trial { color: var(--mdb-blue); text-decoration: none; font-size: .8rem; font-weight: 600; }
+  .mdb-goto-trial:hover { text-decoration: underline; }
 </style>
 
 <div id="mdb-app">
   <div class="mdb-stats" id="mdb-stats"></div>
 
+  <div class="mdb-tabs" id="mdb-tabs" role="tablist">
+    <button class="mdb-tab active" data-tab="papers" role="tab">Papers</button>
+    <button class="mdb-tab" data-tab="trials" role="tab">Trials <span id="mdb-tab-trials-n"></span></button>
+  </div>
+
+  <div id="mdb-papers-view">
   <div class="mdb-controls">
     <div class="mdb-search"><input type="text" id="mdb-q" placeholder="Search title, authors, abstract, year…" autocomplete="off"></div>
     <div class="mdb-filters">
@@ -291,6 +327,12 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
       <tbody id="mdb-tbody"></tbody>
     </table>
   </div>
+  </div><!-- /mdb-papers-view -->
+
+  <div id="mdb-trials-view" hidden>
+    <p class="mdb-trials-intro" id="mdb-trials-intro"></p>
+    <div id="mdb-trials-list"></div>
+  </div>
 </div>
 
 <script>
@@ -310,6 +352,9 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
   var state = { q: "", drug: "", ind: "", outcome: "", micro: "", stat: "", ymin: null, ymax: null, sort: "year", dir: -1, open: {} };
   var BY_ID = {};
   STUDIES.forEach(function (s) { BY_ID[s.covidence_id] = s; });
+  var TRIALS = DB.trials || [];
+  var TRIAL_BY_KEY = {};
+  TRIALS.forEach(function (t) { TRIAL_BY_KEY[t.trial_key] = t; });
 
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (s) { return (s == null ? "" : String(s)).replace(/[&<>"]/g, function (c) {
@@ -417,7 +462,10 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     } else {
       conn = ' <span class="mdb-trial-none">— only paper from this trial in the database so far.</span>';
     }
-    return '<div class="mdb-trial">' + head + conn + "</div>";
+    var view = TRIAL_BY_KEY[s.trial_key]
+      ? ' &nbsp;<a class="mdb-goto-trial" data-trial="' + esc(s.trial_key) + '" href="#" onclick="event.stopPropagation()">View trial details &rarr;</a>'
+      : "";
+    return '<div class="mdb-trial">' + head + conn + view + "</div>";
   }
 
   function detailPanel(s) {
@@ -517,13 +565,106 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     document.querySelectorAll(".mdb-goto").forEach(function (a) {
       a.addEventListener("click", function (e) {
         e.preventDefault();
-        var id = a.dataset.goto;
-        state.open[id] = true;
-        render();
-        var target = document.querySelector('.mdb-row[data-id="' + id + '"]');
-        if (target) target.scrollIntoView({ block: "center", behavior: "smooth" });
+        openPaper(a.dataset.goto);
       });
     });
+    // jump from a paper to its trial card (Trials tab)
+    document.querySelectorAll(".mdb-goto-trial").forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        showTrial(a.dataset.trial);
+      });
+    });
+  }
+
+  function openPaper(id) {
+    setTab("papers");
+    state.open[id] = true;
+    render();
+    var target = document.querySelector('.mdb-row[data-id="' + id + '"]');
+    if (target) target.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
+  // ---- trials view ----
+  function trialCard(t) {
+    var d = t.details;
+    var head = '<div class="mdb-tc-head"><span class="mdb-tc-reg">' +
+      (t.registry_url
+        ? '<a href="' + esc(t.registry_url) + '" target="_blank" rel="noopener">' + esc(t.registry) + "&#8599;</a>"
+        : esc(t.registry)) + "</span>";
+    if (d && d.status) head += '<span class="mdb-badge mdb-tc-status">' + esc(d.status) + "</span>";
+    head += '<span class="mdb-tc-n">' + t.paper_ids.length + " paper" + (t.paper_ids.length === 1 ? "" : "s") + "</span></div>";
+
+    var bodyHtml;
+    if (d) {
+      var design = [d.allocation, d.model, d.masking].filter(Boolean).join(" &middot; ");
+      var enroll = d.enrollment != null ? (d.enrollment + (d.enrollment_type ? " (" + d.enrollment_type.toLowerCase() + ")" : "")) : "";
+      var dates = [d.start, d.completion].filter(Boolean).join(" → ");
+      var rows = [
+        ["Study type", d.study_type], ["Phase", d.phase], ["Design", design],
+        ["Enrollment", enroll], ["Conditions", (d.conditions || []).join("; ")],
+        ["Arms", (d.arms || []).join(" · ")],
+        ["Sponsor", d.sponsor + (d.industry ? " (industry)" : "")],
+        ["Dates", dates], ["Countries", (d.countries || []).join(", ")],
+        ["Primary outcome", (d.primary_outcomes || []).join("; ")],
+        ["Results posted", d.results_posted ? "Yes" : "No"]
+      ].filter(function (r) { return r[1]; });
+      bodyHtml = (d.title ? '<div class="mdb-tc-title">' + esc(d.title) + "</div>" : "") +
+        '<div class="mdb-grid">' + rows.map(function (r) {
+          return '<div class="mdb-dl"><div class="k">' + esc(r[0]) + '</div><div class="v">' + esc(r[1]) + "</div></div>";
+        }).join("") + "</div>" +
+        '<div class="mdb-tc-src">Details from ClinicalTrials.gov' + (t.fetched ? " · fetched " + esc(t.fetched) : "") +
+        " · the registry reflects the <em>planned protocol</em> and may differ from the published paper.</div>";
+    } else {
+      var why = t.fetch_status === "unsupported_registry"
+        ? "Automated details aren't available for this registry (only ClinicalTrials.gov / NCT is auto-fetched)."
+        : t.fetch_status === "not_found"
+          ? "The registry id could not be found on ClinicalTrials.gov (withdrawn, embargoed, or mistyped)."
+          : "Registry details haven't been fetched yet.";
+      bodyHtml = '<div class="mdb-pending-note">' + esc(why) + "</div>";
+    }
+
+    var papers = '<div class="mdb-tc-papers"><span class="k">Papers in this database</span> ' +
+      t.paper_ids.map(function (cid) {
+        var o = BY_ID[cid]; if (!o) return "";
+        return '<a class="mdb-goto-paper" data-id="' + cid + '" href="#">' + esc(o.study_id || o.title) + "</a>";
+      }).join(" ") + "</div>";
+
+    return '<div class="mdb-tc" id="trial-' + esc(t.trial_key) + '">' + head + bodyHtml + papers + "</div>";
+  }
+
+  function renderTrials() {
+    $("mdb-tab-trials-n").textContent = TRIALS.length ? "(" + TRIALS.length + ")" : "";
+    var enriched = (META.n_trials_enriched != null) ? META.n_trials_enriched : TRIALS.filter(function (t) { return t.details; }).length;
+    $("mdb-trials-intro").innerHTML = "Registered trials in the database (" + TRIALS.length +
+      "), with details auto-pulled from ClinicalTrials.gov where available (" + enriched +
+      " enriched). A trial groups every paper in the database that reports it. Papers without a trial registration aren't shown here.";
+    if (!TRIALS.length) {
+      $("mdb-trials-list").innerHTML = '<div class="mdb-empty">No registered trials yet.</div>';
+      return;
+    }
+    $("mdb-trials-list").innerHTML = TRIALS.map(trialCard).join("");
+    document.querySelectorAll(".mdb-goto-paper").forEach(function (a) {
+      a.addEventListener("click", function (e) { e.preventDefault(); openPaper(a.dataset.id); });
+    });
+  }
+
+  function setTab(name) {
+    document.querySelectorAll(".mdb-tab").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.tab === name);
+    });
+    $("mdb-papers-view").hidden = name !== "papers";
+    $("mdb-trials-view").hidden = name !== "trials";
+  }
+
+  function showTrial(key) {
+    setTab("trials");
+    var card = document.getElementById("trial-" + key);
+    if (card) {
+      card.scrollIntoView({ block: "center", behavior: "smooth" });
+      card.classList.add("mdb-tc-flash");
+      setTimeout(function () { card.classList.remove("mdb-tc-flash"); }, 1500);
+    }
   }
 
   // ---- exports ----
@@ -608,7 +749,11 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     });
   });
 
-  renderStats(); initFilters(); render();
+  document.querySelectorAll(".mdb-tab").forEach(function (b) {
+    b.addEventListener("click", function () { setTab(b.dataset.tab); });
+  });
+
+  renderStats(); initFilters(); render(); renderTrials();
 })();
 </script>
 {% endraw %}

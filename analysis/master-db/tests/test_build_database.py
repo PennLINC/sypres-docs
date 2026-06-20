@@ -118,6 +118,59 @@ class TestHelpers(unittest.TestCase):
         self.assertIsNone(studies[3]["trial_key"])            # unregistered singleton
         self.assertEqual(studies[3]["connected_ids"], [])
 
+    def test_parse_ctgov(self):
+        raw = {
+            "hasResults": True,
+            "protocolSection": {
+                "identificationModule": {"officialTitle": "A Trial", "briefTitle": "AT"},
+                "statusModule": {"overallStatus": "COMPLETED",
+                                 "startDateStruct": {"date": "2020-01-01"},
+                                 "completionDateStruct": {"date": "2022-01-01"}},
+                "sponsorCollaboratorsModule": {"leadSponsor": {"name": "Acme", "class": "INDUSTRY"}},
+                "designModule": {"studyType": "INTERVENTIONAL", "phases": ["PHASE2"],
+                                 "designInfo": {"allocation": "RANDOMIZED", "interventionModel": "PARALLEL",
+                                                "maskingInfo": {"masking": "TRIPLE",
+                                                                "whoMasked": ["PARTICIPANT", "INVESTIGATOR"]}},
+                                 "enrollmentInfo": {"count": 42, "type": "ACTUAL"}},
+                "conditionsModule": {"conditions": ["PTSD"]},
+                "armsInterventionsModule": {"armGroups": [{"label": "High dose", "type": "EXPERIMENTAL"}]},
+                "outcomesModule": {"primaryOutcomes": [{"measure": "CAPS-5", "timeFrame": "8 weeks"}]},
+                "contactsLocationsModule": {"locations": [{"country": "United States"},
+                                                          {"country": "United States"}, {"country": "Canada"}]},
+            },
+        }
+        d = bd._parse_ctgov(raw)
+        self.assertEqual(d["title"], "A Trial")
+        self.assertEqual(d["status"], "Completed")
+        self.assertEqual(d["study_type"], "Interventional")
+        self.assertEqual(d["phase"], "Phase 2")
+        self.assertEqual([d["allocation"], d["model"]], ["Randomized", "Parallel"])
+        self.assertTrue(d["masking"].startswith("Triple (participant, investigator"))
+        self.assertEqual(d["enrollment"], 42)
+        self.assertEqual(d["arms"], ["High dose — Experimental"])
+        self.assertTrue(d["industry"])
+        self.assertEqual(d["countries"], ["United States", "Canada"])  # de-duped
+        self.assertEqual(d["primary_outcomes"], ["CAPS-5 — 8 weeks"])
+        self.assertTrue(d["results_posted"])
+        self.assertIsNone(bd._parse_ctgov(None))
+        self.assertIsNone(bd._parse_ctgov({}))
+
+    def test_build_trials_offline(self):
+        # fetch=False → never hits the network; uses cache only if present
+        studies = [
+            {"covidence_id": 1, "trial_key": "NCT01211405", "registry_norm": "NCT01211405"},
+            {"covidence_id": 2, "trial_key": "NL123", "registry_norm": "NL123"},
+            {"covidence_id": 3, "trial_key": None, "registry_norm": ""},  # unregistered
+        ]
+        trials = bd.build_trials(studies, fetch=False)
+        self.assertEqual({t["trial_key"] for t in trials}, {"NCT01211405", "NL123"})  # excludes #3
+        nl = next(t for t in trials if t["trial_key"] == "NL123")
+        self.assertEqual(nl["fetch_status"], "unsupported_registry")
+        self.assertIsNone(nl["details"])
+        nct = next(t for t in trials if t["trial_key"] == "NCT01211405")
+        self.assertEqual(nct["paper_ids"], [1])
+        self.assertIn(nct["fetch_status"], ("ok", "not_fetched"))  # cache-dependent, never network
+
 
 class TestBuildIntegration(unittest.TestCase):
     @classmethod
@@ -129,7 +182,7 @@ class TestBuildIntegration(unittest.TestCase):
 
     # ---- structural invariants (should always hold) ----
     def test_shape(self):
-        self.assertEqual(set(self.out), {"meta", "prisma", "studies"})
+        self.assertEqual(set(self.out), {"meta", "prisma", "trials", "studies"})
         self.assertGreater(len(self.studies), 0)
 
     def test_every_study_has_core_keys(self):
