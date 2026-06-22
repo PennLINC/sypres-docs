@@ -88,8 +88,11 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data, results=FALSE, message=FALSE}
 # Load data using metapsyData
-d <- getData("depression-psiloctr")
-data <- d$data
+# d <- getData("depression-psiloctr")
+# data <- d$data
+
+# load data locally for testing
+data <- read_csv2("~/Documents/GIT/data-depression-psiloctr/data.csv")
 
 
 # Check data format with checkDataFormat
@@ -379,13 +382,13 @@ dev.off()
 We perform meta-regression to examine the relationship between time since final dose and treatment effect.
 
 ```{r meta-regression, message=FALSE, warning=FALSE}
-reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
+reg <- metaRegression(time_results$model.threelevel.che, ~dose_days)
 reg
 ```
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
+regplot(reg, mod = "dose_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
