@@ -43,3 +43,6 @@ activate.R
 
 # Blossom API cache
 scripts/.blossom_cache/
+
+# Registry enrichment cache (parsed details live in _data/master_db.json)
+analysis/master-db/.registry_cache/
