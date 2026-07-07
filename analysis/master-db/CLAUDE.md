@@ -349,3 +349,39 @@ reviews / meta-analyses, the highest-value additions are:
   plus a free-text "other" so faceting stays clean.
 - Some records lack a DOI (conference abstracts, older trials); keep PMID/registry as backup
   stable identifiers.
+
+## Future directions — download tracking
+
+**Why it doesn't work today:** the CSV/RIS buttons build the file **client-side** (a `Blob`
+from data already on the page → synthetic `<a download>`). On a static site that makes **no
+network request**, so nothing — GitHub, Zenodo, a CDN, a server log — can count it. This is
+unlike the metapsy datasets, whose counts come from the data living on GitHub + Zenodo (see
+`scripts/clone-tracking/fetch.py` + `fetch_zenodo.py` → `_data/download_totals.yml`).
+NB: linking to a raw file in `assets/` on GitHub Pages is **also** uncountable (Pages exposes no
+download logs) — it must be a real release/deposit or an analytics/beacon hook.
+
+**Plan (do both — they answer different questions):**
+
+1. **Canonical, citable artifact = authoritative counts (primary).** Have `build_database.py`
+   also emit a full-database `psychedelic-rcts.csv`, and publish it as a **Zenodo** deposit
+   (mint a DOI; per-version + concept-level download counts — great for "others export to start
+   their own reviews") and/or a **GitHub data repo / Release** like `metapsy-project/data-*`.
+   Then **reuse the existing pipeline**: add the repo to `scripts/clone-tracking/fetch.py` and
+   the Zenodo concept recid to `fetch_zenodo.py`; the total flows into `_data/download_totals.yml`
+   and can render on the page exactly like the metapsy sidebar (`site.data.download_totals`).
+   Add a **"Download the full database (citable) →"** button pointing at that artifact (the
+   counted, canonical download); keep the client-side filtered CSV/RIS as an untracked
+   convenience. Fits the living/versioned model — each rebuild = a new Zenodo version.
+
+2. **Analytics events = usage of the interactive/filtered exports (complement).** Site analytics
+   is **already configured** (`_config.yml` → `analytics.provider: google-gtag`, `G-YTGXSZFJ08`),
+   so this is nearly free: fire `gtag('event', 'file_download', { format: 'csv'|'ris', rows: <n
+   filtered>, filters: <state> })` from the CSV/RIS click handlers in
+   `docs/datasets/master-db/index.html`. Captures what the artifact can't (which formats, how
+   many rows, which filters people actually export). *Caveats:* ad-blockers undercount and these
+   are click events, not authoritative downloads — hence pairing with #1. (A privacy-friendly
+   alt like Plausible/GoatCounter, or a `navigator.sendBeacon` to a small counter/Cloudflare
+   Worker, would work the same way if GA is ever dropped.)
+
+**Bottom line:** Zenodo/GitHub artifact for the citable, authoritative number (consistent with
+the other SYPRES datasets); gtag events layered in for interactive-export usage.
