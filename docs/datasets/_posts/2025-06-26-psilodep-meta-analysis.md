@@ -348,21 +348,21 @@ time_results$model.threelevel.che
 ```
 
     ## 
-    ## Multivariate Meta-Analysis Model (k = 37; method: REML)
+    ## Multivariate Meta-Analysis Model (k = 39; method: REML)
     ## 
     ## Variance Components:
     ## 
     ##             estim    sqrt  nlvls  fixed       factor 
-    ## sigma^2.1  0.0822  0.2866     12     no        study 
-    ## sigma^2.2  0.0450  0.2121     37     no  study/es.id 
+    ## sigma^2.1  0.1015  0.3186     12     no        study 
+    ## sigma^2.2  0.0425  0.2060     39     no  study/es.id 
     ## 
     ## Test for Heterogeneity:
-    ## Q(df = 36) = 94.2903, p-val < .0001
+    ## Q(df = 38) = 96.8249, p-val < .0001
     ## 
     ## Model Results:
     ## 
     ## estimate      se     tval  df    pval    ci.lb    ci.ub      
-    ##  -0.8221  0.1254  -6.5542  36  <.0001  -1.0765  -0.5677  *** 
+    ##  -0.8166  0.1315  -6.2088  38  <.0001  -1.0829  -0.5504  *** 
     ## 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -458,37 +458,37 @@ We perform meta-regression to examine the relationship between time
 since final dose and treatment effect.
 
 ``` r
-reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
+reg <- metaRegression(time_results$model.threelevel.che, ~dose_days)
 reg
 ```
 
     ## 
-    ## Multivariate Meta-Analysis Model (k = 37; method: REML)
+    ## Multivariate Meta-Analysis Model (k = 38; method: REML)
     ## 
     ## Variance Components:
     ## 
     ##             estim    sqrt  nlvls  fixed       factor 
-    ## sigma^2.1  0.0767  0.2770     12     no        study 
-    ## sigma^2.2  0.0451  0.2123     37     no  study/es.id 
+    ## sigma^2.1  0.1009  0.3176     12     no        study 
+    ## sigma^2.2  0.0439  0.2095     38     no  study/es.id 
     ## 
     ## Test for Residual Heterogeneity:
-    ## QE(df = 35) = 90.3819, p-val < .0001
+    ## QE(df = 36) = 92.9118, p-val < .0001
     ## 
     ## Test of Moderators (coefficient 2):
-    ## F(df1 = 1, df2 = 35) = 1.9272, p-val = 0.1738
+    ## F(df1 = 1, df2 = 36) = 1.7179, p-val = 0.1983
     ## 
     ## Model Results:
     ## 
     ##            estimate      se     tval  df    pval    ci.lb    ci.ub      
-    ## intrcpt     -0.8796  0.1307  -6.7275  35  <.0001  -1.1450  -0.6142  *** 
-    ## time_days    0.0019  0.0013   1.3882  35  0.1738  -0.0009   0.0046      
+    ## intrcpt     -0.8742  0.1382  -6.3257  36  <.0001  -1.1544  -0.5939  *** 
+    ## dose_days    0.0017  0.0013   1.3107  36  0.1983  -0.0010   0.0045      
     ## 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ``` r
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
+regplot(reg, mod = "dose_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
@@ -654,8 +654,8 @@ dep
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
-    ## .93 [-1.87; 0.01] 0.051  69.5 [21.89; 88.08] [-2.73; 0.87]  2.99
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .93 [-1.87; 0.0… 0.051  69.5 [21.… [-2.73; 0.87]  2.99
 
 ``` r
 excol <- main
@@ -665,8 +665,8 @@ excol
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p         i2 i2.ci      prediction.ci   nnt
-    ## .81 [-1.03; -0.6] <0.001   2.9 [0; 65.82] [-1.03; -0.6]  3.46
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .81 [-1.03; -0.… <0.0…   2.9 [0; … [-1.03; -0.6]  3.46
 
 ``` r
 rob <- main
@@ -676,8 +676,8 @@ rob
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## .97 [-1.38; -0.57] <0.001  51.2 [0; 77.15] [-1.72; -0.23]  2.83
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .97 [-1.38; -0.… <0.0…  51.2 [0; … [-1.72; -0.2…  2.83
 
 ``` r
 parallel <- main
@@ -687,8 +687,8 @@ parallel
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## 0.8 [-1.11; -0.49] <0.001  35.5 [0; 72.79] [-1.05; -0.55]  3.52
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## 0.8 [-1.11; -0.… <0.0…  35.5 [0; … [-1.05; -0.5…  3.52
 
 ``` r
 crossover <- main
@@ -698,8 +698,8 @@ crossover
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p        i2 i2.ci          prediction.ci   nnt
-    ## .04 [-2.06; -0.03] 0.046  71.2 [26.88; 88.61] [-3.13; 1.04]  2.63
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .04 [-2.06; -0.… 0.046  71.2 [26.… [-3.13; 1.04]  2.63
 
 ``` r
 expanded <- main
@@ -709,8 +709,8 @@ expanded
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci    nnt
-    ## .88 [-1.21; -0.56] <0.001  54.8 [19.16; 74.75] [-1.72; -0.05]  3.16
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .88 [-1.21; -0.… <0.0…  54.8 [19.… [-1.72; -0.0…  3.16
 
 ``` r
 outliers <- main
@@ -720,8 +720,8 @@ outliers
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci      prediction.ci    nnt
-    ## .81 [-1.07; -0.55] <0.001  32.7 [0; 66.92] [-1.16; -0.46]  3.48
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .81 [-1.07; -0.… <0.0…  32.7 [0; … [-1.16; -0.4…  3.48
 
 ``` r
 fixed <- main
@@ -732,8 +732,8 @@ fixed
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci    nnt
-    ## .84 [-1.02; -0.67] <0.001  53.9 [11.39; 75.98] [-1.72; -0.09]  3.32
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .84 [-1.02; -0.… <0.0…  53.9 [11.… [-1.72; -0.0…  3.32
 
 ``` r
 g10 <- main
@@ -743,8 +743,8 @@ g10
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p         i2 i2.ci          prediction.ci   nnt
-    ## .87 [-1.27; -0.47] <0.001  69.2 [44.08; 83.04] [-1.97; 0.24]  3.23
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .87 [-1.27; -0.… <0.0…  69.2 [44.… [-1.97; 0.24]  3.23
 
 ``` r
 clinician <- main
@@ -754,8 +754,8 @@ clinician
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci          p        i2 i2.ci          prediction.ci   nnt
-    ## .02 [-1.6; -0.44] 0.005  64.5 [19.95; 84.25] [-2.22; 0.18]  2.71
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ## .02 [-1.6; -0.4… 0.005  64.5 [19.… [-2.22; 0.18]  2.71
 
 ``` r
 selfreport <- main
@@ -765,8 +765,8 @@ selfreport
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k     g g.ci           p        i2 i2.ci         prediction.ci   nnt
-    ##  -1 [-1.68; -0.31] 0.010    73 [47.19; 86.2] [-2.72; 0.72]  2.76
+    ## Model       k     g g.ci         p        i2 i2.ci prediction.ci   nnt
+    ##  -1 [-1.68; -0.… 0.010    73 [47.… [-2.72; 0.72]  2.76
 
 We summarize these subgroup and sensitivity analyses in **Figure 3**
 below. ![](/analysis/psilodep/paperfigs/Fig_03.png) Our series of
@@ -805,7 +805,7 @@ bayes
     ## tau prior (proper):
     ## function (t) 
     ## dhalfnormal(t, scale = 0.5)
-    ## <bytecode: 0xbcefc3770>
+    ## <bytecode: 0x72765a740>
     ## 
     ## mu prior (proper):
     ## normal(mean=0, sd=1)
@@ -967,8 +967,8 @@ rerun(response_results)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k    rr rr.ci        p         i2 i2.ci     prediction.ci   nnt
-    ## 2.8 [2.05; 3.83] <0.001     0 [0; 79.2] [1.78; 4.3]    2.81
+    ## Model       k    rr rr.ci        p        i2 i2.ci prediction.ci   nnt
+    ## 2.8 [2.05; 3.83] <0.0…     0 [0; … [1.78; 4.3]    2.81
 
 ``` r
 # Fixed remission
@@ -978,8 +978,8 @@ rerun(remission_results)
 ```
 
     ## Model results ------------------------------------------------ 
-    ## Model       k    rr rr.ci        p         i2 i2.ci      prediction.ci   nnt
-    ## .05 [2.67; 6.15] <0.001     0 [0; 74.62] [2.33; 6.99]   2.98
+    ## Model       k    rr rr.ci        p        i2 i2.ci prediction.ci   nnt
+    ## 4.2 [2.74; 6.45] <0.0…     0 [0; … [2.39; 7.36]   2.98
 
 Our fixed effects models yielded results that were in line with the main
 model, showing statistically significant higher response and remission
