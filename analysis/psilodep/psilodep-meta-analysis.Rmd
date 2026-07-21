@@ -379,13 +379,13 @@ dev.off()
 We perform meta-regression to examine the relationship between time since final dose and treatment effect.
 
 ```{r meta-regression, message=FALSE, warning=FALSE}
-reg <- metaRegression(time_results$model.threelevel.che, ~time_days)
+reg <- metaRegression(time_results$model.threelevel.che, ~dose_days)
 reg
 ```
 
 ```{r plot-meta-regression, message=FALSE, warning=FALSE, results=FALSE}
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/SI_Fig_03.png"), res = 315, width = 3000, height = 2200)
-regplot(reg, mod = "time_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
+regplot(reg, mod = "dose_days", xlab = "Time since final dose (days)", ylab = "Hedges' g")
 dev.off()
 ```
 
@@ -754,18 +754,19 @@ dev.off()
 ### BELOW IS CODE FOR TABLE PART OF PLOT
 
 # Create required table_df from full_sensitivity_summary
+tau_col <- "Tau\u00b2"
 table_subgroup_df <- full_subgroup_summary %>%
   mutate(
     `95% CI` = paste0("[", round(lower_ci, 2), ", ", round(upper_ci, 2), "]"),
-    # `Tau<U+00B2>` = round(tau2, 2),
-    `Tau<U+00B2>` = formatC(signif(tau2, 2), format = "fg", digits = 2, flag = "#"),
+    # !!tau_col := round(tau2, 2),
+    !!tau_col := formatC(signif(tau2, 2), format = "fg", digits = 2, flag = "#"),
     `Hedges' g` = round(hedges_g, 2),
     N = N_studies
   ) %>%
   select(
     Subgroup = subgroup,
     N,
-    `Tau<U+00B2>`,
+    !!tau_col,
     `Hedges' g`,
     `95% CI`
   ) %>%
@@ -997,7 +998,7 @@ pval <- response_results$model.overall$pval.Q
 
 # format heterogeneity text
 heterogeneity_text <- sprintf(
-  "Heterogeneity: I<U+00B2> = %.2f%% [%.2f%%, %.2f%%], <U+03C4><U+00B2> = %.2f [%.2f, %.2f], p = %.3f",
+  "Heterogeneity: I\u00b2 = %.2f%% [%.2f%%, %.2f%%], \u03c4\u00b2 = %.2f [%.2f, %.2f], p = %.3f",
   I2 * 100, lower_I2 * 100, upper_I2 * 100,
   tau2, lower_tau2, upper_tau2,
   pval
@@ -1049,7 +1050,7 @@ pval <- remission_results$model.overall$pval.Q
 
 # format heterogeneity text
 heterogeneity_text <- sprintf(
-  "Heterogeneity: I<U+00B2> = %.2f%% [%.2f%%, %.2f%%], <U+03C4><U+00B2> = %.2f [%.2f, %.2f], p = %.3f",
+  "Heterogeneity: I\u00b2 = %.2f%% [%.2f%%, %.2f%%], \u03c4\u00b2 = %.2f [%.2f, %.2f], p = %.3f",
   I2 * 100, lower_I2 * 100, upper_I2 * 100,
   tau2, lower_tau2, upper_tau2,
   pval
