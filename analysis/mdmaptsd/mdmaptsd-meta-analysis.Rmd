@@ -209,7 +209,7 @@ plot(
 The primary meta-analysis on continuous outcomes in the 6 studies included in the main model showed a statistically significant reduction in PTSD scores with MDMA treatment as compared to control conditions, with small between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
-quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig2_mdmaptsd.pdf"), width = 14.3, height = 4.76)
+quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/fig1_mdmaptsd.pdf"), width = 14.3, height = 4.76)
 
 meta::forest(main_results$model.overall,
   sortvar = main_results$model.overall$data$year,
@@ -243,7 +243,7 @@ Egger's test did not indicate small-study effects/publication bias.
 
 
 ```{r funnelplot, message=FALSE, results='hide'}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_02.png"), res = 315, width = 2500, height = 1500)
 funnel(main_results$model.overall,
   studlab = TRUE, # can also use vector with study labels
   cex.studlab = 0.7, # adjust size of study labels
@@ -263,7 +263,7 @@ funnel(main_results$model.overall,
 dev.off()
 ```
 
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_01.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_02.png)
 Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's test did not find small study effects, implying minimal evidence of publication bias.
 
 
@@ -346,29 +346,36 @@ reg <- metaRegression(time_results$model.threelevel.che, ~n_dosing_sessions)
 reg
 ```
 ```{r plot-meta-regression session, message=FALSE, warning=FALSE, results=FALSE, include=FALSE}
-quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression.pdf"), width = 9.51, height = 6.98)
+plot_dosing <- function() {
+  par(
+    cex.lab = 1.8, # axis titles (xlab, ylab)
+    cex.axis = 1.5, # tick labels
+    mar = c(5.5, 5.0, 3, 1.5) # bottom, left, top, right
+  )
+  
+  regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
+  
+  tab <- coef(summary(reg))
+  p_mod <- tab["n_dosing_sessions", "pval"]
+  slope <- tab["n_dosing_sessions", "estimate"]
+  # print(p_mod)
+  
+  mtext(
+    bquote(
+      italic(beta) == .(format(signif(slope, digits = 1), scientific = FALSE)) * "," ~
+        italic(p) == .(format.pval(p_mod, digits = 2, eps = 0.001))
+    ),
+    side = 3, line = 1, adj = 1, cex = 1.6
+  )
+}
 
-par(
-  cex.lab = 1.8, # axis titles (xlab, ylab)
-  cex.axis = 1.5, # tick labels
-  mar = c(5.5, 5.0, 3, 1.5) # bottom, left, top, right
-)
-
-regplot(reg, mod = "n_dosing_sessions", xlab = "Number of dosing sessions", ylab = "Hedges' g")
-
-tab <- coef(summary(reg))
-p_mod <- tab["n_dosing_sessions", "pval"]
-slope <- tab["n_dosing_sessions", "estimate"]
-# print(p_mod)
-
-mtext(
-  bquote(
-    italic(beta) == .(format(signif(slope, digits = 1), scientific = FALSE)) * "," ~
-      italic(p) == .(format.pval(p_mod, digits = 2, eps = 0.001))
-  ),
-  side = 3, line = 1, adj = 1, cex = 1.6
-)
-
+base <- file.path(basedir, "analysis/mdmaptsd/paperfigs/dosing_sessions_regression")
+quartz(type = "pdf", file = paste0(base, ".pdf"), width = 9.51, height = 6.98)
+plot_dosing()
+dev.off()
+quartz(type = "png", file = paste0(base, ".png"), width = 9.51, height = 6.98,
+       dpi = 300)  # dpi matters for PNG sharpness
+plot_dosing()
 dev.off()
 ```
 
@@ -385,28 +392,34 @@ reg <- metaRegression(time_results$model.threelevel.che, ~cumulative_dose_arm1)
 reg
 ```
 ```{r plot-meta-regression cumulative, message=FALSE, warning=FALSE, results=FALSE, include=FALSE}
-quartz(type = "pdf", file = file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose.pdf"), width = 9.51, height = 6.98)
+plot_cumulative <- function() {
+  par(
+    cex.lab = 1.8, # axis titles (xlab, ylab)
+    cex.axis = 1.5, # tick labels
+    mar = c(5.5, 5.0, 3, 1.5) # bottom, left, top, right
+  )
+  
+  regplot(reg, mod = "cumulative_dose_arm1", xlab = "Cumulative dose (mg)", ylab = "Hedges' g")
+  
+  tab <- coef(summary(reg))
+  p_mod <- tab["cumulative_dose_arm1", "pval"]
+  slope <- tab["cumulative_dose_arm1", "estimate"]
+  
+  mtext(
+    bquote(
+      italic(beta) == .(format(signif(slope, digits = 1), scientific = FALSE)) * "," ~
+        italic(p) == .(format.pval(p_mod, digits = 2, eps = 0.001))
+    ),
+    side = 3, line = 1, adj = 1, cex = 1.6
+  )
+}
 
-par(
-  cex.lab = 1.8, # axis titles (xlab, ylab)
-  cex.axis = 1.5, # tick labels
-  mar = c(5.5, 5.0, 3, 1.5) # bottom, left, top, right
-)
-
-regplot(reg, mod = "cumulative_dose_arm1", xlab = "Cumulative dose (mg)", ylab = "Hedges' g")
-
-tab <- coef(summary(reg))
-p_mod <- tab["cumulative_dose_arm1", "pval"]
-slope <- tab["cumulative_dose_arm1", "estimate"]
-
-mtext(
-  bquote(
-    italic(beta) == .(format(signif(slope, digits = 1), scientific = FALSE)) * "," ~
-      italic(p) == .(format.pval(p_mod, digits = 2, eps = 0.001))
-  ),
-  side = 3, line = 1, adj = 1, cex = 1.6
-)
-
+base <- file.path(basedir, "analysis/mdmaptsd/paperfigs/cumulative_dose")
+quartz(type = "pdf", file = paste0(base, ".pdf"), width = 9.51, height = 6.98)
+plot_cumulative()
+dev.off()
+quartz(type = "png", file = paste0(base, ".png"), width = 9.51, height = 6.98, dpi = 300)
+plot_cumulative()
 dev.off()
 ```
 
@@ -872,7 +885,7 @@ plot.bayesmeta(
 dev.off()
 ```
 We can visualize each posterior probability distribution (solid line), along with the priors (dashed) below:
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_03.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_05.png)
 
 #### Sweep the within-study correlation coefficient for the three-level CHE
 
@@ -918,7 +931,7 @@ for (rho in rho_seq) {
 }
 ```
 ```{r rho sweep, message=FALSE, results='hide', fig.show='hold', include=FALSE}
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_04.png"), res = 315, width = 2500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_06.png"), res = 315, width = 2500, height = 1500)
 # plot the results (base R with shaded CI ribbon)
 y_vals <- c(g_ci_lwr, g_ci_upr, g_sweep)
 y_finite <- y_vals[is.finite(y_vals)]
@@ -949,7 +962,7 @@ if (!all(is.finite(y_range))) y_range <- c(-1, 1)
 dev.off()
 ```
 
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_04.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_06.png)
 
 The main effect size is not sensitive to the within-study correlation coefficient.
 ```{r calculating n for each study at timepoint, include=FALSE}
