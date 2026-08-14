@@ -769,13 +769,46 @@ data_robconcerns <- data_main %>%
 
 Now we can use `metapsyTools` replacement functions for quickly looking running some sensitivity analyses.
 
-```{r run individual meta analyses for paper, warning=FALSE, message=FALSE}
+```{r run individual meta analysis for paper 1, warning=FALSE, message=FALSE}
 # Use metapsyTools' replacement and rerun functions for quickly changing parameters
 medium <- main_results # copy the main model
 data(medium) <- data_medium_dose # replace the dataframe in the new model
 medium <- rerun(medium) # re-run the model
 medium
 
+# Create simple forest plot of results
+plot(
+  medium,
+  which = "overall"
+)
+```
+
+Our medium dose comparison yielded similar results to the high dose comparison.
+
+```{r run fixed effect models, warning=FALSE, message=FALSE}
+fixed_continuous <- main_results
+method.tau(fixed_continuous) <- "FE" # for this sensitivity analysis, we keep data the same but change parameters
+hakn(fixed_continuous) <- FALSE
+fixed_continuous <- rerun(fixed_continuous)
+fixed_continuous
+
+fixed_response <- response_results
+method.tau(fixed_response) <- "FE"
+hakn(fixed_response) <- FALSE
+fixed_response <- rerun(fixed_response)
+fixed_response
+
+fixed_remission <- remission_results
+method.tau(fixed_remission) <- "FE"
+hakn(fixed_remission) <- FALSE
+fixed_remission <- rerun(fixed_remission)
+fixed_remission
+```
+
+Our fixed effects models yielded results that were in line with the random effect models.
+
+```{r run individual meta analysis for paper 2, warning=FALSE, message=FALSE}
+# Use metapsyTools' replacement and rerun functions for quickly changing parameters
 robconcerns <- main_results
 data(robconcerns) <- data_robconcerns
 robconcerns <- rerun(robconcerns)
@@ -783,18 +816,11 @@ robconcerns
 
 # Create simple forest plot of results
 plot(
-  medium,
-  which = "overall"
-)
-
-plot(
   robconcerns,
   which = "overall"
 )
 ```
 
-Our medium dose comparison yielded similar results to the high dose comparison.
-Our fixed effects models yielded results that were in line with the random effects models.
 Our model excluding Mithoefer 2011 yielded similar results to the main model.
 
 ```{r main medium dose forest plot for indesign, include=FALSE}

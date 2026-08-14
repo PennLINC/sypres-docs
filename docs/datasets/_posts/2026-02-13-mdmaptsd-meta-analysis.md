@@ -115,8 +115,7 @@ checkConflicts(data,
     "rating"
   )
 )
-# data <- read_csv2("~/Documents/GIT/data-ptsd-mdmactr/data.csv") # for parker
-# data <- read_csv2("/Users/bsevchik/Documents/GitHub/data-ptsd-mdmactr/data.csv") # for brooke
+
 data <- data %>%
   calculateEffectSizes(
     vars.for.id = c(
@@ -258,8 +257,9 @@ statistical (Egger’s test) methods.
 eggers.test(main_results$model.overall)
 ```
 
-    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 6 studies. Egger's test
-    ## may lack the statistical power to detect bias when the number of studies is small (i.e., k<10).
+    ## Warning in eggers.test(main_results$model.overall): Your meta-analysis contains k = 6 studies.
+    ## Egger's test may lack the statistical power to detect bias when the number of studies is small (i.e.,
+    ## k<10).
 
     ## Eggers' test of the intercept 
     ## ============================= 
@@ -272,7 +272,7 @@ eggers.test(main_results$model.overall)
 Egger’s test did not indicate small-study effects/publication bias.
 
 ``` r
-png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_01.png"), res = 315, width = 2500, height = 1500)
+png(filename = file.path(basedir, "analysis/mdmaptsd/paperfigs/final/SI_Fig_02.png"), res = 315, width = 2500, height = 1500)
 funnel(main_results$model.overall,
   studlab = TRUE, # can also use vector with study labels
   cex.studlab = 0.7, # adjust size of study labels
@@ -292,7 +292,7 @@ funnel(main_results$model.overall,
 dev.off()
 ```
 
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_01.png) Visual inspection
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_02.png) Visual inspection
 of the funnel plot reveals limited asymmetry, and the Egger’s test did
 not find small study effects, implying minimal evidence of publication
 bias.
@@ -668,10 +668,10 @@ data2 <- read_csv("~/Documents/GIT/psypres/MDMAPTSD/data/data.csv") # for parker
 ```
 
     ## Rows: 183 Columns: 65
-    ## ── Column specification ────────────────────────────────────────────────────────────────────────────────────
+    ## ── Column specification ──────────────────────────────────────────────────────────────────────────────
     ## Delimiter: ","
-    ## chr (30): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, outcome_type, instrument, ratin...
-    ## dbl (35): primary_instrument, time_days, time_weeks, primary_timepoint, post_crossover, n_arm1, mean_arm...
+    ## chr (30): study, condition_arm1, condition_arm2, multi_arm1, multi_arm2, outcome_type, instrument,...
+    ## dbl (35): primary_instrument, time_days, time_weeks, primary_timepoint, post_crossover, n_arm1, me...
     ## 
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -787,6 +787,9 @@ These analyses include:
 -   In the multi-arm studies (Mithoefer 2018 and Ot’alora 2018) replace
     high-dose intervention with medium-dose intervention
 
+-   Main model, excluding Mithoefer 2011 that had some concerns in risk
+    of bias assessment
+
 -   Fixed-effects models for primary continuous outcomes and response
     and remission rates
 
@@ -794,7 +797,7 @@ These analyses include:
 
 -   Within-study correlation coefficient sweep for three-level CHE model
 
-#### Medium dose comparison and fixed effects analyses
+#### Medium dose comparison, excluding Mithoefer 2011, and fixed effects analyses
 
 ``` r
 # Build a dataframe for the first sensitivity analysis
@@ -808,6 +811,12 @@ data_medium_dose <- data %>%
     !(Detect(study, "Mithoefer 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2))),
     !(Detect(study, "Ot'alora 2018") & (!is.na(multi_arm1)) & Detect(multi_arm2, "125 mg")),
     !(Detect(study, "Ot'alora 2018") & (Detect(multi_arm1, "125 mg") & !is.na(multi_arm2)))
+  )
+
+# Build a dataframe for the second sensitivity analysis
+data_robconcerns <- data_main %>%
+  filterPoolingData(
+    !Detect(study, "Mithoefer 2011")
   )
 ```
 
@@ -834,7 +843,10 @@ plot(
 )
 ```
 
-![](/analysis/mdmaptsd/knitfigs/run%20individual%20meta%20analyses%20for%20paper-1.png)
+![](/analysis/mdmaptsd/knitfigs/run%20individual%20meta%20analysis%20for%20paper%201-1.png)
+
+Our medium dose comparison yielded similar results to the high dose
+comparison.
 
 ``` r
 fixed_continuous <- main_results
@@ -872,9 +884,33 @@ fixed_remission
     ## Model       k    rr rr.ci        p         i2 i2.ci      prediction.ci   nnt
     ## .49 [1.52; 4.09] <0.001     0 [0; 84.69] [1.01; 5.03]   3.98
 
-Our medium dose comparison yielded similar results to the high dose
-comparison. Our fixed effects models yielded results that were in line
-with the random effects models.
+Our fixed effects models yielded results that were in line with the
+random effect models.
+
+``` r
+# Use metapsyTools' replacement and rerun functions for quickly changing parameters
+robconcerns <- main_results
+data(robconcerns) <- data_robconcerns
+robconcerns <- rerun(robconcerns)
+robconcerns
+```
+
+    ## Model results ------------------------------------------------ 
+    ## Model       k     g g.ci          p        i2 i2.ci     prediction.ci    nnt
+    ## .67 [-0.9; -0.45] 0.001     0 [0; 79.2] [-1.06; -0.28]  4.29
+
+``` r
+# Create simple forest plot of results
+plot(
+  robconcerns,
+  which = "overall"
+)
+```
+
+![](/analysis/mdmaptsd/knitfigs/run%20individual%20meta%20analysis%20for%20paper%202-1.png)
+
+Our model excluding Mithoefer 2011 yielded similar results to the main
+model.
 
 #### Bayesian implementation
 
@@ -903,7 +939,7 @@ bayes
     ## tau prior (proper):
     ## function (t) 
     ## dhalfnormal(t, scale = 0.5)
-    ## <bytecode: 0x78119fa10>
+    ## <bytecode: 0xbe1069888>
     ## 
     ## mu prior (proper):
     ## normal(mean=0, sd=1)
@@ -932,7 +968,7 @@ the 95% interval of the true effect lies between -1.05 and -0.36.
 
 We can visualize each posterior probability distribution (solid line),
 along with the priors (dashed) below:
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_03.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_05.png)
 
 #### Sweep the within-study correlation coefficient for the three-level CHE
 
@@ -984,7 +1020,7 @@ for (rho in rho_seq) {
 }
 ```
 
-![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_04.png)
+![](/analysis/mdmaptsd/paperfigs/final/SI_Fig_06.png)
 
 The main effect size is not sensitive to the within-study correlation
 coefficient.
