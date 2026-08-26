@@ -159,6 +159,7 @@ values be empty.
 | `build_database.py` | `build()` returns the dict; `main()` writes `_data/master_db.json`. Re-run after every new export. |
 | `tests/test_build_database.py` | Stdlib `unittest` suite for the build pipeline. See [Tests](#tests). |
 | `PAPER_OUTLINE.md` | Planning doc: the systematic-map paper, its figure plan, and which figures the current schema can and cannot support. |
+| `figures/` | Preview figure scripts (matplotlib + numpy), one per viable figure, plus `make_figures.py`. Reads the committed `_data/master_db.json`, never the raw CSVs. See `figures/README.md`. |
 | `.registry_cache/` | Gitignored cache of fetched ClinicalTrials.gov responses (parsed details are committed in `_data/master_db.json`). |
 | `CLAUDE.md` | This file. |
 | `../../_data/master_db.json` | Generated data consumed by the site. **Do not hand-edit** — regenerate. |

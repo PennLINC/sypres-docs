@@ -6,7 +6,9 @@ with a consensus-equivalent row). Every number quoted is **provisional** — the
 figures the schema can support, not results.
 
 Companion documents: [`CLAUDE.md`](CLAUDE.md) for the pipeline, data dictionary, and the
-extraction-template gap list.
+extraction-template gap list; [`figures/`](figures/) for runnable preview scripts — one per
+viable figure, regenerated with `python3 analysis/master-db/figures/make_figures.py` after each
+rebuild.
 
 > **Scope decisions from review (2026-08-26).** Dose, psychotherapy, per-arm N, route,
 > primary-outcome designation, race/ethnicity, and risk-of-bias were all judged **out of scope**
@@ -36,10 +38,12 @@ Covidence export updates both.
    distinct trials, with one trial contributing three papers. Every count in this literature
    quoted "per study" is inflated by an unknown factor. We can quantify it — including for
    *unregistered* trials, via source-paper DOIs, which is the piece other maps cannot do.
-3. **No two trials measure the same set of things.** Among the 29 extracted studies with at least
-   one outcome domain recorded, there are **26 distinct domain combinations, 23 of which are used
-   by exactly one study**. This is the empirical case for a core outcome set. *(See the note under
-   Figure 5 on what level of granularity this claim is — and is not — making.)*
+3. **No two trials measure the same set of things.** Among the 16 verified-complete extractions
+   there are **15 distinct domain combinations, 14 of which are used by exactly one study**. This
+   is the empirical case for a core outcome set. *(See the note under Figure 5 on what level of
+   granularity this claim is — and is not — making. Earlier drafts quoted 26 combinations across
+   29 studies; that used every reviewer row, including in-progress ones, and has been restated on
+   the verified denominator.)*
 4. **The field's registration and reporting record is measurable, and mixed.** In the pilot,
    extracted studies from the 2000s are almost entirely unregistered; from the 2020s, almost
    entirely registered. Of 18 registry-enriched trials, 3 were registered *retrospectively* and
@@ -101,7 +105,7 @@ what makes 4A honest for unregistered trials. *The most novel figure in the set.
 > sub-category within each (e.g. `Psychiatric: depression`) — **not instruments**. So the claim is
 > *not* "trials use a scattered set of scales"; that would need instrument-level extraction, which
 > is out of scope. The claim is that **trials do not agree on which domains to measure at all**:
-> 26 distinct domain combinations across 29 studies, 23 of them unique to a single study.
+> 15 distinct domain combinations across 16 studies, 14 of them unique to a single study.
 > This is the right level anyway — COMET-style core-outcome-set development explicitly establishes
 > *core domains* first and selects instruments as a separate second stage. The figure supports
 > stage one, and says nothing about stage two.
