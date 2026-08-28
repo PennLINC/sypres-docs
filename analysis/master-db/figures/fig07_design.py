@@ -1,11 +1,12 @@
 """Figure 7 — Design and methodological rigour.
 
 A: comparator type (extracted — covers every verified study).
-B: design model + masking level (REGISTRY-sourced — registered trials only).
+B: design model.  C: which parties were masked.
 
-The registry half of this figure covers only registered trials, which is roughly
-half the corpus and the newer half. Closing it for unregistered studies is the
-one remaining design-extraction ask.
+Design and blinding are read from the STUDY record, which the build fills from
+the extraction template for studies with no NCT and from ClinicalTrials.gov for
+those with one — so these panels span the whole corpus rather than the
+registered slice, and each bar is split by which source supplied it.
 """
 import os
 import sys
@@ -43,47 +44,49 @@ def main():
     a.grid(axis="y", visible=False)
     C.despine(a); C.integer_axis(a, "x")
 
-    # ---- B: design model, from the registry ----
-    models = collections.Counter(t["details"]["model"] or "(unset)" for t in T)
-    ks = [k for k, _ in models.most_common()]
-    vals = [models[k] for k in ks]
-    # one series → one hue; the single-group bar is flagged because it is a
-    # registration error, which is a status, not a rank
-    bars = b.bar(ks, vals, width=0.55,
-                 color=[C.STATUS["warning"] if k == "Single Group" else C.PALETTE[0]
-                        for k in ks],
-                 edgecolor=C.C["surface"], linewidth=2)
-    C.bar_labels(b, bars, vals)
-    b.set_ylabel("Registered trials")
+    # ---- B: design model, extracted + registry, split by source ----
+    D = [s for s in db["studies"] if s.get("design")]
+    ks = [k for k in (db["meta"].get("designs") or []) if k]
+    reg_n = [sum(1 for s in D if s["design"] == k and s["design_source"] == "registry")
+             for k in ks]
+    ext_n = [sum(1 for s in D if s["design"] == k and s["design_source"] == "extracted")
+             for k in ks]
+    x = np.arange(len(ks))
+    b.bar(x, reg_n, width=0.55, label="from registry", color=C.PALETTE[0],
+          edgecolor=C.C["surface"], linewidth=2)
+    b.bar(x, ext_n, bottom=reg_n, width=0.55, label="extracted", color=C.PALETTE[2],
+          edgecolor=C.C["surface"], linewidth=2)
+    for xi, tot in zip(x, [r + e for r, e in zip(reg_n, ext_n)]):
+        b.annotate(str(tot), (xi, tot), textcoords="offset points", xytext=(0, 3),
+                   ha="center", fontsize=7.5, color=C.C["secondary"])
+    b.set_xticks(x); b.set_xticklabels(ks)
+    b.set_ylim(0, max([r + e for r, e in zip(reg_n, ext_n)] or [1]) * 1.18)  # label headroom
+    b.set_ylabel("Studies")
     b.set_title("B · Design model", loc="left", fontsize=10, pad=20)
-    b.annotate("from ClinicalTrials.gov — registered trials only", (0, 1.02),
+    b.annotate("registry for NCT studies, extracted for the rest", (0, 1.02),
                xycoords="axes fraction", fontsize=7.5, color=C.C["muted"])
+    if any(ext_n):
+        b.legend(loc="upper right", fontsize=7.5, handlelength=1.1)
     b.tick_params(labelsize=8)
     b.grid(axis="x", visible=False)
     C.despine(b); C.integer_axis(b)
-    if "Single Group" in models:
-        b.annotate("⚠ 'Single Group' in an RCT\ndatabase is a registration error\n"
-                   "(NCT00823407 is a crossover)",
-                   (0.97, 0.72), xycoords="axes fraction", ha="right", fontsize=7,
-                   color=C.STATUS["warning"])
-
-    # ---- C: who was actually masked (not the level — see the doc) ----
+    # ---- C: who was actually masked (roles, never a level — see the doc) ----
     roles = ["participant", "care provider", "investigator", "outcomes assessor"]
-    got = collections.Counter()
-    for t in T:
-        m = t["details"]["masking"]
-        inside = m[m.find("(") + 1:m.find(")")] if "(" in m else ""
-        for r in roles:
-            if r.split()[0] in inside:
-                got[r] += 1
+    B = [s for s in db["studies"] if s.get("blinding_roles") or s.get("blinding_flags")]
+    got = collections.Counter(r for s in B for r in s["blinding_roles"])
     vals = [got[r] for r in roles]
     bars = c.barh(roles[::-1], vals[::-1], height=0.6, color=C.PALETTE[2],
                   edgecolor=C.C["surface"], linewidth=2)
     for bar, v in zip(bars, vals[::-1]):
-        c.annotate(f"{v}/{len(T)}", (bar.get_width(), bar.get_y() + bar.get_height() / 2),
+        c.annotate(f"{v}/{len(B)}", (bar.get_width(), bar.get_y() + bar.get_height() / 2),
                    textcoords="offset points", xytext=(4, 0), va="center",
                    fontsize=7.5, color=C.C["secondary"])
-    c.set_xlabel("Registered trials masking this role")
+    n_unspec = sum(1 for s in B if "not-specified" in s["blinding_flags"])
+    if n_unspec:
+        c.annotate(f"{n_unspec} state a level without naming who — never inferred",
+                   (0, -0.24), xycoords="axes fraction", fontsize=7,
+                   color=C.STATUS["warning"])
+    c.set_xlabel("Studies masking this role")
     c.set_title("C · Who was masked", loc="left", fontsize=10, pad=20)
     c.annotate("the level (single/double/triple) hides which roles", (0, 1.02),
                xycoords="axes fraction", fontsize=7.5, color=C.C["muted"])
@@ -93,8 +96,9 @@ def main():
     fig.suptitle("Design and methodological rigour", x=0.004, ha="left",
                  fontsize=12, fontweight="bold")
     C.save(fig, "fig07_design",
-           f"A: n = {len(E)} verified extractions · B and C: n = {len(T)} registry-enriched "
-           f"trials — unregistered studies (about half the corpus) are absent from B and C")
+           f"A: n = {len(E)} verified extractions · B: n = {len(D)} studies with a design · "
+           f"C: n = {len(B)} with blinding recorded · registry for NCT studies, "
+           f"extracted for the rest")
 
 
 if __name__ == "__main__":

@@ -111,13 +111,91 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(bd._phase("EARLY_PHASE1"), "Early Phase 1")
 
     def test_registration_status(self):
-        self.assertEqual(bd._registration_status("1", "NCT123"), "registered")
-        self.assertEqual(bd._registration_status("Unregistered", ""), "unregistered")
-        # a registry id outranks the sentinel if both are somehow present
-        self.assertEqual(bd._registration_status("Unregistered", "NCT123"), "registered")
-        # a phase with no registry is a contradiction → unknown (build() warns)
-        self.assertEqual(bd._registration_status("1", ""), "unknown")
-        self.assertEqual(bd._registration_status("", ""), "unknown")
+        """Derived from the registry cell, not a phase sentinel."""
+        self.assertEqual(bd._registration_status("NCT123", True), "registered")
+        self.assertEqual(bd._registration_status("NCT123", False), "registered")
+        # an EXTRACTED row with an empty registry is a positive "no registration"
+        self.assertEqual(bd._registration_status("", True), "unregistered")
+        # nobody has looked at an un-extracted row yet
+        self.assertEqual(bd._registration_status("", False), "unknown")
+
+    def test_split_multi_plus_inside_other(self):
+        """';' separates options; '+' separates values inside one Other box."""
+        self.assertEqual(bd._split_multi("ayahuasca; Other: harmine + banisteriopsis"),
+                         ["ayahuasca", "Other: harmine", "Other: banisteriopsis"])
+        self.assertEqual(bd._split_multi("placebo (niacin, mannitol); d-amphetamine"),
+                         ["placebo (niacin, mannitol)", "d-amphetamine"])
+        # a '+' outside an Other box is part of the value, not a separator
+        self.assertEqual(bd._split_multi("EEG/MEG; PET/SPECT"), ["EEG/MEG", "PET/SPECT"])
+        self.assertEqual(bd._split_multi(""), [])
+
+    def test_num_or_nr(self):
+        """A blank is 'not extracted'; NR is the paper not reporting it."""
+        self.assertEqual(bd._num_or_nr("24"), (24, "value"))
+        self.assertEqual(bd._num_or_nr(""), (None, "blank"))
+        for token in ("NR", "nr", "N.R.", "not reported", "Not Reported"):
+            self.assertEqual(bd._num_or_nr(token), (None, "not_reported"), token)
+        self.assertEqual(bd._num_or_nr("43.75", cast=float), (43.75, "value"))
+        self.assertEqual(bd._num_or_nr("banana"), (None, "unparsed"))
+
+    def test_age(self):
+        self.assertEqual(bd._age("mean", "35.2")["age"], 35.2)
+        self.assertEqual(bd._age("median", "31")["age"], 31.0)
+        # a range has no point estimate — a midpoint would fabricate precision
+        r = bd._age("range", "18–27")
+        self.assertEqual((r["age"], r["age_low"], r["age_high"]), (None, 18.0, 27.0))
+        self.assertEqual(bd._age("range", "18-27")["age_high"], 27.0)   # ascii hyphen
+        nr = bd._age("not reported", "")
+        self.assertEqual((nr["age"], nr["age_metric"]), (None, "not reported"))
+        self.assertEqual(bd._age("", "")["age_metric"], "")
+
+    def test_blinding_records_roles_not_a_level(self):
+        roles, flags = bd._blinding("participant; investigator")
+        self.assertEqual(roles, ["participant", "investigator"])
+        self.assertEqual(flags, [])
+        self.assertEqual(bd._masking_level(roles, flags), "Double")
+        # a bare "double-blind" names one role + not-specified; it must NOT be
+        # counted as single-blind, and the missing party is never inferred
+        roles, flags = bd._blinding("participant; not-specified")
+        self.assertEqual(roles, ["participant"])
+        self.assertEqual(bd._masking_level(roles, flags), "Stated, roles not named")
+        roles, flags = bd._blinding("open-label")
+        self.assertEqual(bd._masking_level(roles, flags), "Open label")
+        # assessor-only single-blind: the participant is NOT masked
+        roles, flags = bd._blinding("outcomes assessor")
+        self.assertEqual((roles, bd._masking_level(roles, flags)),
+                         (["outcomes assessor"], "Single"))
+
+    def test_yes_checkbox(self):
+        self.assertTrue(bd._yes("yes"))
+        self.assertFalse(bd._yes(""))          # unchecked = the default (no)
+
+    def test_norm_registry_all(self):
+        """All ids, NCT first — the NCT is the only enrichable one."""
+        self.assertEqual(bd._norm_registry_all("NCT03790358; NCT04865653"),
+                         ["NCT03790358", "NCT04865653"])
+        self.assertEqual(bd._norm_registry_all("NL70508.068.1; NL-OMON55178"),
+                         ["NL70508.068.1", "NL-OMON55178"])
+        self.assertEqual(bd._norm_registry_all("ACTRN12621000436875; NCT99"),
+                         ["NCT99", "ACTRN12621000436875"])
+        self.assertEqual(bd._norm_registry_all(""), [])
+
+    def test_template_column_lookup_survives_renames(self):
+        """Fields resolve by any candidate label, case/whitespace-insensitively."""
+        self.assertEqual(bd._get({"N analyzed (if applicable)": "20"}, "n_anal"), "20")
+        self.assertEqual(bd._get({"N analyzed": "20"}, "n_anal"), "20")
+        self.assertEqual(bd._get({"  parent study doi ": "10.1/x"}, "parent_doi"), "10.1/x")
+        self.assertEqual(bd._get({}, "design"), "")
+
+    def test_check_template_reports_both_directions(self):
+        header = [n[0] for n in bd.TEMPLATE_COLUMNS.values()] + bd.OUTCOME_DOMAINS
+        self.assertEqual(bd._check_template(header), [])
+        missing = bd._check_template([h for h in header if h != "Blinding"])
+        self.assertTrue(any("missing expected column" in w and "Blinding" in w for w in missing))
+        extra = bd._check_template(header + ["Some New Field"])
+        self.assertTrue(any("does not read" in w and "Some New Field" in w for w in extra))
+        # retired columns are tolerated, not reported as unrecognised
+        self.assertEqual(bd._check_template(header + ["Study type"]), [])
 
     def test_comparator_types(self):
         self.assertEqual(bd._comparator_types("placebo (niacin, mannitol, sugar pill, etc.)"),
@@ -126,9 +204,47 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(
             bd._comparator_types("placebo (niacin, mannitol, sugar pill, etc.); d-amphetamine"),
             ["Placebo", "Active drug"])
-        self.assertEqual(bd._comparator_types("low-dose intervention drug"), ["Low-dose active"])
+        self.assertEqual(bd._comparator_types("low-dose intervention drug"), ["Low-dose control"])
         self.assertEqual(bd._comparator_types("waitlist/care as usual"), ["Waitlist / care as usual"])
         self.assertEqual(bd._comparator_types(""), [])
+
+    def test_comparator_types_dose_and_coadministration(self):
+        """The three 2026-08-28 options, on the designs that motivated them."""
+        DOSE = "other dose levels of the intervention (dose-ranging)"
+        IVA = "intervention component alone (co-administration studies)"
+        CoA = "co-administered component alone (co-administration studies)"
+        PBO = "placebo (niacin, mannitol, sugar pill, etc.)"
+        LOW = "low-dose intervention drug"
+
+        # Goodwin 2022 (1/10/25 mg): a designated low-dose control AND a dose
+        # gradient — the two are independent, not alternatives
+        self.assertEqual(bd._comparator_types(f"{LOW}; {DOSE}"),
+                         ["Low-dose control", "Dose-ranging"])
+        # ...and no placebo tick: a low active dose is not an inert comparator
+        self.assertNotIn("Placebo", bd._comparator_types(f"{LOW}; {DOSE}"))
+
+        # full 2x2 co-administration (LSD+ketanserin / LSD / ketanserin / double placebo)
+        self.assertEqual(bd._comparator_types(f"{PBO}; {IVA}; {CoA}"),
+                         ["Placebo", "Intervention alone", "Co-administered alone"])
+        # the 2-cell version we actually hold (NCT04558294) has neither the
+        # co-administered-alone nor an inert cell
+        self.assertEqual(bd._comparator_types(IVA), ["Intervention alone"])
+
+        # the two component-alone options must not collide: each label contains
+        # "component alone", and the co-administered one also contains
+        # "co-administration studies"
+        self.assertEqual(bd._comparator_types(CoA), ["Co-administered alone"])
+        self.assertEqual(bd._comparator_types(IVA), ["Intervention alone"])
+        # dose-ranging must not fall through to the catch-all, nor be read as low-dose
+        self.assertEqual(bd._comparator_types(DOSE), ["Dose-ranging"])
+
+    def test_comparator_catch_all_is_last(self):
+        """The final pattern matches anything, so it must never pre-empt a
+        specific one — a regression here silently relabels every new option."""
+        self.assertEqual(bd.COMPARATOR_PATTERNS[-1][0], "Active drug")
+        self.assertEqual(bd.COMPARATOR_PATTERNS[-1][1], r".")
+        labels = [lab for lab, _ in bd.COMPARATOR_PATTERNS]
+        self.assertEqual(len(labels), len(set(labels)))
 
     def test_outcomes_from_category_columns(self):
         row = {"Cognitive": "social cognition; memory",
@@ -241,7 +357,32 @@ class TestHelpers(unittest.TestCase):
         self.assertEqual(studies[2]["trial_key"], "NCT999")   # inherits parent's registry
         self.assertEqual(studies[2]["trial_key_source"], "parent-registry")
         self.assertIsNone(studies[3]["trial_key"])            # unregistered singleton
+        self.assertEqual(studies[3]["trial_keys"], [])
         self.assertEqual(studies[3]["connected_ids"], [])
+
+    def test_link_trials_pooled_vs_cross_registration(self):
+        """Several ids mean several trials ONLY when the study is pooled."""
+        studies = [
+            # cross-registered single trial: two ids, one trial
+            {"covidence_id": 1, "doi": "10.1/a", "registry": "NL70508.068.1; NL-OMON55178",
+             "parent_study_doi": "", "pooled": False},
+            # pooled across two registered trials
+            {"covidence_id": 2, "doi": "10.2/b", "registry": "NCT111; NCT222",
+             "parent_study_doi": "", "pooled": True},
+            # a paper reporting just one of those trials
+            {"covidence_id": 3, "doi": "10.3/c", "registry": "NCT222",
+             "parent_study_doi": "", "pooled": False},
+        ]
+        by_key = bd._link_trials(studies)
+        self.assertEqual(studies[0]["trial_keys"], ["NL70508.068.1"])   # NOT two trials
+        self.assertIsNotNone(studies[0]["trial_key"])
+        self.assertEqual(studies[1]["trial_keys"], ["NCT111", "NCT222"])
+        self.assertIsNone(studies[1]["trial_key"])           # spans several trials
+        # the pooled paper joins BOTH trials, and connects to the single-trial paper
+        self.assertIn(2, by_key["NCT111"])
+        self.assertEqual(sorted(by_key["NCT222"]), [2, 3])
+        self.assertEqual(studies[2]["connected_ids"], [2])
+        self.assertEqual(studies[1]["connected_ids"], [3])
 
     def test_link_trials_groups_unregistered_reports_by_parent_doi(self):
         """Reports of one UNREGISTERED trial group on the source paper's DOI."""
@@ -608,3 +749,152 @@ class TestBuildIntegration(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TestNewTemplateEndToEnd(unittest.TestCase):
+    """build() against a synthetic export in the 2026-08 template format.
+
+    The real exports on disk still use the PREVIOUS template, so this is the only
+    coverage of the new conditional-block / pooled / NR paths until a new
+    Covidence export lands. Delete it only once real data exercises them.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        import csv
+        import tempfile
+        cls.tmp = tempfile.mkdtemp()
+        head = ["Covidence #", "Study ID", "Title", "Reviewer Name", "DOI",
+                "Trial Registry Number", "Pooled study?", "Parent study DOI",
+                "Country / countries where the trial was conducted", "Trial Phase",
+                "Design", "Blinding", "N randomized", "N analyzed", "Age metric",
+                "Age value", "%Female", "Target Population", "Microdosing study?",
+                "Psychedelic/Intervention Drug(s)",
+                "Co-administration/Pre-treatment Drug(s)", "Comparator Drug"] \
+            + bd.OUTCOME_DOMAINS + ["What is the qualitative outcome?", "Notes"]
+
+        def row(**kw):
+            r = dict.fromkeys(head, "")
+            r.update(kw)
+            return r
+
+        rows = [
+            row(**{"Covidence #": "1001", "Study ID": "Nct 2025", "Reviewer Name": "R",
+                   "Trial Registry Number": "NCT04865653", "N randomized": "24",
+                   "N analyzed": "20", "Age metric": "mean", "Age value": "35.2",
+                   "%Female": "43.75", "Target Population": "healthy volunteers",
+                   "Psychedelic/Intervention Drug(s)": "LSD", "PK/PD": "PK; PD"}),
+            row(**{"Covidence #": "1003", "Study ID": "Anzctr 2024", "Reviewer Name": "R",
+                   "Trial Registry Number": "ACTRN12621000436875",
+                   "Country / countries where the trial was conducted": "New Zealand",
+                   "Trial Phase": "2", "Design": "crossover",
+                   "Blinding": "participant; outcomes assessor",
+                   "N randomized": "80", "N analyzed": "NR", "Age metric": "range",
+                   "Age value": "18–27", "%Female": "0", "Microdosing study?": "yes",
+                   "Target Population": "healthy volunteers",
+                   "Psychedelic/Intervention Drug(s)": "LSD"}),
+            row(**{"Covidence #": "1004", "Study ID": "Unreg 2010", "Reviewer Name": "R",
+                   "DOI": "10.9/child", "Parent study DOI": "10.9/parent",
+                   "Country / countries where the trial was conducted":
+                       "United States; Other: Peru",
+                   "Trial Phase": "Not Reported", "Design": "Other: n-of-1 series",
+                   "Blinding": "participant; not-specified", "N randomized": "NR",
+                   "N analyzed": "16", "Age metric": "not reported", "%Female": "NR",
+                   "Target Population": "healthy volunteers",
+                   "Psychedelic/Intervention Drug(s)":
+                       "ayahuasca; Other: harmine + banisteriopsis",
+                   "Sensorimotor & perception": "vison; Other: pain + time perception"}),
+        ]
+        with open(os.path.join(cls.tmp, "review_9_20260828.csv"), "w",
+                  newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=head)
+            w.writeheader()
+            w.writerows(rows)
+
+        inc = ["Title", "Authors", "Abstract", "Published Year", "Published Month",
+               "Journal", "Volume", "Issue", "Pages", "Accession Number", "DOI", "Ref",
+               "Covidence #", "Study", "Notes", "Tags"]
+        bib = []
+        for cid, sid, doi in [("1001", "Nct 2025", ""), ("1003", "Anzctr 2024", ""),
+                              ("1004", "Unreg 2010", "10.9/child"),
+                              ("1006", "Parent 2008", "10.9/parent")]:
+            r = dict.fromkeys(inc, "")
+            r.update({"Title": sid, "Authors": "A B", "Published Year": "2020",
+                      "Covidence #": "#" + cid, "Study": sid, "DOI": doi})
+            bib.append(r)
+        with open(os.path.join(cls.tmp, "review_9_included_csv_20260828.csv"), "w",
+                  newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=inc)
+            w.writeheader()
+            w.writerows(bib)
+
+        orig_dir, orig_rev = bd.DATA_DIR, bd.CONSENSUS_REVIEWER
+        bd.DATA_DIR, bd.CONSENSUS_REVIEWER = cls.tmp, None
+        try:
+            cls.out = bd.build(fetch=False)
+        finally:
+            bd.DATA_DIR, bd.CONSENSUS_REVIEWER = orig_dir, orig_rev
+        cls.S = {s["study_id"]: s for s in cls.out["studies"]}
+
+    @classmethod
+    def tearDownClass(cls):
+        import shutil
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_new_columns_are_all_recognised(self):
+        """No 'missing expected column' warning against a full new-format header."""
+        self.assertEqual([w for w in self.out["meta"]["warnings"]
+                          if "missing expected column" in w], [])
+
+    def test_nr_is_distinct_from_blank(self):
+        u = self.S["Unreg 2010"]
+        self.assertEqual((u["n_randomized"], u["n_randomized_status"]), (None, "not_reported"))
+        self.assertEqual(u["n_analyzed"], 16)
+        self.assertFalse(u["attrition_determinable"])       # NR on one side
+        self.assertEqual(u["pct_female_status"], "not_reported")
+        n = self.S["Nct 2025"]
+        self.assertTrue(n["attrition_determinable"])
+        self.assertEqual(n["attrition"], 4)                 # 24 randomised - 20 analysed
+
+    def test_plus_separates_values_inside_other(self):
+        u = self.S["Unreg 2010"]
+        self.assertEqual(u["drugs"], ["Ayahuasca", "Harmine", "Banisteriopsis"])
+        self.assertIn("Sensorimotor & perception: Other: pain", u["outcome_measures"])
+        self.assertIn("Sensorimotor & perception: Other: time perception", u["outcome_measures"])
+        self.assertEqual(u["countries"], ["United States", "Peru"])
+
+    def test_conditional_block_is_used_for_non_nct_registries(self):
+        """A non-NCT registry is registered but NOT enriched — the block applies."""
+        a = self.S["Anzctr 2024"]
+        self.assertEqual(a["registration_status"], "registered")
+        self.assertFalse(a["has_nct"])
+        self.assertEqual((a["phase"], a["phase_source"]), ("Phase 2", "extracted"))
+        self.assertEqual((a["design"], a["design_source"]), ("crossover", "extracted"))
+        self.assertEqual(a["blinding_roles"], ["participant", "outcomes assessor"])
+        self.assertEqual(a["masking_level"], "Double")      # counted, not assumed
+        self.assertEqual(a["countries_source"], "extracted")
+        self.assertTrue(a["microdosing"])
+
+    def test_registry_supersedes_the_block_for_nct_studies(self):
+        n = self.S["Nct 2025"]
+        self.assertTrue(n["has_nct"])
+        for f in ("design", "blinding", "countries"):
+            if n[f + "_source"]:
+                self.assertEqual(n[f + "_source"], "registry")
+
+    def test_derived_fields(self):
+        self.assertEqual(self.S["Anzctr 2024"]["sex_specific"], "male")   # %female = 0
+        self.assertEqual(self.S["Nct 2025"]["sex_specific"], "")          # mixed
+        a = self.S["Anzctr 2024"]
+        self.assertEqual((a["age_metric"], a["age_low"], a["age_high"]), ("range", 18.0, 27.0))
+        self.assertIsNone(a["age"])                    # a range has no point estimate
+        self.assertEqual(self.S["Nct 2025"]["age"], 35.2)
+        u = self.S["Unreg 2010"]
+        self.assertEqual((u["design"], u["design_other"]), ("other", "n-of-1 series"))
+
+    def test_unregistered_links_to_its_parent_paper(self):
+        u, p = self.S["Unreg 2010"], self.S["Parent 2008"]
+        self.assertEqual(u["registration_status"], "unregistered")
+        self.assertEqual(u["trial_keys"], ["doi:10.9/parent"])
+        self.assertEqual(p["trial_key_source"], "source-paper")
+        self.assertIn(p["covidence_id"], u["connected_ids"])

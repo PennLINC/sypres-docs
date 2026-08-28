@@ -103,14 +103,17 @@ DRUG_PATTERNS = [
     ("MDMA", r"mdma|methylenedioxymethamphetamine|ecstasy|midomafetamine"),
     ("MDA", r"\bmda\b|methylenedioxyamphetamine"),
     ("Psilocybin", r"psilocybin|psilocin|psilocyb"),
+    ("Bretisilocin", r"bretisilocin|\bgm-?2505\b"),
     ("LSD", r"\blsd\b|lysergic|lysergide"),
     ("Ayahuasca", r"ayahuasca"),
+    # 5-MeO must precede the bare DMT pattern or it is swallowed by it
     ("5-MeO-DMT", r"5-meo"),
     ("DMT", r"\bdmt\b|dimethyltryptamine"),
     ("Mescaline", r"mescaline"),
     ("2C-B", r"2c-b|bromo-2,5-dimethoxyphenethylamine"),
+    ("Methylone", r"methylone"),
     ("Salvinorin A", r"salvinorin|salvia divinorum"),
-    ("Ibogaine", r"ibogaine|noribogaine"),
+    ("Ibogaine", r"iboga|ibogaine|noribogaine"),
     ("Ketamine", r"ketamine|esketamine"),
 ]
 
@@ -118,27 +121,156 @@ INDICATION_PATTERNS = [
     ("PTSD", r"ptsd|post[- ]?traumatic|posttraumatic"),
     ("Depression", r"depress|\bmdd\b"),
     ("Anxiety", r"anxiety|anxiolytic"),
+    ("Cancer", r"cancer|oncolog|palliative"),
     ("Alcohol use", r"alcohol"),
     ("Opioid use", r"opioid|heroin"),
+    ("Cocaine use", r"cocaine"),
+    ("Methamphetamine use", r"methamphetamine"),
+    ("Tobacco/nicotine use", r"tobacco|nicotine|smoking"),
+    ("Eating disorder", r"eating disorder|anorexia|bulimia|binge"),
     ("OCD", r"obsessive|\bocd\b"),
-    ("Pain", r"\bpain\b|analgesic|nocicep"),
+    ("Burnout", r"burnout"),
+    ("Migraine", r"migraine|cluster headache"),
+    ("Neurological", r"neurological|stroke|\btbi\b|traumatic brain"),
+    ("Pain", r"\bpain\b|fibromyalgia|analgesic|nocicep"),
     ("Tinnitus", r"tinnitus"),
-    ("Substance use", r"addiction|substance use|smoking|nicotine|cocaine"),
+    ("Substance use", r"addiction|substance use"),
 ]
 
-# Comparator cells are ";"-separated; each item is classified independently so a
-# study can be both placebo- and active-controlled.
+# Blinding is recorded as WHO was masked, not a single/double/triple level: the
+# registry stores a party count plus the roles, and the two come apart (a
+# "Double" trial may be participant+investigator or participant+care-provider,
+# and a "Single" one may mask only the outcomes assessor, leaving the
+# participant unblinded). The level is derivable by counting named roles; the
+# roles are not derivable from the level. `not-specified` records "a level was
+# stated but the roles were not named" — never inferred.
+BLINDING_ROLES = ["participant", "care provider", "investigator", "outcomes assessor"]
+BLINDING_OTHER = ["not-specified", "open-label", "not reported"]
+
+# Design values the template offers. Deliberately no "single-group": in a
+# database restricted to randomised trials it should not exist, and our one
+# registry instance was a mislabelled crossover (see `_registry_qc`).
+DESIGN_VALUES = ["parallel", "crossover", "factorial", "not reported"]
+
+# ClinicalTrials.gov interventionModel -> the template's design vocabulary, so
+# registry-sourced and extracted designs land in the same facet.
+DESIGN_FROM_REGISTRY = {
+    "Parallel": "parallel", "Crossover": "crossover", "Factorial": "factorial",
+    "Sequential": "other", "Single Group": "other",
+}
+
+# Comparator cells are ";"-separated; each item is classified independently, so a
+# study is often several of these at once — Goodwin 2022 (1/10/25 mg psilocybin)
+# is BOTH a low-dose control and a dose-ranging comparison, and a 2x2
+# co-administration trial is placebo + both component-alone arms. Any figure over
+# these must count "studies using X", never a share of studies.
+#
+# ORDER IS LOAD-BEARING: first match wins per item, and the final entry matches
+# anything, so every specific pattern must precede it.
 COMPARATOR_PATTERNS = [
     ("Placebo", r"placebo"),
-    ("Low-dose active", r"low[- ]dose"),
+    # dose is the variable under study — distinct from a single designated
+    # low-dose control, and the cheapest available marker of the dose-ranging
+    # literature now that dose values themselves are out of scope
+    ("Dose-ranging", r"dose[- ]rang|dose[- ]response|other dose levels"),
+    # the two halves of a co-administration factorial. Registered as CROSSOVER on
+    # CT.gov (allocation structure), which hides the factorial treatment
+    # structure — these ticks are what recover it.
+    ("Intervention alone", r"intervention component alone"),
+    ("Co-administered alone", r"co-?administered component alone"),
+    # a designated low/near-inert dose serving as the control. NOT called
+    # "active": 1 mg psilocybin is deliberately sub-perceptual.
+    ("Low-dose control", r"low[- ]dose"),
     ("Waitlist / care as usual", r"waitlist|care as usual"),
     ("Psychotherapy", r"psychotherapy|hypnosis"),
-    ("Active drug", r"."),  # catch-all: any other named drug
+    ("Active drug", r"."),  # catch-all: any other named drug — must stay last
 ]
+
+
+# ---------------------------------------------------------------------------
+# Extraction-template column map
+#
+# Covidence exports each field's LABEL as the column header, and labels get
+# reworded between template revisions. Every field is therefore looked up by a
+# list of candidate names (newest first), and `_check_template` reports any
+# expected column that is missing plus any column in the export we don't read —
+# so a rename is caught loudly instead of silently zeroing out a field, which is
+# exactly how a `Study type` rename once dropped the whole extraction export.
+# ---------------------------------------------------------------------------
+TEMPLATE_COLUMNS = {
+    "covidence":   ["Covidence #"],
+    "reviewer":    ["Reviewer Name"],
+    "study_id":    ["Study ID"],
+    "title":       ["Title"],
+    "doi":         ["DOI"],
+    "registry":    ["Trial Registry Number"],
+    "pooled":      ["Pooled study?"],
+    "parent_doi":  ["Parent study DOI", "Parent Study DOI"],
+    "country":     ["Country / countries where the trial was conducted",
+                    "Country/countries where the trial was conducted", "Country"],
+    "phase":       ["Trial Phase"],
+    "design":      ["Design"],
+    "blinding":    ["Blinding"],
+    "n_rand":      ["N randomized"],
+    "n_anal":      ["N analyzed", "N analyzed (if applicable)"],
+    "age_metric":  ["Age metric"],
+    "age_value":   ["Age value"],
+    "pct_female":  ["%Female", "% Female", "%female"],
+    "population":  ["Target Population"],
+    "microdosing": ["Microdosing study?"],
+    "drugs":       ["Psychedelic/Intervention Drug(s)"],
+    "coadmin":     ["Co-administration/Pre-treatment Drug(s)"],
+    "comparator":  ["Comparator Drug"],
+    "qualitative": ["What is the qualitative outcome?"],
+    "notes":       ["Notes"],
+}
+# Columns retired by the 2026-08 revision. Present in older exports; reading them
+# is harmless, but they must not be reported as "unrecognised".
+RETIRED_COLUMNS = {"Study type", "Number of conditions/arms", "Derivative?",
+                   "Microdosing study?", "Outcomes", "Sex-specific population?"}
 
 
 def _clean(s: str | None) -> str:
     return (s or "").strip()
+
+
+def _norm_key(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "").strip().lower())
+
+
+def _get(row: dict, field: str) -> str:
+    """Read a template field by any of its candidate column names."""
+    names = TEMPLATE_COLUMNS[field]
+    for n in names:
+        if n in row:
+            v = _clean(row[n])
+            if v:
+                return v
+    norm = {_norm_key(k): v for k, v in row.items()}
+    for n in names:
+        v = _clean(norm.get(_norm_key(n)))
+        if v:
+            return v
+    return ""
+
+
+def _check_template(header: list[str]) -> list[str]:
+    """Warn about template columns we expect but can't find, and vice versa."""
+    out, present = [], {_norm_key(h) for h in header}
+    missing = [names[0] for names in TEMPLATE_COLUMNS.values()
+               if not any(_norm_key(n) in present for n in names)]
+    if missing:
+        out.append("extraction export is missing expected column(s): "
+                   + ", ".join(repr(m) for m in missing)
+                   + " — a template rename silently empties the field it feeds.")
+    known = {_norm_key(n) for names in TEMPLATE_COLUMNS.values() for n in names}
+    known |= {_norm_key(d) for d in OUTCOME_DOMAINS} | {_norm_key(r) for r in RETIRED_COLUMNS}
+    unread = [h for h in header if _norm_key(h) not in known]
+    if unread:
+        out.append("extraction export has column(s) the build does not read: "
+                   + ", ".join(repr(u) for u in unread)
+                   + " — add them to TEMPLATE_COLUMNS or OUTCOME_DOMAINS.")
+    return out
 
 
 def _classify(path: str, header: list[str]) -> str | None:
@@ -191,6 +323,81 @@ def _split_list(raw: str, sep: str = ";") -> list[str]:
     return [p.strip() for p in parts if p.strip()]
 
 
+def _split_multi(raw: str) -> list[str]:
+    """A template multi-select cell -> the list of values chosen.
+
+    Checked options are ";"-separated. Several free-text values inside a single
+    "Other:" entry are "+"-separated, because the Covidence other-box rejects
+    semicolons — so "Other: prazosin + oxytocin" is two values, not one.
+    """
+    out: list[str] = []
+    for item in _split_list(raw):
+        m = re.match(r"(?i)^other\s*:\s*(.*)$", item)
+        if not m:
+            out.append(item)
+            continue
+        for part in m.group(1).split("+"):
+            part = part.strip()
+            if part:
+                out.append("Other: " + part)
+    return out
+
+
+# A blank numeric box means "not extracted yet"; "not reported" is always an
+# explicit NR. Keeping them distinct is the whole point — a blank could always be
+# an oversight, so it can never carry the meaning "the paper doesn't say".
+_NR_RE = re.compile(r"(?i)^\s*(n\.?\s*r\.?|not\s*reported)\s*$")
+
+
+def _num_or_nr(raw: str, cast=int) -> tuple[object, str]:
+    """(value, status) for a numeric box that also accepts NR.
+
+    status: "value" | "not_reported" | "blank" | "unparsed".
+    """
+    v = _clean(raw)
+    if not v:
+        return None, "blank"
+    if _NR_RE.match(v):
+        return None, "not_reported"
+    m = re.search(r"-?\d+(?:\.\d+)?", v.replace(",", ""))
+    if not m:
+        return None, "unparsed"
+    try:
+        return cast(float(m.group())), "value"
+    except (TypeError, ValueError):
+        return None, "unparsed"
+
+
+def _age(metric_raw: str, value_raw: str) -> dict:
+    """The Age metric + Age value pair -> a structured age record.
+
+    A *range* fills low/high and leaves `value` None: a range carries no point
+    estimate, and inventing a midpoint would fabricate precision the paper never
+    reported. Only `mean` (and optionally `median`) contribute a point estimate.
+    """
+    metric = _clean(metric_raw)
+    key = _norm_key(_strip_other(metric))
+    v = _clean(value_raw)
+    out = {"age_metric": key or "", "age_metric_raw": metric,
+           "age": None, "age_low": None, "age_high": None}
+    if not v or key in ("not reported", ""):
+        return out
+    if key == "range":
+        m = re.match(r"^\s*(\d+(?:\.\d+)?)\s*(?:[-\u2010-\u2015]|to)\s*(\d+(?:\.\d+)?)\s*$", v)
+        if m:
+            out["age_low"], out["age_high"] = float(m.group(1)), float(m.group(2))
+        return out
+    num, status = _num_or_nr(v, cast=float)
+    if status == "value":
+        out["age"] = num
+    return out
+
+
+def _yes(raw: str) -> bool:
+    """A single-checkbox field: ticked (any value) means yes, blank means no."""
+    return bool(_clean(raw)) and not _NR_RE.match(_clean(raw))
+
+
 def _parse_pages(raw: str) -> tuple[str, str]:
     """'2152-2162' -> ('2152','2162'); 'S105-S105' -> ('S105','S105')."""
     raw = _clean(raw)
@@ -234,7 +441,7 @@ def _norm_drugs(raw: str) -> list[str]:
     verbatim (minus an "Other:" prefix) so nothing is silently dropped.
     """
     out: list[str] = []
-    for item in _split_list(raw):
+    for item in _split_multi(raw):
         item = _strip_other(item)
         if not item:
             continue
@@ -251,7 +458,7 @@ def _indication_from(raw: str) -> str:
     A named clinical indication always wins over "healthy volunteers" (e.g.
     "depression; Other: frontline clinicians" is a depression trial).
     """
-    items = _split_list(raw)
+    items = _split_multi(raw)
     for item in items:
         hit = _derive(INDICATION_PATTERNS, _strip_other(item))
         if hit:
@@ -263,7 +470,7 @@ def _indication_from(raw: str) -> str:
 
 def _is_healthy(raw: str) -> bool:
     """True when the sample is healthy volunteers rather than a patient group."""
-    items = _split_list(raw)
+    items = _split_multi(raw)
     if not items:
         return False
     if any(_derive(INDICATION_PATTERNS, _strip_other(i)) for i in items):
@@ -275,12 +482,18 @@ def _phase(raw_or_enum: str) -> str:
     """Normalize a trial-phase value from either the template or CT.gov.
 
     ClinicalTrials.gov enums are SCREAMING_SNAKE ('PHASE2', 'NA'); the template
-    stores bare digits ('1') plus two NON-phase sentinels, 'Unregistered' and
-    'Not Applicable' (see `_registration_status`).
+    stores bare digits ('1'), 'Not Applicable', and 'Not Reported'.
+
+    'Unregistered' and 'Pooled' are LEGACY sentinels from the pre-2026-08
+    template, where this column doubled as a registration-status field. They are
+    not phases and map to "" here; `_check_legacy_phase` warns when an export
+    still contains them.
     """
     p = _clean(raw_or_enum).upper()
-    if not p or p == "UNREGISTERED":
+    if not p or p in ("UNREGISTERED", "POOLED"):
         return ""
+    if p in ("NOT REPORTED", "NR", "NOT_REPORTED"):
+        return "Not reported"
     if p in ("NA", "N/A", "NOT APPLICABLE"):
         return "N/A"
     m = re.fullmatch(r"(?:EARLY[_ ]?PHASE\s*1|EARLY PHASE 1)", p)
@@ -290,25 +503,55 @@ def _phase(raw_or_enum: str) -> str:
     return f"Phase {m.group(1)}" if m else p.replace("PHASE", "Phase ").strip()
 
 
-def _registration_status(phase_raw: str, registry_norm: str) -> str:
+def _registration_status(registry_norm: str, extracted: bool) -> str:
     """'registered' | 'unregistered' | 'unknown'.
 
-    The template's `Trial Phase` column does double duty: it holds a phase for
-    registered trials but the sentinel 'Unregistered' for studies with no trial
-    record. A recognized registry id is the stronger signal and wins.
+    Derived from the registry cell, not from a phase sentinel: the 2026-08
+    template removed 'Unregistered' as a phase value, so an empty registry box on
+    an EXTRACTED row is the reviewer's positive statement that no registration
+    exists. On an un-extracted row nobody has looked yet, so it stays unknown.
     """
     if registry_norm:
         return "registered"
-    if _clean(phase_raw).lower().startswith("unregistered"):
-        return "unregistered"
-    return "unknown"
+    return "unregistered" if extracted else "unknown"
+
+
+def _blinding(raw: str) -> tuple[list[str], list[str]]:
+    """(roles, flags) from the Blinding multi-select.
+
+    roles = the named masked parties; flags = not-specified / open-label /
+    not reported. Split because a masking LEVEL may only be derived by counting
+    named roles — a "participant + not-specified" record states a level was given
+    without naming who, and must not be counted as single-blind.
+    """
+    roles, flags = [], []
+    for item in _split_multi(raw):
+        k = _norm_key(_strip_other(item))
+        if k in BLINDING_ROLES:
+            roles.append(k)
+        elif k in (_norm_key(f) for f in BLINDING_OTHER):
+            flags.append(k)
+        elif k:
+            flags.append(k)
+    return roles, flags
+
+
+def _masking_level(roles: list[str], flags: list[str]) -> str:
+    """Classic label, derived by counting named roles — never assumed."""
+    if "open-label" in flags:
+        return "Open label"
+    if not roles:
+        return "" if not flags else "Not specified"
+    if "not-specified" in flags:
+        return "Stated, roles not named"
+    return {1: "Single", 2: "Double", 3: "Triple", 4: "Quadruple"}.get(len(roles), "")
 
 
 def _comparator_types(raw: str) -> list[str]:
     """Classify each ";"-separated comparator item (a study can be both
     placebo- and active-controlled). Order follows COMPARATOR_PATTERNS."""
     out: list[str] = []
-    for item in _split_list(raw):
+    for item in _split_multi(raw):
         item = _strip_other(item)
         if not item:
             continue
@@ -329,7 +572,7 @@ def _outcomes(ext: dict) -> tuple[list[str], list[str]]:
     domains: list[str] = []
     measures: list[str] = []
     for dom in OUTCOME_DOMAINS:
-        vals = _split_list(ext.get(dom, ""))
+        vals = _split_multi(ext.get(dom, ""))
         if not vals:
             continue
         domains.append(dom)
@@ -397,6 +640,27 @@ def _norm_registry(registry: str) -> str:
     return m.group(1).strip() if m else ""
 
 
+def _norm_registry_all(registry: str) -> list[str]:
+    """Every recognised trial id in the cell, de-duplicated, order preserved.
+
+    A pooled study lists one id per pooled trial (";"-separated). A single trial
+    cross-registered on two registries also yields several ids — which is why
+    "more than one id" is NOT used to infer pooling; the Pooled checkbox is.
+    """
+    out: list[str] = []
+    for part in _split_list(registry):
+        n = _norm_registry(part)
+        if n and n not in out:
+            out.append(n)
+    if not out:                       # whole-cell fallback (unsplit / odd separators)
+        n = _norm_registry(registry)
+        if n:
+            out = [n]
+    # NCT first: it is the only id we can enrich, so it is the canonical key
+    out.sort(key=lambda k: not k.upper().startswith("NCT"))
+    return out
+
+
 def _norm_doi(raw: str) -> str:
     """Canonical lowercase DOI for matching ('https://doi.org/10.X/Y ' -> '10.x/y')."""
     d = _clean(raw).lower()
@@ -408,56 +672,80 @@ def _norm_doi(raw: str) -> str:
 def _link_trials(studies: list) -> dict:
     """Group papers into trials so the dashboard can show reports of one trial.
 
-    Two identifiers make a trial, in priority order:
+    A paper may report SEVERAL trials — a pooled study reports one per pooled
+    cohort — so the general field is `trial_keys[]`. `trial_key` stays as the
+    single-trial convenience (None when a paper spans several), which is what the
+    dashboard's trial navigation and the papers-per-trial figure use.
 
-    1. **Registry id** (`registry_norm`) — the canonical case.
+    Keys come from, in priority order:
+
+    1. **Registry ids** (`registry_ids`) — the canonical case.
     2. **Parent-paper DOI** — for UNREGISTERED trials the template records the
-       source paper's DOI, so several reports of the same unregistered trial
-       share a key of the form ``doi:10.xxxx/yyy``. A paper that is itself named
-       as a parent by another paper adopts its *own* DOI as that key, so the
-       source paper joins the group. If the named parent is in the database and
-       *is* registered, the child inherits the parent's registry id instead —
-       a secondary analysis whose own registry field was left blank.
+       source paper's DOI, so several reports of one unregistered trial share a
+       key of the form ``doi:10.xxxx/yyy``. A paper itself named as a parent
+       adopts its own DOI as that key, so the source paper joins the group. If
+       the named parent is in the database and *is* registered, the child
+       inherits the parent's registry id instead.
 
-    Mutates each study (adds `registry_norm`, `parent_doi_norm`, `trial_key`,
-    `trial_key_source`, `connected_ids`) and returns {trial_key: [covidence_id]}.
+    Mutates each study (adds `registry_norm`, `registry_ids`, `parent_doi_norm`,
+    `trial_keys`, `trial_key`, `trial_key_source`, `connected_ids`) and returns
+    {trial_key: [covidence_id, ...]}.
     """
     from collections import defaultdict
 
     for s in studies:
-        s["registry_norm"] = _norm_registry(s.get("registry", ""))
-        s["parent_doi_norm"] = _norm_doi(s.get("parent_study_doi", ""))
-        s["trial_key"] = s["registry_norm"] or None
-        s["trial_key_source"] = "registry" if s["registry_norm"] else ""
+        ids = _norm_registry_all(s.get("registry", ""))
+        s["registry_ids"] = ids
+        s["registry_norm"] = ids[0] if ids else ""
+        s["parent_doi_norm"] = [d for d in
+                                (_norm_doi(x) for x in _split_list(s.get("parent_study_doi", "")))
+                                if d]
+        # Several ids mean several TRIALS only for a pooled study. Otherwise it
+        # is one trial cross-registered on two registries (e.g. a Dutch study
+        # carrying both its ABR and OMON numbers) — grouping those as separate
+        # trials would double-count the trial. The Pooled checkbox is the signal,
+        # never the id count.
+        s["trial_keys"] = list(ids) if (s.get("pooled") and len(ids) > 1) else ids[:1]
+        s["trial_key_source"] = "registry" if ids else ""
 
     by_doi = {_norm_doi(s["doi"]): s for s in studies if s.get("doi")}
-    # DOIs cited as a parent by at least one paper — these identify the trial.
-    parent_dois = {s["parent_doi_norm"] for s in studies if s["parent_doi_norm"]}
+    parent_dois = {d for s in studies for d in s["parent_doi_norm"]}
 
     for s in studies:
-        if s["trial_key"]:
-            # A registered paper that is also cited as a parent keeps its
-            # registry id; children resolving through it land on the same key.
+        if s["trial_keys"]:
             continue
-        parent = by_doi.get(s["parent_doi_norm"])
-        if parent and parent.get("registry_norm"):
-            s["trial_key"] = parent["registry_norm"]        # inherit registry
-            s["trial_key_source"] = "parent-registry"
-        elif s["parent_doi_norm"]:
-            s["trial_key"] = "doi:" + s["parent_doi_norm"]  # unregistered trial
-            s["trial_key_source"] = "parent-doi"
-        elif _norm_doi(s.get("doi", "")) in parent_dois:
-            s["trial_key"] = "doi:" + _norm_doi(s["doi"])   # this IS the source paper
+        for pd in s["parent_doi_norm"]:
+            parent = by_doi.get(pd)
+            if parent and parent["registry_ids"]:
+                s["trial_keys"].extend(k for k in parent["registry_ids"]
+                                       if k not in s["trial_keys"])
+                s["trial_key_source"] = "parent-registry"
+            else:
+                key = "doi:" + pd
+                if key not in s["trial_keys"]:
+                    s["trial_keys"].append(key)
+                s["trial_key_source"] = "parent-doi"
+        if not s["trial_keys"] and _norm_doi(s.get("doi", "")) in parent_dois:
+            s["trial_keys"] = ["doi:" + _norm_doi(s["doi"])]      # this IS the source paper
             s["trial_key_source"] = "source-paper"
+
+    for s in studies:
+        s["trial_key"] = s["trial_keys"][0] if len(s["trial_keys"]) == 1 else None
 
     by_key: dict = defaultdict(list)
     for s in studies:
-        if s["trial_key"]:
-            by_key[s["trial_key"]].append(s["covidence_id"])
+        for k in s["trial_keys"]:
+            by_key[k].append(s["covidence_id"])
 
+    # connected = shares AT LEAST ONE trial with this paper (symmetric by
+    # construction, and correct for pooled papers that span several trials)
     for s in studies:
-        ids = by_key.get(s["trial_key"], []) if s["trial_key"] else []
-        s["connected_ids"] = [cid for cid in ids if cid != s["covidence_id"]]
+        seen: list = []
+        for k in s["trial_keys"]:
+            for cid in by_key.get(k, []):
+                if cid != s["covidence_id"] and cid not in seen:
+                    seen.append(cid)
+        s["connected_ids"] = seen
 
     return dict(by_key)
 
@@ -563,6 +851,9 @@ def _parse_ctgov(raw: dict) -> dict | None:
 
     masking = _enum(mi.get("masking"))
     who = mi.get("whoMasked") or []
+    # roles in the template's own vocabulary, so registry-sourced and extracted
+    # blinding land in the same facet ("CARE_PROVIDER" -> "care provider")
+    masked_roles = [r for r in (_enum(w).lower() for w in who) if r in BLINDING_ROLES]
     if masking and who:
         masking += " (" + ", ".join(_enum(w).lower() for w in who) + ")"
 
@@ -587,6 +878,8 @@ def _parse_ctgov(raw: dict) -> dict | None:
         "allocation": _enum(di.get("allocation")),
         "model": _enum(di.get("interventionModel")),
         "masking": masking,
+        "masking_level": _enum(mi.get("masking")),
+        "masked_roles": masked_roles,
         "enrollment": (en.get("count") if isinstance(en.get("count"), int) else None),
         "enrollment_type": _enum(en.get("type")),
         "conditions": cm.get("conditions") or [],
@@ -623,8 +916,9 @@ def build_trials(studies: list, fetch: bool = False, refresh: bool = False) -> l
     order: list = []
     raw_registry: dict = {}     # trial_key -> a paper's raw registry cell, for linking
     for s in studies:
-        k = s.get("trial_key")
-        if k:
+        # every trial the paper reports — a pooled study appears under each of
+        # its constituent trials rather than collapsing them into one
+        for k in (s.get("trial_keys") or ([s["trial_key"]] if s.get("trial_key") else [])):
             if k not in groups:
                 groups[k] = []
                 order.append(k)
@@ -891,24 +1185,42 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
     # figures must be computed over verified rows only), never warned about.
     missing_outcomes: dict[str, int] = {}
     n_extraction_rows = 0
+    legacy_phase = 0
+    legacy_export = False
     if ext_path:
         with open(ext_path, newline="", encoding="utf-8-sig") as fh:
-            for row in csv.DictReader(fh):
-                cid = _norm_covidence(row.get("Covidence #", ""))
+            reader = csv.DictReader(fh)
+            warnings.extend(_check_template(reader.fieldnames or []))
+            # An export predating the 2026-08 revision has none of the
+            # conditional-block columns; its rows cannot violate rules the
+            # template did not yet have, so those QC checks are skipped.
+            present = {_norm_key(h) for h in (reader.fieldnames or [])}
+            legacy_export = not any(_norm_key(n) in present
+                                    for n in ("Design", "Blinding", "Pooled study?"))
+            for row in reader:
+                cid = _norm_covidence(_get(row, "covidence"))
                 if cid is None:
                     continue
-                who = _clean(row.get("Reviewer Name"))
+                who = _get(row, "reviewer")
                 n_extraction_rows += 1
                 reviewers[who] = reviewers.get(who, 0) + 1
                 rows_by_study.setdefault(cid, set()).add(who)
-                worked = any(_clean(row.get(f)) for f in
-                             ("N randomized", "Psychedelic/Intervention Drug(s)",
-                              "Target Population", "Comparator Drug"))
+                if _clean(_get(row, "phase")).upper() in ("UNREGISTERED", "POOLED"):
+                    legacy_phase += 1
+                worked = any(_get(row, f) for f in
+                             ("n_rand", "drugs", "population", "comparator"))
                 if worked and not any(_clean(row.get(d)) for d in OUTCOME_DOMAINS):
                     missing_outcomes[who] = missing_outcomes.get(who, 0) + 1
                 if CONSENSUS_REVIEWER and who != CONSENSUS_REVIEWER:
                     continue
                 extraction[cid] = row
+    if legacy_phase:
+        warnings.append(
+            f"{legacy_phase} extraction row(s) still use the pre-2026-08 Trial Phase "
+            f"sentinels ('Unregistered'/'Pooled'). Those are not phases — registration "
+            f"status now derives from the Trial Registry Number cell, and pooling from "
+            f"the Pooled checkbox. Re-export after the template update."
+        )
     if CONSENSUS_REVIEWER and not extraction:
         warnings.append(
             f"no extraction rows matched CONSENSUS_REVIEWER={CONSENSUS_REVIEWER!r} "
@@ -939,7 +1251,7 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
             # Drug: extracted value wins; otherwise scan title + abstract.
             # `drugs` keeps every agent administered (many studies compare 2-3);
             # `drug` is the first, used for the table badge and legacy sorting.
-            drug_ext = _clean(ext.get("Psychedelic/Intervention Drug(s)"))
+            drug_ext = _get(ext, "drugs")
             if drug_ext:
                 drugs = _norm_drugs(drug_ext)
                 drug_source = "extracted"
@@ -949,7 +1261,7 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
             drug = drugs[0] if drugs else "Unclear"
 
             # Indication: extracted target population wins; else derive.
-            pop_ext = _clean(ext.get("Target Population"))
+            pop_ext = _get(ext, "population")
             if pop_ext:
                 indication = _indication_from(pop_ext) or "Unclear"
                 indication_source = "extracted"
@@ -968,26 +1280,61 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
                 indication = indication or "Unclear"
 
             # ---- revised-template fields ----
-            phase_raw = _clean(ext.get("Trial Phase"))
-            registry_norm = _norm_registry(registry)
-            phase = _phase(phase_raw)
-            reg_status = _registration_status(phase_raw, registry_norm)
-            outcome_domains, outcome_measures = _outcomes(ext) if is_ext else ([], [])
-            n_rand = _to_int(ext.get("N randomized"))
-            n_anal = _to_int(ext.get("N analyzed (if applicable)"))
-            sex = _clean(ext.get("Sex-specific population?")).lower()
+            sid = _clean(row.get("Study"))
+            registry_ids = _norm_registry_all(registry)
+            registry_norm = registry_ids[0] if registry_ids else ""
+            has_nct = any(k.startswith("NCT") for k in registry_ids)
+            pooled = _yes(_get(ext, "pooled")) if is_ext else False
+            reg_status = _registration_status(registry_norm, is_ext)
 
-            # QC: a phase implies a registered trial. Flag the contradiction
-            # rather than silently trusting either field.
-            if is_ext and phase and phase != "N/A" and reg_status != "registered":
+            phase_raw = _get(ext, "phase")
+            phase = _phase(phase_raw)
+            design_raw = _get(ext, "design")
+            design_txt = _norm_key(_strip_other(design_raw))
+            # an "Other:" design is free text — keep it, but facet it as "other"
+            # so arbitrary strings never become facet values
+            design = design_txt if design_txt in DESIGN_VALUES else (
+                "other" if design_txt else "")
+            blind_roles, blind_flags = _blinding(_get(ext, "blinding"))
+            countries = [_strip_other(c) for c in _split_multi(_get(ext, "country"))]
+            src_tag = "extracted"
+
+            outcome_domains, outcome_measures = _outcomes(ext) if is_ext else ([], [])
+            n_rand, n_rand_status = _num_or_nr(_get(ext, "n_rand"))
+            n_anal, n_anal_status = _num_or_nr(_get(ext, "n_anal"))
+            pct_female, pct_female_status = _num_or_nr(_get(ext, "pct_female"), cast=float)
+            age = _age(_get(ext, "age_metric"), _get(ext, "age_value"))
+
+            # ---- QC on the conditional block ----
+            # It is filled ONLY when the study has no NCT and is not pooled; a
+            # value where one shouldn't be means the reviewer filled a section
+            # they should have skipped, and a registry value will silently
+            # override it below.
+            if is_ext and not legacy_export and has_nct and (
+                    phase or design or blind_roles or blind_flags):
                 warnings.append(
-                    f"#{cid} {_clean(row.get('Study'))}: '{phase_raw}' recorded in Trial Phase "
-                    f"but no trial registry id — registration status is 'unknown'."
+                    f"#{cid} {sid}: has an NCT ({registry_norm}) but the no-NCT block "
+                    f"(phase/design/blinding) was filled — registry values take precedence."
                 )
-            if is_ext and n_rand and n_anal and n_anal > n_rand:
+            # The block is gated on "no NCT", NOT "unregistered": a study on
+            # ANZCTR/ISRCTN/Dutch is registered but is NOT auto-enriched, so it
+            # still needs these by hand. This is the likeliest misreading.
+            if is_ext and not legacy_export and registry_ids and not has_nct and not pooled \
+                    and not (phase or design or blind_roles or blind_flags):
                 warnings.append(
-                    f"#{cid} {_clean(row.get('Study'))}: N analyzed ({n_anal}) > N randomized ({n_rand})."
+                    f"#{cid} {sid}: registered on a non-NCT registry ({registry_norm}) so "
+                    f"nothing is auto-enriched, but phase/design/blinding are all empty — "
+                    f"the no-NCT block applies here and appears to have been skipped."
                 )
+            if is_ext and n_rand is not None and n_anal is not None and n_anal > n_rand:
+                warnings.append(f"#{cid} {sid}: N analyzed ({n_anal}) > N randomized ({n_rand}).")
+            if is_ext and pct_female is not None and not (0 <= pct_female <= 100):
+                warnings.append(f"#{cid} {sid}: %Female is {pct_female}, outside 0-100.")
+            for label, status in (("N randomized", n_rand_status), ("N analyzed", n_anal_status),
+                                  ("%Female", pct_female_status)):
+                if is_ext and status == "unparsed":
+                    warnings.append(f"#{cid} {sid}: {label} value could not be read as a "
+                                    f"number or NR.")
 
             studies.append(
                 {
@@ -1020,27 +1367,57 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
                     "healthy_volunteers": healthy,
                     # ---- extraction template fields ----
                     "extracted": is_ext,
-                    "reviewer": _clean(ext.get("Reviewer Name")),
-                    "parent_study_doi": _clean(ext.get("Parent study DOI")),
+                    "reviewer": _get(ext, "reviewer"),
+                    "parent_study_doi": _get(ext, "parent_doi"),
+                    "pooled": pooled,
+                    "has_nct": has_nct,
+                    "registration_status": reg_status,
+                    # phase / design / blinding / country: extracted here, then
+                    # overwritten from the registry for NCT studies (see below)
                     "phase": phase,
                     "phase_raw": phase_raw,
-                    "registration_status": reg_status,
+                    "phase_source": src_tag if phase else "",
+                    "design": design,
+                    "design_other": design_txt if design == "other" else "",
+                    "design_source": src_tag if design else "",
+                    "blinding_roles": blind_roles,
+                    "blinding_flags": blind_flags,
+                    "masking_level": _masking_level(blind_roles, blind_flags),
+                    "blinding_source": src_tag if (blind_roles or blind_flags) else "",
+                    "countries": countries,
+                    "countries_source": src_tag if countries else "",
+                    # sample size — a blank is "not extracted", NR is "the paper
+                    # does not say"; only two integers make attrition computable
                     "n_randomized": n_rand,
+                    "n_randomized_status": n_rand_status,
                     "n_analyzed": n_anal,
-                    # best available sample size, for sorting/plotting
+                    "n_analyzed_status": n_anal_status,
                     "n": n_rand if n_rand is not None else n_anal,
                     "n_source": ("randomized" if n_rand is not None
                                  else "analyzed" if n_anal is not None else ""),
+                    "attrition": (n_rand - n_anal
+                                  if n_rand is not None and n_anal is not None else None),
+                    "attrition_determinable": n_rand is not None and n_anal is not None,
+                    # demographics
+                    "age": age["age"],
+                    "age_metric": age["age_metric"],
+                    "age_low": age["age_low"],
+                    "age_high": age["age_high"],
+                    "pct_female": pct_female,
+                    "pct_female_status": pct_female_status,
+                    # single-sex is now DERIVED from %female rather than asked
+                    "sex_specific": ("female" if pct_female == 100 else
+                                     "male" if pct_female == 0 else ""),
+                    "microdosing": _yes(_get(ext, "microdosing")) if is_ext else False,
                     "drugs_raw": drug_ext,
-                    "coadmin": _clean(ext.get("Co-administration/Pre-treatment Drug(s)")),
-                    "comparator": _clean(ext.get("Comparator Drug")),
-                    "comparator_types": _comparator_types(ext.get("Comparator Drug", "")),
+                    "coadmin": _get(ext, "coadmin"),
+                    "comparator": _get(ext, "comparator"),
+                    "comparator_types": _comparator_types(_get(ext, "comparator")),
                     "population": pop_ext,
-                    "sex_specific": sex if sex in ("male", "female") else "",
                     "outcome_domains": outcome_domains,
                     "outcome_measures": outcome_measures,
-                    "qualitative_outcome": _clean(ext.get("What is the qualitative outcome?")),
-                    "extraction_notes": _clean(ext.get("Notes")),
+                    "qualitative_outcome": _get(ext, "qualitative"),
+                    "extraction_notes": _get(ext, "notes"),
                     # how many reviewers have extracted this study so far
                     "n_extractions": len(rows_by_study.get(cid, ())),
                 }
@@ -1053,6 +1430,42 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
     by_key = _link_trials(studies)
     n_trials = len(by_key) + sum(1 for s in studies if not s["trial_key"])
     trials = build_trials(studies, fetch=fetch, refresh=refresh)
+
+    # ---- fill phase / design / blinding / country from the registry ----
+    # For an NCT study the template deliberately skips those questions, so the
+    # registry is the source. Registry values WIN where both exist (the reviewer
+    # was meant to skip), and are labelled so no figure mistakes a planned
+    # protocol value for something read off the paper.
+    details_by_key = {t["trial_key"]: t.get("details") for t in trials if t.get("details")}
+    for s in studies:
+        ds = [details_by_key[k] for k in s["trial_keys"] if details_by_key.get(k)]
+        if not ds:
+            continue
+        if len(ds) > 1:
+            # pooled across several registered trials: adopt a registry value
+            # only where every cohort agrees, mirroring the template's own rule
+            def agreed(key, conv=lambda v: v):
+                vals = {json.dumps(conv(x.get(key)), sort_keys=True, default=str) for x in ds}
+                return conv(ds[0].get(key)) if len(vals) == 1 else None
+            d = {k: agreed(k) for k in ("phase", "model", "masking_level",
+                                        "masked_roles", "countries")}
+        else:
+            d = ds[0]
+        if not d:
+            continue
+        if d.get("phase"):
+            s["phase"], s["phase_source"] = _phase(d["phase"].split(",")[0]), "registry"
+        model = DESIGN_FROM_REGISTRY.get(d.get("model") or "")
+        if model:
+            s["design"], s["design_source"] = model, "registry"
+        if d.get("masked_roles") or d.get("masking_level"):
+            s["blinding_roles"] = list(d.get("masked_roles") or [])
+            s["blinding_flags"] = [] if d.get("masked_roles") else ["not-specified"]
+            s["masking_level"] = d.get("masking_level") or _masking_level(
+                s["blinding_roles"], s["blinding_flags"])
+            s["blinding_source"] = "registry"
+        if d.get("countries"):
+            s["countries"], s["countries_source"] = list(d["countries"]), "registry"
 
     n_extracted = sum(1 for s in studies if s["extracted"])
 
@@ -1081,6 +1494,12 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
                                 if any(d in s["outcome_domains"] for s in studies)],
             "outcome_measures": sorted({m for s in studies for m in s["outcome_measures"]}),
             "phases": sorted({s["phase"] for s in studies if s["phase"]}),
+            "designs": [d for d in DESIGN_VALUES + ["other"]
+                        if any(s["design"] == d for s in studies)],
+            "blinding_roles": [r for r in BLINDING_ROLES
+                               if any(r in s["blinding_roles"] for s in studies)],
+            "masking_levels": sorted({s["masking_level"] for s in studies if s["masking_level"]}),
+            "countries": sorted({c for s in studies for c in s["countries"]}),
             "comparator_types": [c for c, _ in COMPARATOR_PATTERNS
                                  if any(c in s["comparator_types"] for s in studies)],
             "registries": sorted({s["registry_norm"] for s in studies if s["registry_norm"]}),
@@ -1089,6 +1508,17 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
             "n_unregistered_trials": sum(1 for t in trials if t["trial_key"].startswith("doi:")),
             "n_trials_enriched": sum(1 for t in trials if t["fetch_status"] == "ok"),
             "n_multi_paper_trials": sum(1 for ids in by_key.values() if len(ids) > 1),
+            "n_pooled": sum(1 for s in studies if s.get("pooled")),
+            "n_microdosing": sum(1 for s in studies if s.get("microdosing")),
+            # how much of the corpus each source actually covers
+            "field_sources": {
+                f: dict(sorted(
+                    __import__("collections").Counter(
+                        s[f + "_source"] for s in studies if s.get(f + "_source")).items()))
+                for f in ("phase", "design", "blinding", "countries")
+            },
+            "attrition_determinable": sum(1 for s in studies
+                                          if s.get("attrition_determinable")),
             "year_min": min((s["year"] for s in studies if s["year"]), default=None),
             "year_max": max((s["year"] for s in studies if s["year"]), default=None),
             # extraction provenance: which rows became the database, and how far
@@ -1138,6 +1568,13 @@ def main() -> int:
     print(f"  drugs    : {', '.join(m['drugs'])}")
     print(f"  outcomes : {len(m['outcome_domains'])} domains, "
           f"{len(m['outcome_measures'])} distinct measures")
+    fs = m["field_sources"]
+    print("  sources  : " + " | ".join(
+        f"{f} {'+'.join(f'{k[:3]}:{v}' for k, v in fs[f].items()) or '—'}"
+        for f in ("phase", "design", "blinding", "countries")))
+    n_ext = m["n_extracted"]
+    print(f"  attrition: determinable for {m['attrition_determinable']}/{n_ext} extracted"
+          f" · pooled {m['n_pooled']} · microdosing {m['n_microdosing']}")
     print(f"  extract. : {cov['rows']} rows by {len(cov['reviewers'])} reviewers over "
           f"{cov['studies_with_any_extraction']} studies "
           f"({cov['studies_dual_extracted']} dual-extracted); "

@@ -26,8 +26,10 @@ def main():
     fig, (a, b) = plt.subplots(1, 2, figsize=(11.4, 4.4), layout="constrained",
                                gridspec_kw={"width_ratios": [1.25, 1]})
 
-    # ---- A: geography (a trial can span several countries) ----
-    countries = collections.Counter(c for t in T for c in t["details"]["countries"])
+    # ---- A: geography (a study can span several countries) ----
+    # study-level: registry for NCT studies, extracted for the rest
+    G = [s for s in db["studies"] if s.get("countries")]
+    countries = collections.Counter(c for s in G for c in s["countries"])
     ks = [k for k, _ in countries.most_common(12)][::-1]
     vals = [countries[k] for k in ks]
     bars = a.barh(ks, vals, height=0.62, color=C.PALETTE[0],
@@ -36,9 +38,9 @@ def main():
         a.annotate(str(v), (bar.get_width(), bar.get_y() + bar.get_height() / 2),
                    textcoords="offset points", xytext=(4, 0), va="center",
                    fontsize=7.5, color=C.C["secondary"])
-    a.set_xlabel("Registered trials with a site in this country")
+    a.set_xlabel("Studies with a site in this country")
     a.set_title("A · Where the trials happen", loc="left", fontsize=10, pad=20)
-    a.annotate("from ClinicalTrials.gov — registered trials only", (0, 1.02),
+    a.annotate("registry for NCT studies, extracted for the rest", (0, 1.02),
                xycoords="axes fraction", fontsize=7.5, color=C.C["muted"])
     a.grid(axis="y", visible=False)
     C.despine(a); C.integer_axis(a, "x")
@@ -76,7 +78,7 @@ def main():
     fig.suptitle("Who is studied, and where", x=0.004, ha="left",
                  fontsize=12, fontweight="bold")
     C.save(fig, "fig08_who_where",
-           f"A: n = {len(T)} registry-enriched trials · B: n = {len(E)} verified extractions")
+           f"A: n = {len(G)} studies with a country · B: n = {len(E)} verified extractions")
 
 
 if __name__ == "__main__":

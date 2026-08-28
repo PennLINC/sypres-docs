@@ -1,0 +1,580 @@
+<title>Coding the Comparator Field</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground: #F2F5F3;
+    --surface: #FFFFFF;
+    --surface-2: #E9EEEB;
+    --ink: #12201D;
+    --ink-2: #51625D;
+    --ink-3: #7E8C89;
+    --line: #D8E0DD;
+    --line-2: #C2CECA;
+    --accent: #0E6E63;
+    --accent-soft: #DCEDE9;
+    --yes: #2E7A4E;
+    --yes-soft: #DFEDE3;
+    --no: #A33E2C;
+    --no-soft: #F3E0DA;
+    --idx: #9E6C12;
+    --idx-soft: #F2E8D2;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1513;
+      --surface: #16201D;
+      --surface-2: #1D2926;
+      --ink: #E4ECE8;
+      --ink-2: #9AA9A5;
+      --ink-3: #78877F;
+      --line: #263430;
+      --line-2: #33443F;
+      --accent: #4FC2B1;
+      --accent-soft: #16302C;
+      --yes: #63B683;
+      --yes-soft: #172C20;
+      --no: #E08770;
+      --no-soft: #31201B;
+      --idx: #D6A552;
+      --idx-soft: #2E2718;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0E1513;
+    --surface: #16201D;
+    --surface-2: #1D2926;
+    --ink: #E4ECE8;
+    --ink-2: #9AA9A5;
+    --ink-3: #78877F;
+    --line: #263430;
+    --line-2: #33443F;
+    --accent: #4FC2B1;
+    --accent-soft: #16302C;
+    --yes: #63B683;
+    --yes-soft: #172C20;
+    --no: #E08770;
+    --no-soft: #31201B;
+    --idx: #D6A552;
+    --idx-soft: #2E2718;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 88px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 58rem;
+    margin: 0 auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-weight: 500;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  header {
+    padding: 56px 0 28px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    line-height: 1.08;
+    letter-spacing: -.015em;
+  }
+
+  .lede {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 16px 0 0;
+    max-width: 40rem;
+  }
+
+  section {
+    padding: 44px 0 0;
+  }
+
+  .sec-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-size: 1.12rem;
+  }
+
+  p {
+    margin: 14px 0;
+    max-width: 44rem;
+  }
+
+  code {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .86em;
+    background: var(--surface-2);
+    padding: .1em .38em;
+    border-radius: 3px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  /* new-option cards */
+  .opts {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 22px 0 0;
+  }
+
+  @media (min-width:760px) {
+    .opts {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .opt {
+    background: var(--surface);
+    padding: 18px 20px;
+  }
+
+  .opt .name {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .opt p {
+    margin: 0;
+    font-size: .92rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  /* rules */
+  ul.rules {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  ul.rules li {
+    display: grid;
+    grid-template-columns: 1.6rem 1fr;
+    gap: 12px;
+    align-items: start;
+    max-width: 44rem;
+  }
+
+  ul.rules .mark {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* example blocks */
+  .ex {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--surface);
+    padding: 22px 24px;
+    margin: 22px 0 0;
+  }
+
+  .ex-head {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .ex-head h3 {
+    flex: 1 1 18rem;
+  }
+
+  .badge {
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .ex .desc {
+    font-size: .94rem;
+    color: var(--ink-2);
+    margin: 6px 0 0;
+  }
+
+  .tablewrap {
+    overflow-x: auto;
+    margin: 16px 0 0;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: .92rem;
+    min-width: 33rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: .7rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+    background: var(--surface-2);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  td.arm {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .84rem;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+
+  .tick {
+    display: inline-block;
+    font-size: .8rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    line-height: 1.5;
+  }
+
+  .t-yes {
+    background: var(--yes-soft);
+    color: var(--yes);
+  }
+
+  .t-no {
+    background: var(--no-soft);
+    color: var(--no);
+  }
+
+  .t-idx {
+    background: var(--idx-soft);
+    color: var(--idx);
+  }
+
+  .answer {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--accent-soft);
+    border-radius: 4px;
+    font-size: .94rem;
+  }
+
+  .answer b {
+    color: var(--ink);
+  }
+
+  .note {
+    margin-top: 14px;
+    font-size: .88rem;
+    color: var(--ink-2);
+    border-left: 2px solid var(--line-2);
+    padding: 2px 0 2px 14px;
+  }
+
+  .note b {
+    color: var(--ink);
+  }
+
+  footer {
+    margin-top: 52px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .73rem;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SYPRES · Master database · Reviewer guidance</p>
+    <h1>Coding the Comparator field</h1>
+    <p class="lede">
+      Three new options handle designs the old list couldn't express — dose-ranging studies and
+      co-administration factorials. Here is when to tick each, worked through three real trials.
+    </p>
+  </header>
+
+  <section>
+    <p class="sec-label">What's new</p>
+    <h2>Three options added</h2>
+    <div class="opts">
+      <div class="opt">
+        <span class="name">other dose levels of the intervention (dose-ranging)</span>
+        <p>Three or more dose levels compared, with dose as the variable under study.</p>
+      </div>
+      <div class="opt">
+        <span class="name">intervention component alone (co-administration studies)</span>
+        <p>An arm giving the psychedelic <em>without</em> the co-administered drug.</p>
+      </div>
+      <div class="opt">
+        <span class="name">co-administered component alone (co-administration studies)</span>
+        <p>An arm giving the co-administered drug <em>without</em> the psychedelic.</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px;">The rules</h2>
+    <ul class="rules">
+      <li><span class="mark" style="color:var(--accent);">1</span>
+        <div><strong>Tick everything that applies.</strong> This is a multi-select and most
+          designs need two or three ticks. The options answer different questions, so they are
+          not alternatives.</div>
+      </li>
+      <li><span class="mark" style="color:var(--accent);">2</span>
+        <div><strong>Low-dose vs dose-ranging are independent.</strong> Tick
+          <em>low-dose intervention drug</em> when one arm is a designated low or near-inert dose
+          serving as the control. Tick <em>dose-ranging</em> when three or more dose levels are
+          compared. Tick both when both are true.
+        </div>
+      </li>
+      <li><span class="mark" style="color:var(--accent);">3</span>
+        <div><strong>Placebo means genuinely inert.</strong> A low dose of the study drug is not a
+          placebo, however small. If the lowest arm still contains the drug, don't tick placebo.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="sec-label">Worked examples</p>
+    <h2>Three designs, coded</h2>
+
+    <!-- ============ 1 · Goodwin ============ -->
+    <div class="ex">
+      <div class="ex-head">
+        <h3>1 · Dose-ranging with a low-dose control</h3>
+        <span class="badge">Goodwin 2022 · psilocybin for depression</span>
+      </div>
+      <p class="desc">Parallel-group, three arms: 25 mg, 10 mg and 1 mg psilocybin. The primary
+        comparison was 25 mg vs 1 mg.</p>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Arm</th>
+              <th>What it is</th>
+              <th>Tick</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="arm">25 mg</td>
+              <td>the therapeutic dose under test</td>
+              <td><span class="tick t-idx">index — not a comparator</span></td>
+            </tr>
+            <tr>
+              <td class="arm">10 mg</td>
+              <td>intermediate level; exists to characterise the dose–response</td>
+              <td><span class="tick t-yes">dose-ranging</span></td>
+            </tr>
+            <tr>
+              <td class="arm">1 mg</td>
+              <td>designated near-inert control dose, chosen to preserve the blind</td>
+              <td><span class="tick t-yes">low-dose intervention drug</span> <span
+                  class="tick t-yes">dose-ranging</span></td>
+            </tr>
+            <tr>
+              <td class="arm">—</td>
+              <td>there is no inert arm; every arm contains psilocybin</td>
+              <td><span class="tick t-no">not placebo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="answer"><b>Tick:</b> low-dose intervention drug · dose-ranging.
+        <b>Don't tick:</b> placebo.
+      </p>
+      <p class="note">Both apply because they answer different questions — <b>was there a designated
+          control dose?</b> (yes, 1 mg) and <b>was dose systematically varied?</b> (yes, three levels).
+        A two-arm 1 mg vs 25 mg trial would be low-dose only.</p>
+    </div>
+
+    <!-- ============ 2 · Äbelö ============ -->
+    <div class="ex">
+      <div class="ex-head">
+        <h3>2 · Factorial dose grid, two drugs</h3>
+        <span class="badge">Äbelö 2025 · DMT + harmine PK/PD</span>
+      </div>
+      <p class="desc">Seven dose combinations of DMT and harmine (mg:mg) in a factorial design over
+        six study days: 90:0, 90:60, 90:120, 90:180, 0:120, 60:120, 120:120.</p>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cell (DMT : harmine)</th>
+              <th>What it is</th>
+              <th>Tick</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="arm">90:60 · 90:120 · 90:180<br>60:120 · 120:120</td>
+              <td>the combination cells being characterised</td>
+              <td><span class="tick t-idx">index — not comparators</span></td>
+            </tr>
+            <tr>
+              <td class="arm">90:0</td>
+              <td>DMT alone, without harmine</td>
+              <td><span class="tick t-yes">intervention component alone</span></td>
+            </tr>
+            <tr>
+              <td class="arm">0:120</td>
+              <td>harmine alone, without DMT</td>
+              <td><span class="tick t-yes">co-administered component alone</span></td>
+            </tr>
+            <tr>
+              <td class="arm">DMT 60/90/120<br>harmine 60/120/180</td>
+              <td>both drugs are given at several levels — dose is the variable</td>
+              <td><span class="tick t-yes">dose-ranging</span></td>
+            </tr>
+            <tr>
+              <td class="arm">(none)</td>
+              <td>no cell has both drugs at zero</td>
+              <td><span class="tick t-no">not placebo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="answer"><b>Tick:</b> dose-ranging · intervention component alone ·
+        co-administered component alone. <b>Don't tick:</b> placebo, low-dose intervention drug.</p>
+      <p class="note"><b>No placebo cell.</b> Every one of the seven cells contains at least one
+        active drug — the "zero" in 90:0 and 0:120 is the <em>other</em> drug being absent, which is
+        what makes those the component-alone arms. A factorial grid does not have to include an
+        inert cell, and this one doesn't.</p>
+      <p class="note">Note what is also <b>not</b> ticked: <em>low-dose intervention drug</em>. The
+        low cells are rungs on the gradient, not a designated control.</p>
+    </div>
+
+    <!-- ============ 3 · 2x2 ============ -->
+    <div class="ex">
+      <div class="ex-head">
+        <h3>3 · Co-administration 2 × 2</h3>
+        <span class="badge">e.g. LSD + ketanserin</span>
+      </div>
+      <p class="desc">Four cells: LSD + ketanserin, LSD + placebo, placebo + ketanserin,
+        placebo + placebo.</p>
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cell</th>
+              <th>What it is</th>
+              <th>Tick</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="arm">LSD + ketanserin</td>
+              <td>the combination under study</td>
+              <td><span class="tick t-idx">index — not a comparator</span></td>
+            </tr>
+            <tr>
+              <td class="arm">LSD + placebo</td>
+              <td>intervention drug without the co-administered drug</td>
+              <td><span class="tick t-yes">intervention component alone</span></td>
+            </tr>
+            <tr>
+              <td class="arm">placebo + ketanserin</td>
+              <td>co-administered drug without the psychedelic</td>
+              <td><span class="tick t-yes">co-administered component alone</span></td>
+            </tr>
+            <tr>
+              <td class="arm">placebo + placebo</td>
+              <td>genuinely inert</td>
+              <td><span class="tick t-yes">placebo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="answer"><b>Tick:</b> placebo · intervention component alone · co-administered
+        component alone. <b>Don't tick:</b> dose-ranging — only one dose of each drug.</p>
+      <p class="note"><b>Some co-administration trials are only 2 cells.</b> NCT04558294 in our
+        database is just <code>LSD + ketanserin-placebo</code> vs <code>LSD + ketanserin</code> —
+        so it gets <em>intervention component alone</em> only, with no placebo tick, because no
+        inert cell exists.</p>
+    </div>
+  </section>
+
+  <footer>
+    SYPRES master database · comparator field guidance, 28 Aug 2026<br>
+    Comparator is multi-select and its categories overlap by design, so counts report
+    "studies using X" rather than a share of studies.
+  </footer>
+</div>

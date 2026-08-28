@@ -49,3 +49,6 @@ __pycache__/
 
 # Registry enrichment cache (parsed details live in _data/master_db.json)
 analysis/master-db/.registry_cache/
+
+# Office lock files
+~$*

@@ -1,0 +1,1036 @@
+<title>Psychedelic RCT Evidence Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  /* ── tokens: light is the base, both dark paths redefine only tokens ───── */
+  :root {
+    --ground:      #F2F5F3;
+    --surface:     #FFFFFF;
+    --surface-2:   #E9EEEB;
+    --ink:         #12201D;
+    --ink-2:       #566462;
+    --ink-3:       #7E8C89;
+    --line:        #D8E0DD;
+    --line-2:      #C2CECA;
+    --accent:      #0E6E63;
+    --accent-soft: #DCEDE9;
+    --ready:       #2E7A4E;
+    --ready-soft:  #DFEDE3;
+    --partial:     #9E6C12;
+    --partial-soft:#F2E8D2;
+    --blocked:     #A33E2C;
+    --blocked-soft:#F3E0DA;
+    --shadow:      0 1px 2px rgba(18,32,29,.05), 0 8px 24px -16px rgba(18,32,29,.22);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0E1513;
+      --surface:     #16201D;
+      --surface-2:   #1D2926;
+      --ink:         #E4ECE8;
+      --ink-2:       #9AA9A5;
+      --ink-3:       #78877F;
+      --line:        #263430;
+      --line-2:      #33443F;
+      --accent:      #4FC2B1;
+      --accent-soft: #16302C;
+      --ready:       #63B683;
+      --ready-soft:  #172C20;
+      --partial:     #D6A552;
+      --partial-soft:#2E2718;
+      --blocked:     #E08770;
+      --blocked-soft:#31201B;
+      --shadow:      0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #0E1513;
+    --surface:     #16201D;
+    --surface-2:   #1D2926;
+    --ink:         #E4ECE8;
+    --ink-2:       #9AA9A5;
+    --ink-3:       #78877F;
+    --line:        #263430;
+    --line-2:      #33443F;
+    --accent:      #4FC2B1;
+    --accent-soft: #16302C;
+    --ready:       #63B683;
+    --ready-soft:  #172C20;
+    --partial:     #D6A552;
+    --partial-soft:#2E2718;
+    --blocked:     #E08770;
+    --blocked-soft:#31201B;
+    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 62rem; margin: 0 auto; }
+  .col  { max-width: 40rem; }
+
+  h1, h2, h3 {
+    font-family: Newsreader, ui-serif, Georgia, "Times New Roman", serif;
+    font-weight: 500;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  /* ── masthead ───────────────────────────────────────────────────────────── */
+  header.mast { padding: 68px 0 34px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-size: .72rem; font-weight: 600; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 18px;
+  }
+  h1 { font-size: clamp(2.3rem, 6vw, 3.4rem); line-height: 1.06; letter-spacing: -.018em; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .thesis {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: clamp(1.08rem, 2.3vw, 1.3rem); line-height: 1.5; color: var(--ink-2);
+    margin: 20px 0 0; max-width: 34rem;
+  }
+  .provenance {
+    margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .74rem; color: var(--ink-3); font-variant-numeric: tabular-nums;
+  }
+  .provenance b { color: var(--ink-2); font-weight: 500; }
+
+  /* ── sections ───────────────────────────────────────────────────────────── */
+  section { padding: 52px 0 0; }
+  .sec-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 12px;
+  }
+  h2 { font-size: clamp(1.5rem, 3.4vw, 1.95rem); letter-spacing: -.012em; line-height: 1.2; }
+  h3 { font-size: 1.16rem; letter-spacing: -.006em; }
+  p  { margin: 16px 0; }
+  .col p, .col li { max-width: 40rem; }
+  a { color: var(--accent); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  a:focus-visible, .fig-cell:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px;
+  }
+  strong { font-weight: 600; }
+  code, .mono {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .86em; background: var(--surface-2); padding: .1em .38em; border-radius: 3px;
+  }
+
+  .revision {
+    margin: 26px 0 0; padding: 15px 18px; max-width: 40rem;
+    background: var(--surface); border: 1px solid var(--line);
+    border-left: 3px solid var(--partial); border-radius: 3px;
+    font-size: .89rem; color: var(--ink-2); line-height: 1.55;
+  }
+  .revision b { color: var(--ink); }
+  .cut { text-decoration: line-through; color: var(--ink-3); }
+
+  /* ── claim set ──────────────────────────────────────────────────────────── */
+  .claims { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line);
+            border-radius: 4px; overflow: hidden; margin: 26px 0 0; }
+  @media (min-width: 720px) { .claims { grid-template-columns: 1fr 1fr; } }
+  .claim { background: var(--surface); padding: 22px 24px; }
+  .claim h3 { font-size: 1.04rem; margin: 0 0 7px; }
+  .claim p { margin: 0; font-size: .93rem; color: var(--ink-2); line-height: 1.55; }
+
+  /* ── the inventory matrix — the page's own gap map ──────────────────────── */
+  .matrix-note { font-size: .9rem; color: var(--ink-2); margin: 14px 0 22px; max-width: 40rem; }
+  .matrix { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); }
+  .fig-cell {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--line);
+    border-top: 3px solid var(--st); border-radius: 3px;
+    padding: 13px 14px 15px; min-height: 112px;
+    transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  }
+  .fig-cell:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--line-2); }
+  /* blocked figures render hollow — the empty cells are the point */
+  .fig-cell.is-blocked { background: transparent; border-style: dashed; border-top-style: solid; }
+  .fig-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem; letter-spacing: .09em; color: var(--st);
+    font-weight: 500; display: block; margin-bottom: 6px;
+  }
+  .fig-name { font-size: .92rem; font-weight: 600; line-height: 1.32; display: block; }
+  .fig-state {
+    margin-top: 9px; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--st); font-weight: 600;
+  }
+  .st-ready   { --st: var(--ready); }
+  .st-partial { --st: var(--partial); }
+  .st-blocked { --st: var(--blocked); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 18px 0 0;
+            font-size: .78rem; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 22px; height: 3px; border-radius: 2px; background: var(--st); }
+
+  /* ── figure detail entries ──────────────────────────────────────────────── */
+  .fig { border-top: 1px solid var(--line); padding: 26px 0 6px; }
+  .fig:first-of-type { border-top: none; }
+  .fig-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .fig-head h3 { flex: 1 1 16rem; }
+  .chip {
+    font-size: .68rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 2px; white-space: nowrap;
+    color: var(--st); background: var(--st-soft);
+  }
+  .st-ready   .chip, .chip.st-ready   { --st: var(--ready);   --st-soft: var(--ready-soft); }
+  .st-partial .chip, .chip.st-partial { --st: var(--partial); --st-soft: var(--partial-soft); }
+  .st-blocked .chip, .chip.st-blocked { --st: var(--blocked); --st-soft: var(--blocked-soft); }
+  .fig p { margin: 12px 0; }
+  .fig ul { margin: 12px 0; padding-left: 1.1rem; }
+  .fig li { margin: 5px 0; }
+  .needs {
+    font-size: .87rem; color: var(--ink-2); border-left: 2px solid var(--line-2);
+    padding: 2px 0 2px 14px; margin: 14px 0;
+  }
+  .needs b { color: var(--ink); font-weight: 600; }
+
+  /* ── tables ─────────────────────────────────────────────────────────────── */
+  .tablewrap { overflow-x: auto; margin: 24px 0; border: 1px solid var(--line);
+               border-radius: 4px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; min-width: 34rem; }
+  th, td { text-align: left; padding: 11px 15px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
+    font-weight: 600; background: var(--surface-2); border-bottom: 1px solid var(--line-2);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.rank {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums;
+    color: var(--ink-3); width: 2.6rem;
+  }
+  .cost { font-size: .78rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .cost-low { color: var(--ready); }
+  .cost-med { color: var(--partial); }
+  .cost-high { color: var(--blocked); }
+
+  /* ── pull quote / key insight ───────────────────────────────────────────── */
+  .insight {
+    background: var(--accent-soft); border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px; padding: 24px 26px; margin: 30px 0 0;
+  }
+  .insight h3 { font-size: 1.1rem; margin: 0 0 10px; color: var(--ink); }
+  .insight p { margin: 10px 0 0; font-size: .96rem; color: var(--ink-2); }
+  .insight p:first-of-type { margin-top: 0; }
+  .insight strong { color: var(--ink); }
+
+  /* ── ordered steps (genuinely sequential) ───────────────────────────────── */
+  ol.steps { list-style: none; counter-reset: s; margin: 24px 0 0; padding: 0;
+             display: grid; gap: 14px; }
+  ol.steps li { counter-increment: s; display: grid; grid-template-columns: 2.1rem 1fr; gap: 14px;
+                align-items: start; }
+  ol.steps li::before {
+    content: counter(s); font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .78rem; font-weight: 500; color: var(--accent);
+    background: var(--accent-soft); border-radius: 2px;
+    width: 2.1rem; height: 2.1rem; display: grid; place-items: center;
+  }
+  ol.steps .when { display: block; font-size: .72rem; letter-spacing: .08em;
+                   text-transform: uppercase; color: var(--ink-3); font-weight: 600; margin-bottom: 3px; }
+
+  ul.plain { padding-left: 1.1rem; margin: 16px 0; }
+  ul.plain li { margin: 8px 0; }
+
+  footer {
+    margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .73rem; color: var(--ink-3); line-height: 1.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+    .fig-cell:hover { transform: none; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">SYPRES · Master database · Planning document</p>
+    <h1>Mapping <em>every</em> psychedelic randomized trial</h1>
+    <p class="thesis">
+      A living systematic map of every RCT that has administered a psychedelic drug — any drug,
+      any population, healthy volunteers included — paired with an open, exportable, citable database.
+    </p>
+    <p class="provenance">
+      <span>Revised twice after review <b>26 Aug 2026</b></span>
+      <span>Pilot: <b>95</b> papers included</span>
+      <span><b>45</b> with an extraction</span>
+      <span><b>16</b> consensus-equivalent</span>
+    </p>
+    <div class="revision">
+      <b>Scope decisions from review.</b> Dose, psychotherapy, per-arm N, route, primary-outcome
+      designation, race/ethnicity, and risk-of-bias were judged out of scope for extraction. This
+      revision reflects those decisions rather than re-arguing them: dependent figures are cut or
+      reduced, and the gap list is now four items, not eight.
+    </div>
+  </header>
+
+  <section>
+    <p class="sec-label">The argument</p>
+    <div class="col">
+      <h2>Not a meta-analysis — a description of the field's shape</h2>
+      <p>
+        The contribution here is structural. This literature has so far been reviewed drug-by-drug
+        and indication-by-indication, which means no one has counted it whole. The paper is the
+        argument; the database is the instrument; each new Covidence export updates both.
+      </p>
+      <p>
+        Four claims the data can support that existing reviews do not make:
+      </p>
+    </div>
+
+    <div class="claims">
+      <div class="claim">
+        <h3>Nobody has mapped the whole field</h3>
+        <p>
+          Existing reviews are drug × indication slices. Healthy-volunteer pharmacology — 38 of the
+          45 extracted studies in the pilot — is systematically excluded from them, and it is where
+          most of the dosing, safety, and mechanism evidence actually lives.
+        </p>
+      </div>
+      <div class="claim">
+        <h3>Papers are not trials, and the gap is large</h3>
+        <p>
+          In the pilot, 40 linked papers reduce to 32 distinct trials; one trial contributes three
+          papers. Every "per study" count in this field is inflated by an unknown factor. We can
+          measure it — including for unregistered trials, via source-paper DOIs.
+        </p>
+      </div>
+      <div class="claim">
+        <h3>No two trials measure the same set of things</h3>
+        <p>
+          Among the 16 verified-complete extractions there are <strong>15 distinct domain
+          combinations, 14 of them used by exactly one study</strong>.
+          Trials do not agree on which domains to measure at all — the empirical case for a core
+          outcome set, and the finding most likely to change practice.
+        </p>
+      </div>
+      <div class="claim">
+        <h3>Reporting integrity is measurable, and mixed</h3>
+        <p>
+          Extracted studies from the 2000s are almost entirely unregistered; those from the 2020s
+          almost entirely registered. Of 18 registry-enriched trials, three were registered
+          retrospectively and only six have posted results.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Figure inventory</p>
+    <h2>Eleven figures, and what stands between us and each one</h2>
+    <p class="matrix-note">
+      Scored against the revised extraction template. Hollow cells are figures the current schema
+      cannot produce — the gaps in our own evidence map.
+    </p>
+
+    <div class="matrix">
+      <a class="fig-cell st-ready" href="#f1">
+        <span class="fig-num">FIG 1</span>
+        <span class="fig-name">Study flow (PRISMA 2020)</span>
+        <span class="fig-state">Ready</span>
+      </a>
+      <a class="fig-cell st-ready" href="#f2">
+        <span class="fig-num">FIG 2</span>
+        <span class="fig-name">Growth of the evidence base</span>
+        <span class="fig-state">Ready</span>
+      </a>
+      <a class="fig-cell st-ready" href="#f3">
+        <span class="fig-num">FIG 3</span>
+        <span class="fig-name">Drug × population gap matrix</span>
+        <span class="fig-state">Ready</span>
+      </a>
+      <a class="fig-cell st-ready" href="#f4">
+        <span class="fig-num">FIG 4</span>
+        <span class="fig-name">Papers, trials, fragmentation</span>
+        <span class="fig-state">Ready</span>
+      </a>
+      <a class="fig-cell st-ready" href="#f5">
+        <span class="fig-num">FIG 5</span>
+        <span class="fig-name">The outcome landscape</span>
+        <span class="fig-state">Ready</span>
+      </a>
+      <a class="fig-cell st-partial" href="#f6">
+        <span class="fig-num">FIG 6</span>
+        <span class="fig-name">Statistical scale of the field</span>
+        <span class="fig-state">Attrition contingent</span>
+      </a>
+      <a class="fig-cell st-partial" href="#f7">
+        <span class="fig-num">FIG 7</span>
+        <span class="fig-name">Design and rigour</span>
+        <span class="fig-state">Registered only</span>
+      </a>
+      <a class="fig-cell st-partial" href="#f8">
+        <span class="fig-num">FIG 8</span>
+        <span class="fig-name">Who is studied, and where</span>
+        <span class="fig-state">Partial</span>
+      </a>
+      <a class="fig-cell st-blocked is-blocked" href="#f9">
+        <span class="fig-num">FIG 9</span>
+        <span class="fig-name">The dose landscape</span>
+        <span class="fig-state">Cut — out of scope</span>
+      </a>
+      <a class="fig-cell st-ready" href="#f10">
+        <span class="fig-num">FIG 10</span>
+        <span class="fig-name">Registration &amp; reporting</span>
+        <span class="fig-state">Ready · 1 panel cut</span>
+      </a>
+      <a class="fig-cell st-ready" href="#f11">
+        <span class="fig-num">FIG 11</span>
+        <span class="fig-name">Integrity &amp; safety reporting</span>
+        <span class="fig-state">Ready · new</span>
+      </a>
+    </div>
+
+    <div class="legend">
+      <span class="st-ready"><i class="swatch"></i> Buildable from the current schema</span>
+      <span class="st-partial"><i class="swatch"></i> Possible for part of the corpus</span>
+      <span class="st-blocked"><i class="swatch"></i> Cut — depends on a field ruled out of scope</span>
+    </div>
+  </section>
+
+  <section class="col">
+    <p class="sec-label">Figure detail</p>
+    <h2>What each figure shows, and what it needs</h2>
+
+    <div class="fig st-ready" id="f1">
+      <div class="fig-head"><h3>1 · Study flow</h3><span class="chip">Ready</span></div>
+      <p>
+        Standard PRISMA 2020 identification → screening → eligibility → inclusion diagram,
+        rendered from the pipeline's <code>prisma</code> block.
+      </p>
+      <p class="needs">
+        <b>Now complete, and it reconciles exactly:</b> 14,502 identified − 6,951 duplicates −
+        2,781 auto-marked ineligible − 2,584 excluded at title/abstract = the 2,186 records the
+        stage exports account for. Following PRISMA 2020 the automation removals count as
+        <em>removed before screening</em>, so records screened = 4,770. The build now checks this
+        arithmetic and warns if a hand-entered number drifts out of sync.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="f2">
+      <div class="fig-head"><h3>2 · Growth and composition</h3><span class="chip">Ready</span></div>
+      <p>
+        Papers per five-year window from 1960 to now, stacked by drug. Shows the two distinct eras —
+        a 1960s wave, a near-total gap through the 1980s and 90s, the post-2000 renaissance — and the
+        compositional shift from LSD toward MDMA and psilocybin.
+      </p>
+      <p class="needs">
+        <b>Needs:</b> year and drug only, so it works across all 95 papers with no extraction at all.
+        <b>Watch:</b> annotate or truncate the final partial window so the apparent 2025+ decline
+        is not read as real.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="f3">
+      <div class="fig-head"><h3>3 · Evidence-and-gap matrix</h3><span class="chip">Ready</span></div>
+      <p>
+        The signature figure of a systematic map. Bubble grid with drug on one axis and population on
+        the other; bubble area is the number of <em>trials</em>, not papers, and fill encodes
+        cumulative participants. The empty cells are the finding.
+      </p>
+      <p class="needs">
+        <b>Needs:</b> drug, indication, N, trial key — all present.
+        <b>Expect:</b> density at MDMA × PTSD and psilocybin × depression, a very heavy
+        healthy-volunteer column, and near-emptiness almost everywhere else.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="f4">
+      <div class="fig-head"><h3>4 · Papers, trials, and fragmentation</h3><span class="chip">Ready</span></div>
+      <ul>
+        <li><strong>4A</strong> — distribution of papers per trial (pilot: 25 trials with one paper, six with two, one with three).</li>
+        <li><strong>4B</strong> — timeline with each trial as a row and its papers as points, showing the multi-year publication tail of single trials.</li>
+        <li><strong>4C</strong> — registration status by publication year.</li>
+      </ul>
+      <p class="needs">
+        <b>Needs:</b> trial key, registration status, year — all present. The parent-DOI linkage
+        added for the revised template is what makes 4A honest for unregistered trials.
+        <b>This is the most novel figure in the set.</b>
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="f5">
+      <div class="fig-head"><h3>5 · The outcome landscape</h3><span class="chip">Ready</span></div>
+      <ul>
+        <li><strong>5A</strong> — heatmap of outcome domain × drug, cell = share of trials assessing it.</li>
+        <li><strong>5B</strong> — co-occurrence plot of domain combinations, showing there is no standard battery.</li>
+        <li><strong>5C</strong> — distinct sub-categories recorded within each domain (pilot range: 1–8).</li>
+      </ul>
+      <p class="needs">
+        <b>What this claims, precisely.</b> We extract outcome <em>domains</em> and a controlled
+        sub-category within each (<code>Psychiatric: depression</code>) — <b>not instruments</b>.
+        So the claim is not "trials use a scattered set of scales", which would need
+        instrument-level extraction and is out of scope. It is that trials
+        <b>do not agree on which domains to measure at all</b>: 15 combinations across 16 verified
+        studies, 14 unique to a single study. That is the right level anyway — COMET-style core-outcome-set
+        development establishes core <em>domains</em> first and picks instruments as a separate
+        second stage. This figure supports stage one and says nothing about stage two.
+      </p>
+    </div>
+
+    <div class="fig st-partial" id="f6">
+      <div class="fig-head"><h3>6 · Statistical scale</h3><span class="chip">Attrition contingent</span></div>
+      <p>
+        Distribution of sample size by decade, by phase, and by healthy-volunteer versus patient
+        population. In the pilot: median 24, IQR 15–32, range 6–176. A blunt, honest figure — these
+        trials are small.
+      </p>
+      <p class="needs">
+        <b>Attrition panel — contingent.</b> Only 10 of 45 extracted rows carry both N randomized
+        and N analyzed. The real obstacle is not reviewer effort but ambiguity: older unregistered
+        studies often report <em>a single N</em> with no statement about dropouts, so a blank means
+        either "no dropouts" or "not reported". An explicit <b>"not reported"</b> option makes the
+        blank meaningful — and turns the panel honest, since
+        <em>"attrition was undeterminable in X% of trials"</em> is itself a publishable finding.
+      </p>
+    </div>
+
+    <div class="fig st-partial" id="f7">
+      <div class="fig-head"><h3>7 · Design and methodological rigour</h3><span class="chip">Registered only</span></div>
+      <p>
+        Comparator type, parallel versus crossover, blinding level, and whether blinding integrity
+        was <em>assessed</em>. Comparator type comes from extraction; design model and masking come
+        free from ClinicalTrials.gov (pilot: 10 parallel, 7 crossover, 1 single-group; masking
+        recorded for all 18 enriched trials).
+      </p>
+      <p class="needs">
+        <b>Blocked for unregistered trials</b> — roughly half the corpus, and the older half, which
+        the registry cannot describe at all. The one remaining extraction ask (gap 3) closes this.
+      </p>
+    </div>
+
+    <div class="fig st-partial" id="f8">
+      <div class="fig-head"><h3>8 · Who is studied, and where</h3><span class="chip">Partial</span></div>
+      <p>
+        Trial geography plus population composition. Countries come from the registry — the pilot is
+        heavily concentrated in the United States and Switzerland — alongside the healthy-versus-patient
+        split and the handful of single-sex studies.
+      </p>
+      <p class="needs">
+        <b>Reduced after review.</b> Race and ethnicity are not being extracted, so the
+        representativeness panel is out. If age and % female are added (gap 4, optional) a
+        demographic panel becomes possible; otherwise this is geography plus population composition
+        only — and the paper should say plainly that demographic representativeness was
+        <em>outside the scope of this map</em>, rather than implying the data were unavailable.
+      </p>
+    </div>
+
+    <div class="fig st-blocked" id="f9">
+      <div class="fig-head"><h3><span class="cut">9 · The dose landscape</span></h3><span class="chip">Cut — out of scope</span></div>
+      <p>
+        Cut after review. Dose extraction was judged not worth the burden: it is heterogeneously
+        reported (mg versus mg/kg), varies by route, and is especially awkward for PK dose-response
+        designs.
+      </p>
+      <p>
+        <strong>The data corroborate that judgement.</strong> Even ClinicalTrials.gov carries dose
+        inconsistently — of 18 enriched trials only four state an explicit mg or µg dose in their
+        arm labels and three more give an ordinal level ("low dose", "high-dose psilocybin"); the
+        other eleven give none. There is no free registry-side substitute.
+      </p>
+      <p class="needs">
+        <b>What survives:</b> restoring the <b>microdosing flag</b> recovers a microdose versus
+        full-dose split. That is a coarse binary, not a dose landscape — no dose-response — but
+        microdosing trials are a distinct literature with distinct effects, and being unable to
+        separate them at all distorts Figures 3, 5 and 6, where a 15 µg and a 200 µg LSD study
+        currently sit in the same cell.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="f10">
+      <div class="fig-head"><h3>10 · Registration and reporting integrity</h3><span class="chip">Ready · 1 panel cut</span></div>
+      <ul>
+        <li><strong>10A</strong> — registered versus unregistered by year. <em>Ready.</em></li>
+        <li><strong>10B</strong> — prospective versus retrospective registration, computed from registry and start dates (pilot: 15 prospective, 3 retrospective). <em>Ready.</em></li>
+        <li><strong>10C</strong> — results posted to the registry (pilot: 6 of 18). <em>Ready.</em></li>
+        <li><span class="cut"><strong>10D</strong> — outcome switching</span> — <em>cut.</em></li>
+      </ul>
+      <p class="needs">
+        <b>The objection to 10D is correct and decisive.</b> In a database that deliberately
+        includes secondary reports, a paper reporting a secondary outcome is the normal case, not
+        evidence of switching; detecting switching would need a flag for <em>the primary report of
+        each trial</em>, which we do not have and are not adding. A second problem confirms the cut:
+        registered primary outcomes are free-text prose ("Percentage Change of the BOLD Signal",
+        "area under the concentration time curve in oxytocin level") that will not map cleanly onto
+        fifteen coarse domains, so most apparent mismatches would be parsing failures dressed as
+        findings.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="f11">
+      <div class="fig-head"><h3>11 · Trial integrity and safety reporting</h3><span class="chip">Ready · new</span></div>
+      <p>
+        A <strong>negative-space figure</strong>: the finding is not what these trials do, but what
+        they never check. Fully supported by the current schema — no new columns needed.
+      </p>
+      <p class="needs">
+        <b>Denominator.</b> Every number below is computed over the <b>16 verified-complete rows
+        only</b>. Other reviewers' rows are legitimately mid-extraction and including them drags
+        every rate downward. Sixteen is far too small to publish — this shows the figure is
+        computable, nothing more.
+      </p>
+      <ul>
+        <li><strong>11A — claimed blinding versus verified blinding.</strong> The masking level the
+          registry claims, against whether the paper actually <em>assessed</em> blinding integrity.
+          Pilot: <strong>3 of 6</strong> enriched trials with a complete extracted paper verified
+          their blind; the triple- and double-masked trials that didn't are the interesting cells.
+          Across verified rows, <strong>81% show no blinding-integrity check at all</strong>. In a
+          field where functional unblinding is <em>the</em> central methodological criticism, that
+          contrast is the whole argument.</li>
+        <li><strong>11B — safety reporting completeness</strong> by population and era.
+          <strong>81% record no safety domain at all</strong>; structured AE collection appears in
+          3 of 16.</li>
+        <li><strong>11C — what "safety" means when it is reported.</strong> Structured AE
+          collection (3), cardiovascular/QTc (1). Abuse potential and HPPD — the
+          psychedelic-specific harms — appear <strong>zero times</strong> in the verified rows.
+          That absence is the most pointed thing in the figure.</li>
+        <li><strong>11D — expectancy.</strong> <code>expectancy</code> is already an option in the
+          template and has <strong>never been recorded for a single study</strong>. A zero is a
+          legitimate and striking result for a figure about trial integrity: the field's
+          most-discussed confound, available to record, never recorded. Worth confirming it stays
+          zero rather than not-yet-reached as extraction completes.</li>
+      </ul>
+      <p class="needs">
+        <b>⚠ A caveat about this whole gap analysis.</b> I inferred the extraction template from
+        the <em>values present in the export</em>, so <b>options that exist but have never been
+        used are invisible to me</b> — which is exactly how I wrongly called expectancy a missing
+        field. Other items flagged as gaps may likewise already exist. Worth checking the list
+        against the actual Covidence codebook before acting on any of it.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="fs">
+      <div class="fig-head"><h3>S1 · Reliability of the review process</h3><span class="chip">Ready</span></div>
+      <p>
+        Per-reviewer rows can be exported from Covidence <em>after</em> consensus as well as before,
+        so nothing here is time-limited: the database uses the consensus export, and the
+        independent extractions are pulled separately for agreement. That also means this
+        supplement need not stop at extraction — <strong>agreement is measurable at all three
+        stages of the review</strong>, which turns a defensive methods note into a genuine
+        contribution. Very few reviews report reliability at more than one stage, and almost none
+        report it for a living review that will repeat the process.
+      </p>
+      <ul>
+        <li><strong>S1a — title/abstract screening.</strong> Two independent include/exclude
+          decisions per record, across the ~4,770 screened. Report Cohen's κ <em>with</em> raw
+          percentage agreement: screening is heavily prevalence-imbalanced (most records are
+          excluded), and κ is deflated by exactly that imbalance, so κ alone will understate
+          agreement. PABAK or a prevalence-adjusted figure alongside it is the honest presentation.</li>
+        <li><strong>S1b — full-text review.</strong> κ on the include/exclude decision, plus a
+          second and more informative statistic: agreement on the <em>exclusion reason</em> among
+          records both reviewers excluded. Two reviewers can agree to exclude for different reasons,
+          and that disagreement is invisible in a decision-only κ.</li>
+        <li><strong>S1c — extraction.</strong> Per-field, because the fields are different kinds of
+          measurement: κ for categorical fields (phase, population, comparator), set overlap
+          (Jaccard) for the multi-select outcome domains, exact agreement or ICC for the numeric
+          fields (N randomized, N analyzed).</li>
+      </ul>
+      <p class="needs">
+        <b>What still has to be pulled.</b> None of the five exports we hold today carries screening
+        decisions: <code>screen</code>, <code>select</code>, <code>included</code> and
+        <code>excluded</code> are bibliographic record lists with <em>no reviewer column at all</em>,
+        and only the extraction export has <code>Reviewer Name</code>. So S1a and S1b need an
+        additional Covidence export type — the per-reviewer screening decisions — not a re-parse of
+        what is already in <code>data/</code>.
+      </p>
+      <p class="needs">
+        <b>Do it on a frozen snapshot.</b> Agreement computed mid-extraction is meaningless — a
+        "disagreement" is usually one reviewer not having reached a field the other has. Compute
+        each statistic over records both reviewers have actually completed.
+      </p>
+    </div>
+
+    <div class="fig st-ready" id="fs2">
+      <div class="fig-head"><h3>S2 · Registry versus publication</h3><span class="chip">Ready</span></div>
+      <p>
+        Richer than "the registry disagrees with the paper". The pilot's five mismatches have
+        <strong>three distinct causes</strong>, and none of them is an error.
+      </p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Trial</th><th>Registry</th><th>Paper</th><th>What it actually is</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>NCT03790358</td><td>80 enrolled; arms are <strong>MDMA</strong> dose levels</td>
+              <td>Bershad 2019 &amp; 2020 — <strong>LSD</strong> microdoses, n=20 each</td>
+              <td><strong>Umbrella registration.</strong> One NCT covering a programme of
+                serotonin-agonist studies; the registry record describes a different substudy's
+                intervention entirely. Not a subgroup analysis.</td>
+            </tr>
+            <tr>
+              <td>NCT04648137</td>
+              <td>30 enrolled; arms are <em>patients with central diabetes insipidus</em> /
+                <em>healthy volunteers</em></td>
+              <td>Atila 2025, n=15 analysed</td>
+              <td><strong>Genuine subgroup</strong> — a secondary analysis reporting the
+                healthy-volunteer half.</td>
+            </tr>
+            <tr>
+              <td>NCT04865653</td><td>20 "actual"</td><td>Arikci 2025: 24 randomised, 20 analysed</td>
+              <td>Registry's actual enrolment equals the paper's <strong>analysed</strong> count.</td>
+            </tr>
+            <tr>
+              <td>NCT04558294</td><td>24 "actual"</td><td>Becker 2023: 26 randomised, 24 analysed</td>
+              <td>Same pattern.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="needs">
+        Across the four trials where both numbers are held, registry "actual enrolment" matched
+        N analysed three times and N randomised twice (one matched both). The registry figure is
+        <b>not reliably either quantity</b> — which is the reportable finding: an enrolment
+        discrepancy is not evidence of error until you establish what each source is counting.
+      </p>
+      <p class="needs">
+        <b>This also qualifies Figure 4.</b> Grouping by registration treats an umbrella
+        registration as one trial even when it covers several distinct experiments — Bershad 2019
+        (four-session dose-ranging) and Bershad 2020 (two-session fMRI) are different experiments
+        under one NCT. The ratio <em>over</em>-merges in umbrella cases while unregistered reports
+        without a parent DOI stay <em>under</em>-merged. Report it as "papers per registration",
+        not "papers per experiment", and state both directions of error.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Extraction gaps</p>
+    <h2>What is still blocked, after review</h2>
+    <p class="matrix-note">
+      Four items, and none is a new extraction column. Dose, psychotherapy, per-arm N, route,
+      primary-outcome designation, race and ethnicity, and risk-of-bias were ruled out of scope;
+      the figures above were adjusted rather than left hoping. <strong>Expectancy came off this
+      list</strong> — it is already a template option, simply never used (see 11D).
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th class="rank">#</th><th>Field</th><th>What it unblocks</th><th>Cost</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="rank">1</td>
+            <td><strong>Microdosing flag</strong> — restore the removed yes/no</td>
+            <td>The microdose versus full-dose split in Figures 3, 5, 6, and what remains of 9</td>
+            <td class="cost cost-low">Very low</td>
+            <td>Open to it</td>
+          </tr>
+          <tr>
+            <td class="rank">2</td>
+            <td><strong>A "not reported" option on <em>both</em> N randomized and N analyzed</strong></td>
+            <td>Figure 6's attrition panel. Either field being blank makes attrition undeterminable,
+              and N randomized is already missing on 18% of rows — one option on one field isn't enough</td>
+            <td class="cost cost-low">Very low</td>
+            <td>Proposed</td>
+          </tr>
+          <tr>
+            <td class="rank">3</td>
+            <td><strong>Design and blinding, asked only when a study is marked unregistered</strong>
+              — proposed vocabulary below</td>
+            <td>Figure 7 for the ~half of the corpus the registry cannot describe</td>
+            <td class="cost cost-low">Low</td>
+            <td>Vocabulary drafted</td>
+          </tr>
+          <tr>
+            <td class="rank">4</td>
+            <td><strong>Age (mean or range) and % female</strong></td>
+            <td>A demographic panel in Figure 8</td>
+            <td class="cost cost-low">Low</td>
+            <td>Optional</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight">
+      <h3>The structural insight this changes</h3>
+      <p>
+        ClinicalTrials.gov already supplies design, masking, allocation, sponsor and industry status,
+        country, planned enrolment, primary outcomes, registration date, and results-posted — at
+        <strong>100% field coverage</strong> for every enriched trial.
+      </p>
+      <p>
+        Extraction effort should therefore never be spent re-collecting those for registered trials.
+        Gap 3 follows directly: ask the design questions <strong>only of unregistered studies</strong>,
+        where the registry cannot answer them. That is roughly half the corpus, and the older half —
+        and it closes most of Figure 7 for very little reviewer time.
+      </p>
+    </div>
+  </section>
+
+  <section class="col">
+    <p class="sec-label">Beyond the figures</p>
+    <h2>Three analyses worth running</h2>
+    <ul class="plain">
+      <li>
+        <strong>Trial-level versus paper-level counts</strong> for every headline statistic, reported
+        as a pair. The gap between the two <em>is</em> a result.
+      </li>
+      <li>
+        <strong>Concentration — by senior-author group, not by centre.</strong> The original framing
+        needed institutional affiliations, which the Covidence export does not carry; country comes
+        only from the registry and only for registered trials, so it cannot do this job. Author names
+        can: they are present for all 95 papers. Last-author concentration is computable today — 56
+        distinct last authors, with the top five accounting for <strong>29% of all papers</strong>
+        (Liechti 6, Vollenweider 6, Nutt 6, Borgwardt 5, de Wit 5). Registry lead sponsors add an
+        organisational view for enriched trials: University Hospital Basel alone sponsors 6 of 18.
+        <em>Methods caveat to state:</em> last author is a proxy for research group and will
+        mis-handle name collisions and shared senior authorship — report it as a bibliometric
+        description, not a count of laboratories.
+      </li>
+      <li>
+        <strong>Unpublished trials — feasible, but a separate piece of work.</strong> Our registry ids
+        come <em>from</em> papers, so this cannot be answered from the database alone. It needs a query
+        in the other direction: search ClinicalTrials.gov directly for completed interventional trials
+        with a psychedelic intervention, then subtract the NCT ids that appear in our database. The
+        remainder are candidate unpublished trials, and no extraction is involved.
+        <em>Real caveats:</em> while screening is incomplete a "missing" trial may simply be unscreened,
+        so this must wait until the review closes; trials in non-CT.gov registries are invisible to it;
+        and a trial may be published somewhere we have not indexed. A genuinely new number for the
+        field — but an added task, not a free one.
+      </li>
+    </ul>
+    <p class="col" style="color: var(--ink-3); font-size: .89rem;">
+      A fourth idea — outcome-domain coverage versus regulatory expectation — is
+      <span class="cut">cut</span>. It was under-specified: it needs a normative standard for what a
+      phase 3 programme must establish, which we would be asserting rather than measuring. The purely
+      descriptive version (domains cross-tabulated by phase) is computable, but the pilot runs 23
+      phase 1 to one phase 2 and two phase 3, and phase is recorded only for registered trials — too
+      thin to carry a figure. Worth revisiting only if phase coverage improves.
+    </p>
+  </section>
+
+  <section>
+    <p class="sec-label">Gap 3, specified</p>
+    <h2>What the design and blinding options should actually be</h2>
+    <p class="matrix-note">
+      Derived from what ClinicalTrials.gov encodes across our 18 enriched trials, so the extracted
+      values stay directly comparable with the registry for the trials that have one.
+    </p>
+
+    <h3 style="margin-top:22px;">Design — nearly right, and one thing <em>not</em> to add</h3>
+    <p>
+      Parallel versus crossover covers 17 of our 18 enriched trials (10 parallel, 7 crossover), and
+      crossover being that common is itself worth capturing. Factorial is worth having as an option
+      given how many psychedelic studies add a pre-treatment or co-administered drug.
+    </p>
+    <p>
+      <strong>Do not offer "single-group".</strong> Our one single-group trial turned out to be a
+      registration error — see below — and in a database restricted to randomised trials a genuine
+      single-group design should not exist. If a reviewer reaches for it, the question is whether
+      the study belongs in the review at all, which is a screening decision rather than an
+      extraction option.
+    </p>
+    <p>
+      <strong>Proposed:</strong> parallel · crossover (including within-subject) · factorial ·
+      quasi-randomised · other · not reported.
+    </p>
+
+    <div class="insight" style="margin-top:22px;">
+      <h3>The one "single-group" trial is a mislabelled crossover</h3>
+      <p>
+        <a href="https://clinicaltrials.gov/study/NCT00823407" target="_blank" rel="noopener">NCT00823407</a>
+        — <em>Clinical Pharmacology of MDA</em> (Baggott 2010, n=12) — registers
+        <code>allocation: RANDOMIZED</code> together with <code>interventionModel: SINGLE_GROUP</code>,
+        which contradicts itself: a single group has nothing to randomise between. The giveaway is
+        in the arms. There is <strong>one</strong> arm group, labelled "MDA", and it lists
+        <strong>two</strong> interventions — <em>Drug: MDA</em> and <em>Drug: Placebo</em> — both
+        double-masked to participant and care provider. Every participant receives both. That is a
+        crossover.
+      </p>
+      <p>
+        The cause is a registration habit rather than a one-off typo: some registrants put every
+        intervention inside a single arm group. <a href="https://clinicaltrials.gov/study/NCT01951508"
+        target="_blank" rel="noopener">NCT01951508</a> has exactly the same shape — one arm holding
+        methylphenidate, modafinil, MDMA and placebo — but is correctly labelled
+        <code>CROSSOVER</code>. Same structure, two different labels.
+      </p>
+      <p>
+        So the reliable signal is structural, not the label: <strong>one arm group containing
+        several drug interventions is a crossover</strong>, whatever the model field says. The build
+        now checks for this and warns, which also caught NCT01951508's missing allocation field.
+      </p>
+    </div>
+
+    <h3 style="margin-top:26px;">Blinding — the three-option list has a real problem</h3>
+    <p>
+      "Single / double / open-label" is the classic vocabulary, but it is <em>not</em> what
+      ClinicalTrials.gov records, and the mismatch is not cosmetic. The registry counts
+      <strong>how many parties are masked</strong>, then separately records <strong>which</strong>.
+      Those two things come apart in our own data:
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Registry level</th><th>Who was actually masked</th><th>Trials</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Double</strong></td><td>participant, investigator</td><td>3</td></tr>
+          <tr><td><strong>Double</strong></td><td>participant, <em>care provider</em></td><td>1</td></tr>
+          <tr><td><strong>Triple</strong></td><td>participant, care provider, investigator</td><td>5</td></tr>
+          <tr><td><strong>Triple</strong></td><td>participant, investigator, outcomes assessor</td><td>3</td></tr>
+          <tr><td><strong>Triple</strong></td><td>participant, care provider, outcomes assessor</td><td>1</td></tr>
+          <tr><td><strong>Quadruple</strong></td><td>all four roles</td><td>3</td></tr>
+          <tr><td><strong>Single</strong></td><td>participant only</td><td>1</td></tr>
+          <tr><td><strong>Single</strong></td><td><em>outcomes assessor only</em></td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Read the last two rows together. Both are "single-blind", but in one the participant does not
+      know what they took and in the other <em>they do</em> — only the rater is masked. For a
+      psychedelic trial that is close to the most important distinction on the page, and the classic
+      label erases it. "Double-blind" is no better: it means participant + investigator three times
+      out of four here, and participant + care provider the fourth.
+    </p>
+
+    <div class="insight">
+      <h3>Record who was masked, and let the level fall out of it</h3>
+      <p>
+        <strong>Proposed:</strong> a multi-select — <em>participant · care provider (therapist or
+        session monitor) · investigator · outcomes assessor</em> — plus two mutually exclusive
+        values, <em>nobody (open-label)</em> and <em>not reported</em>.
+      </p>
+      <p>
+        It costs the same to fill as three radio buttons, it is what a methods section actually
+        states, it is identical to the registry's own vocabulary so registered and unregistered
+        trials stay comparable — and single/double/triple/quadruple can still be <em>derived</em> by
+        counting, so the classic label is kept without the information loss.
+      </p>
+      <p>
+        The <em>care provider</em> role earns its place here specifically. In psychedelic-assisted
+        therapy the session monitor is the person least likely to be genuinely blind, whatever the
+        protocol claims — and the registry records them as masked in 10 of our 18 trials. Capturing
+        the role explicitly is what lets Figure 11A ask whether that claim was ever tested.
+      </p>
+      <p>
+        <strong>Allocation is not worth a field.</strong> 17 of 18 are registered as randomised and
+        the database is by definition RCTs only. The one exception worth a value is
+        <em>quasi-randomised</em> (alternation, day of week), which does appear in mid-century
+        trials — fold it into the design list rather than adding a column.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Registries</p>
+    <h2>Registered, but not on ClinicalTrials.gov</h2>
+    <p class="matrix-note">
+      Only ClinicalTrials.gov has an adapter. Tested against the registries that actually appear
+      in the corpus — the picture is worse than expected, and the fix is smaller than expected.
+    </p>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Registry</th><th>Programmatic access</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ClinicalTrials.gov</strong></td><td>API v2</td><td>Implemented — 18 trials enriched</td></tr>
+          <tr><td><strong>ISRCTN</strong></td><td>Public XML API works, including a WHO-dataset format with 68 fields</td><td>The one worth building</td></tr>
+          <tr><td><strong>ANZCTR</strong></td><td>HTTP 403 to scripted requests</td><td>Link only</td></tr>
+          <tr><td><strong>Dutch CCMO / OMON</strong></td><td>No API; HTML record resolves</td><td>Link only</td></tr>
+          <tr><td><strong>NTR</strong> (old Dutch)</td><td>trialregister.nl is dead — retired 2022</td><td>Link via ICTRP</td></tr>
+          <tr><td><strong>EU CTIS</strong></td><td>Public API requires an auth token</td><td>Link only</td></tr>
+          <tr><td><strong>EU CTR</strong> (EudraCT)</td><td>HTML search only</td><td>Link only</td></tr>
+          <tr><td><strong>WHO ICTRP</strong></td><td>No REST API; weekly bulk XML by request form</td><td>Universal link target</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="insight">
+      <h3>Done now: every registry id is at least linked</h3>
+      <p>
+        A non-NCT trial previously rendered with <strong>no link at all</strong> — the worst
+        outcome, a dead end rather than a one-click lookup. The build now constructs verified URLs
+        for ISRCTN, ANZCTR, Dutch OMON and DRKS, and falls back to the WHO ICTRP search portal for
+        any other recognised id. One subtlety handled: Dutch cells list the ABR number first
+        (<code>NL70508.068.1; NL-OMON55178</code>) but only the <strong>OMON</strong> id resolves.
+      </p>
+      <p>
+        <strong>If a second adapter is ever wanted, write it for the WHO dataset, not for ISRCTN.</strong>
+        ISRCTN's API returns the <em>WHO Trial Registration Data Set</em>, so one parser would also
+        read ICTRP bulk XML and any other registry exposing that format — including
+        prospective-versus-retrospective registration and planned-versus-actual enrolment. Two
+        differences from ClinicalTrials.gov to handle: study design arrives as semi-structured text
+        rather than enums, and dates are DD/MM/YYYY. Not built yet, deliberately — the corpus
+        contains zero ISRCTN trials today. A few hours' work when one appears.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-label">Venues</p>
+    <h2>Where this goes</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Venue</th><th>Fit</th></tr></thead>
+        <tbody>
+          <tr><td><strong>BMJ Open</strong> / <strong>Systematic Reviews</strong></td>
+              <td>Natural home for a systematic map plus an open database; permissive on length and figures.</td></tr>
+          <tr><td><strong>JAMA Network Open</strong></td>
+              <td>Higher profile; would want the registration and reporting-quality angle foregrounded.</td></tr>
+          <tr><td><strong>Nature Mental Health</strong> / <strong>Neuropsychopharmacology</strong></td>
+              <td>Best fit if the core-outcome-set argument leads.</td></tr>
+          <tr><td><strong>Lancet Psychiatry</strong> (Review / Health Policy)</td>
+              <td>Aspirational; needs a sharp policy hook such as regulatory readiness.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="col">
+      A companion <strong>data descriptor</strong> — <em>Scientific Data</em> or <em>Data in Brief</em> —
+      is worth considering for the database artefact itself, citable separately from the map.
+    </p>
+  </section>
+
+  <section class="col">
+    <p class="sec-label">Sequencing</p>
+    <h2>What to do, in what order</h2>
+    <ol class="steps">
+      <li>
+        <div>
+          <span class="when">Now, before bulk extraction</span>
+          <code>prisma_manual.json</code> is filled and reconciles. Decide on gaps 1 and 2 — both very
+          low cost — and add them to the Covidence template <em>before</em> the bulk of extraction runs,
+          so they never require a retrospective pass over hundreds of studies.
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="when">During extraction</span>
+          Run consensus, then switch the pipeline from a single reviewer's rows to the real consensus
+          rows. Build Figures 2, 3, 4 and 5 on the growing set as a running check that the schema holds up.
+        </div>
+      </li>
+      <li>
+        <div>
+          <span class="when">At completion</span>
+          Freeze a versioned database release with a Zenodo DOI, then write against the frozen version so
+          every number in the paper is reproducible from a citable artefact.
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <footer>
+    SYPRES master database · planning document, 26 Aug 2026 · revised after review<br>
+    All figures quoted are provisional pilot numbers, computed from 95 included papers and 45 reviewer
+    extractions. They show which figures the schema can support — they are not results.<br>
+    Source: <span class="mono">analysis/master-db/PAPER_OUTLINE.md</span>
+  </footer>
+
+</div>

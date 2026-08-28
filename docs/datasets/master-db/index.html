@@ -321,6 +321,7 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
       <div class="mdb-field"><label for="mdb-pop">Population</label><select id="mdb-pop"></select></div>
       <div class="mdb-field"><label for="mdb-phase">Phase</label><select id="mdb-phase"></select></div>
       <div class="mdb-field"><label for="mdb-reg">Registration</label><select id="mdb-reg"></select></div>
+      <div class="mdb-field"><label for="mdb-micro">Microdosing</label><select id="mdb-micro"></select></div>
       <div class="mdb-field"><label for="mdb-stat">Extraction</label><select id="mdb-stat"></select></div>
       <div class="mdb-field"><label>Year range</label>
         <div class="mdb-year"><input type="number" id="mdb-ymin" placeholder="from"><span>–</span><input type="number" id="mdb-ymax" placeholder="to"></div>
@@ -378,8 +379,8 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
       "&title=" + encodeURIComponent(title) + "&body=" + encodeURIComponent(body);
   }
 
-  var state = { q: "", drug: "", ind: "", outcome: "", pop: "", phase: "", reg: "", stat: "",
-                ymin: null, ymax: null, sort: "year", dir: -1, open: {} };
+  var state = { q: "", drug: "", ind: "", outcome: "", pop: "", phase: "", reg: "", micro: "",
+                stat: "", ymin: null, ymax: null, sort: "year", dir: -1, open: {} };
   var NUMERIC_SORTS = { year: 1, n: 1 };
   // CSS-safe class from a drug label: "Salvinorin A" -> "salvinorin-a"
   function slug(s) { return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); }
@@ -427,6 +428,7 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     fillSelect($("mdb-pop"), ["Healthy volunteers", "Patient population"], "Any population");
     fillSelect($("mdb-phase"), META.phases || [], "Any phase");
     fillSelect($("mdb-reg"), ["registered", "unregistered", "unknown"], "Any registration");
+    fillSelect($("mdb-micro"), ["microdosing only", "exclude microdosing"], "Any dose");
     fillSelect($("mdb-stat"), ["extracted", "pending"], "All records");
     $("mdb-ymin").placeholder = META.year_min || "from";
     $("mdb-ymax").placeholder = META.year_max || "to";
@@ -445,6 +447,8 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
         (s.healthy_volunteers || s.indication === "Unclear")) return false;
     if (state.phase && s.phase !== state.phase) return false;
     if (state.reg && s.registration_status !== state.reg) return false;
+    if (state.micro === "microdosing only" && !s.microdosing) return false;
+    if (state.micro === "exclude microdosing" && s.microdosing) return false;
     if (state.stat === "extracted" && !s.extracted) return false;
     if (state.stat === "pending" && s.extracted) return false;
     if (state.ymin && (s.year || 0) < state.ymin) return false;
@@ -556,21 +560,42 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
       var n = s.n_randomized != null
         ? s.n_randomized + " randomised" + (s.n_analyzed != null ? " / " + s.n_analyzed + " analysed" : "")
         : (s.n_analyzed != null ? s.n_analyzed + " analysed" : "");
+      // fields the registry supplies for NCT studies are labelled, so a planned
+      // protocol value is never mistaken for something read off the paper
+      function srcTag(src) {
+        return src === "registry" ? ' <span class="mdb-auto" title="from ClinicalTrials.gov — the planned protocol, not the paper">registry</span>' : "";
+      }
+      var blinding = (s.blinding_roles || []).join(", ");
+      if ((s.blinding_flags || []).length) {
+        blinding = [blinding, s.blinding_flags.join(", ")].filter(Boolean).join(" · ");
+      }
+      if (blinding && s.masking_level) blinding += " (" + s.masking_level + ")";
+      var age = s.age != null ? s.age + " (" + (s.age_metric || "mean") + ")"
+        : (s.age_low != null ? s.age_low + "–" + s.age_high + " (range)" : "");
       var items = [
-        ["Trial phase", s.phase], ["Registration", s.registration_status],
+        ["Trial phase", (s.phase || "") + srcTag(s.phase_source)],
+        ["Registration", s.registration_status + (s.pooled ? " · pooled study" : "")],
+        ["Design", (s.design === "other" ? s.design_other : s.design || "") + srcTag(s.design_source)],
+        ["Blinding", blinding + srcTag(s.blinding_source)],
+        ["Country", (s.countries || []).join(", ") + srcTag(s.countries_source)],
         ["Sample size", n],
+        ["Age", age], ["% female", s.pct_female != null ? s.pct_female + "%" : ""],
+        ["Microdosing study", s.microdosing ? "yes" : ""],
         ["Intervention drug(s)", s.drugs_raw],
         ["Co-administration / pre-treatment", s.coadmin],
         ["Comparator", s.comparator], ["Target population", s.population],
-        ["Sex-specific population", s.sex_specific],
         ["Qualitative outcome", s.qualitative_outcome],
         ["Parent study DOI", s.parent_study_doi],
         ["Extraction notes", s.extraction_notes],
         ["Extracted by", s.reviewer]
-      ].filter(function (p) { return p[1]; });
+      ].filter(function (p) { return p[1] && String(p[1]).trim(); });
       var od = outcomeDetail(s);
       body = '<div class="mdb-grid">' + items.map(function (p) {
-        return '<div class="mdb-dl"><div class="k">' + esc(p[0]) + '</div><div class="v">' + esc(p[1]) + "</div></div>";
+        // values may carry a trailing source <span>; escape the text, keep the tag
+        var v = String(p[1]), tag = "", i = v.indexOf(" <span");
+        if (i !== -1) { tag = v.slice(i); v = v.slice(0, i); }
+        return '<div class="mdb-dl"><div class="k">' + esc(p[0]) + '</div><div class="v">' +
+          esc(v) + tag + "</div></div>";
       }).join("") + "</div>" +
       (od ? '<div class="mdb-dl" style="margin-top:8px;"><div class="k">Outcomes assessed</div>' +
             '<div class="v">' + od + "</div></div>" : "");
@@ -777,6 +802,11 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     "doi", "pmid", "registry", "registry_norm", "trial_key", "registration_status",
     "drug", "drugs", "drug_source", "indication", "indication_source", "healthy_volunteers",
     "extracted", "reviewer", "phase", "n_randomized", "n_analyzed",
+    "pooled", "has_nct", "design", "design_other", "design_source",
+    "blinding_roles", "blinding_flags", "masking_level", "blinding_source",
+    "countries", "countries_source", "microdosing",
+    "n_randomized_status", "n_analyzed_status", "attrition", "attrition_determinable",
+    "age", "age_metric", "age_low", "age_high", "pct_female", "pct_female_status",
     "drugs_raw", "coadmin", "comparator", "comparator_types", "population", "sex_specific",
     "outcome_domains", "outcome_measures", "qualitative_outcome", "parent_study_doi",
     "extraction_notes", "url"
@@ -835,16 +865,18 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
   $("mdb-q").addEventListener("input", debounce(function () { state.q = $("mdb-q").value; render(); }));
   // select id -> state key
   [["mdb-drug", "drug"], ["mdb-ind", "ind"], ["mdb-outcome", "outcome"], ["mdb-pop", "pop"],
-   ["mdb-phase", "phase"], ["mdb-reg", "reg"], ["mdb-stat", "stat"]].forEach(function (f) {
+   ["mdb-phase", "phase"], ["mdb-reg", "reg"], ["mdb-micro", "micro"],
+   ["mdb-stat", "stat"]].forEach(function (f) {
     $(f[0]).addEventListener("change", function () { state[f[1]] = this.value; render(); });
   });
   $("mdb-ymin").addEventListener("input", function () { state.ymin = parseInt(this.value) || null; render(); });
   $("mdb-ymax").addEventListener("input", function () { state.ymax = parseInt(this.value) || null; render(); });
   $("mdb-clear").addEventListener("click", function () {
-    state.q = state.drug = state.ind = state.outcome = state.pop = state.phase = state.reg = state.stat = "";
+    state.q = state.drug = state.ind = state.outcome = state.pop = state.phase = state.reg =
+      state.micro = state.stat = "";
     state.ymin = state.ymax = null;
-    ["mdb-q", "mdb-drug", "mdb-ind", "mdb-outcome", "mdb-pop", "mdb-phase", "mdb-reg", "mdb-stat",
-     "mdb-ymin", "mdb-ymax"].forEach(function (id) { $(id).value = ""; });
+    ["mdb-q", "mdb-drug", "mdb-ind", "mdb-outcome", "mdb-pop", "mdb-phase", "mdb-reg",
+     "mdb-micro", "mdb-stat", "mdb-ymin", "mdb-ymax"].forEach(function (id) { $(id).value = ""; });
     render();
   });
   $("mdb-csv").addEventListener("click", exportCSV);

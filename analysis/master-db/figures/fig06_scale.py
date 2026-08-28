@@ -86,7 +86,9 @@ def main():
     C.despine(c)
 
     # ---- D: the missing attrition panel, reported honestly ----
-    both = sum(1 for s in E if s["n_randomized"] is not None and s["n_analyzed"] is not None)
+    # `attrition_determinable` needs BOTH numbers; an explicit NR on either side
+    # is the paper not reporting it, which is different from a blank
+    both = sum(1 for s in E if s.get("attrition_determinable"))
     rand = sum(1 for s in E if s["n_randomized"] is not None and s["n_analyzed"] is None)
     anal = sum(1 for s in E if s["n_randomized"] is None and s["n_analyzed"] is not None)
     none = len(E) - both - rand - anal

@@ -102,6 +102,107 @@ to flip when Covidence consensus rows become available.
 > `Unregistered`), which is exactly what consensus is for — and what makes an
 > inter-rater-agreement figure worth producing (see the analysis plan).
 
+## The 2026-08-28 template (current)
+
+The template was restructured again after the figure review. Two organising ideas:
+
+**1. A conditional block, gated on "no NCT" — not on "unregistered".**
+
+```
+Fill in ONLY if the study has no ClinicalTrials.gov (NCT) registry
+(even if registered elsewhere — ANZCTR, ISRCTN, EudraCT, Dutch):
+    Parent study DOI · Country/countries · Trial Phase · Design · Blinding
+```
+
+The gate is **NCT**, not registration, because only ClinicalTrials.gov is
+auto-enriched: an ANZCTR- or Dutch-registered study *is* registered but nothing
+is fetched for it, so it still needs these by hand. `build()` warns when a
+non-NCT registered study has the block empty (the likeliest misreading) and when
+an NCT study has it filled (registry values win, so the manual entry is
+discarded). **Pooled studies skip the block** unless every cohort shares the
+value.
+
+`build()` fills `phase / design / blinding_roles / countries` from the
+*extraction* for no-NCT studies and from the *registry* for NCT studies, tagging
+each with `*_source` (`extracted` | `registry`) so a planned-protocol value is
+never mistaken for something read off the paper. That is why Figures 7 and 8 now
+span the whole corpus instead of the registered slice.
+
+**2. Blinding records WHO was masked, never a single/double/triple level.**
+
+The registry stores a party *count* plus the roles, and the two come apart — of
+18 enriched trials, "Double" is participant+investigator 3× but
+participant+care-provider once, and the two "Single" trials are participant-only
+and **outcomes-assessor-only** (in one the participant is blind, in the other
+they are not). 12 of 18 mask 3+ parties, so a paper's bare "double-blind" is
+usually an *undercount*. Roles: `participant · care provider · investigator ·
+outcomes assessor`, plus `not-specified` (a level was stated without naming who
+— never inferred), `open-label`, `not reported`. `_masking_level()` derives the
+classic label by **counting named roles**; a `participant + not-specified`
+record is "Stated, roles not named", never "Single".
+
+### Field conventions the parser depends on
+
+| Convention | Why |
+|---|---|
+| **`;` separates chosen options**; **`+` separates values inside one `Other:` box** | The Covidence other-box rejects semicolons. `_split_multi()` handles both — `Other: harmine + banisteriopsis` is two values. |
+| **`NR` = the paper doesn't report it; a blank = not extracted yet** | A blank could always be an oversight, so it can never carry meaning. `_num_or_nr()` returns `(value, status)` with status ∈ `value / not_reported / blank / unparsed`. Attrition is computable only when both N fields are integers. |
+| **N analyzed is the anchor; N randomized only if separately reported** | Most older single-N papers give a completer count and never say how many started. Defaulting N randomized to NR loses nothing — the sample-size figures run off N analyzed. |
+| **Age is a metric + value pair** | A *range* fills `age_low/high` and leaves `age` None: a range has no point estimate and a midpoint would fabricate precision. Only `mean` (and optionally `median`) contribute one. |
+| **Several registry ids mean several TRIALS only when `Pooled study?` is ticked** | Otherwise it is one trial cross-registered (a Dutch study carries both its ABR and OMON numbers). Inferring pooling from the id count would have mis-grouped the one multi-id study in the corpus. |
+| **Single-sex is derived from `%Female`** (0 → male-only, 100 → female-only) | The standalone `Sex-specific population?` question was deleted; %female subsumes it and adds the proportion for mixed samples. |
+
+### Comparator: overlapping by design
+
+Three options were added 2026-08-28 for structures the old list could not express:
+`other dose levels of the intervention (dose-ranging)`,
+`intervention component alone (co-administration studies)`, and
+`co-administered component alone (co-administration studies)`.
+
+They are **not mutually exclusive**, and most designs need two or three ticks —
+Goodwin 2022 (1/10/25 mg psilocybin) is both a *low-dose control* and
+*dose-ranging*, because the two answer different questions ("was there a
+designated control dose?" and "was dose systematically varied?"). A full 2×2
+co-administration trial is placebo + both component-alone arms.
+
+Consequences:
+
+- **`comparator_types` overlaps**, so any figure must report *studies using X*,
+  never a share of studies — the percentages exceed 100.
+- **`COMPARATOR_PATTERNS` order is load-bearing.** First match wins per item and
+  the last entry is `r"."`, which matches anything; every specific pattern must
+  precede it. `Dose-ranging` must also precede `Low-dose control`, and the two
+  component-alone patterns must be distinct enough not to catch each other (both
+  labels contain "component alone"). `test_comparator_catch_all_is_last` pins this.
+- **`Low-dose active` was renamed `Low-dose control`** — 1 mg psilocybin is
+  deliberately sub-perceptual, so calling it an "active" dose was misleading.
+- **Dose-ranging is the cheapest partial recovery of the dose gap.** With dose
+  values out of scope, this tick is what identifies the studies where dose was
+  the independent variable.
+- **Co-administration factorials register as `CROSSOVER` on CT.gov**, not
+  `FACTORIAL` — the registry's `interventionModel` describes the *allocation*
+  structure, not the *treatment* structure. The component-alone ticks are what
+  recover the factorial design the registry field loses.
+
+Reviewer-facing guidance with three worked examples (Goodwin 2022, Äbelö 2025,
+and a 2×2) is published as an artifact — see the team channel.
+
+### Pooled studies
+
+A pooled study reports several trials, so `trial_keys[]` holds one key per
+cohort and `trial_key` is `None` (the single-trial convenience). It appears
+under **each** constituent trial in the Trials tab rather than collapsing them.
+Registry values are inherited only where **every** cohort agrees — the same rule
+the template gives the reviewer.
+
+### Template column map
+
+`TEMPLATE_COLUMNS` maps each field to a list of candidate column headers
+(newest first) and `_get(row, field)` resolves case/whitespace-insensitively, so
+a label rewording does not silently empty a field. `_check_template()` reports
+both directions — expected columns not found, and columns in the export the
+build does not read. This is the guard the `Study type` incident earned.
+
 ## Template revisions — what changed, and what broke
 
 The extraction template was revised between the 2026-06-18 and 2026-08-27 exports:
@@ -160,6 +261,7 @@ values be empty.
 | `tests/test_build_database.py` | Stdlib `unittest` suite for the build pipeline. See [Tests](#tests). |
 | `PAPER_OUTLINE.md` | Planning doc: the systematic-map paper, its figure plan, and which figures the current schema can and cannot support. |
 | `figures/` | Preview figure scripts (matplotlib + numpy), one per viable figure, plus `make_figures.py`. Reads the committed `_data/master_db.json`, never the raw CSVs. See `figures/README.md`. |
+| `guides/` | Documents published as Artifacts — reviewer guides + the paper/figure roadmap (`rct-evidence-map.html`), one self-contained HTML file each, plus a `README.md` index carrying each Artifact's URL. Edit the file, then republish to the same URL. Not part of the site build. |
 | `.registry_cache/` | Gitignored cache of fetched ClinicalTrials.gov responses (parsed details are committed in `_data/master_db.json`). |
 | `CLAUDE.md` | This file. |
 | `../../_data/master_db.json` | Generated data consumed by the site. **Do not hand-edit** — regenerate. |
@@ -282,14 +384,22 @@ Derived facets, continued:
   healthy nor patient — the dashboard's Population facet respects that)
 
 Extraction template (only populated when `extracted: true`):
-`reviewer, n_extractions, parent_study_doi, phase, phase_raw, registration_status,
-n_randomized, n_analyzed, n, n_source, drugs_raw, coadmin, comparator, comparator_types[],
-population, sex_specific, outcome_domains[], outcome_measures[], qualitative_outcome,
-extraction_notes`
+`reviewer, n_extractions, parent_study_doi, pooled, has_nct, registration_status,
+phase, phase_raw, phase_source, design, design_other, design_source, blinding_roles[],
+blinding_flags[], masking_level, blinding_source, countries[], countries_source,
+n_randomized, n_randomized_status, n_analyzed, n_analyzed_status, n, n_source,
+attrition, attrition_determinable, age, age_metric, age_low, age_high, pct_female,
+pct_female_status, sex_specific, microdosing, drugs_raw, coadmin, comparator,
+comparator_types[], population, outcome_domains[], outcome_measures[],
+qualitative_outcome, extraction_notes`
 
 - `phase` — `Phase 1|2|3` / `N/A` / `""`; `phase_raw` keeps the template cell verbatim.
-- `registration_status` — `registered` (a recognized registry id exists) / `unregistered`
-  (`Trial Phase` said so) / `unknown`.
+- `registration_status` — derived from the **registry cell**, not a phase sentinel:
+  `registered` (a recognised id) / `unregistered` (an *extracted* row with an empty
+  registry — the reviewer's positive statement) / `unknown` (nobody has looked yet).
+- `*_source` on phase / design / blinding / countries — `extracted` | `registry`.
+- `attrition` = N randomized − N analyzed, and `attrition_determinable` only when both
+  are integers; an `NR` on either side means the paper did not report it.
 - `n` / `n_source` — best available sample size: `n_randomized` if present, else
   `n_analyzed`, with `n_source` naming which (`"randomized"` | `"analyzed"` | `""`).
 - `outcome_domains[]` — which of the 15 template categories were assessed (the facet).
