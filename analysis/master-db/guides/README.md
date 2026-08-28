@@ -26,6 +26,7 @@ temporary scratchpad.
 
 | File | Document | Artifact URL | Last updated |
 |------|----------|--------------|--------------|
+| [`extraction-guide.html`](extraction-guide.html) | **Extraction guide** — the complete field-by-field reference for the current template (every field, rule, and option), with this round's changes marked inline | https://claude.ai/code/artifact/660d7e19-983b-4577-b6fe-bd396a47959b | 2026-08-28 |
 | [`comparator-field.html`](comparator-field.html) | **Reviewer guide** — coding the Comparator field: the three dose/co-administration options, with three worked examples (Goodwin 2022, Äbelö 2025, a 2×2) | https://claude.ai/code/artifact/c880c45d-b3a1-4615-bbed-cbad76358223 | 2026-08-28 |
 | [`rct-evidence-map.html`](rct-evidence-map.html) | **Paper / figure roadmap** — the systematic-map paper plan: eleven figures (feasibility-scored), the design/blinding vocabulary, and the remaining extraction asks. Companion to [`../PAPER_OUTLINE.md`](../PAPER_OUTLINE.md). | https://claude.ai/code/artifact/bef48223-4d9b-4591-94a6-0667a8aacda5 | 2026-08-28 |
 

@@ -1,0 +1,1002 @@
+<title>Extraction Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground: #F2F5F3;
+    --surface: #FFFFFF;
+    --surface-2: #E9EEEB;
+    --ink: #12201D;
+    --ink-2: #51625D;
+    --ink-3: #7E8C89;
+    --line: #D8E0DD;
+    --line-2: #C2CECA;
+    --accent: #0E6E63;
+    --accent-soft: #DCEDE9;
+    --new: #2E7A4E;
+    --new-soft: #DFEDE3;
+    --chg: #9E6C12;
+    --chg-soft: #F2E8D2;
+    --rem: #A33E2C;
+    --rem-soft: #F3E0DA;
+    --res: #2A6BB0;
+    --res-soft: #DCE9F6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1513;
+      --surface: #16201D;
+      --surface-2: #1D2926;
+      --ink: #E4ECE8;
+      --ink-2: #9AA9A5;
+      --ink-3: #78877F;
+      --line: #263430;
+      --line-2: #33443F;
+      --accent: #4FC2B1;
+      --accent-soft: #16302C;
+      --new: #63B683;
+      --new-soft: #172C20;
+      --chg: #D6A552;
+      --chg-soft: #2E2718;
+      --rem: #E08770;
+      --rem-soft: #31201B;
+      --res: #77A8DE;
+      --res-soft: #17293B;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0E1513;
+    --surface: #16201D;
+    --surface-2: #1D2926;
+    --ink: #E4ECE8;
+    --ink-2: #9AA9A5;
+    --ink-3: #78877F;
+    --line: #263430;
+    --line-2: #33443F;
+    --accent: #4FC2B1;
+    --accent-soft: #16302C;
+    --new: #63B683;
+    --new-soft: #172C20;
+    --chg: #D6A552;
+    --chg-soft: #2E2718;
+    --rem: #E08770;
+    --rem-soft: #31201B;
+    --res: #77A8DE;
+    --res-soft: #17293B;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-weight: 500;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  header {
+    padding: 56px 0 30px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3rem);
+    line-height: 1.06;
+    letter-spacing: -.017em;
+  }
+
+  .lede {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: 1.16rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 16px 0 0;
+    max-width: 42rem;
+  }
+
+  .meta {
+    margin-top: 22px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .74rem;
+    color: var(--ink-3);
+    display: flex;
+    gap: 8px 20px;
+    flex-wrap: wrap;
+  }
+
+  section {
+    padding: 46px 0 0;
+  }
+
+  .sec-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.4vw, 1.95rem);
+    letter-spacing: -.012em;
+    line-height: 1.2;
+  }
+
+  h2+.sub {
+    color: var(--ink-2);
+    margin: 10px 0 0;
+    max-width: 44rem;
+  }
+
+  p {
+    margin: 14px 0;
+    max-width: 44rem;
+  }
+
+  a {
+    color: var(--accent);
+    text-underline-offset: 2px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  code {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .85em;
+    background: var(--surface-2);
+    padding: .1em .38em;
+    border-radius: 3px;
+  }
+
+  /* badges */
+  .badge {
+    font-family: "Public Sans", sans-serif;
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .b-new {
+    background: var(--new-soft);
+    color: var(--new);
+  }
+
+  .b-chg {
+    background: var(--chg-soft);
+    color: var(--chg);
+  }
+
+  .b-rem {
+    background: var(--rem-soft);
+    color: var(--rem);
+  }
+
+  .b-res {
+    background: var(--res-soft);
+    color: var(--res);
+  }
+
+  /* changelog */
+  .changelog {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 22px 0 0;
+  }
+
+  .cl {
+    background: var(--surface);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .cl .badge {
+    margin-top: 2px;
+  }
+
+  .cl p {
+    margin: 0;
+    font-size: .95rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .cl b {
+    color: var(--ink);
+  }
+
+  /* convention cards */
+  .conv {
+    display: grid;
+    gap: 14px;
+    margin: 22px 0 0;
+  }
+
+  @media (min-width:720px) {
+    .conv {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .cv {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 18px 20px;
+  }
+
+  .cv h4 {
+    font-size: 1.02rem;
+    margin: 0 0 6px;
+  }
+
+  .cv p {
+    margin: 0;
+    font-size: .92rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .cv code {
+    font-size: .82em;
+  }
+
+  /* section intro band (the no-NCT gate) */
+  .gate {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0 0;
+  }
+
+  .gate p {
+    margin: 0;
+    font-size: .95rem;
+    color: var(--ink);
+    max-width: none;
+  }
+
+  .gate b {
+    font-weight: 600;
+  }
+
+  /* field cards */
+  .fields {
+    margin-top: 8px;
+  }
+
+  .field {
+    border-top: 1px solid var(--line);
+    padding: 22px 0 4px;
+  }
+
+  .field-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .field-head h3 {
+    font-size: 1.14rem;
+  }
+
+  .ftype {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    color: var(--ink-3);
+    letter-spacing: .04em;
+  }
+
+  .rule {
+    font-size: .95rem;
+    color: var(--ink-2);
+    margin: 8px 0 0;
+    max-width: 46rem;
+  }
+
+  .rule b {
+    color: var(--ink);
+  }
+
+  .chips {
+    margin: 12px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .chip {
+    font-size: .8rem;
+    background: var(--surface-2);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 2px 9px;
+    border-radius: 20px;
+  }
+
+  .chip.other {
+    color: var(--ink-3);
+    font-style: italic;
+  }
+
+  .tip {
+    margin: 12px 0 0;
+    font-size: .9rem;
+    color: var(--ink-2);
+    border-left: 2px solid var(--line-2);
+    padding: 2px 0 2px 13px;
+    max-width: 46rem;
+  }
+
+  .tip b {
+    color: var(--ink);
+  }
+
+  /* outcomes grid */
+  .domains {
+    display: grid;
+    gap: 14px;
+    margin: 20px 0 0;
+  }
+
+  @media (min-width:720px) {
+    .domains {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .dom {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+
+  .dom h4 {
+    font-size: .98rem;
+    margin: 0 0 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dom .hint {
+    font-size: .76rem;
+    color: var(--ink-3);
+    margin: 0 0 8px;
+  }
+
+  .dom .chips {
+    margin-top: 0;
+    gap: 5px;
+  }
+
+  .dom .chip {
+    font-size: .76rem;
+    padding: 1px 8px;
+  }
+
+  .callout {
+    background: var(--chg-soft);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin: 22px 0 0;
+    font-size: .92rem;
+    color: var(--ink);
+    max-width: 46rem;
+  }
+
+  .callout b {
+    font-weight: 600;
+  }
+
+  .callout code {
+    background: var(--surface);
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .73rem;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+
+  footer a {
+    color: var(--ink-2);
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SYPRES · Master database · Reviewer guidance</p>
+    <h1>Data-extraction guide</h1>
+    <p class="lede">
+      The complete field-by-field reference for the current Covidence template — every field, its
+      rule, and its options — with the changes made this round marked inline.
+    </p>
+    <div class="meta">
+      <span>Template: 28 Aug 2026</span><span>15 outcome domains</span>
+      <span>Companion: <a href="https://claude.ai/code/artifact/c880c45d-b3a1-4615-bbed-cbad76358223" target="_blank"
+          rel="noopener">Comparator guide</a></span>
+    </div>
+  </header>
+
+  <!-- ===================== WHAT CHANGED ===================== -->
+  <section id="changes">
+    <p class="sec-label">Start here</p>
+    <h2>What changed this round</h2>
+    <p class="sub">If you extracted under the previous template, these are the differences. Every
+      changed field is also flagged inline below.</p>
+    <div class="changelog">
+      <div class="cl"><span class="badge b-new">New section</span>
+        <p><b>A conditional block gated on “no NCT”.</b> Country, Trial Phase, Design and Blinding are
+          now filled <em>only</em> when the study has no ClinicalTrials.gov (NCT) number — for NCT
+          studies these come from the registry automatically. The gate is <b>NCT specifically</b>, not
+          “registered”: an ANZCTR / ISRCTN / EudraCT / Dutch study still needs them by hand.</p>
+      </div>
+      <div class="cl"><span class="badge b-chg">Reworked</span>
+        <p><b>Blinding records who was masked, not a level.</b> Tick the parties (participant, care
+          provider, investigator, outcomes assessor) — never “single / double / triple”. The level is
+          worked out later by counting.</p>
+      </div>
+      <div class="cl"><span class="badge b-new">New field</span>
+        <p><b>Pooled study?</b> A checkbox, ticked only when a paper pools several trials. It replaces
+          “Pooled” as a phase value and drives how the paper links to its trials.</p>
+      </div>
+      <div class="cl"><span class="badge b-new">New field</span>
+        <p><b>Country / countries where the trial was conducted</b> — study sites, not author
+          affiliations. In the no-NCT block.</p>
+      </div>
+      <div class="cl"><span class="badge b-new">New field</span>
+        <p><b>Design</b> — parallel / crossover / factorial. (No “single-group”: in a database of
+          randomised trials it shouldn’t occur. No “quasi-randomised”: that’s a screening question.)</p>
+      </div>
+      <div class="cl"><span class="badge b-chg">Changed</span>
+        <p><b>Trial Phase</b> dropped its “Unregistered” and “Pooled” values — those are now derived
+          from the registry cell and the Pooled checkbox — and gained <b>Not Reported</b>.</p>
+      </div>
+      <div class="cl"><span class="badge b-chg">Changed</span>
+        <p><b>N randomized / N analyzed</b> now use an explicit <code>NR</code>. A blank means “not
+          extracted yet”; <code>NR</code> means “the paper doesn’t report it”. N analyzed is the field
+          you can almost always fill.</p>
+      </div>
+      <div class="cl"><span class="badge b-chg">Split in two</span>
+        <p><b>Age</b> is now <b>Age metric</b> + <b>Age value</b>, so a median or a range is captured
+          honestly instead of forced into a mean-or-nothing box.</p>
+      </div>
+      <div class="cl"><span class="badge b-new">New field</span>
+        <p><b>%Female</b> — a single number (0 = all male, 100 = all female).</p>
+      </div>
+      <div class="cl"><span class="badge b-rem">Removed</span>
+        <p><b>Sex-specific population?</b> is gone — %Female subsumes it (0 or 100 = single-sex).</p>
+      </div>
+      <div class="cl"><span class="badge b-res">Restored</span>
+        <p><b>Microdosing study?</b> — the flag the prior revision dropped is back.</p>
+      </div>
+      <div class="cl"><span class="badge b-chg">Expanded</span>
+        <p><b>Comparator</b> gained three options for dose-ranging and co-administration designs, and
+          <em>low-dose active</em> was renamed <em>low-dose intervention drug</em> (a low dose isn’t
+          “active”). See the <a href="https://claude.ai/code/artifact/c880c45d-b3a1-4615-bbed-cbad76358223"
+            target="_blank" rel="noopener">dedicated comparator guide</a> for worked examples.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONVENTIONS ===================== -->
+  <section id="conventions">
+    <p class="sec-label">Read once</p>
+    <h2>Conventions that apply everywhere</h2>
+    <p class="sub">Four rules that recur across the template. Getting these right is most of what keeps
+      the data clean.</p>
+    <div class="conv">
+      <div class="cv">
+        <h4>Two separators</h4>
+        <p>In free-response fields, use <code>;</code>. Inside a single <b>Other</b> box, separate
+          several free-text values with <code>+</code> — the Covidence other-box rejects semicolons.
+          So <code>Other: harmine + banisteriopsis</code> is two values.</p>
+      </div>
+      <div class="cv">
+        <h4>NR vs blank</h4>
+        <p>On a numeric field, type <code>NR</code> when the paper <em>doesn’t report</em> the value.
+          Leave it <b>blank</b> only when you haven’t extracted it yet. A blank never means “not
+          reported” — that’s always an explicit <code>NR</code>.</p>
+      </div>
+      <div class="cv">
+        <h4>Multi-select means all that apply</h4>
+        <p>Most fields take several ticks. Options answer different questions and aren’t alternatives —
+          a factorial dose study is often placebo <em>and</em> dose-ranging <em>and</em>
+          component-alone. Don’t stop at one.</p>
+      </div>
+      <div class="cv">
+        <h4>Don’t infer, don’t escape</h4>
+        <p>Record only what the paper states; where it’s silent, use the field’s “not reported” path
+          rather than guessing. Reach for a controlled option before <b>Other</b> — the vocabulary is
+          there so the same thing is coded the same way every time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== IDENTIFICATION ===================== -->
+  <section id="identification">
+    <p class="sec-label">Section 1</p>
+    <h2>Identification</h2>
+    <div class="fields">
+      <div class="field">
+        <div class="field-head">
+          <h3>DOI</h3><span class="ftype">text</span>
+        </div>
+        <p class="rule">Exclude <code>https://doi.org/</code> — start with <code>10.…</code></p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Trial Registry Number</h3><span class="ftype">text</span>
+        </div>
+        <p class="rule">The NCT or other registry id for this report. If a pooled study lists several,
+          separate them with <code>;</code>. List the <b>NCT first</b> if there is one — it’s the id
+          the enrichment uses.</p>
+        <p class="tip"><b>One trial, two registries ≠ pooled.</b> A study carrying both a Dutch ABR and
+          OMON number, or an NCT and a EudraCT, is one trial cross-registered — leave Pooled unticked.
+          Only tick Pooled for a genuine multi-trial analysis.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Pooled study?</h3><span class="ftype">checkbox · default off</span>
+          <span class="badge b-new">New</span>
+        </div>
+        <p class="rule">Tick only if the paper pools data from several distinct trials. When ticked,
+          <b>skip Trial Phase, Design and Blinding</b> unless every pooled cohort shares the same value. Country is
+          still valid (record all cohorts’ countries). For pooled studies with NCT numbers the whole no-NCT block can be
+          skipped.
+        </p>
+        <div class="chips"><span class="chip">yes</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NO-NCT BLOCK ===================== -->
+  <section id="no-nct">
+    <p class="sec-label">Section 2 · conditional</p>
+    <h2>Fill only if there is no NCT number</h2>
+    <div class="gate">
+      <p><b>Fill this block only if the study has no ClinicalTrials.gov (NCT) registry — even if it is
+          registered elsewhere (ANZCTR, ISRCTN, EudraCT, Dutch).</b> For NCT studies these fields come
+        from ClinicalTrials.gov automatically, so leave them blank. A non-NCT registry <em>is</em>
+        registered but is not auto-enriched, so it still needs this block by hand.</p>
+    </div>
+    <div class="fields">
+      <div class="field">
+        <div class="field-head">
+          <h3>Parent study DOI</h3><span class="ftype">text</span>
+        </div>
+        <p class="rule">Only fill if this is a <em>completely unregistered</em> study that cites a
+          parent/source trial. Exclude <code>https://doi.org/</code>. Ppooled → separate with
+          <code>;</code>. This is what links multiple reports of one unregistered trial together.
+        </p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Country / countries where the trial was conducted</h3>
+          <span class="ftype">multi-select</span><span class="badge b-new">New</span>
+        </div>
+        <p class="rule">The study <b>site(s)</b> where participants were enrolled and dosed — <em>not</em>
+          author affiliations. Select/list all; use full country names. Multiple → <code>;</code>.</p>
+        <div class="chips"><span class="chip">United States</span><span class="chip">United Kingdom</span>
+          <span class="chip">Switzerland</span><span class="chip other">Other (+ … + …)</span>
+          <span class="chip other">… full country names</span>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Trial Phase</h3><span class="ftype">single-select</span>
+          <span class="badge b-chg">Changed</span>
+        </div>
+        <p class="rule">Only record a phase if it’s explicitly written in the paper or registry.
+          <b>Not Applicable has real meaning</b> — pick it only if the report/registry itself says the
+          phase is Not Applicable (common for early pharmacology). Otherwise <b>Not Reported</b>.
+        </p>
+        <div class="chips"><span class="chip">1</span><span class="chip">2</span><span class="chip">3</span>
+          <span class="chip">4</span><span class="chip">Not Applicable</span><span class="chip">Not Reported</span>
+        </div>
+        <p class="tip"><b>Gone:</b> “Unregistered” and “Pooled” are no longer phase values — registration
+          is derived from the registry cell, and pooling from the checkbox.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Design</h3><span class="ftype">single-select + Other</span>
+          <span class="badge b-new">New</span>
+        </div>
+        <p class="rule">The trial’s design structure. <code>Other</code> takes free text for anything
+          outside the list (put the description in its box).</p>
+        <div class="chips"><span class="chip">parallel</span><span class="chip">crossover</span>
+          <span class="chip">factorial</span><span class="chip">not reported</span>
+          <span class="chip other">Other</span>
+        </div>
+        <p class="tip">No <b>single-group</b> (a randomised trial has more than one group — if it looks
+          single-group, question inclusion) and no <b>quasi-randomised</b> (alternation / day-of-week
+          isn’t an RCT — a screening call).</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Blinding</h3><span class="ftype">multi-select</span>
+          <span class="badge b-chg">Reworked</span>
+        </div>
+        <p class="rule">Tick <b>every party the paper explicitly says was masked</b>. If it only states a
+          level (e.g. “double-blind”) without naming who, tick <b>participant + not-specified</b> — do
+          not infer the others. Tick <b>open-label</b> only if the study was explicitly unblinded across
+          all parties.</p>
+        <div class="chips"><span class="chip">participant</span><span class="chip">care provider</span>
+          <span class="chip">investigator</span><span class="chip">outcomes assessor</span>
+          <span class="chip">not-specified</span><span class="chip">open-label</span>
+          <span class="chip">not reported</span>
+        </div>
+        <p class="tip"><b>Why roles, not a level:</b> “double-blind” doesn’t say who — across registered
+          trials it resolves to different pairs, and most trials mask three or more parties. Recording
+          who preserves that; a level throws it away. <b>care provider</b> = the therapist / session
+          monitor, relevant mainly in assisted-therapy protocols.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POPULATION ===================== -->
+  <section id="population">
+    <p class="sec-label">Section 3</p>
+    <h2>Population</h2>
+    <div class="fields">
+      <div class="field">
+        <div class="field-head">
+          <h3>N randomized</h3><span class="ftype">number / NR</span>
+          <span class="badge b-chg">Changed</span>
+        </div>
+        <p class="rule">Fill only if the paper gives a <b>separate</b> enrolled/randomized count, or
+          explicitly says everyone completed with no dropouts (then enter that same N). Otherwise put
+          <code>NR</code> — don’t infer it from the analyzed number.
+        </p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>N analyzed</h3><span class="ftype">number / NR</span>
+          <span class="badge b-chg">Changed</span>
+        </div>
+        <p class="rule">The number the results are based on — the completer / final-analysis N. Usually
+          stated plainly (“16 participants”, “16 completed”, “results in 16”). Multiple
+          results/timepoints → the <b>largest N the main outcome is based on</b> (a judgement call). If
+          the paper never states it, <code>NR</code>.</p>
+        <p class="tip"><b>This is the anchor.</b> You can nearly always fill it; N randomized is the
+          “only if separately reported” field. Both integers → attrition is computable; an
+          <code>NR</code> on either → attrition undeterminable, which is a real finding, not a gap.
+        </p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Age metric</h3><span class="ftype">single-select + Other</span>
+          <span class="badge b-new">New</span>
+        </div>
+        <p class="rule">What the paper reports. Pick the metric, then put the number in <b>Age value</b>.</p>
+        <div class="chips"><span class="chip">mean</span><span class="chip">median</span>
+          <span class="chip">range</span><span class="chip">not reported</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Age value</h3><span class="ftype">text / number</span>
+        </div>
+        <p class="rule">A range → enter as <code>18–27</code>. If a trial reports <b>means</b> by arm,
+          compute the N-weighted average (not valid for medians — put <code>NR</code> in the metric
+          instead). If the metric is <b>not reported</b>, leave this blank.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>%Female</h3><span class="ftype">number / NR</span>
+          <span class="badge b-new">New</span>
+        </div>
+        <p class="rule">The percentage female — <b>0 = all male, 100 = all female</b>. From counts:
+          <code>F / (F + M) × 100</code>. Reported by arm → N-weighted average. Not reported →
+          <code>NR</code>.
+        </p>
+        <p class="tip">This replaces the old “Sex-specific population?” question: a single-sex study is
+          just 0 or 100 here, so tick it that way rather than leaving it NR.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Target Population</h3><span class="ftype">multi-select + Other</span>
+          <span class="badge b-chg">Expanded</span>
+        </div>
+        <p class="rule">Usually one; multiple may fit (e.g. burnout &amp; depression, or advanced
+          cancer &amp; anxiety/depression).</p>
+        <div class="chips">
+          <span class="chip">healthy volunteers</span>
+          <span class="chip">psychedelic-experienced healthy volunteers</span>
+          <span class="chip">psychedelic-naïve healthy volunteers</span>
+          <span class="chip">depression</span><span class="chip">anxiety</span><span class="chip">PTSD</span>
+          <span class="chip">advanced cancer</span><span class="chip">burnout</span>
+          <span class="chip">eating disorder</span><span class="chip">OCD</span>
+          <span class="chip">alcohol use disorder (AUD)</span><span class="chip">opioid use disorder</span>
+          <span class="chip">cocaine use disorder</span><span class="chip">methamphetamine use disorder</span>
+          <span class="chip">tobacco/nicotine use disorder</span><span class="chip">migraine</span>
+          <span class="chip">neurological (stroke, TBI, other)</span><span class="chip">pain/fibromyalgia</span>
+          <span class="chip other">Other</span>
+          <p class="tip">The psychedelic-experienced health volunteers option is NEW. This will help record a
+            significant bias in the field.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INTERVENTION / COMPARATOR ===================== -->
+  <section id="intervention">
+    <p class="sec-label">Section 4</p>
+    <h2>Intervention &amp; comparator</h2>
+    <div class="fields">
+      <div class="field">
+        <div class="field-head">
+          <h3>Microdosing study?</h3><span class="ftype">checkbox · default off</span>
+          <span class="badge b-res">Restored</span>
+        </div>
+        <p class="rule">Tick <b>yes</b> only if the study explicitly refers to itself as designed to
+          investigate microdosing.</p>
+        <div class="chips"><span class="chip">yes</span></div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Psychedelic / Intervention Drug(s)</h3>
+          <span class="ftype">multi-select + Other</span>
+        </div>
+        <p class="rule">Tick every intervention drug administered — many studies compare several.</p>
+        <div class="chips">
+          <span class="chip">2C-B</span><span class="chip">ayahuasca</span>
+          <span class="chip">bretisilocin</span><span class="chip">DMT</span><span class="chip">5-MeO-DMT</span>
+          <span class="chip">iboga / ibogaine / noribogaine</span><span class="chip">LSD</span>
+          <span class="chip">MDMA</span><span class="chip">mescaline</span><span class="chip">methylone</span>
+          <span class="chip">psilocybin</span><span class="chip">salvinorin A</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Co-administration / Pre-treatment Drug(s)</h3>
+          <span class="ftype">multi-select + Other</span>
+        </div>
+        <p class="rule">Usually blank. If the psychedelic is given alongside another drug, tick it here.</p>
+        <div class="chips">
+          <span class="chip">2a antagonist (ketanserin, etc.)</span><span class="chip">alcohol</span>
+          <span class="chip">CBD</span><span class="chip">Harmine</span><span class="chip">SSRI</span>
+          <span class="chip">THC/cannabis</span><span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Comparator Drug</h3><span class="ftype">multi-select + Other</span>
+          <span class="badge b-chg">Expanded</span>
+        </div>
+        <p class="rule">Tick all that apply (this is where multi-select matters most). If the comparator
+          is unclear, describe it in <b>Notes</b>.</p>
+        <div class="chips">
+          <span class="chip">placebo (niacin, mannitol, sugar pill, etc.)</span>
+          <span class="chip">low-dose intervention drug</span>
+          <span class="chip">other dose levels of the intervention (dose-ranging)</span>
+          <span class="chip">intervention component alone (co-administration studies)</span>
+          <span class="chip">co-administered component alone (co-administration studies)</span>
+          <span class="chip">d-amphetamine</span><span class="chip">dextromethorphan</span>
+          <span class="chip">diphenhydramine</span><span class="chip">methylphenidate</span>
+          <span class="chip">modafinil</span><span class="chip">SSRI (escitalopram, etc.)</span>
+          <span class="chip">waitlist/care as usual</span><span class="chip other">Other</span>
+        </div>
+        <p class="tip"><b>Low-dose vs dose-ranging are independent.</b> A designated near-inert control
+          dose (e.g. 1 mg psilocybin) is <em>low-dose intervention drug</em>; three or more dose levels
+          with dose as the variable is <em>dose-ranging</em>; a study can be both. A low dose of the
+          study drug is never <b>placebo</b>. See the <a
+            href="https://claude.ai/code/artifact/c880c45d-b3a1-4615-bbed-cbad76358223" target="_blank"
+            rel="noopener">comparator guide</a> for worked examples.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== OUTCOMES ===================== -->
+  <section id="outcomes">
+    <p class="sec-label">Section 5</p>
+    <h2>Outcomes — 15 domains</h2>
+    <p class="sub">Each domain is its own multi-select. Tick every measure the study assessed within it;
+      leave the domain blank if it assessed nothing there. Every domain has an <b>Other</b> box
+      (use <code>+</code> for several).</p>
+    <div class="domains">
+      <div class="dom">
+        <h4>Cognitive</h4>
+        <p class="hint">cognitive task batteries</p>
+        <div class="chips"><span class="chip">attention/processing speed</span>
+          <span class="chip">creativity/divergent thinking</span><span class="chip">executive function</span>
+          <span class="chip">memory</span><span class="chip">social cognition</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Drug experience questionnaires</h4>
+        <div class="chips"><span class="chip">Acute</span><span class="chip">Persisting (PEQ; not HPPD)</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Molecular</h4>
+        <div class="chips"><span class="chip">electrolytes</span><span class="chip">gene expression</span>
+          <span class="chip">genotype/pharmacogenomics</span><span class="chip">hormones</span>
+          <span class="chip">proteins (BDNF, inflammatory)</span><span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Neuroimaging</h4>
+        <div class="chips"><span class="chip">task fMRI</span><span class="chip">resting-state fMRI</span>
+          <span class="chip">structural/diffusion</span><span class="chip">ASL</span>
+          <span class="chip">EEG/MEG</span><span class="chip">PET/SPECT</span><span class="chip">MRS</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Physiological/Autonomic</h4>
+        <div class="chips"><span class="chip">vitals (HR, HRV, BP, resp, temp, etc.)</span>
+          <span class="chip">perspiration</span><span class="chip">water intake</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>PK/PD</h4>
+        <div class="chips"><span class="chip">PK</span><span class="chip">PD</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Psychiatric</h4>
+        <div class="chips"><span class="chip">anxiety</span><span class="chip">burnout</span>
+          <span class="chip">depression</span><span class="chip">eating disorder</span>
+          <span class="chip">general mood/affect</span><span class="chip">general psychopathology</span>
+          <span class="chip">mania/hypomania</span><span class="chip">OCD</span><span class="chip">PTSD</span>
+          <span class="chip">psychotic symptoms</span><span class="chip">substance use</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Functioning and well-being</h4>
+        <div class="chips"><span class="chip">global functioning (GAF/WHODAS)</span>
+          <span class="chip">mindfulness</span><span class="chip">occupational/role functioning</span>
+          <span class="chip">social functioning &amp; sociability</span>
+          <span class="chip">quality of life/well-being</span><span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Psychological process</h4>
+        <div class="chips"><span class="chip">connectedness (others, self, nature…)</span>
+          <span class="chip">compassion (others, self)</span><span class="chip">emotional processing</span>
+          <span class="chip">insight</span><span class="chip">personality/neuroticism</span>
+          <span class="chip">psychological flexibility</span><span class="chip">rumination</span>
+          <span class="chip">spirituality</span><span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Safety &amp; tolerability</h4>
+        <div class="chips"><span class="chip">abuse potential</span>
+          <span class="chip">adverse events (structured, detailed)</span>
+          <span class="chip">cardiovascular safety (QTc, arrhythmia…)</span>
+          <span class="chip">HPPD/perceptual persistence</span><span class="chip">renal/liver function</span>
+          <span class="chip">suicidality</span><span class="chip">treatment-emergent mania/psychosis</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Sensorimotor &amp; perception</h4>
+        <p class="hint">raw sensorimotor batteries + driving</p>
+        <div class="chips"><span class="chip">coordination/balance</span><span class="chip">driving</span>
+          <span class="chip">hearing</span><span class="chip">smell</span>
+          <span class="chip">speech (incl. NLP methods)</span><span class="chip">taste</span>
+          <span class="chip">vison</span><span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Somatic health</h4>
+        <div class="chips"><span class="chip">appetite/weight</span><span class="chip">headache/migraine</span>
+          <span class="chip">pain</span><span class="chip">sexual function</span><span class="chip">sleep</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Therapy process</h4>
+        <div class="chips"><span class="chip">therapeutic alliance</span><span class="chip other">Other</span></div>
+      </div>
+      <div class="dom">
+        <h4>Trial integrity</h4>
+        <div class="chips"><span class="chip">blinding</span><span class="chip">expectancy</span>
+          <span class="chip other">Other</span>
+        </div>
+      </div>
+      <div class="dom">
+        <h4>Other outcomes</h4>
+        <div class="chips"><span class="chip">qualitative (describe)</span><span class="chip other">Other</span></div>
+      </div>
+    </div>
+
+    <div class="fields" style="margin-top:26px;">
+      <div class="field">
+        <div class="field-head">
+          <h3>What is the qualitative outcome?</h3><span class="ftype">text</span>
+        </div>
+        <p class="rule">Only respond if you ticked <b>qualitative (describe)</b> under Other outcomes.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>Notes</h3><span class="ftype">text</span>
+        </div>
+        <p class="rule">Anything that didn’t fit — an unclear comparator, a registry-vs-paper
+          discrepancy, a design that needed a judgement call.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    SYPRES master database · data-extraction guide · template of 28 Aug 2026<br>
+    Vocabularies here match what the build pipeline accepts; if an option is missing or renamed in
+    Covidence, the build reports it on the next rebuild. Companion: the <a
+      href="https://claude.ai/code/artifact/c880c45d-b3a1-4615-bbed-cbad76358223" target="_blank"
+      rel="noopener">Comparator field guide</a>.
+  </footer>
+</div>
