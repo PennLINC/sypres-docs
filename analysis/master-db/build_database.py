@@ -204,8 +204,10 @@ TEMPLATE_COLUMNS = {
     "title":       ["Title"],
     "doi":         ["DOI"],
     "registry":    ["Trial Registry Number"],
+    "reg_not_reported": ["Registration not reported in the paper (found by search)"],
     "pooled":      ["Pooled study?"],
     "parent_doi":  ["Parent study DOI", "Parent Study DOI"],
+    "parent_not_cited": ["Parent study not cited in the paper (found by search)"],
     "country":     ["Country / countries where the trial was conducted",
                     "Country/countries where the trial was conducted", "Country"],
     "phase":       ["Trial Phase"],
@@ -1287,6 +1289,17 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
             pooled = _yes(_get(ext, "pooled")) if is_ext else False
             reg_status = _registration_status(registry_norm, is_ext)
 
+            # Registration/parent DISCLOSURE — a reporting-integrity axis distinct
+            # from prospective-vs-retrospective. The checkbox is ticked only when
+            # the id was found by search and NOT reported in the paper (a CONSORT
+            # item 23 / ICMJE violation). Tri-state: True = present AND reported,
+            # False = present but not reported, None = nothing to disclose.
+            has_parent = bool(_get(ext, "parent_doi"))
+            reg_not_reported = _yes(_get(ext, "reg_not_reported")) if is_ext else False
+            parent_not_cited = _yes(_get(ext, "parent_not_cited")) if is_ext else False
+            registration_disclosed = (not reg_not_reported) if registry_ids else None
+            parent_disclosed = (not parent_not_cited) if has_parent else None
+
             phase_raw = _get(ext, "phase")
             phase = _phase(phase_raw)
             design_raw = _get(ext, "design")
@@ -1326,6 +1339,13 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
                     f"nothing is auto-enriched, but phase/design/blinding are all empty — "
                     f"the no-NCT block applies here and appears to have been skipped."
                 )
+            if is_ext and reg_not_reported and not registry_ids:
+                warnings.append(f"#{cid} {sid}: 'registration not reported (found by search)' is "
+                                f"ticked but the Trial Registry Number is empty — enter the id you "
+                                f"found, or untick the box.")
+            if is_ext and parent_not_cited and not has_parent:
+                warnings.append(f"#{cid} {sid}: 'parent study not cited (found by search)' is ticked "
+                                f"but Parent study DOI is empty.")
             if is_ext and n_rand is not None and n_anal is not None and n_anal > n_rand:
                 warnings.append(f"#{cid} {sid}: N analyzed ({n_anal}) > N randomized ({n_rand}).")
             if is_ext and pct_female is not None and not (0 <= pct_female <= 100):
@@ -1372,6 +1392,10 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
                     "pooled": pooled,
                     "has_nct": has_nct,
                     "registration_status": reg_status,
+                    # reporting-integrity: registered? · disclosed? · prospective?
+                    # disclosed/parent_disclosed are True/False/None (None = N/A)
+                    "registration_disclosed": registration_disclosed,
+                    "parent_disclosed": parent_disclosed,
                     # phase / design / blinding / country: extracted here, then
                     # overwritten from the registry for NCT studies (see below)
                     "phase": phase,
@@ -1519,6 +1543,18 @@ def build(fetch: bool = False, refresh: bool = False) -> dict:
             },
             "attrition_determinable": sum(1 for s in studies
                                           if s.get("attrition_determinable")),
+            # registration-disclosure integrity (a lower bound — only trials whose
+            # registration/parent was actually found can be judged non-disclosed)
+            "disclosure": {
+                "registration_disclosed":
+                    sum(1 for s in studies if s.get("registration_disclosed") is True),
+                "registration_not_disclosed":
+                    sum(1 for s in studies if s.get("registration_disclosed") is False),
+                "parent_disclosed":
+                    sum(1 for s in studies if s.get("parent_disclosed") is True),
+                "parent_not_disclosed":
+                    sum(1 for s in studies if s.get("parent_disclosed") is False),
+            },
             "year_min": min((s["year"] for s in studies if s["year"]), default=None),
             "year_max": max((s["year"] for s in studies if s["year"]), default=None),
             # extraction provenance: which rows became the database, and how far
@@ -1575,6 +1611,11 @@ def main() -> int:
     n_ext = m["n_extracted"]
     print(f"  attrition: determinable for {m['attrition_determinable']}/{n_ext} extracted"
           f" · pooled {m['n_pooled']} · microdosing {m['n_microdosing']}")
+    d = m["disclosure"]
+    reg_known = d["registration_disclosed"] + d["registration_not_disclosed"]
+    print(f"  disclose : registration undisclosed {d['registration_not_disclosed']}/{reg_known} "
+          f"found · parent uncited {d['parent_not_disclosed']}/"
+          f"{d['parent_disclosed'] + d['parent_not_disclosed']} found")
     print(f"  extract. : {cov['rows']} rows by {len(cov['reviewers'])} reviewers over "
           f"{cov['studies_with_any_extraction']} studies "
           f"({cov['studies_dual_extracted']} dual-extracted); "

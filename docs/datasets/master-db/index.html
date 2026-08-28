@@ -574,7 +574,10 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
         : (s.age_low != null ? s.age_low + "–" + s.age_high + " (range)" : "");
       var items = [
         ["Trial phase", (s.phase || "") + srcTag(s.phase_source)],
-        ["Registration", s.registration_status + (s.pooled ? " · pooled study" : "")],
+        ["Registration", s.registration_status + (s.pooled ? " · pooled study" : "") +
+          (s.registration_disclosed === false ? ' <span class="mdb-auto" title="registered but the registration was not reported in the paper — found by search (CONSORT item 23 / ICMJE)">not reported in paper</span>' : "")],
+        ["Parent study cited?", s.parent_disclosed === false ? "no — found by search" :
+          (s.parent_disclosed === true ? "yes" : "")],
         ["Design", (s.design === "other" ? s.design_other : s.design || "") + srcTag(s.design_source)],
         ["Blinding", blinding + srcTag(s.blinding_source)],
         ["Country", (s.countries || []).join(", ") + srcTag(s.countries_source)],
@@ -802,7 +805,8 @@ _Submitted via the SYPRES psychedelic RCT database ({{ page.url }})._{% endcaptu
     "doi", "pmid", "registry", "registry_norm", "trial_key", "registration_status",
     "drug", "drugs", "drug_source", "indication", "indication_source", "healthy_volunteers",
     "extracted", "reviewer", "phase", "n_randomized", "n_analyzed",
-    "pooled", "has_nct", "design", "design_other", "design_source",
+    "pooled", "has_nct", "registration_disclosed", "parent_disclosed",
+    "design", "design_other", "design_source",
     "blinding_roles", "blinding_flags", "masking_level", "blinding_source",
     "countries", "countries_source", "microdosing",
     "n_randomized_status", "n_analyzed_status", "attrition", "attrition_determinable",

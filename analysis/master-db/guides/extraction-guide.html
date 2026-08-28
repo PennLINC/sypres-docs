@@ -453,6 +453,17 @@
     background: var(--surface);
   }
 
+  .tool { background: var(--accent-soft); border:1px solid var(--line); border-left:3px solid var(--accent);
+          border-radius:4px; padding:16px 20px; margin:16px 0 0; }
+  .tool h4 { font-size:1.02rem; margin:0 0 6px; }
+  .tool p { margin:8px 0 0; font-size:.92rem; color: var(--ink-2); line-height:1.5; max-width:none; }
+  .tool p:first-of-type { margin-top:0; }
+  .tool b { color: var(--ink); }
+  .tool a { font-weight:600; word-break:break-all; }
+  .prov { list-style:none; padding:0; margin:10px 0 0; display:grid; gap:6px; }
+  .prov li { display:grid; grid-template-columns:auto 1fr; gap:10px; font-size:.9rem; color: var(--ink-2); }
+  .prov .p-tick { color: var(--accent); font-weight:700; }
+
   footer {
     margin-top: 56px;
     padding-top: 20px;
@@ -542,6 +553,12 @@
             target="_blank" rel="noopener">dedicated comparator guide</a> for worked examples.
         </p>
       </div>
+      <div class="cl"><span class="badge b-new">New fields</span>
+        <p><b>Registration / parent not reported (found by search).</b> Two checkboxes that flag when a
+          study’s registration or parent trial <em>exists but the paper doesn’t disclose it</em> — found
+          only by independent search. A CONSORT item 23 / ICMJE reporting failure, and one most reviews
+          can’t measure because they trust the paper. See the tool in Identification below.</p>
+      </div>
     </div>
   </section>
 
@@ -602,6 +619,38 @@
           Only tick Pooled for a genuine multi-trial analysis.</p>
       </div>
       <div class="field">
+        <div class="field-head"><h3>Registration not reported in the paper (found by search)</h3>
+          <span class="ftype">checkbox · default off</span><span class="badge b-new">New</span></div>
+        <p class="rule">Tick <b>yes</b> only when you had to find the registration yourself because the
+          <em>paper doesn’t report it</em> — you still enter the id above, but the paper failed to
+          disclose it. Leave blank when the paper reports its own registration (the normal case) or when
+          no registration exists at all.</p>
+        <div class="chips"><span class="chip">yes</span></div>
+        <div class="tool">
+          <h4>Finding registrations the paper hides — Trial Registration Tracer</h4>
+          <p>When a paper reports no registration, use the custom GPT
+            <a href="https://chatgpt.com/g/g-6a91b1b9639881918f45823ffac543f8-trial-registration-tracer"
+               target="_blank" rel="noopener">Trial Registration Tracer</a> before recording the study as
+            unregistered. It works best when you <b>upload the paper’s PDF</b> and run its default prompt:
+            <em>“I uploaded a PDF. Trace the trial registration or parent study DOI.”</em> It searches the
+            paper first, then registries and related publications, and returns a verdict plus an evidence
+            table with an explicit <b>provenance</b> line for the registration and any parent.</p>
+          <p><b>Base your ticks on the provenance line, not just the id:</b></p>
+          <ul class="prov">
+            <li><span class="p-tick">reported</span> <span><em>“directly stated / cited in target
+              paper”</em> → enter the id, <b>leave the box unticked</b>.</span></li>
+            <li><span class="p-tick">not reported</span> <span><em>“manually retrieved / not in target
+              paper”</em>, or only <em>partially signposted</em> (a trial acronym but no id a reader could
+              follow) → enter the id and <b>tick the box</b>.</span></li>
+            <li><span class="p-tick">don’t record</span> <span><em>“uncertain”</em>, or a match below
+              <b>confirmed / strong candidate</b> → don’t enter an id you can’t stand behind; note it in
+              Notes instead.</span></li>
+          </ul>
+          <p><b>Always confirm the match yourself</b> — check the registry’s drug, N, population and dates
+            against the paper before recording it. The GPT is a lead, not the final say.</p>
+        </div>
+      </div>
+      <div class="field">
         <div class="field-head">
           <h3>Pooled study?</h3><span class="ftype">checkbox · default off</span>
           <span class="badge b-new">New</span>
@@ -632,9 +681,18 @@
           <h3>Parent study DOI</h3><span class="ftype">text</span>
         </div>
         <p class="rule">Only fill if this is a <em>completely unregistered</em> study that cites a
-          parent/source trial. Exclude <code>https://doi.org/</code>. Ppooled → separate with
+          parent/source trial. Exclude <code>https://doi.org/</code>. Pooled → separate with
           <code>;</code>. This is what links multiple reports of one unregistered trial together.
         </p>
+      </div>
+      <div class="field">
+        <div class="field-head"><h3>Parent study not cited in the paper (found by search)</h3>
+          <span class="ftype">checkbox · default off</span><span class="badge b-new">New</span></div>
+        <p class="rule">Tick <b>yes</b> when the parent DOI above was found by search and the paper does
+          <em>not</em> cite the parent trial as its source. Same Trial Registration Tracer workflow and
+          the same provenance rule as the registration checkbox — read its <b>parent-study provenance</b>
+          line. (A softer norm than registration reporting, but still worth recording.)</p>
+        <div class="chips"><span class="chip">yes</span></div>
       </div>
       <div class="field">
         <div class="field-head">

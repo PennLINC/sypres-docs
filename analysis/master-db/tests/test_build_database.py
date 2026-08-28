@@ -765,7 +765,10 @@ class TestNewTemplateEndToEnd(unittest.TestCase):
         import tempfile
         cls.tmp = tempfile.mkdtemp()
         head = ["Covidence #", "Study ID", "Title", "Reviewer Name", "DOI",
-                "Trial Registry Number", "Pooled study?", "Parent study DOI",
+                "Trial Registry Number",
+                "Registration not reported in the paper (found by search)",
+                "Pooled study?", "Parent study DOI",
+                "Parent study not cited in the paper (found by search)",
                 "Country / countries where the trial was conducted", "Trial Phase",
                 "Design", "Blinding", "N randomized", "N analyzed", "Age metric",
                 "Age value", "%Female", "Target Population", "Microdosing study?",
@@ -786,6 +789,7 @@ class TestNewTemplateEndToEnd(unittest.TestCase):
                    "Psychedelic/Intervention Drug(s)": "LSD", "PK/PD": "PK; PD"}),
             row(**{"Covidence #": "1003", "Study ID": "Anzctr 2024", "Reviewer Name": "R",
                    "Trial Registry Number": "ACTRN12621000436875",
+                   "Registration not reported in the paper (found by search)": "yes",
                    "Country / countries where the trial was conducted": "New Zealand",
                    "Trial Phase": "2", "Design": "crossover",
                    "Blinding": "participant; outcomes assessor",
@@ -795,6 +799,7 @@ class TestNewTemplateEndToEnd(unittest.TestCase):
                    "Psychedelic/Intervention Drug(s)": "LSD"}),
             row(**{"Covidence #": "1004", "Study ID": "Unreg 2010", "Reviewer Name": "R",
                    "DOI": "10.9/child", "Parent study DOI": "10.9/parent",
+                   "Parent study not cited in the paper (found by search)": "yes",
                    "Country / countries where the trial was conducted":
                        "United States; Other: Peru",
                    "Trial Phase": "Not Reported", "Design": "Other: n-of-1 series",
@@ -898,3 +903,50 @@ class TestNewTemplateEndToEnd(unittest.TestCase):
         self.assertEqual(u["trial_keys"], ["doi:10.9/parent"])
         self.assertEqual(p["trial_key_source"], "source-paper")
         self.assertIn(p["covidence_id"], u["connected_ids"])
+
+    def test_registration_and_parent_disclosure(self):
+        """The two 'found by search' checkboxes → tri-state disclosure flags."""
+        n, a, u = self.S["Nct 2025"], self.S["Anzctr 2024"], self.S["Unreg 2010"]
+        # NCT study, registration reported (box unticked) → disclosed
+        self.assertIs(n["registration_disclosed"], True)
+        self.assertIsNone(n["parent_disclosed"])                 # no parent → N/A
+        # registered elsewhere but the paper never reported it → not disclosed
+        self.assertIs(a["registration_disclosed"], False)
+        # unregistered with a parent found by search, not cited → not disclosed
+        self.assertIsNone(u["registration_disclosed"])           # no registration → N/A
+        self.assertIs(u["parent_disclosed"], False)
+        # meta counts the finding
+        dsc = self.out["meta"]["disclosure"]
+        self.assertGreaterEqual(dsc["registration_not_disclosed"], 1)
+        self.assertGreaterEqual(dsc["parent_not_disclosed"], 1)
+
+    def test_disclosure_checkbox_without_id_warns(self):
+        """Ticking 'not reported' with an empty id is a contradiction."""
+        import csv
+        import tempfile
+        tmp = tempfile.mkdtemp()
+        head = ["Covidence #", "Study ID", "Reviewer Name",
+                "Registration not reported in the paper (found by search)"]
+        with open(os.path.join(tmp, "review_x_20260828.csv"), "w",
+                  newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=head)
+            w.writeheader()
+            w.writerow({"Covidence #": "1", "Study ID": "Bad 2025", "Reviewer Name": "R",
+                        "Registration not reported in the paper (found by search)": "yes"})
+        inc = ["Title", "Abstract", "Covidence #", "Study", "DOI", "Authors", "Published Year"]
+        with open(os.path.join(tmp, "review_x_included_csv_20260828.csv"), "w",
+                  newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=inc)
+            w.writeheader()
+            w.writerow({"Title": "Bad", "Abstract": "x", "Covidence #": "#1", "Study": "Bad 2025",
+                        "Published Year": "2025", "Authors": "A B"})
+        orig_dir, orig_rev = bd.DATA_DIR, bd.CONSENSUS_REVIEWER
+        bd.DATA_DIR, bd.CONSENSUS_REVIEWER = tmp, None
+        try:
+            out = bd.build(fetch=False)
+        finally:
+            bd.DATA_DIR, bd.CONSENSUS_REVIEWER = orig_dir, orig_rev
+            import shutil
+            shutil.rmtree(tmp, ignore_errors=True)
+        self.assertTrue(any("registration not reported" in w and "empty" in w
+                            for w in out["meta"]["warnings"]))

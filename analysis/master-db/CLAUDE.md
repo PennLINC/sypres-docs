@@ -400,6 +400,14 @@ qualitative_outcome, extraction_notes`
 - `*_source` on phase / design / blinding / countries — `extracted` | `registry`.
 - `attrition` = N randomized − N analyzed, and `attrition_determinable` only when both
   are integers; an `NR` on either side means the paper did not report it.
+- `registration_disclosed` / `parent_disclosed` — the **reporting-integrity** axis, tri-state
+  (`True` = present and reported in the paper, `False` = present but the paper doesn't disclose it —
+  found by search, `None` = nothing to disclose). From two "found by search" checkboxes; a tick with
+  an empty registry/parent cell raises a build warning. Together with `prospective` (from CT.gov)
+  they form the triple **registered? · disclosed? · prospective?** `meta.disclosure` counts the
+  non-disclosed — a lower bound, since only registrations actually found can be judged. This is a
+  CONSORT item 23 / ICMJE reporting failure most reviews can't measure because they trust the paper;
+  reviewers surface it with the Trial Registration Tracer GPT (see the extraction guide).
 - `n` / `n_source` — best available sample size: `n_randomized` if present, else
   `n_analyzed`, with `n_source` naming which (`"randomized"` | `"analyzed"` | `""`).
 - `outcome_domains[]` — which of the 15 template categories were assessed (the facet).
