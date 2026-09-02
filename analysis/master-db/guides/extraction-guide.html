@@ -434,6 +434,128 @@
     padding: 1px 8px;
   }
 
+  /* expandable chips — reviewer guidance on what belongs under a tick */
+  button.chip {
+    font-family: inherit;
+    line-height: inherit;
+    cursor: pointer;
+  }
+
+  .chip-x {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-color: var(--line-2);
+    transition: background .12s, border-color .12s, color .12s;
+  }
+
+  .chip-x::after {
+    content: "+";
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .85em;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .chip-x:hover {
+    border-color: var(--accent);
+  }
+
+  .chip-x[aria-expanded="true"] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .chip-x[aria-expanded="true"]::after {
+    content: "\2212";
+  }
+
+  .chip-x:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .xp {
+    margin: 12px 0 2px;
+    padding: 12px 0 0;
+    border-top: 1px dashed var(--line-2);
+    font-size: .84rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .xp[hidden] {
+    display: none;
+  }
+
+  .xp p {
+    margin: 9px 0 0;
+    max-width: none;
+    font-size: inherit;
+  }
+
+  .xp p:first-child {
+    margin-top: 0;
+  }
+
+  .xp b {
+    color: var(--ink);
+  }
+
+  .xp h5 {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .66rem;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 14px 0 6px;
+  }
+
+  .scales {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .scale {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 3px;
+    padding: 2px 7px;
+  }
+
+  .xrefs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .xrefs li {
+    display: grid;
+    grid-template-columns: 10.5rem 1fr;
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  @media (max-width:520px) {
+    .xrefs li {
+      grid-template-columns: 1fr;
+      gap: 1px;
+    }
+  }
+
+  .xrefs .to {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: .78rem;
+  }
+
   .callout {
     background: var(--chg-soft);
     border: 1px solid var(--line);
@@ -453,16 +575,61 @@
     background: var(--surface);
   }
 
-  .tool { background: var(--accent-soft); border:1px solid var(--line); border-left:3px solid var(--accent);
-          border-radius:4px; padding:16px 20px; margin:16px 0 0; }
-  .tool h4 { font-size:1.02rem; margin:0 0 6px; }
-  .tool p { margin:8px 0 0; font-size:.92rem; color: var(--ink-2); line-height:1.5; max-width:none; }
-  .tool p:first-of-type { margin-top:0; }
-  .tool b { color: var(--ink); }
-  .tool a { font-weight:600; word-break:break-all; }
-  .prov { list-style:none; padding:0; margin:10px 0 0; display:grid; gap:6px; }
-  .prov li { display:grid; grid-template-columns:auto 1fr; gap:10px; font-size:.9rem; color: var(--ink-2); }
-  .prov .p-tick { color: var(--accent); font-weight:700; }
+  .tool {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0 0;
+  }
+
+  .tool h4 {
+    font-size: 1.02rem;
+    margin: 0 0 6px;
+  }
+
+  .tool p {
+    margin: 8px 0 0;
+    font-size: .92rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+    max-width: none;
+  }
+
+  .tool p:first-of-type {
+    margin-top: 0;
+  }
+
+  .tool b {
+    color: var(--ink);
+  }
+
+  .tool a {
+    font-weight: 600;
+    word-break: break-all;
+  }
+
+  .prov {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: grid;
+    gap: 6px;
+  }
+
+  .prov li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    font-size: .9rem;
+    color: var(--ink-2);
+  }
+
+  .prov .p-tick {
+    color: var(--accent);
+    font-weight: 700;
+  }
 
   footer {
     margin-top: 56px;
@@ -619,32 +786,36 @@
           Only tick Pooled for a genuine multi-trial analysis.</p>
       </div>
       <div class="field">
-        <div class="field-head"><h3>Registration not reported in the paper (found by search)</h3>
-          <span class="ftype">checkbox · default off</span><span class="badge b-new">New</span></div>
+        <div class="field-head">
+          <h3>Registration not reported in the paper (found by search)</h3>
+          <span class="ftype">checkbox · default off</span><span class="badge b-new">New</span>
+        </div>
         <p class="rule">Tick <b>yes</b> only when you had to find the registration yourself because the
           <em>paper doesn’t report it</em> — you still enter the id above, but the paper failed to
           disclose it. Leave blank when the paper reports its own registration (the normal case) or when
-          no registration exists at all.</p>
+          no registration exists at all.
+        </p>
         <div class="chips"><span class="chip">yes</span></div>
         <div class="tool">
           <h4>Finding registrations the paper hides — Trial Registration Tracer</h4>
           <p>When a paper reports no registration, use the custom GPT
-            <a href="https://chatgpt.com/g/g-6a91b1b9639881918f45823ffac543f8-trial-registration-tracer"
-               target="_blank" rel="noopener">Trial Registration Tracer</a> before recording the study as
+            <a href="https://chatgpt.com/g/g-6a91b1b9639881918f45823ffac543f8-trial-registration-tracer" target="_blank"
+              rel="noopener">Trial Registration Tracer</a> before recording the study as
             unregistered. It works best when you <b>upload the paper’s PDF</b> and run its default prompt:
             <em>“I uploaded a PDF. Trace the trial registration or parent study DOI.”</em> It searches the
             paper first, then registries and related publications, and returns a verdict plus an evidence
-            table with an explicit <b>provenance</b> line for the registration and any parent.</p>
+            table with an explicit <b>provenance</b> line for the registration and any parent.
+          </p>
           <p><b>Base your ticks on the provenance line, not just the id:</b></p>
           <ul class="prov">
             <li><span class="p-tick">reported</span> <span><em>“directly stated / cited in target
-              paper”</em> → enter the id, <b>leave the box unticked</b>.</span></li>
+                  paper”</em> → enter the id, <b>leave the box unticked</b>.</span></li>
             <li><span class="p-tick">not reported</span> <span><em>“manually retrieved / not in target
-              paper”</em>, or only <em>partially signposted</em> (a trial acronym but no id a reader could
-              follow) → enter the id and <b>tick the box</b>.</span></li>
+                  paper”</em>, or only <em>partially signposted</em> (a trial acronym but no id a reader could
+                follow) → enter the id and <b>tick the box</b>.</span></li>
             <li><span class="p-tick">don’t record</span> <span><em>“uncertain”</em>, or a match below
-              <b>confirmed / strong candidate</b> → don’t enter an id you can’t stand behind; note it in
-              Notes instead.</span></li>
+                <b>confirmed / strong candidate</b> → don’t enter an id you can’t stand behind; note it in
+                Notes instead.</span></li>
           </ul>
           <p><b>Always confirm the match yourself</b> — check the registry’s drug, N, population and dates
             against the paper before recording it. The GPT is a lead, not the final say.</p>
@@ -686,12 +857,15 @@
         </p>
       </div>
       <div class="field">
-        <div class="field-head"><h3>Parent study not cited in the paper (found by search)</h3>
-          <span class="ftype">checkbox · default off</span><span class="badge b-new">New</span></div>
+        <div class="field-head">
+          <h3>Parent study not cited in the paper (found by search)</h3>
+          <span class="ftype">checkbox · default off</span><span class="badge b-new">New</span>
+        </div>
         <p class="rule">Tick <b>yes</b> when the parent DOI above was found by search and the paper does
           <em>not</em> cite the parent trial as its source. Same Trial Registration Tracer workflow and
           the same provenance rule as the registration checkbox — read its <b>parent-study provenance</b>
-          line. (A softer norm than registration reporting, but still worth recording.)</p>
+          line. (A softer norm than registration reporting, but still worth recording.)
+        </p>
         <div class="chips"><span class="chip">yes</span></div>
       </div>
       <div class="field">
@@ -920,6 +1094,9 @@
     <p class="sub">Each domain is its own multi-select. Tick every measure the study assessed within it;
       leave the domain blank if it assessed nothing there. Every domain has an <b>Other</b> box
       (use <code>+</code> for several).</p>
+    <p class="sub" style="margin-top:8px;">A tick marked <b>+</b> opens guidance: which named
+      instruments belong under it, and where the near-misses go instead. More will be added as
+      reviewers ask — tell us which ticks are causing hesitation.</p>
     <div class="domains">
       <div class="dom">
         <h4>Cognitive</h4>
@@ -932,8 +1109,45 @@
       </div>
       <div class="dom">
         <h4>Drug experience questionnaires</h4>
-        <div class="chips"><span class="chip">Acute</span><span class="chip">Persisting (PEQ; not HPPD)</span>
+        <div class="chips">
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-acute">Acute</button>
+          <span class="chip">Persisting (PEQ; not HPPD)</span>
           <span class="chip other">Other</span>
+        </div>
+        <div class="xp" id="xp-acute" hidden>
+          <p>The field's standard measures of the <b>acute drug experience</b> all live under this one
+            tick. Tick it once, however many of them a study ran — the specific instruments go in the
+            measure text, not into separate ticks.</p>
+          <h5>Ticks Acute</h5>
+          <div class="scales">
+            <span class="scale">ASC (5D-ASC · 11D-ASC/OAV)</span>
+            <span class="scale">MEQ (MEQ30 · MEQ43)</span>
+            <span class="scale">CEQ</span>
+            <span class="scale">intensity ratings</span>
+            <span class="scale">VAS subjective-effect ratings</span>
+            <span class="scale">EBI</span>
+          </div>
+          <p><b>Rule of thumb — ask what the instrument is about, not when it was filled in.</b> If it
+            asks about <em>the drug effect</em> (how strong, how strange, how mystical, how difficult),
+            it is Acute. A questionnaire completed after the session asking <em>what the session was like</em>
+            is still Acute; one asking <em>how you are now</em> is not. If a mood scale is administered during
+            the session to capture the present state, it is still Acute.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Persisting</span> <span>PEQ and other "what has changed since?"
+                questionnaires — same domain, the other tick.</span></li>
+            <li><span class="to">Safety &amp; tolerability</span> <span>HPPD / persisting perceptual
+                changes, and session adverse events.</span></li>
+            <li><span class="to">Psychiatric</span> <span>mood and symptom scales (POMS, STAI, BDI),
+                administered before/after the session.</span></li>
+            <li><span class="to">Trial integrity</span> <span>blinding guesses and expectancy
+                ratings.</span></li>
+            <li><span class="to">Psychological process</span> <span>connectedness, insight, compassion
+                and similar constructs measured as outcomes at follow-up.</span></li>
+            <li><span class="to">Sensorimotor</span> <span>psychophysical and perceptual <em>tasks</em>
+                — performance, not self-report.</span></li>
+          </ul>
+          <p>Domains are independent: an ASC and a POMS in the same paper is two ticks, not a choice.</p>
         </div>
       </div>
       <div class="dom">
@@ -1058,3 +1272,15 @@
       rel="noopener">Comparator field guide</a>.
   </footer>
 </div>
+
+<script>
+  document.querySelectorAll('.chip-x').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+    });
+  });
+</script>
