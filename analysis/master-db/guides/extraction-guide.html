@@ -74,6 +74,20 @@
     box-sizing: border-box;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
+  [id] {
+    scroll-margin-top: 24px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     background: var(--ground);
     color: var(--ink);
@@ -223,40 +237,54 @@
     color: var(--res);
   }
 
-  /* changelog */
-  .changelog {
+  /* table of contents */
+  .toc {
     display: grid;
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    overflow: hidden;
+    gap: 12px;
     margin: 22px 0 0;
   }
 
-  .cl {
+  @media (min-width:720px) {
+    .toc {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .toc-item {
+    display: block;
     background: var(--surface);
-    padding: 16px 20px;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 14px;
-    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 15px 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .12s, background .12s;
   }
 
-  .cl .badge {
-    margin-top: 2px;
+  .toc-item:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
   }
 
-  .cl p {
-    margin: 0;
-    font-size: .95rem;
+  .toc-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 5px;
+  }
+
+  .toc-item h3 {
+    font-size: 1.05rem;
+  }
+
+  .toc-item p {
+    margin: 5px 0 0;
+    font-size: .89rem;
     color: var(--ink-2);
     line-height: 1.5;
     max-width: none;
-  }
-
-  .cl b {
-    color: var(--ink);
   }
 
   /* convention cards */
@@ -661,72 +689,45 @@
     </div>
   </header>
 
-  <!-- ===================== WHAT CHANGED ===================== -->
-  <section id="changes">
+  <!-- ===================== CONTENTS ===================== -->
+  <section id="contents">
     <p class="sec-label">Start here</p>
-    <h2>What changed this round</h2>
-    <p class="sub">If you extracted under the previous template, these are the differences. Every
-      changed field is also flagged inline below.</p>
-    <div class="changelog">
-      <div class="cl"><span class="badge b-new">New section</span>
-        <p><b>A conditional block gated on “no NCT”.</b> Country, Trial Phase, Design and Blinding are
-          now filled <em>only</em> when the study has no ClinicalTrials.gov (NCT) number — for NCT
-          studies these come from the registry automatically. The gate is <b>NCT specifically</b>, not
-          “registered”: an ANZCTR / ISRCTN / EudraCT / Dutch study still needs them by hand.</p>
-      </div>
-      <div class="cl"><span class="badge b-chg">Reworked</span>
-        <p><b>Blinding records who was masked, not a level.</b> Tick the parties (participant, care
-          provider, investigator, outcomes assessor) — never “single / double / triple”. The level is
-          worked out later by counting.</p>
-      </div>
-      <div class="cl"><span class="badge b-new">New field</span>
-        <p><b>Pooled study?</b> A checkbox, ticked only when a paper pools several trials. It replaces
-          “Pooled” as a phase value and drives how the paper links to its trials.</p>
-      </div>
-      <div class="cl"><span class="badge b-new">New field</span>
-        <p><b>Country / countries where the trial was conducted</b> — study sites, not author
-          affiliations. In the no-NCT block.</p>
-      </div>
-      <div class="cl"><span class="badge b-new">New field</span>
-        <p><b>Design</b> — parallel / crossover / factorial. (No “single-group”: in a database of
-          randomised trials it shouldn’t occur. No “quasi-randomised”: that’s a screening question.)</p>
-      </div>
-      <div class="cl"><span class="badge b-chg">Changed</span>
-        <p><b>Trial Phase</b> dropped its “Unregistered” and “Pooled” values — those are now derived
-          from the registry cell and the Pooled checkbox — and gained <b>Not Reported</b>.</p>
-      </div>
-      <div class="cl"><span class="badge b-chg">Changed</span>
-        <p><b>N randomized / N analyzed</b> now use an explicit <code>NR</code>. A blank means “not
-          extracted yet”; <code>NR</code> means “the paper doesn’t report it”. N analyzed is the field
-          you can almost always fill.</p>
-      </div>
-      <div class="cl"><span class="badge b-chg">Split in two</span>
-        <p><b>Age</b> is now <b>Age metric</b> + <b>Age value</b>, so a median or a range is captured
-          honestly instead of forced into a mean-or-nothing box.</p>
-      </div>
-      <div class="cl"><span class="badge b-new">New field</span>
-        <p><b>%Female</b> — a single number (0 = all male, 100 = all female).</p>
-      </div>
-      <div class="cl"><span class="badge b-rem">Removed</span>
-        <p><b>Sex-specific population?</b> is gone — %Female subsumes it (0 or 100 = single-sex).</p>
-      </div>
-      <div class="cl"><span class="badge b-res">Restored</span>
-        <p><b>Microdosing study?</b> — the flag the prior revision dropped is back.</p>
-      </div>
-      <div class="cl"><span class="badge b-chg">Expanded</span>
-        <p><b>Comparator</b> gained three options for dose-ranging and co-administration designs, and
-          <em>low-dose active</em> was renamed <em>low-dose intervention drug</em> (a low dose isn’t
-          “active”). See the <a href="https://claude.ai/code/artifact/c880c45d-b3a1-4615-bbed-cbad76358223"
-            target="_blank" rel="noopener">dedicated comparator guide</a> for worked examples.
-        </p>
-      </div>
-      <div class="cl"><span class="badge b-new">New fields</span>
-        <p><b>Registration / parent not reported (found by search).</b> Two checkboxes that flag when a
-          study’s registration or parent trial <em>exists but the paper doesn’t disclose it</em> — found
-          only by independent search. A CONSORT item 23 / ICMJE reporting failure, and one most reviews
-          can’t measure because they trust the paper. See the tool in Identification below.</p>
-      </div>
-    </div>
+    <h2>Jump to a section</h2>
+    <p class="sub">The template runs in five sections, plus the conventions that apply across all of
+      them. The Outcomes tour is the deepest: many ticks now expand (marked <b>+</b>) to show which
+      named scales and tasks belong under them.</p>
+    <nav class="toc" aria-label="Guide contents">
+      <a class="toc-item" href="#conventions">
+        <p class="toc-num">Read once</p>
+        <h3>Conventions that apply everywhere</h3>
+        <p>Separators, <code>NR</code> vs blank, multi-select, and don’t-infer — the four rules that keep the data clean.</p>
+      </a>
+      <a class="toc-item" href="#identification">
+        <p class="toc-num">Section 1</p>
+        <h3>Identification</h3>
+        <p>DOI, trial registry number, the Pooled flag, and the registration-not-reported checkbox.</p>
+      </a>
+      <a class="toc-item" href="#no-nct">
+        <p class="toc-num">Section 2 · conditional</p>
+        <h3>Fill only if there is no NCT number</h3>
+        <p>Parent DOI, country, phase, design, blinding — by hand only when the study has no NCT.</p>
+      </a>
+      <a class="toc-item" href="#population">
+        <p class="toc-num">Section 3</p>
+        <h3>Population</h3>
+        <p>N randomized / analyzed, age metric + value, %female, and target population.</p>
+      </a>
+      <a class="toc-item" href="#intervention">
+        <p class="toc-num">Section 4</p>
+        <h3>Intervention &amp; comparator</h3>
+        <p>Intervention drug(s), co-administration, and the expanded comparator options.</p>
+      </a>
+      <a class="toc-item" href="#outcomes">
+        <p class="toc-num">Section 5</p>
+        <h3>Outcomes — 15 domains</h3>
+        <p>Each domain is its own multi-select. Ticks marked <b>+</b> expand with the named scales and tasks that belong under them.</p>
+      </a>
+    </nav>
   </section>
 
   <!-- ===================== CONVENTIONS ===================== -->
@@ -1101,10 +1102,129 @@
       <div class="dom">
         <h4>Cognitive</h4>
         <p class="hint">cognitive task batteries</p>
-        <div class="chips"><span class="chip">attention/processing speed</span>
-          <span class="chip">creativity/divergent thinking</span><span class="chip">executive function</span>
-          <span class="chip">memory</span><span class="chip">social cognition</span>
+        <div class="chips">
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-cog-attn">attention/processing speed</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-cog-creat">creativity/divergent thinking</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-cog-exec">executive
+            function</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-cog-mem">memory</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-cog-social">social
+            cognition</button>
           <span class="chip other">Other</span>
+        </div>
+
+        <div class="xp" id="xp-cog-attn" hidden>
+          <h5>Ticks attention/processing speed</h5>
+          <div class="scales">
+            <span class="scale">DSST</span><span class="scale">Trail Making A</span>
+            <span class="scale">simple/choice reaction time</span>
+            <span class="scale">PVT</span><span class="scale">CPT</span>
+            <span class="scale">RVIP</span><span class="scale">cancellation tasks (d2)</span>
+          </div>
+          <p><b>Rule of thumb:</b> the whole task is <em>respond quickly and keep responding</em>. The
+            difficulty comes from speed or from sustaining vigilance — not from holding something in
+            mind and doing work on it.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Executive function</span> <span>Stroop, flanker and any task whose
+                difficulty is conflict or interference — even when the outcome reported is a reaction
+                time. Same domain, the other tick.</span></li>
+            <li><span class="to">Other outcomes</span> <span>self-reported concentration or "brain
+                fog" scales. This domain is <em>tasks</em>; a questionnaire about attention is not a
+                cognitive outcome.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-cog-creat" hidden>
+          <h5>Ticks creativity/divergent thinking</h5>
+          <div class="scales">
+            <span class="scale">Alternate Uses Task (AUT)</span><span class="scale">Torrance (TTCT)</span>
+            <span class="scale">Remote Associates Test (RAT)</span>
+            <span class="scale">Picture Concept Task</span>
+          </div>
+          <p><b>Rule of thumb:</b> the tick is <em>creativity</em> — divergent is just its commonest
+            form. Convergent creativity tasks (RAT, insight problems with an "aha" solution) belong
+            here too, not under executive function.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Psychological process</span> <span>personal or psychological insight
+                (PIQ and similar) — a different sense of the word "insight" from the problem-solving
+                one.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-cog-exec" hidden>
+          <h5>Ticks executive function</h5>
+          <div class="scales">
+            <span class="scale">n-back</span><span class="scale">Stroop</span>
+            <span class="scale">Go/No-Go</span><span class="scale">stop-signal</span>
+            <span class="scale">task switching</span><span class="scale">Trail Making B</span>
+            <span class="scale">backward digit span</span><span class="scale">WCST</span>
+            <span class="scale">Tower of London</span><span class="scale">delay discounting</span>
+          </div>
+          <p><b>Rule of thumb — manipulating beats storing.</b> If the task asks the participant to
+            update, inhibit, switch or plan, it is executive function <em>even when the material being
+              held is memory-like</em>. The <b>n-back</b> is the case that catches people: it looks like a
+            memory task, but the load is continuous updating, so it ticks here and not memory. Backward
+            digit span goes the same way for the same reason.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Memory</span> <span>word-list learning, delayed recall, recognition —
+                bringing information back rather than working on it. Same domain, the other
+                tick.</span></li>
+            <li><span class="to">Attention</span> <span>simple reaction time and vigilance, where
+                nothing has to be held or overridden. Same domain, the other tick.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-cog-mem" hidden>
+          <h5>Ticks memory</h5>
+          <div class="scales">
+            <span class="scale">RAVLT</span><span class="scale">CVLT</span><span class="scale">HVLT</span>
+            <span class="scale">delayed/cued recall</span><span class="scale">recognition memory</span>
+            <span class="scale">Rey figure recall</span><span class="scale">paired associates</span>
+            <span class="scale">forward digit span</span><span class="scale">autobiographical memory</span>
+          </div>
+          <p><b>Rule of thumb:</b> the participant has to <em>bring something back</em> after a list or
+            a delay. Encoding, retention and retrieval — not manipulation.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Executive function</span> <span><b>n-back</b> and backward digit
+                span. Working memory under continuous updating is an executive task, however
+                memory-like the name. Same domain, the other tick.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-cog-social" hidden>
+          <h5>Ticks social cognition</h5>
+          <div class="scales">
+            <span class="scale">RMET (Eyes test)</span>
+            <span class="scale">Multifaceted Empathy Test (MET)</span>
+            <span class="scale">emotional face recognition (Ekman/FERT)</span>
+            <span class="scale">emotional prosody</span>
+            <span class="scale">theory-of-mind stories</span><span class="scale">Cyberball</span>
+          </div>
+          <p><b>Rule of thumb — is there an answer key?</b> Social cognition is a <em>performance</em>
+            task about another mind: reading someone else's emotion or intention, scored right or wrong
+            against an external key. If there's a correct answer about another person, it ticks here.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Emotional processing</span> <span>the overlap case — and often
+                <em>not</em> either/or. One emotional-face paradigm can yield several measures, and each
+                is ticked on its own: label <b>accuracy</b> ("which emotion is this?") → social
+                cognition, here; the participant's <b>reactivity</b> to the faces (amygdala response,
+                dot-probe bias, startle) → emotional processing (Psychological process). A task scored
+                for accuracy <em>and</em> recording a response ticks both.</span></li>
+            <li><span class="to">Psychological process</span> <span>trait empathy and compassion
+                questionnaires (IRI, self-compassion scales) — self-report about the self, not a
+                scored reading of others.</span></li>
+            <li><span class="to">Neuroimaging / Physiological</span> <span>the <em>recording method</em>
+                is its own tick, on top of the construct(s) above: fMRI or EEG → Neuroimaging (task
+                fMRI); skin conductance, heart rate or startle → Physiological/Autonomic. A scanner
+                faces task can tick social cognition, emotional processing <em>and</em> task fMRI.</span></li>
+          </ul>
         </div>
       </div>
       <div class="dom">
@@ -1180,29 +1300,362 @@
       </div>
       <div class="dom">
         <h4>Psychiatric</h4>
+        <p class="hint">named disorders + two catch-alls — reach for a catch-all only when the measure spans disorders</p>
         <div class="chips"><span class="chip">anxiety</span><span class="chip">burnout</span>
           <span class="chip">depression</span><span class="chip">eating disorder</span>
-          <span class="chip">general mood/affect</span><span class="chip">general psychopathology</span>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-psy-mood">general mood/affect</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-psy-genpsy">general psychopathology</button>
           <span class="chip">mania/hypomania</span><span class="chip">OCD</span><span class="chip">PTSD</span>
           <span class="chip">psychotic symptoms</span><span class="chip">substance use</span>
           <span class="chip other">Other</span>
         </div>
+
+        <div class="xp" id="xp-psy-mood" hidden>
+          <h5>Ticks general mood/affect</h5>
+          <div class="scales">
+            <span class="scale">POMS</span><span class="scale">PANAS</span>
+            <span class="scale">Bond-Lader VAS</span>
+            <span class="scale">Visual Analogue Mood Scale (VAMS)</span>
+            <span class="scale">mood VAS</span>
+          </div>
+          <p><b>Rule of thumb — current feeling, not a diagnosis.</b> A general <em>mood-state</em>
+            measure spanning positive/negative affect, not tied to one disorder. The axis is how the
+            person <em>feels now</em>.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">depression / anxiety</span> <span>a disorder-specific severity scale
+                (BDI, MADRS, HAM-D; STAI, GAD-7) ticks that named disorder — not this catch-all. Use
+                general mood/affect only when no single disorder owns the instrument.</span></li>
+            <li><span class="to">general psychopathology</span> <span>a broad multi-symptom index
+                (SCL-90, BSI) is <em>symptom burden</em>, not mood state — the other catch-all.</span></li>
+            <li><span class="to">Acute (Drug experience)</span> <span>a mood scale run <em>during the
+                session</em> to capture the acute drug state is Acute; the same scale at baseline and
+                follow-up, as a trial outcome, is general mood/affect, here.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-psy-genpsy" hidden>
+          <h5>Ticks general psychopathology</h5>
+          <div class="scales">
+            <span class="scale">SCL-90-R</span><span class="scale">Brief Symptom Inventory (BSI)</span>
+            <span class="scale">BPRS</span><span class="scale">GHQ</span>
+            <span class="scale">Hopkins Symptom Checklist (HSCL)</span>
+            <span class="scale">CGI-Severity</span>
+          </div>
+          <p><b>Rule of thumb — breadth of symptoms across disorders.</b> A broad
+            <em>symptom-burden</em> index that aggregates clinical symptoms over several domains, or a
+            global illness-severity rating. The axis is <em>how much clinical symptomatology</em>, not
+            one condition.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">a specific disorder</span> <span>if a study reports the <em>depression
+                subscale</em> of the SCL-90 as its depression outcome, tick depression; only the total /
+                global severity index ticks general psychopathology.</span></li>
+            <li><span class="to">general mood/affect</span> <span>a mood-state measure (POMS, PANAS) is
+                affect, not a symptom inventory — the other catch-all.</span></li>
+            <li><span class="to">global functioning</span> <span>(Functioning box) WHODAS / disability
+                measures <em>impairment</em> — what the person can't do — not symptom burden. Symptoms
+                here, functioning there.</span></li>
+          </ul>
+        </div>
       </div>
       <div class="dom">
         <h4>Functioning and well-being</h4>
-        <div class="chips"><span class="chip">global functioning (GAF/WHODAS)</span>
-          <span class="chip">mindfulness</span><span class="chip">occupational/role functioning</span>
-          <span class="chip">social functioning &amp; sociability</span>
-          <span class="chip">quality of life/well-being</span><span class="chip other">Other</span>
+        <p class="hint">two axes: what the person can do (functioning) and how they rate their life (well-being)</p>
+        <div class="chips">
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-fw-global">global functioning (GAF/WHODAS)</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-fw-mind">mindfulness</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-fw-occ">occupational/role functioning</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-fw-social">social functioning &amp; sociability</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-fw-qol">quality of life/well-being</button>
+          <span class="chip other">Other</span>
+        </div>
+
+        <div class="xp" id="xp-fw-global" hidden>
+          <h5>Ticks global functioning</h5>
+          <div class="scales">
+            <span class="scale">GAF</span><span class="scale">WHODAS 2.0</span>
+            <span class="scale">Sheehan Disability Scale (SDS)</span>
+            <span class="scale">Work &amp; Social Adjustment Scale (WSAS)</span>
+          </div>
+          <p><b>Rule of thumb — disability, not symptoms.</b> An <em>overall</em> rating of impairment
+            across life domains: how much the condition limits what the person can do. Tick this for the
+            composite; tick the occupational or social slice as well if the study breaks those out.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Quality of life/well-being</span> <span>the classic mix-up:
+                <b>WHODAS</b> (disability — what you can do) is global functioning; <b>WHOQOL</b> (how you
+                rate your life) is quality of life. Same "WHO", opposite construct.</span></li>
+            <li><span class="to">Psychiatric</span> <span>symptom-severity scales (a depression or
+                anxiety score, CGI severity) — that's the illness, not the functional
+                impairment.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-fw-mind" hidden>
+          <h5>Ticks mindfulness</h5>
+          <div class="scales">
+            <span class="scale">FFMQ</span><span class="scale">MAAS</span>
+            <span class="scale">decentering (Experiences Questionnaire)</span>
+            <span class="scale">Toronto Mindfulness Scale</span>
+          </div>
+          <p><b>Rule of thumb:</b> a dedicated <em>trait/state mindfulness</em> scale — present-moment
+            awareness, non-reactivity, decentering.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Psychological flexibility</span> <span>(Psychological process) the ACT
+                constructs — acceptance, defusion, experiential avoidance (AAQ-II). Related family;
+                mindfulness scales tick here, the AAQ-II ticks there.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-fw-occ" hidden>
+          <h5>Ticks occupational/role functioning</h5>
+          <div class="scales">
+            <span class="scale">return to work</span>
+            <span class="scale">days worked / absenteeism</span>
+            <span class="scale">SDS work subscale</span>
+            <span class="scale">SF-36 role subscales</span>
+          </div>
+          <p><b>Rule of thumb:</b> the <em>work / study / role</em> slice specifically — productivity,
+            return to work, role performance.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Global functioning</span> <span>a single composite disability score
+                (WHODAS, GAF) rather than the work slice broken out.</span></li>
+            <li><span class="to">Social functioning</span> <span>the relationships / sociability slice.
+                A measure that spans both (WSAS) is usually recorded as global.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-fw-social" hidden>
+          <h5>Ticks social functioning &amp; sociability</h5>
+          <div class="scales">
+            <span class="scale">Social Adjustment Scale (SAS-SR)</span>
+            <span class="scale">SF-36 social subscale</span>
+            <span class="scale">loneliness (UCLA)</span>
+            <span class="scale">social network / relationship quality</span>
+          </div>
+          <p><b>Rule of thumb — behaviour, not felt connection.</b> Actual social <em>functioning</em>:
+            relationships, social adjustment, sociability, loneliness as a life circumstance.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Connectedness</span> <span>(Psychological process) the <em>felt sense</em>
+                of connection to others/self/nature (Watts Connectedness Scale, IOS). The reciprocal of
+                this tick: felt connection is a psychological process, social behaviour is functioning —
+                a study can report both.</span></li>
+            <li><span class="to">Social cognition</span> <span>(Cognitive) a scored task reading others'
+                emotions or intentions — an ability, not everyday social functioning.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-fw-qol" hidden>
+          <h5>Ticks quality of life/well-being</h5>
+          <div class="scales">
+            <span class="scale">WHOQOL-BREF</span><span class="scale">SF-36</span>
+            <span class="scale">EQ-5D</span><span class="scale">WEMWBS</span>
+            <span class="scale">Satisfaction With Life (SWLS)</span>
+            <span class="scale">Flourishing Scale</span><span class="scale">Ryff PWB</span>
+          </div>
+          <p><b>Rule of thumb — a subjective evaluation of one's life</b> as a whole, or general
+            well-being/flourishing. How the person <em>rates</em> their life, not what they can do.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Global functioning</span> <span><b>WHODAS</b> / disability — what the
+                person can do. The WHOQOL-vs-WHODAS split again, from the other side.</span></li>
+            <li><span class="to">Psychiatric</span> <span>mood and affect <em>symptom</em> scales
+                (depression remission, positive affect on the PANAS) — a symptom outcome, not a
+                life-quality rating.</span></li>
+          </ul>
         </div>
       </div>
       <div class="dom">
         <h4>Psychological process</h4>
-        <div class="chips"><span class="chip">connectedness (others, self, nature…)</span>
-          <span class="chip">compassion (others, self)</span><span class="chip">emotional processing</span>
-          <span class="chip">insight</span><span class="chip">personality/neuroticism</span>
-          <span class="chip">psychological flexibility</span><span class="chip">rumination</span>
-          <span class="chip">spirituality</span><span class="chip other">Other</span>
+        <p class="hint">self-report constructs, usually measured as outcomes at follow-up</p>
+        <div class="chips">
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-pp-connect">connectedness
+            (others, self, nature…)</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-pp-compassion">compassion
+            (others, self)</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-pp-emot">emotional
+            processing</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-pp-insight">insight</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-pp-personality">personality/neuroticism</button>
+          <button type="button" class="chip chip-x" aria-expanded="false" aria-controls="xp-pp-flex">psychological
+            flexibility</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-pp-rumination">rumination</button>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-pp-spirit">spirituality</button>
+          <span class="chip other">Other</span>
+        </div>
+
+        <div class="xp" id="xp-pp-connect" hidden>
+          <h5>Ticks connectedness</h5>
+          <div class="scales">
+            <span class="scale">Watts Connectedness Scale (WCS)</span>
+            <span class="scale">Inclusion of Other in Self (IOS)</span>
+            <span class="scale">Social Connectedness Scale</span>
+            <span class="scale">nature relatedness</span>
+          </div>
+          <p><b>Rule of thumb:</b> a felt <em>sense of connection</em> — to other people, to oneself, to
+            nature or the world. The self-report construct, not the behaviour and not the transient
+            unitive state during dosing.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Acute (Drug experience)</span> <span>the unitive / oceanic-boundlessness
+                experience <em>during the session</em> — that's the mystical-experience item on the ASC
+                or MEQ, not an enduring connectedness outcome.</span></li>
+            <li><span class="to">Spirituality</span> <span>connection to something greater / the sacred,
+                when framed spiritually. Neighbouring tick; both can apply.</span></li>
+            <li><span class="to">Social functioning &amp; sociability</span> <span>(Functioning box)
+                actual relationships and social behaviour — what you do, not what you feel
+                connected to.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-compassion" hidden>
+          <h5>Ticks compassion</h5>
+          <div class="scales">
+            <span class="scale">Self-Compassion Scale (SCS)</span>
+            <span class="scale">Santa Clara Brief Compassion</span>
+            <span class="scale">compassion-for-others scales</span>
+          </div>
+          <p><b>Rule of thumb:</b> a <em>self-report</em> of compassionate attitude toward self or
+            others. There is no answer key — the participant rates themselves.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Social cognition</span> <span>(Cognitive) empathy measured as a
+                <em>performance task</em> scored for accuracy — the MET, the Eyes test. Reading others
+                correctly is an ability; feeling compassion is a self-rated attitude.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-emot" hidden>
+          <h5>Ticks emotional processing</h5>
+          <div class="scales">
+            <span class="scale">Emotion Regulation Questionnaire (ERQ)</span>
+            <span class="scale">DERS</span>
+            <span class="scale">alexithymia (TAS-20)</span>
+            <span class="scale">Emotional Processing Scale (EPS)</span>
+          </div>
+          <p><b>Rule of thumb — own affect, no answer key.</b> How the participant <em>responds to,
+              regulates or works through their own emotions</em>. Self-report or an affective response,
+            never scored right/wrong against another person's state.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Social cognition</span> <span>(Cognitive) the reciprocal — and these
+                aren't mutually exclusive. An emotional-face task scored for label <b>accuracy</b> ticks
+                social cognition, while the <b>reactivity</b> it evokes (amygdala response, dot-probe,
+                startle) ticks emotional processing, here — the same task can do both.</span></li>
+            <li><span class="to">Psychological flexibility</span> <span>experiential avoidance / the
+                AAQ-II live under that neighbouring tick; keep <em>emotional processing</em> for emotion
+                regulation and alexithymia specifically.</span></li>
+            <li><span class="to">Acute (Drug experience)</span> <span>emotional breakthrough <em>during
+                  the session</em> (EBI) is an acute drug-experience measure.</span></li>
+            <li><span class="to">Psychiatric</span> <span>mood and affect <em>symptom</em> scales (POMS,
+                PANAS as a state measure) — mood level, not the processing of emotion.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-insight" hidden>
+          <h5>Ticks insight</h5>
+          <div class="scales">
+            <span class="scale">Psychological Insight Questionnaire (PIQ)</span>
+            <span class="scale">Psychological Insight Scale (PIS)</span>
+          </div>
+          <p><b>Rule of thumb — which "insight"?</b> This tick is <em>psychological / personal</em>
+            insight: new understanding of one's own patterns, relationships or life, typically credited
+            to the experience. The word has two other senses that go elsewhere.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Creativity/divergent thinking</span> <span>(Cognitive)
+                <em>problem-solving</em> insight — the "aha" solution to a puzzle (RAT, insight
+                problems). A performance task, not self-understanding.</span></li>
+            <li><span class="to">Psychiatric</span> <span>clinical <em>insight into illness</em> (does
+                the patient recognise they are unwell) — a symptom-level construct, rare here.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-personality" hidden>
+          <h5>Ticks personality/neuroticism</h5>
+          <div class="scales">
+            <span class="scale">Big Five / BFI</span><span class="scale">NEO-PI-R</span>
+            <span class="scale">openness</span><span class="scale">neuroticism</span>
+            <span class="scale">absorption (Tellegen)</span>
+          </div>
+          <p><b>Rule of thumb:</b> a <em>trait</em> personality inventory measured as an outcome —
+            openness and neuroticism are the ones psychedelic trials report most. Enduring dispositions,
+            not current symptoms.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Psychiatric</span> <span>current mood, anxiety or general
+                psychopathology <em>symptoms</em> — a state, not a trait inventory.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-flex" hidden>
+          <h5>Ticks psychological flexibility</h5>
+          <div class="scales">
+            <span class="scale">AAQ-II</span><span class="scale">CompACT</span>
+            <span class="scale">experiential avoidance</span>
+            <span class="scale">cognitive fusion (CFQ)</span>
+          </div>
+          <p><b>Rule of thumb:</b> the ACT construct — acceptance, defusion, values-based action, and
+            their inverse, experiential avoidance. The AAQ-II is its home instrument.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Emotional processing</span> <span>emotion-regulation and alexithymia
+                measures (ERQ, TAS-20). Related literature, neighbouring tick — flexibility is the wider
+                acceptance/avoidance construct.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-rumination" hidden>
+          <h5>Ticks rumination</h5>
+          <div class="scales">
+            <span class="scale">Ruminative Responses Scale (RRS)</span>
+            <span class="scale">brooding subscale</span>
+            <span class="scale">Perseverative Thinking Questionnaire (PTQ)</span>
+          </div>
+          <p><b>Rule of thumb:</b> a dedicated <em>repetitive-negative-thinking</em> measure. Tick it
+            when rumination is measured in its own right.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Psychiatric</span> <span>a depression scale that happens to contain a
+                rumination item (e.g. the BDI) is a <em>depression</em> outcome — tick depression there,
+                not rumination here. If the paper reports specifically on rumination as a sub-scale, tick
+                rumination here.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-pp-spirit" hidden>
+          <h5>Ticks spirituality</h5>
+          <div class="scales">
+            <span class="scale">Daily Spiritual Experience Scale</span>
+            <span class="scale">FACIT-Sp (spiritual well-being)</span>
+            <span class="scale">WHOQOL-SRPB</span>
+            <span class="scale">religiosity / faith measures</span>
+          </div>
+          <p><b>Rule of thumb:</b> <em>enduring</em> spirituality, religiosity or the sacred, measured
+            as a trait/outcome. Not the peak mystical state itself.</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Acute (Drug experience)</span> <span>the <em>mystical experience during
+                  the session</em> — the MEQ and the ASC's oceanic-boundlessness — is an acute drug-effect
+                measure, not an enduring spirituality outcome. This is the commonest mix-up in the
+                box.</span></li>
+            <li><span class="to">Connectedness</span> <span>connection to self/others/nature framed
+                secularly. Neighbouring tick; both can apply when a scale spans them.</span></li>
+          </ul>
         </div>
       </div>
       <div class="dom">
