@@ -1,0 +1,1017 @@
+<title>Search Term Update Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground: #F2F5F3;
+    --surface: #FFFFFF;
+    --surface-2: #E9EEEB;
+    --ink: #12201D;
+    --ink-2: #51625D;
+    --ink-3: #7E8C89;
+    --line: #D8E0DD;
+    --line-2: #C2CECA;
+    --accent: #0E6E63;
+    --accent-soft: #DCEDE9;
+    --new: #2E7A4E;
+    --new-soft: #DFEDE3;
+    --chg: #9E6C12;
+    --chg-soft: #F2E8D2;
+    --rem: #A33E2C;
+    --rem-soft: #F3E0DA;
+    --res: #2A6BB0;
+    --res-soft: #DCE9F6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1513;
+      --surface: #16201D;
+      --surface-2: #1D2926;
+      --ink: #E4ECE8;
+      --ink-2: #9AA9A5;
+      --ink-3: #78877F;
+      --line: #263430;
+      --line-2: #33443F;
+      --accent: #4FC2B1;
+      --accent-soft: #16302C;
+      --new: #63B683;
+      --new-soft: #172C20;
+      --chg: #D6A552;
+      --chg-soft: #2E2718;
+      --rem: #E08770;
+      --rem-soft: #31201B;
+      --res: #77A8DE;
+      --res-soft: #17293B;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0E1513;
+    --surface: #16201D;
+    --surface-2: #1D2926;
+    --ink: #E4ECE8;
+    --ink-2: #9AA9A5;
+    --ink-3: #78877F;
+    --line: #263430;
+    --line-2: #33443F;
+    --accent: #4FC2B1;
+    --accent-soft: #16302C;
+    --new: #63B683;
+    --new-soft: #172C20;
+    --chg: #D6A552;
+    --chg-soft: #2E2718;
+    --rem: #E08770;
+    --rem-soft: #31201B;
+    --res: #77A8DE;
+    --res-soft: #17293B;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 62rem; margin: 0 auto; }
+
+  h1, h2, h3, h4 {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-weight: 500;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  header { padding: 56px 0 30px; border-bottom: 1px solid var(--line); }
+
+  .eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 { font-size: clamp(2.1rem, 5.5vw, 3rem); line-height: 1.06; letter-spacing: -.017em; }
+
+  .lede {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: 1.16rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 16px 0 0;
+    max-width: 44rem;
+  }
+
+  .meta {
+    margin-top: 22px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .74rem;
+    color: var(--ink-3);
+    display: flex;
+    gap: 8px 20px;
+    flex-wrap: wrap;
+  }
+
+  section { padding: 46px 0 0; }
+
+  .sec-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+
+  h2 { font-size: clamp(1.5rem, 3.4vw, 1.95rem); letter-spacing: -.012em; line-height: 1.2; }
+  h2 + .sub { color: var(--ink-2); margin: 10px 0 0; max-width: 46rem; }
+  h3.dbh { font-size: 1.3rem; margin: 0; }
+
+  p { margin: 14px 0; max-width: 44rem; }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  code {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .85em;
+    background: var(--surface-2);
+    padding: .1em .38em;
+    border-radius: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  pre {
+    margin: 12px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: .8rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    display: block;
+  }
+  pre.rm { border-left-color: var(--rem); }
+
+  /* stat band */
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 24px 0 0; }
+  @media (min-width: 720px) { .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); } }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px 16px 14px; }
+  .stat .num {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: 1.9rem; line-height: 1; letter-spacing: -.02em;
+    color: var(--accent); font-variant-numeric: tabular-nums;
+  }
+  .stat.rmv .num { color: var(--rem); }
+  .stat .lbl { margin-top: 8px; font-size: .78rem; color: var(--ink-2); line-height: 1.35; }
+
+  /* badges */
+  .badge {
+    font-family: "Public Sans", sans-serif;
+    font-size: .62rem; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; padding: 2px 7px; border-radius: 3px;
+    white-space: nowrap; vertical-align: middle;
+  }
+  .b-add { background: var(--new-soft); color: var(--new); }
+  .b-rm  { background: var(--rem-soft); color: var(--rem); }
+  .b-ver { background: var(--chg-soft); color: var(--chg); }
+  .b-fix { background: var(--res-soft); color: var(--res); }
+
+  /* toc */
+  .toc { display: grid; gap: 12px; margin: 24px 0 0; }
+  @media (min-width:720px) { .toc { grid-template-columns: 1fr 1fr; } }
+  .toc-item {
+    display: block; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 6px; padding: 15px 18px; text-decoration: none; color: inherit;
+    transition: border-color .12s, background .12s;
+  }
+  .toc-item:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .toc-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 5px;
+  }
+  .toc-item h3 { font-size: 1.05rem; }
+  .toc-item p { margin: 5px 0 0; font-size: .89rem; color: var(--ink-2); line-height: 1.5; max-width: none; }
+
+  /* tables */
+  .tablewrap { overflow-x: auto; margin: 16px 0 0; border: 1px solid var(--line); border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; min-width: 34rem; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-size: .68rem; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 600; background: var(--surface-2);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.mono, th.mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .82rem; }
+  .danger { color: var(--rem); font-weight: 600; }
+  .safe { color: var(--new); font-weight: 600; }
+
+  /* callouts */
+  .gate {
+    background: var(--accent-soft); border: 1px solid var(--line);
+    border-left: 3px solid var(--accent); border-radius: 4px;
+    padding: 16px 20px; margin: 18px 0 0;
+  }
+  .gate.warn { background: var(--chg-soft); border-left-color: var(--chg); }
+  .gate.stop { background: var(--rem-soft); border-left-color: var(--rem); }
+  .gate.info { background: var(--res-soft); border-left-color: var(--res); }
+  .gate > :first-child { margin-top: 0; }
+  .gate > :last-child { margin-bottom: 0; }
+  .gate p { font-size: .95rem; color: var(--ink); max-width: none; }
+  .gate h4 { font-size: 1.05rem; margin: 0 0 6px; }
+
+  /* change group */
+  .grp { border-top: 1px solid var(--line); padding: 26px 0 8px; }
+  .grp-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .grp-head h3 { font-size: 1.22rem; }
+  .grp-head .tag {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem; color: var(--ink-3); letter-spacing: .03em;
+  }
+  .grp > p { font-size: .95rem; color: var(--ink-2); }
+
+  /* database block */
+  .db { border-top: 1px solid var(--line); padding: 28px 0 8px; }
+  .db-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .db-syntax {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem; color: var(--ink-3);
+  }
+  .db h4 {
+    font-size: .95rem; margin: 20px 0 0;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+
+  /* checklist */
+  ol.checks { margin: 18px 0 0; padding: 0; counter-reset: c; list-style: none; display: grid; gap: 12px; }
+  ol.checks > li {
+    position: relative; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 6px; padding: 14px 18px 14px 52px;
+  }
+  ol.checks > li::before {
+    counter-increment: c; content: counter(c);
+    position: absolute; left: 15px; top: 13px;
+    width: 25px; height: 25px; display: grid; place-items: center; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .8rem;
+  }
+  ol.checks h4 { font-size: 1rem; margin: 0 0 3px; font-family: Newsreader, ui-serif, Georgia, serif; font-weight: 500; }
+  ol.checks p { margin: 3px 0 0; font-size: .89rem; color: var(--ink-2); line-height: 1.5; max-width: none; }
+
+  ul.plain { margin: 12px 0 0; padding-left: 20px; max-width: 46rem; }
+  ul.plain li { margin: 6px 0; font-size: .93rem; color: var(--ink-2); }
+  ul.plain li b { color: var(--ink); }
+
+  .footnote {
+    margin-top: 46px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: .82rem; color: var(--ink-3); max-width: 46rem;
+  }
+  .footnote a { color: var(--ink-2); }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SYPRES · Master database · Search strategy</p>
+    <h1>Search term update plan</h1>
+    <p class="lede">
+      A proposed revision to the drug clause in all five databases: eleven compounds added, four missing
+      aliases restored, four out-of-scope Embase terms dropped, one spurious token removed everywhere — and a
+      fix to how hyphenated code names are written, which is currently costing both precision and recall.
+      Every heading was verified against NLM; nothing here has been applied to the strategy files yet.
+    </p>
+    <div class="meta">
+      <span>Drafted 17 Sep 2026</span><span>5 databases</span><span>For review — not yet applied</span>
+      <span>Companion: <a href="https://claude.ai/code/artifact/c29044c5-94c0-4ce4-b188-c67ee560e854"
+          target="_blank" rel="noopener">Drug search inventory</a></span>
+    </div>
+  </header>
+
+  <!-- ============ AT A GLANCE ============ -->
+  <section id="glance">
+    <p class="sec-label">At a glance</p>
+    <h2>What this changes</h2>
+    <p class="sub">
+      Five groups of edits, all confined to search block <code>#1 All drugs</code>. The RCT, language,
+      animal, and review-exclusion blocks are untouched, so the overall structure and the
+      <code>(#1 AND #2 AND #3) NOT (#4 OR #5)</code> combination stay exactly as they are.
+    </p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">11</div><div class="lbl">compounds added across all five databases</div></div>
+      <div class="stat"><div class="num">4</div><div class="lbl">missing aliases for compounds already searched</div></div>
+      <div class="stat"><div class="num">1</div><div class="lbl">Embase omission fixed (deuterated DMT)</div></div>
+      <div class="stat rmv"><div class="num">4</div><div class="lbl">out-of-scope terms dropped from Embase</div></div>
+      <div class="stat rmv"><div class="num">1</div><div class="lbl">spurious token removed everywhere (MDMT)</div></div>
+      <div class="stat rmv"><div class="num">164</div><div class="lbl">noise records removed by the code-name syntax fix</div></div>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <a class="toc-item" href="#rules">
+        <p class="toc-num">Read first</p>
+        <h3>Two rules that shape every term</h3>
+        <p>Why six of these compounds must never be searched by their acronym — with the record counts behind it.</p>
+      </a>
+      <a class="toc-item" href="#changes">
+        <p class="toc-num">Part 1</p>
+        <h3>The changes, with rationale</h3>
+        <p>What is added, fixed, and removed — and the expected yield of each addition.</p>
+      </a>
+      <a class="toc-item" href="#blocks">
+        <p class="toc-num">Part 2</p>
+        <h3>Per-database term blocks</h3>
+        <p>Ready-to-paste syntax for PubMed, Embase, Scopus, Web of Science, and PsycINFO.</p>
+      </a>
+      <a class="toc-item" href="#changes">
+        <p class="toc-num">Part 1 · group G</p>
+        <h3>The code-name tokenisation defect</h3>
+        <p>Why hyphenated code names are missing real records and returning p-value noise — and the two-form fix.</p>
+      </a>
+      <a class="toc-item" href="#verify">
+        <p class="toc-num">Part 3</p>
+        <h3>Before you run it</h3>
+        <p>The tokenisation probe for the other four databases, plus what to confirm in-interface.</p>
+      </a>
+    </nav>
+  </section>
+
+  <!-- ============ RULES ============ -->
+  <section id="rules">
+    <p class="sec-label">Read first</p>
+    <h2>Two rules that shape every term below</h2>
+
+    <div class="gate stop">
+      <h4>Rule 1 — six of these compounds must never be searched by their bare acronym <span class="badge b-rm">critical</span></h4>
+      <p>
+        DOI, MDA, DOM, DPT, MDE and STP are all common abbreviations in biomedical literature for something
+        else entirely: <b>digital object identifier</b>, <b>malondialdehyde</b>, <b>document object model</b>,
+        <b>diphtheria–pertussis–tetanus</b>, <b>major depressive episode</b>, <b>standard temperature and
+        pressure</b>. Searched bare, they return tens of thousands of irrelevant records. The counts below are
+        PubMed, English-language, non-animal — and the last column is the share that has anything to do with
+        psychedelics.
+      </p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th class="mono">Acronym</th><th class="num">Records</th><th class="num">Psychedelic-related</th><th class="num">Precision</th><th>Verdict</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">DOI</td><td class="num">89,465</td><td class="num">190</td><td class="num danger">0.2%</td><td class="danger">Never as free text</td></tr>
+          <tr><td class="mono">MDA</td><td class="num">71,549</td><td class="num">321</td><td class="num danger">0.4%</td><td class="danger">Never as free text</td></tr>
+          <tr><td class="mono">DOM</td><td class="num">6,919</td><td class="num">45</td><td class="num danger">0.7%</td><td class="danger">Never as free text</td></tr>
+          <tr><td class="mono">STP</td><td class="num">2,951</td><td class="num">22</td><td class="num danger">0.7%</td><td class="danger">Never as free text</td></tr>
+          <tr><td class="mono">DPT</td><td class="num">2,742</td><td class="num">9</td><td class="num danger">0.3%</td><td class="danger">Never as free text</td></tr>
+          <tr><td class="mono">MDE</td><td class="num">1,826</td><td class="num">54</td><td class="num danger">3.0%</td><td class="danger">Never as free text</td></tr>
+          <tr><td class="mono">foxy</td><td class="num">85</td><td class="num">13</td><td class="num">15.3%</td><td>Optional — low volume, low value</td></tr>
+          <tr><td class="mono">2C-B</td><td class="num">114</td><td class="num">65</td><td class="num safe">57.0%</td><td class="safe">Safe as free text</td></tr>
+          <tr><td class="mono">DOET</td><td class="num">14</td><td class="num">10</td><td class="num safe">71.4%</td><td class="safe">Safe as free text</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      So for those six, the plan uses <b>controlled vocabulary plus the spelled-out chemical name only</b>.
+      This is the same failure mode as the <code>MDMT</code> token being removed below — an acronym that looks
+      like a drug name but mostly matches something else.
+    </p>
+
+    <div class="gate warn">
+      <h4>Rule 2 — these additions buy precision and auditability, not a flood of new records</h4>
+      <p>
+        Most of these compounds are <em>already</em> being caught by the class-net terms
+        (<code>psychedelic*</code>, <code>hallucinogen*</code>, <code>Hallucinogens</code> MeSH and
+        Pharmacological Action). Estimating in PubMed against a compact RCT proxy, the genuinely
+        <b>new</b> records — those the current strategy would miss — come to roughly <b>15–20 in total</b>:
+        MDE/MDEA ~10, salvinorin A ~4, and one each for 2C-B, DOET and MDA. The rest add nothing PubMed
+        isn't already returning.
+      </p>
+      <p>
+        That is an argument <em>for</em> making them explicit rather than against it — a named term is
+        auditable, reproducible, and survives a record that happens to lack the class tag — but the team
+        should not expect a large batch of new screening work. <b>Expect tens, not hundreds.</b>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CHANGES ============ -->
+  <section id="changes">
+    <p class="sec-label">Part 1</p>
+    <h2>The changes, with rationale</h2>
+    <p class="sub">
+      Grouped by why each edit is being made. Groups A and B are additions, C fixes a known omission,
+      and D and E are removals.
+    </p>
+
+    <!-- A -->
+    <div class="grp">
+      <div class="grp-head"><h3>A · New compounds, screened-in during review</h3>
+        <span class="tag">8 compounds</span><span class="badge b-add">add to all 5</span></div>
+      <p>
+        These came up during screening and fit the pharmacology the search already covers: classic
+        5-HT2A agonists (the phenethylamine and tryptamine psychedelics) and MDMA-type entactogens. The
+        phenethylamine additions close a real gap — the strategy searched the phenethylamine psychedelic
+        mescaline but none of its 2C-x or DOx siblings.
+      </p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Compound</th><th>Class / why it fits</th><th>Controlled vocabulary <span class="badge b-ver">NLM-verified</span></th></tr></thead>
+          <tbody>
+            <tr><td><b>2C-B</b><br><span class="db-syntax">4-bromo-2,5-dimethoxyphenethylamine</span></td>
+              <td>Classic phenethylamine psychedelic; already present in the corpus</td>
+              <td class="mono">2-(4-bromo-2,5-dimethoxyphenyl)ethylamine <span class="db-syntax">(Suppl. Concept)</span></td></tr>
+            <tr><td><b>DOI</b> / r-DOI</td><td>Classic DOx phenethylamine psychedelic (5-HT2A agonist)</td>
+              <td class="mono">4-iodo-2,5-dimethoxyphenylisopropylamine <span class="db-syntax">(Suppl. Concept)</span></td></tr>
+            <tr><td><b>DOM</b> (STP)<br><span class="db-syntax">2,5-dimethoxy-4-methylamphetamine</span></td>
+              <td>Classic DOx phenethylamine psychedelic</td>
+              <td class="mono">DOM 2,5-Dimethoxy-4-Methylamphetamine <span class="db-syntax">(MeSH descriptor)</span></td></tr>
+            <tr><td><b>DOET</b><br><span class="db-syntax">2,5-dimethoxy-4-ethylamphetamine</span></td>
+              <td>Classic DOx phenethylamine psychedelic</td>
+              <td class="mono">2,5-dimethoxy-4-ethylamphetamine <span class="db-syntax">(Suppl. Concept)</span></td></tr>
+            <tr><td><b>DPT</b><br><span class="db-syntax">dipropyltryptamine</span></td>
+              <td>Classic tryptamine psychedelic with a psychedelic-therapy history</td>
+              <td class="mono">dipropyltryptamine <span class="db-syntax">(Suppl. Concept)</span></td></tr>
+            <tr><td><b>MDA</b><br><span class="db-syntax">tenamfetamine (INN)</span></td>
+              <td>Parent entactogen of the MDMA family; more psychedelic than MDMA</td>
+              <td class="mono">3,4-Methylenedioxyamphetamine <span class="db-syntax">(MeSH descriptor)</span></td></tr>
+            <tr><td><b>MDE / MDEA</b> ("Eve")</td>
+              <td>N-ethyl homolog of MDMA — entactogen<br><span class="db-syntax">Note: “MDE” and “N-ethyl-3,4-methylenedioxyamphetamine” on the candidate list are the same drug</span></td>
+              <td class="mono">3,4-methylenedioxyethamphetamine <span class="db-syntax">(Suppl. Concept)</span></td></tr>
+            <tr><td><b>SPL-026</b></td>
+              <td>Code name for <b>intravenous DMT</b> (Small Pharma / Cybin) — belongs with the other DMT code names</td>
+              <td class="mono">— <span class="db-syntax">free text only</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- B -->
+    <div class="grp">
+      <div class="grp-head"><h3>B · Harmonisation — Embase-only compounds brought to the other four</h3>
+        <span class="tag">3 compounds</span><span class="badge b-add">add to 4</span></div>
+      <p>
+        These three are already searched in Embase through the <code>'psychedelic agent'</code> EMTREE branch
+        but have no equivalent anywhere else, so they currently produce Embase-exclusive hits. Ruling them
+        in-scope means mirroring them into PubMed, Scopus, Web of Science and PsycINFO. <b>No Embase change
+        is needed for these</b> — the EMTREE terms already there stay as they are.
+      </p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Compound</th><th>Already in Embase as</th><th>Controlled vocabulary elsewhere <span class="badge b-ver">NLM-verified</span></th></tr></thead>
+          <tbody>
+            <tr><td><b>Bufotenin</b> <span class="db-syntax">(5-OH-DMT)</span></td><td class="mono">'bufotenine'/exp</td>
+              <td class="mono">Bufotenin <span class="db-syntax">(MeSH descriptor)</span></td></tr>
+            <tr><td><b>5-MeO-DiPT</b> <span class="db-syntax">("foxy")</span></td><td class="mono">'n,n diisopropyl 5 methoxytryptamine'/exp</td>
+              <td class="mono">5-methoxy-N,N-diisopropyltryptamine <span class="db-syntax">(Suppl. Concept)</span></td></tr>
+            <tr><td><b>Salvinorin A</b> <span class="db-syntax">(Salvia divinorum)</span></td><td class="mono">'salvinorin A'/exp</td>
+              <td class="mono">salvinorin A · Salvia divinorum <span class="db-syntax">(Suppl. Concepts)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="gate info">
+        <p>
+          <b>Scope note on salvinorin A.</b> It is a genuine psychedelic but a <em>κ-opioid</em> one, not a
+          5-HT2A agonist — the one addition here that widens the mechanism boundary rather than filling it in.
+          Including it is a deliberate call; it is recorded here so the reasoning is not lost.
+        </p>
+      </div>
+    </div>
+
+    <!-- C -->
+    <div class="grp">
+      <div class="grp-head"><h3>C · Fix the Embase omission</h3>
+        <span class="tag">1 term</span><span class="badge b-fix">Embase only</span></div>
+      <p>
+        <code>deudimethyltryptamine</code> (deuterated DMT) sits in the <code>'psychedelic agent'</code>
+        EMTREE branch but was left out of the manually re-added child list — an oversight, not a scope
+        decision. It is unambiguously in scope: it is the compound behind <code>HLP-004</code>, already
+        searched by code name in every database. Add to the Embase drug block:
+      </p>
+      <pre><code>OR 'deudimethyltryptamine'/exp</code></pre>
+      <p style="font-size:.9rem;color:var(--ink-2)">
+        Adding it to Embase is necessary but <b>not sufficient</b> — see group D, which closes the same gap
+        in the other four databases.
+      </p>
+    </div>
+
+    <!-- D — aliases -->
+    <div class="grp">
+      <div class="grp-head"><h3>D · Restore missing INN and predecessor-code aliases</h3>
+        <span class="tag">2 compounds · 4 terms</span><span class="badge b-add">add to all 5</span></div>
+      <p>
+        These are <em>not</em> new compounds — they are additional <b>names</b> for two compounds the review
+        already searches: <code>HLP-003</code> (deuterated psilocin) and <code>HLP-004</code> (deuterated DMT),
+        both Helus Pharma candidates. Outside Embase, each is currently reachable <b>only by its current code
+        name</b>, and two separate things close that gap.
+      </p>
+
+      <h4 style="font-family:Newsreader,serif;font-size:1.02rem;margin:18px 0 0">Why the wildcards don't cover it</h4>
+      <p>
+        Database truncation is <b>left-anchored</b>: <code>psilo*</code> matches words <em>beginning</em>
+        "psilo", so it cannot reach "deu<b>psilo</b>cin". The same applies to
+        <code>Dimethyltryptamine</code> sitting inside "deu<b>dimethyltryptamine</b>". An audit of the whole
+        <code>'psychedelic agent'</code> branch found these are the <b>only two</b> children not already
+        covered by chemical name in all five databases — every other one is reached by
+        <code>bretisilocin*</code>, <code>luvesilocin*</code>, <code>lysergide*</code>,
+        <code>Mebufotenin</code>, <code>mescalin*</code>, <code>midomafetamine*</code>, or
+        <code>psilo*</code> matching psilocin/psilocybine directly.
+      </p>
+
+      <h4 style="font-family:Newsreader,serif;font-size:1.02rem;margin:18px 0 0">The predecessor code names are searched nowhere</h4>
+      <p>
+        <code>HLP-003</code> and <code>HLP-004</code> were formerly <code>CYB003</code> and
+        <code>CYB004</code>, renamed when <b>Cybin rebranded to Helus Pharma</b>. Only the post-rebrand names
+        are in the strategies. This is the same alias drift the review already handles correctly for
+        <code>MM120</code>→<code>DT120</code> and <code>BETR-001</code>→<code>TD-0148A</code>, where both
+        sides are searched.
+      </p>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Compound</th><th>Searched today as</th><th>Missing names to add</th></tr></thead>
+          <tbody>
+            <tr><td><b>Deuterated psilocin</b><br><span class="db-syntax">Helus Pharma</span></td>
+              <td class="mono">HLP-003 <span class="db-syntax">(all 5)</span><br>'deupsilocin'/exp <span class="db-syntax">(Embase only)</span></td>
+              <td class="mono">deupsilocin* · CYB-003</td></tr>
+            <tr><td><b>Deuterated DMT</b><br><span class="db-syntax">Helus Pharma</span></td>
+              <td class="mono">HLP-004 <span class="db-syntax">(all 5)</span><br><span class="db-syntax">EMTREE term missing — see group C</span></td>
+              <td class="mono">deudimethyltryptamine* · CYB-004</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gate info">
+        <p>
+          <b>No records are being lost today.</b> Both chemical names return <b>zero</b> PubMed
+          title/abstract records — the literature uses code names or prose ("deuterated psilocin analogue"),
+          and prose <em>is</em> caught, since <code>psilo*</code> matches the standalone word "psilocin".
+          <code>CYB004</code> has one record, picked up incidentally because it co-occurs with "DMT". So this
+          is a <b>latent inconsistency and a future risk</b>, not a live gap — INN names do get adopted over
+          time, which is exactly what happened with luvesilocin and bretisilocin. The terms are unique,
+          zero-noise tokens, so the fix is cheap insurance.
+        </p>
+      </div>
+    </div>
+
+    <!-- E -->
+    <div class="grp">
+      <div class="grp-head"><h3>E · Drop out-of-scope terms from Embase</h3>
+        <span class="tag">4 terms</span><span class="badge b-rm">Embase only</span></div>
+      <p>
+        These four entered as a side effect of re-adding the <code>'psychedelic agent'</code> children after
+        pruning the <code>cannabinoid</code> branch. None is a psychedelic administered in trials:
+        two are precursor/ergot chemistry, one is a PCP-type dissociative, and one is an obscure chemical
+        with no clinical use. Removing them also keeps the dissociative boundary consistent — the review
+        does not search ketamine or any other dissociative.
+      </p>
+      <pre class="rm"><code>REMOVE from Embase block #1:
+  OR 'lysergic acid'/exp                             ← LSD precursor, not psychedelic itself
+  OR 'elymoclavine'/exp                              ← clavine ergot alkaloid
+  OR 'tenocyclidine'/exp                             ← PCP-type dissociative
+  OR 'n (3,4,5 trimethoxyphenylethyl)aziridine'/exp  ← obscure mescaline-related chemical</code></pre>
+      <div class="gate warn">
+        <p>
+          <b>Keep <code>'lysergide'/exp</code>.</b> It is a different EMTREE term and it is LSD itself — only
+          <code>'lysergic acid'/exp</code> (the precursor) is being removed. Easy to conflate when editing.
+        </p>
+      </div>
+    </div>
+
+    <!-- F -->
+    <div class="grp">
+      <div class="grp-head"><h3>F · Remove MDMT everywhere</h3>
+        <span class="tag">1 term × 5 databases</span><span class="badge b-rm">all 5</span></div>
+      <p>
+        There is no established psychedelic or trial-tested drug named MDMT; the term appears to be a
+        pattern-completion of the methylenedioxy series (MDMA → MDMC → MDMT). It contributes no sensitivity
+        and adds acronym noise. Remove the corresponding token from each strategy:
+      </p>
+      <pre class="rm"><code>PubMed     REMOVE  OR "MDMT"[Title/Abstract]
+Embase     REMOVE  OR "mdmt":ti,ab
+Scopus     REMOVE  OR "MDMT"
+WoS        REMOVE  OR "MDMT"          (in BOTH the TI= and AB= halves)
+PsycINFO   REMOVE  OR "MDMT"</code></pre>
+    </div>
+
+    <!-- G -->
+    <div class="grp">
+      <div class="grp-head"><h3>G · Code-name tokenisation fix</h3>
+        <span class="tag">existing terms · PubMed confirmed</span><span class="badge b-fix">defect</span></div>
+      <p>
+        This one is not about <em>which</em> drugs are searched but about <em>how the code names are written</em>,
+        and it affects terms already in the strategy. It was found while checking why <code>SPL-026</code>
+        behaved oddly.
+      </p>
+
+      <h4 style="font-family:Newsreader,serif;font-size:1.05rem;margin:20px 0 0">The mechanism: PubMed reads a hyphen as a space</h4>
+      <p>
+        <code>"SPL-026"</code> and <code>"SPL 026"</code> return <b>identical result sets</b> — same counts,
+        same PMIDs. PubMed splits the hyphen into two tokens, <code>spl</code> and <code>026</code>, and a
+        quoted phrase requires them adjacent and in order. Three spellings therefore behave as three
+        different searches:
+      </p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="mono">Query form</th><th>Matches a paper writing…</th><th>Collision surface</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">"SPL-026"[tiab]</td><td><code>SPL-026</code> or <code>SPL 026</code></td><td>low — adjacency required</td></tr>
+            <tr><td class="mono">"SPL026"[tiab]</td><td><code>SPL026</code> only <span class="db-syntax">(one fused token)</span></td><td class="safe">none — a unique token</td></tr>
+            <tr><td class="mono">"SPL-026"[tiab:~3]</td><td>any <code>spl</code> within 3 words of any <code>026</code></td><td class="danger">high — see below</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gate stop">
+        <h4>Why <code>:~3</code> is actively harmful on numeric code names</h4>
+        <p>
+          The token <code>026</code> is not unique to code names — it is also how <b><code>0.026</code></b>
+          indexes. PubMed holds <b>57,209</b> abstracts containing the token <code>026</code> and
+          <b>1,548,628</b> containing <code>001</code>. So a proximity search for <code>MSD</code> near
+          <code>001</code> matches any abstract that defines “MSD” as something (<em>male sexual
+          dysfunction</em>, <em>Modified Sishen Decoction</em>…) and reports <em>p &lt; 0.001</em> within three
+          words. <b>33 of MSD-001's 39 proximity hits (85%) contain <code>0.001</code>.</b>
+        </p>
+      </div>
+
+      <p>Auditing every <code>:~3</code> code name in the current PubMed strategy against a psychedelic
+        relevance net:</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="mono">Term as written</th><th class="num">Records</th><th class="num">Relevant</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">"APEX-90"[tiab:~3]</td><td class="num">58</td><td class="num">0</td><td class="danger">all noise</td></tr>
+            <tr><td class="mono">"MSD-001"[tiab:~3]</td><td class="num">39</td><td class="num">0</td><td class="danger">all noise</td></tr>
+            <tr><td class="mono">"APEX-52"[tiab:~3]</td><td class="num">33</td><td class="num">0</td><td class="danger">all noise</td></tr>
+            <tr><td class="mono">"SON-001"[tiab:~3]</td><td class="num">19</td><td class="num">0</td><td class="danger">all noise</td></tr>
+            <tr><td class="mono">"AP-188"[tiab:~3]</td><td class="num">15</td><td class="num">0</td><td class="danger">all noise</td></tr>
+            <tr><td class="mono">"HLP-003"[tiab:~3]</td><td class="num">3</td><td class="num">0</td><td class="danger">all noise — <b>and misses the 1 real record</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="gate stop">
+        <p>
+          <b>The HLP-003 case is the important one.</b> Its proximity form returns 3 records, none relevant,
+          and the one genuine record — indexed as <code>HLP003</code> — is <b>not among them</b>. The two
+          result sets are entirely disjoint. So <code>:~3</code> is not merely imprecise here; it returns
+          noise <em>and</em> misses the real hit.
+        </p>
+      </div>
+
+      <h4 style="font-family:Newsreader,serif;font-size:1.05rem;margin:22px 0 0">What the concatenated form recovers</h4>
+      <p>
+        <code>"SPL026"[tiab]</code> returns exactly three records, and they are the right ones — the Phase IIa
+        DMT trial, the healthy-volunteer safety study, and the DMT pharmacokinetics paper. The literature
+        writes this compound <b>SPL026</b>, so the hyphenated form finds none of them. No hyphenated code name
+        anywhere in the five strategies currently has a concatenated variant.
+      </p>
+
+      <h4 style="font-family:Newsreader,serif;font-size:1.05rem;margin:22px 0 0">Proposed rule</h4>
+      <pre><code>Every hyphenated code name gets BOTH forms:      "XXX-000"  OR  "XXX000"
+
+Drop :~3 wherever the prefix is a common abbreviation or the numeric
+half could read as a decimal — replace it with the two forms above.
+Retain :~3 only for distinctive multi-letter prefixes (NYPRG, GMX, SYNP).</code></pre>
+      <p>
+        Hyphenated + concatenated covers all three spellings (<code>XXX-000</code>, <code>XXX 000</code>,
+        <code>XXX000</code>) while requiring adjacency, so it is strictly better than <code>:~3</code> on these
+        terms: same or better recall, and none of the p-value noise. Applying it removes roughly
+        <b>164 irrelevant records</b> from the PubMed search and recovers real records currently missed.
+      </p>
+      <div class="gate info">
+        <p>
+          <b>Terms to revise in the current PubMed strategy:</b> add concatenated variants to
+          <code>BPL-002</code>, <code>BPL-003</code>, <code>DLX-001</code>, <code>GM-2505</code>,
+          <code>TSND-201</code>, <code>LSR-1019</code>, <code>MSD-001</code>, <code>EMP-01</code>,
+          <code>VLS-01</code>; and replace <code>:~3</code> with the two-form pattern on
+          <code>AP-188</code>, <code>APEX-52</code>, <code>APEX-90</code>, <code>SON-001</code>,
+          <code>MSD-001</code>, <code>HLP-003</code>, <code>HLP-004</code>, <code>EB-003</code>,
+          <code>MLS-101</code>, <code>PSX-001</code>, <code>NBX-100</code>, <code>NBX-200</code>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PER-DATABASE BLOCKS ============ -->
+  <section id="blocks">
+    <p class="sec-label">Part 2</p>
+    <h2>Per-database term blocks</h2>
+    <p class="sub">
+      Ready to paste into block <code>#1 All drugs</code>, in each database's own syntax and matching the
+      quoting/wildcard conventions already used in that file. Each addition is written to be OR'd into the
+      existing chain.
+    </p>
+
+    <!-- PUBMED -->
+    <div class="db">
+      <div class="db-head"><h3 class="dbh">PubMed</h3>
+        <span class="db-syntax">MeSH descriptors · [Supplementary Concept] · [Title/Abstract]</span></div>
+      <p>All headings below were confirmed against the NLM MeSH database. Note that four are
+        <b>Supplementary Concept</b> records, not descriptors — the same tag the strategy already uses for
+        <code>methylone</code>.</p>
+      <h4>Add <span class="badge b-add">additions</span></h4>
+      <pre><code>OR "2C-B"[Title/Abstract] OR "2CB"[Title/Abstract] OR "4-bromo-2,5-dimethoxyphenethylamine"[Title/Abstract] OR "bromo-dimethoxyphenethylamine"[Title/Abstract] OR "2-(4-bromo-2,5-dimethoxyphenyl)ethylamine"[Supplementary Concept]
+OR "4-iodo-2,5-dimethoxyphenylisopropylamine"[Supplementary Concept] OR "2,5-dimethoxy-4-iodoamphetamine"[Title/Abstract] OR "dimethoxyiodoamphetamine"[Title/Abstract]
+OR "DOM 2,5-Dimethoxy-4-Methylamphetamine"[MeSH Terms] OR "2,5-dimethoxy-4-methylamphetamine"[Title/Abstract] OR "dimethoxymethylamphetamine"[Title/Abstract]
+OR "2,5-dimethoxy-4-ethylamphetamine"[Supplementary Concept] OR "2,5-dimethoxy-4-ethylamphetamine"[Title/Abstract] OR "DOET"[Title/Abstract]
+OR "dipropyltryptamine"[Supplementary Concept] OR "dipropyltryptamine"[Title/Abstract]
+OR "3,4-Methylenedioxyamphetamine"[MeSH Terms] OR "methylenedioxyamphetamine"[Title/Abstract] OR "tenamfetamine"[Title/Abstract]
+OR "3,4-methylenedioxyethamphetamine"[Supplementary Concept] OR "methylenedioxyethamphetamine"[Title/Abstract] OR "methylenedioxyethylamphetamine"[Title/Abstract] OR "MDEA"[Title/Abstract]
+OR "Bufotenin"[MeSH Terms] OR "bufotenin*"[Title/Abstract]
+OR "5-methoxy-N,N-diisopropyltryptamine"[Supplementary Concept] OR "5-MeO-DiPT"[Title/Abstract] OR "methoxydiisopropyltryptamine"[Title/Abstract]
+OR "salvinorin A"[Supplementary Concept] OR "salvinorin*"[Title/Abstract] OR "Salvia divinorum"[Supplementary Concept] OR "Salvia divinorum"[Title/Abstract]
+OR "SPL-026"[Title/Abstract] OR "SPL026"[Title/Abstract]</code></pre>
+      <h4>Add — aliases <span class="badge b-add">group D</span></h4>
+      <pre><code>OR "deupsilocin*"[Title/Abstract] OR "deudimethyltryptamine*"[Title/Abstract]
+OR "CYB-003"[Title/Abstract] OR "CYB003"[Title/Abstract]
+OR "CYB-004"[Title/Abstract] OR "CYB004"[Title/Abstract]</code></pre>
+      <div class="gate warn">
+        <p>
+          <b>Deliberately hyphenated + concatenated, and deliberately <em>not</em> <code>:~3</code></b> — see
+          group G. Proximity on a code name ending in <code>003</code> matches the token <code>003</code>
+          inside any p-value of <code>0.003</code>, which is why the equivalent existing terms return almost
+          pure noise.
+        </p>
+      </div>
+      <h4>Remove <span class="badge b-rm">removal</span></h4>
+      <pre class="rm"><code>OR "MDMT"[Title/Abstract]</code></pre>
+    </div>
+
+    <!-- EMBASE -->
+    <div class="db">
+      <div class="db-head"><h3 class="dbh">Embase</h3>
+        <span class="db-syntax">EMTREE /exp · /de · :ti,ab</span></div>
+      <div class="gate warn">
+        <p>
+          <b>Confirm each EMTREE term in the Embase interface before running.</b> EMTREE is a proprietary
+          thesaurus with no public API, so unlike the PubMed headings these could not be verified
+          programmatically — they are the expected preferred terms (Embase prefers INNs, hence
+          <code>tenamfetamine</code> for MDA). If a term does not resolve, drop the <code>/exp</code> line
+          and rely on the <code>:ti,ab</code> free text beside it, which works regardless.
+        </p>
+      </div>
+      <h4>Add — EMTREE <span class="badge b-ver">verify in-interface</span></h4>
+      <pre><code>OR 'deudimethyltryptamine'/exp
+OR 'tenamfetamine'/exp
+OR '3,4 methylenedioxyethylamphetamine'/exp
+OR '4 bromo 2,5 dimethoxyphenethylamine'/exp
+OR '2,5 dimethoxy 4 methylamphetamine'/exp
+OR '2,5 dimethoxy 4 ethylamphetamine'/exp
+OR '4 iodo 2,5 dimethoxyamphetamine'/exp
+OR 'dipropyltryptamine'/exp</code></pre>
+      <h4>Add — free text (works whether or not the EMTREE term resolves)</h4>
+      <pre><code>OR "2c-b":ti,ab OR "2cb":ti,ab OR "4-bromo-2,5-dimethoxyphenethylamine":ti,ab OR "bromo-dimethoxyphenethylamine":ti,ab
+OR "2,5-dimethoxy-4-iodoamphetamine":ti,ab OR "dimethoxyiodoamphetamine":ti,ab
+OR "2,5-dimethoxy-4-methylamphetamine":ti,ab OR "dimethoxymethylamphetamine":ti,ab
+OR "2,5-dimethoxy-4-ethylamphetamine":ti,ab OR "doet":ti,ab
+OR "dipropyltryptamine":ti,ab
+OR "methylenedioxyamphetamine":ti,ab OR "tenamfetamine":ti,ab
+OR "methylenedioxyethamphetamine":ti,ab OR "methylenedioxyethylamphetamine":ti,ab OR "mdea":ti,ab
+OR "spl-026":ti,ab OR "spl026":ti,ab</code></pre>
+      <h4>Add — aliases <span class="badge b-add">group D</span></h4>
+      <pre><code>OR "deupsilocin*":ti,ab OR "deudimethyltryptamine*":ti,ab
+OR "cyb-003":ti,ab OR "cyb003":ti,ab OR "cyb-004":ti,ab OR "cyb004":ti,ab</code></pre>
+      <p style="font-size:.9rem;color:var(--ink-2)">
+        Bufotenin, 5-MeO-DiPT and salvinorin A need <b>no Embase addition</b> — their EMTREE terms are
+        already in the block. <code>'deupsilocin'/exp</code> is likewise already present; the free-text form
+        above is added for consistency with the other four databases.
+      </p>
+      <h4>Remove <span class="badge b-rm">removals</span></h4>
+      <pre class="rm"><code>OR 'lysergic acid'/exp
+OR 'elymoclavine'/exp
+OR 'tenocyclidine'/exp
+OR 'n (3,4,5 trimethoxyphenylethyl)aziridine'/exp
+OR "mdmt":ti,ab</code></pre>
+    </div>
+
+    <!-- SCOPUS -->
+    <div class="db">
+      <div class="db-head"><h3 class="dbh">Scopus</h3>
+        <span class="db-syntax">TITLE-ABS( ) · INDEXTERMS( ) · W/n proximity</span></div>
+      <p>Scopus <code>INDEXTERMS</code> draws on both MeSH and EMTREE, so the verified headings work here
+        too. Keep the additions inside the existing <code>TITLE-ABS(...)</code> chain and add the
+        <code>INDEXTERMS</code> clauses alongside the ones already at the end of the block.</p>
+      <h4>Add — inside <code>TITLE-ABS( )</code> <span class="badge b-add">additions</span></h4>
+      <pre><code>OR "2C-B" OR "2CB" OR "4-bromo-2,5-dimethoxyphenethylamine" OR "bromo-dimethoxyphenethylamine"
+OR "2,5-dimethoxy-4-iodoamphetamine" OR "dimethoxyiodoamphetamine"
+OR "2,5-dimethoxy-4-methylamphetamine" OR "dimethoxymethylamphetamine"
+OR "2,5-dimethoxy-4-ethylamphetamine" OR "DOET"
+OR "dipropyltryptamine"
+OR "methylenedioxyamphetamine" OR "tenamfetamine"
+OR "methylenedioxyethamphetamine" OR "methylenedioxyethylamphetamine" OR "MDEA"
+OR "bufotenin*"
+OR "5-MeO-DiPT" OR "methoxydiisopropyltryptamine"
+OR "salvinorin*" OR "Salvia divinorum"
+OR "SPL-026" OR "SPL026"</code></pre>
+      <h4>Add — index terms</h4>
+      <pre><code>OR INDEXTERMS("3,4-Methylenedioxyamphetamine") OR INDEXTERMS("Bufotenin") OR INDEXTERMS("salvinorin A") OR INDEXTERMS("Salvia divinorum") OR INDEXTERMS("DOM 2,5-Dimethoxy-4-Methylamphetamine") OR INDEXTERMS("dipropyltryptamine")</code></pre>
+      <h4>Add — aliases <span class="badge b-add">group D</span></h4>
+      <pre><code>OR "deupsilocin*" OR "deudimethyltryptamine*" OR "CYB-003" OR "CYB003" OR "CYB-004" OR "CYB004"</code></pre>
+      <h4>Remove <span class="badge b-rm">removal</span></h4>
+      <pre class="rm"><code>OR "MDMT"</code></pre>
+    </div>
+
+    <!-- WOS -->
+    <div class="db">
+      <div class="db-head"><h3 class="dbh">Web of Science</h3>
+        <span class="db-syntax">TI= / AB= · NEAR/n · no controlled vocabulary</span></div>
+      <div class="gate warn">
+        <p>
+          <b>Web of Science has no thesaurus</b>, so it gets free text only — which means the six
+          collision-prone compounds (DOI, MDA, DOM, DPT, MDE, STP) are reachable here <em>only</em> by their
+          spelled-out names. Sensitivity for those is therefore slightly lower in WoS than elsewhere by
+          design; that is the correct trade against tens of thousands of false positives.
+        </p>
+      </div>
+      <h4>Add — to <b>both</b> the <code>TI=(...)</code> and <code>AB=(...)</code> halves <span class="badge b-add">additions</span></h4>
+      <pre><code>OR "2C-B" OR "2CB" OR "4-bromo-2,5-dimethoxyphenethylamine" OR "bromo-dimethoxyphenethylamine"
+OR "2,5-dimethoxy-4-iodoamphetamine" OR "dimethoxyiodoamphetamine"
+OR "2,5-dimethoxy-4-methylamphetamine" OR "dimethoxymethylamphetamine"
+OR "2,5-dimethoxy-4-ethylamphetamine" OR "DOET"
+OR "dipropyltryptamine"
+OR "methylenedioxyamphetamine" OR "tenamfetamine"
+OR "methylenedioxyethamphetamine" OR "methylenedioxyethylamphetamine" OR "MDEA"
+OR "bufotenin*"
+OR "5-MeO-DiPT" OR "methoxydiisopropyltryptamine"
+OR "salvinorin*" OR "Salvia divinorum"
+OR "SPL-026" OR "SPL026"</code></pre>
+      <h4>Add — aliases <span class="badge b-add">group D</span></h4>
+      <pre><code>OR "deupsilocin*" OR "deudimethyltryptamine*" OR "CYB-003" OR "CYB003" OR "CYB-004" OR "CYB004"</code></pre>
+      <h4>Remove <span class="badge b-rm">removal</span></h4>
+      <pre class="rm"><code>OR "MDMT"      ← appears in BOTH the TI= and AB= halves; remove both</code></pre>
+    </div>
+
+    <!-- PSYCINFO -->
+    <div class="db">
+      <div class="db-head"><h3 class="dbh">PsycINFO</h3>
+        <span class="db-syntax">TI,AB( ) · MAINSUBJECT.EXACT( ) · NEAR/n</span></div>
+      <p>
+        The APA thesaurus is coarser than MeSH and carries compound-level terms only for the best-known
+        drugs — the strategy already uses the four that exist (LSD, Psilocybin, MDMA, Mescaline). None of
+        the new compounds is likely to have its own thesaurus term, so these go in as free text.
+      </p>
+      <h4>Add — inside <code>TI,AB( )</code> <span class="badge b-add">additions</span></h4>
+      <pre><code>OR "2C-B" OR "2CB" OR "4-bromo-2,5-dimethoxyphenethylamine" OR "bromo-dimethoxyphenethylamine"
+OR "2,5-dimethoxy-4-iodoamphetamine" OR "dimethoxyiodoamphetamine"
+OR "2,5-dimethoxy-4-methylamphetamine" OR "dimethoxymethylamphetamine"
+OR "2,5-dimethoxy-4-ethylamphetamine" OR "DOET"
+OR "dipropyltryptamine"
+OR "methylenedioxyamphetamine" OR "tenamfetamine"
+OR "methylenedioxyethamphetamine" OR "methylenedioxyethylamphetamine" OR "MDEA"
+OR "bufotenin*"
+OR "5-MeO-DiPT" OR "methoxydiisopropyltryptamine"
+OR "salvinorin*" OR "Salvia divinorum"
+OR "SPL-026" OR "SPL026"</code></pre>
+      <h4>Add — aliases <span class="badge b-add">group D</span></h4>
+      <pre><code>OR "deupsilocin*" OR "deudimethyltryptamine*" OR "CYB-003" OR "CYB003" OR "CYB-004" OR "CYB004"</code></pre>
+      <h4>Optional — a class-level thesaurus term <span class="badge b-ver">verify in-interface</span></h4>
+      <p style="font-size:.9rem;color:var(--ink-2);margin-top:8px">
+        PsycINFO appears to carry a broad <b>“Hallucinogenic Drugs”</b> thesaurus term, which the strategy
+        does not currently use — it relies on free-text <code>hallucinogen*</code> / <code>psychedelic*</code>
+        instead. Adding it would catch records indexed to the class but not using either word in the
+        title/abstract. This could not be confirmed from a public source, so <b>check it in the thesaurus
+        browser first</b>; if it resolves, consider adding:
+      </p>
+      <pre><code>OR MAINSUBJECT.EXACT("Hallucinogenic Drugs")</code></pre>
+      <h4>Remove <span class="badge b-rm">removal</span></h4>
+      <pre class="rm"><code>OR "MDMT"</code></pre>
+    </div>
+  </section>
+
+  <!-- ============ VERIFY ============ -->
+  <section id="verify">
+    <p class="sec-label">Part 3</p>
+    <h2>Before you run it</h2>
+    <p class="sub">
+      Three things need checking in the database interfaces, and the re-run has an order worth following so
+      the PRISMA numbers stay reconcilable.
+    </p>
+
+    <ol class="checks">
+      <li>
+        <h4>Confirm the EMTREE terms resolve</h4>
+        <p>Eight <code>/exp</code> terms in the Embase block are expected preferred terms that could not be
+          verified programmatically. Look each up in EMTREE; if one does not exist, drop that line — the
+          paired <code>:ti,ab</code> free text covers the compound either way.</p>
+      </li>
+      <li>
+        <h4>Check the PsycINFO “Hallucinogenic Drugs” thesaurus term</h4>
+        <p>Optional but potentially valuable, since it is a class-level term the strategy currently lacks.
+          Verify in the thesaurus browser before adding; if added, note it in the strategy file as a
+          deliberate scope expansion rather than a term-level edit.</p>
+      </li>
+      <li>
+        <h4>Run the tokenisation probe in each of the other four databases <span class="badge b-ver">required</span></h4>
+        <p>
+          <b>Group G is proven for PubMed only.</b> Hyphen handling is a property of each search platform,
+          not of the query — Embase, Scopus, Web of Science and PsycINFO each run different engines, and any
+          of them may normalise hyphens (making the two forms equivalent), treat them as literal characters,
+          or split them as PubMed does. None of this could be tested from outside, since all four are
+          subscription platforms with no open API. Someone logged in needs to run this three-line probe in
+          each, using a code name with known real records:
+        </p>
+        <pre><code>1.  "SPL-026"     (hyphenated)
+2.  "SPL026"      (concatenated)
+3.  SPL NEAR/3 026   /  SPL W/3 026     (platform proximity form)
+
+Repeat with "BPL-003" / "BPL003", which has 6 known PubMed records.</code></pre>
+        <p>How to read the result:</p>
+        <ul class="plain">
+          <li><b>1 and 2 return the same records</b> → that platform normalises hyphens; one form is enough,
+            and group G does not apply there.</li>
+          <li><b>1 and 2 differ</b> → same behaviour as PubMed; apply the two-form rule in that database.</li>
+          <li><b>3 returns far more than 1 or 2</b> → proximity is importing noise; sample a few records and
+            check for decimals/p-values before keeping it.</li>
+        </ul>
+        <p>
+          Record the three counts per database so the decision is documented rather than assumed — the
+          two-form pattern is harmless everywhere, so the safe default if a probe is inconclusive is to
+          include both spellings.
+        </p>
+      </li>
+      <li>
+        <h4>Record the before/after counts per database</h4>
+        <p>Current totals are PubMed 4,399 · Embase 4,042 · Scopus 2,964 · Web of Science 2,919 ·
+          PsycINFO 1,558. Capture the new totals so the PRISMA <em>records identified</em> figure and
+          <code>prisma_manual.json</code> can be updated together. Expect a small net increase — tens of
+          records, not hundreds — and a small <em>decrease</em> in Embase from the four dropped terms.</p>
+      </li>
+      <li>
+        <h4>Re-run all five in one sitting, then re-export</h4>
+        <p>Mixed-date exports make the deduplication and the PRISMA funnel hard to reconcile. Run and export
+          all five with the same date stamp into a new <code>MASTER_DATABASE/search/MM-DD-YY</code> folder,
+          following the per-database export instructions already in each strategy file.</p>
+      </li>
+      <li>
+        <h4>Expect the new records to be mostly already-screened duplicates</h4>
+        <p>Because the class-net terms were already catching most of these compounds, a large share of what
+          comes back will deduplicate against records Covidence has already seen. The genuinely new items
+          should be a manageable batch — and worth checking that MDE/MDEA and salvinorin A, the two with the
+          highest marginal yield, behave as expected.</p>
+      </li>
+      <li>
+        <h4>Consider whether other code names have the same alias drift</h4>
+        <p>Group D was found by asking whether every compound is searchable by <em>every</em> name it has
+          carried. Two further candidates are worth a look on the same principle: <code>HLP005</code> /
+          <code>CYB005</code> (a phenethylamine derivative, currently preclinical and in neither strategy),
+          and any future rebrand — the review has already absorbed two company renames
+          (MindMed→Definium, Cybin→Helus).</p>
+      </li>
+      <li>
+        <h4>Update the strategy files and the inventory together</h4>
+        <p>Once approved, the five files in <code>MASTER_DATABASE/search/strategies/</code> need editing, and
+          the <a href="https://claude.ai/code/artifact/c29044c5-94c0-4ce4-b188-c67ee560e854" target="_blank"
+            rel="noopener">Drug search inventory</a> needs the new compounds added and the resolved decisions
+          marked, so the two documents do not drift apart.</p>
+      </li>
+    </ol>
+
+    <div class="gate">
+      <h4>Not included in this plan</h4>
+      <p>
+        The screening-list candidates ruled <b>out of scope</b> were: TFMPP, BZP and mCPP (piperazines —
+        not 5-HT2A psychedelics; mCPP in particular is a widely used challenge agent that would flood the
+        search), PCP and NR2B NAMs (dissociative / glutamatergic — the review does not search ketamine or
+        any dissociative), α-PVP and 4-fluoroamphetamine (stimulants), mephedrone/4-MMC and 3-MMC
+        (cathinone stimulants — methylone is included because it is the β-keto analog of MDMA, which these
+        are not), GHB (depressant), and calea (oneirogen, not a 5-HT2A psychedelic). Also excluded:
+        <b>m-DASC</b>, which is not a drug at all but the micro-Dimensional Altered States of Consciousness
+        <em>questionnaire</em> — an outcome instrument that had slipped onto the drug list.
+      </p>
+    </div>
+  </section>
+
+  <p class="footnote">
+    MeSH descriptors and Supplementary Concept records verified against the NLM MeSH database via NCBI
+    E-utilities, 17 Sep 2026. Acronym-collision and marginal-yield counts are PubMed queries restricted to
+    English-language, non-animal records using a compact RCT proxy (<code>random*</code> /
+    <code>placebo*</code> / RCT publication types) — estimates for scale, not the full strategy. EMTREE and
+    APA thesaurus terms are unverified and flagged as such. Nothing in this plan has been applied to the
+    files in <code>MASTER_DATABASE/search/strategies/</code>.
+  </p>
+</div>
