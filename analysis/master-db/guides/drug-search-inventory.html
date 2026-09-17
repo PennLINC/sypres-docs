@@ -1,0 +1,767 @@
+<title>Drug Search Inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --ground: #F2F5F3;
+    --surface: #FFFFFF;
+    --surface-2: #E9EEEB;
+    --ink: #12201D;
+    --ink-2: #51625D;
+    --ink-3: #7E8C89;
+    --line: #D8E0DD;
+    --line-2: #C2CECA;
+    --accent: #0E6E63;
+    --accent-soft: #DCEDE9;
+    --new: #2E7A4E;
+    --new-soft: #DFEDE3;
+    --chg: #9E6C12;
+    --chg-soft: #F2E8D2;
+    --rem: #A33E2C;
+    --rem-soft: #F3E0DA;
+    --res: #2A6BB0;
+    --res-soft: #DCE9F6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0E1513;
+      --surface: #16201D;
+      --surface-2: #1D2926;
+      --ink: #E4ECE8;
+      --ink-2: #9AA9A5;
+      --ink-3: #78877F;
+      --line: #263430;
+      --line-2: #33443F;
+      --accent: #4FC2B1;
+      --accent-soft: #16302C;
+      --new: #63B683;
+      --new-soft: #172C20;
+      --chg: #D6A552;
+      --chg-soft: #2E2718;
+      --rem: #E08770;
+      --rem-soft: #31201B;
+      --res: #77A8DE;
+      --res-soft: #17293B;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0E1513;
+    --surface: #16201D;
+    --surface-2: #1D2926;
+    --ink: #E4ECE8;
+    --ink-2: #9AA9A5;
+    --ink-3: #78877F;
+    --line: #263430;
+    --line-2: #33443F;
+    --accent: #4FC2B1;
+    --accent-soft: #16302C;
+    --new: #63B683;
+    --new-soft: #172C20;
+    --chg: #D6A552;
+    --chg-soft: #2E2718;
+    --rem: #E08770;
+    --rem-soft: #31201B;
+    --res: #77A8DE;
+    --res-soft: #17293B;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  [id] { scroll-margin-top: 24px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0 20px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 62rem; margin: 0 auto; }
+
+  h1, h2, h3, h4 {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-weight: 500;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  header {
+    padding: 56px 0 30px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3rem);
+    line-height: 1.06;
+    letter-spacing: -.017em;
+  }
+
+  .lede {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: 1.16rem;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 16px 0 0;
+    max-width: 44rem;
+  }
+
+  .meta {
+    margin-top: 22px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .74rem;
+    color: var(--ink-3);
+    display: flex;
+    gap: 8px 20px;
+    flex-wrap: wrap;
+  }
+
+  section { padding: 46px 0 0; }
+
+  .sec-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.4vw, 1.95rem);
+    letter-spacing: -.012em;
+    line-height: 1.2;
+  }
+
+  h2 + .sub { color: var(--ink-2); margin: 10px 0 0; max-width: 46rem; }
+
+  p { margin: 14px 0; max-width: 44rem; }
+  a { color: var(--accent); text-underline-offset: 2px; }
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  code {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .85em;
+    background: var(--surface-2);
+    padding: .1em .38em;
+    border-radius: 3px;
+    overflow-wrap: anywhere;
+  }
+
+  /* stat band */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 24px 0 0;
+  }
+  @media (min-width: 720px) { .stats { grid-template-columns: repeat(5, 1fr); } }
+
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 16px 16px 14px;
+  }
+  .stat .num {
+    font-family: Newsreader, ui-serif, Georgia, serif;
+    font-size: 1.9rem;
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .lbl {
+    margin-top: 8px;
+    font-size: .78rem;
+    color: var(--ink-2);
+    line-height: 1.35;
+  }
+
+  /* badges */
+  .badge {
+    font-family: "Public Sans", sans-serif;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .b-nonhal { background: var(--chg-soft); color: var(--chg); }
+  .b-embase { background: var(--res-soft); color: var(--res); }
+  .b-alias  { background: var(--accent-soft); color: var(--accent); }
+  .b-fix    { background: var(--rem-soft); color: var(--rem); }
+
+  /* table of contents */
+  .toc { display: grid; gap: 12px; margin: 24px 0 0; }
+  @media (min-width:720px) { .toc { grid-template-columns: 1fr 1fr; } }
+  .toc-item {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 15px 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .12s, background .12s;
+  }
+  .toc-item:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .toc-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 5px;
+  }
+  .toc-item h3 { font-size: 1.05rem; }
+  .toc-item p { margin: 5px 0 0; font-size: .89rem; color: var(--ink-2); line-height: 1.5; max-width: none; }
+
+  /* family block */
+  .fam {
+    border-top: 1px solid var(--line);
+    padding: 24px 0 6px;
+  }
+  .fam-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .fam-head h3 { font-size: 1.2rem; }
+  .fam-head .cls {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    color: var(--ink-3);
+    letter-spacing: .03em;
+  }
+  .terms {
+    margin: 10px 0 0;
+    font-size: .9rem;
+    color: var(--ink-2);
+    max-width: none;
+    line-height: 1.9;
+  }
+  .terms .tlabel { color: var(--ink-3); font-size: .8rem; margin-right: 4px; }
+
+  /* tables */
+  .tablewrap {
+    overflow-x: auto;
+    margin: 14px 0 0;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; min-width: 34rem; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-size: .68rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+    background: var(--surface-2);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.code, th.code { white-space: nowrap; }
+  td.code b {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .84rem;
+    font-weight: 500;
+  }
+  td .n { color: var(--ink-2); font-size: .86rem; }
+
+  /* callout bands */
+  .gate {
+    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 18px 0 0;
+  }
+  .gate.warn { background: var(--chg-soft); border-left-color: var(--chg); }
+  .gate.fix { background: var(--rem-soft); border-left-color: var(--rem); }
+  .gate > :first-child { margin-top: 0; }
+  .gate > :last-child { margin-bottom: 0; }
+  .gate p { font-size: .95rem; color: var(--ink); max-width: none; }
+  .gate h4 { font-size: 1.05rem; margin: 0 0 6px; }
+
+  /* definition list for /de vs /exp */
+  .defs { display: grid; gap: 12px; margin: 18px 0 0; }
+  @media (min-width: 720px) { .defs { grid-template-columns: 1fr 1fr; } }
+  .def {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 16px 18px;
+  }
+  .def h4 { font-size: 1rem; margin: 0 0 6px; }
+  .def h4 code { font-size: .8em; }
+  .def p { margin: 0; font-size: .9rem; color: var(--ink-2); line-height: 1.5; max-width: none; }
+
+  /* ordered decision list */
+  ol.decisions { margin: 18px 0 0; padding: 0; counter-reset: d; list-style: none; display: grid; gap: 14px; }
+  ol.decisions > li {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 16px 18px 16px 54px;
+  }
+  ol.decisions > li::before {
+    counter-increment: d;
+    content: counter(d);
+    position: absolute;
+    left: 16px;
+    top: 15px;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: .82rem;
+    font-weight: 500;
+  }
+  ol.decisions h4 { font-size: 1.02rem; margin: 0 0 4px; }
+  ol.decisions p { margin: 4px 0 0; font-size: .9rem; color: var(--ink-2); line-height: 1.5; max-width: none; }
+  .rec { color: var(--new); font-weight: 600; }
+
+  .footnote {
+    margin-top: 46px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: .82rem;
+    color: var(--ink-3);
+    max-width: 46rem;
+  }
+  .footnote a { color: var(--ink-2); }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">SYPRES · Master database · Search strategy</p>
+    <h1>Drugs &amp; code names searched across the databases</h1>
+    <p class="lede">
+      Every drug, synonym, and clinical-development code name in the five search strategies, resolved
+      to the compound it targets and the company developing it — plus the terms that live in Embase
+      only, and one term left out by mistake. Circulated so the team can decide what, if anything, to change.
+    </p>
+    <div class="meta">
+      <span>Compiled 9 Sep 2026</span><span>5 databases</span><span>34 compounds</span><span>For team review</span>
+      <span>Companion: <a href="https://claude.ai/code/artifact/660d7e19-983b-4577-b6fe-bd396a47959b"
+          target="_blank" rel="noopener">Extraction guide</a></span>
+    </div>
+  </header>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <section id="overview">
+    <p class="sec-label">At a glance</p>
+    <h2>What this covers</h2>
+    <p class="sub">
+      The drug clause is the block that defines <em>which molecules</em> the review looks for; the
+      rest of each strategy (RCT filter, English, animal/review exclusions) is unchanged and out of
+      scope here. Term identities were verified against the Psychedelic Alpha Q3 2026 pipeline plus
+      company and regulatory sources; coverage was computed by parsing all five strategy files.
+    </p>
+
+    <div class="stats">
+      <div class="stat"><div class="num">5</div><div class="lbl">databases searched (PubMed, Embase, Scopus, Web of Science, PsycINFO)</div></div>
+      <div class="stat"><div class="num">34</div><div class="lbl">distinct compounds targeted</div></div>
+      <div class="stat"><div class="num">42</div><div class="lbl">clinical development code names</div></div>
+      <div class="stat"><div class="num">7</div><div class="lbl">compounds searched in Embase only</div></div>
+      <div class="stat"><div class="num">1</div><div class="lbl">term omitted from Embase by error</div></div>
+    </div>
+
+    <div class="gate">
+      <p>
+        <b>The searched drug set is consistent across all five databases</b> for the 27 compounds in
+        the inventory below — each is captured in every database, whether by a generic wildcard
+        (<code>psilo*</code>, <code>iboga*</code>), a spelled-out name, or a code name. The only real
+        divergence is a block of <b>seven compounds that Embase searches and the other four do not</b>,
+        which came in through an Embase drug-thesaurus branch — detailed in the last section, where the
+        decisions live. (Minor vocabulary differences — Web of Science carries no thesaurus terms,
+        <code>banisteriopsis</code> is absent from WoS and PsycINFO — never drop a compound, because the
+        free-text wildcards back them up. No action needed there.)
+      </p>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <a class="toc-item" href="#inventory">
+        <p class="toc-num">Part 1</p>
+        <h3>The drug &amp; code-name inventory</h3>
+        <p>Every term, grouped by the compound it targets, with the developer behind each code name.</p>
+      </a>
+      <a class="toc-item" href="#embase-branch">
+        <p class="toc-num">Part 2 · for decision</p>
+        <h3>Embase-only terms &amp; the omission</h3>
+        <p>The seven compounds Embase alone searches (and why), plus the deuterated-DMT term left out by error.</p>
+      </a>
+    </nav>
+  </section>
+
+  <!-- ===================== INVENTORY ===================== -->
+  <section id="inventory">
+    <p class="sec-label">Part 1</p>
+    <h2>The drug &amp; code-name inventory</h2>
+    <p class="sub">
+      Grouped by compound. The <b>Generic &amp; controlled terms</b> line lists the wildcards, spelled-out
+      names, and thesaurus/MeSH headings; the table lists the branded clinical candidates and their
+      developers. Two class-net terms — <code>psychedelic*</code> and <code>hallucinogen*</code> (plus the
+      Hallucinogens MeSH / Pharmacological-Action headings) — sit above all of these and are not a specific
+      compound.
+    </p>
+
+    <!-- PSILOCYBIN -->
+    <div class="fam">
+      <div class="fam-head"><h3>Psilocybin / psilocin</h3><span class="cls">classic tryptamine</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>psilo*</code> · <code>Psilocybin</code> (MeSH / index / EMTREE) · <code>psilocin</code> ·
+        <code>magic mushroom*</code> · <code>teonanacatl</code></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>COMP360</b></td><td>Compass Pathways</td><td class="n">Synthetic psilocybin</td></tr>
+            <tr><td class="code"><b>APEX-52</b></td><td>Apex Labs</td><td class="n">Psilocybin, take-home microdose</td></tr>
+            <tr><td class="code"><b>APEX-90</b></td><td>Apex Labs</td><td class="n">Psilocybin, in-clinic macrodose</td></tr>
+            <tr><td class="code"><b>PSX-001</b></td><td>Incannex Healthcare</td><td class="n">Psilocybin (Psi-GAD)</td></tr>
+            <tr><td class="code"><b>SYNP-101</b></td><td>Ceruvia Lifesciences</td><td class="n">Synthetic psilocybin</td></tr>
+            <tr><td class="code"><b>MLS-101</b></td><td>MycoMedica Life Sciences</td><td class="n">Psilocybin</td></tr>
+            <tr><td class="code"><b>MSX-06</b></td><td>MSICS Pharma</td><td class="n">Psilocybin</td></tr>
+            <tr><td class="code"><b>ELE-101</b></td><td>Beckley Psytech (atai)</td><td class="n">IV psilocin</td></tr>
+            <tr><td class="code"><b>TRP-8803</b></td><td>Tryp Therapeutics / Entropy</td><td class="n">IV psilocin</td></tr>
+            <tr><td class="code"><b>MSP-1014</b></td><td>Mindset Pharma (Otsuka)</td><td class="n">Psilocin prodrug (distinct NCE)</td></tr>
+            <tr><td class="code"><b>HLP-003</b></td><td>Helus Pharma</td><td class="n">Deuterated psilocin (deupsilocin) — distinct NCE</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- LSD -->
+    <div class="fam">
+      <div class="fam-head"><h3>LSD / lysergide</h3><span class="cls">classic ergoline</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>LSD</code> (title) · <code>LSD-25</code> · <code>Lysergic Acid Diethylamide</code> (MeSH + text) ·
+        <code>lysergide*</code> (EMTREE)</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>MM120</b> = <b>DT120</b></td><td>MindMed → Definium Therapeutics</td>
+              <td class="n">LSD D-tartrate ODT <span class="badge b-alias">same compound, renamed</span></td></tr>
+            <tr><td class="code"><b>MB22001</b></td><td>MindBio Therapeutics</td><td class="n">LSD, take-home microdose</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BOL-148 -->
+    <div class="fam">
+      <div class="fam-head"><h3>BOL-148 / 2-bromo-LSD</h3><span class="cls">LSD analog</span>
+        <span class="badge b-nonhal">non-hallucinogenic</span></div>
+      <p class="terms"><span class="tlabel">Generic term:</span> <code>bol 148*</code></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>BETR-001</b> = <b>TD-0148A</b></td><td>BetterLife Pharma</td>
+              <td class="n">2-bromo-LSD <span class="badge b-alias">same compound, renamed</span></td></tr>
+            <tr><td class="code"><b>NYPRG-101</b></td><td>Ceruvia Lifesciences</td><td class="n">BOL-148</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DMT -->
+    <div class="fam">
+      <div class="fam-head"><h3>DMT (N,N-DMT)</h3><span class="cls">classic tryptamine · incl. analogs &amp; MAOI combos</span></div>
+      <p class="terms"><span class="tlabel">Generic terms:</span>
+        <code>Dimethyltryptamine</code> · <code>DMT</code></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>BMND01</b></td><td>Biomind Labs</td><td class="n">Inhaled DMT</td></tr>
+            <tr><td class="code"><b>AP-188</b></td><td>Algernon Pharmaceuticals</td><td class="n">IV DMT</td></tr>
+            <tr><td class="code"><b>VLS-01</b> / <b>VLS-1</b></td><td>Viridia Life Sciences (atai)</td><td class="n">Buccal-film DMT</td></tr>
+            <tr><td class="code"><b>RE01-SL</b></td><td>Reconnect Labs</td><td class="n">Sublingual DMT + harmine (pharmahuasca)</td></tr>
+            <tr><td class="code"><b>NBX-100</b></td><td>Neurala Biosciences</td><td class="n">Oral DMT + harmala</td></tr>
+            <tr><td class="code"><b>NBX-200</b></td><td>Neurala Biosciences</td><td class="n">Intranasal DMT + harmala</td></tr>
+            <tr><td class="code"><b>HLP-004</b></td><td>Helus Pharma</td><td class="n">IM deuterated DMT</td></tr>
+            <tr><td class="code"><b>EB-003</b></td><td>Enveric Biosciences</td>
+              <td class="n">DMT analog <span class="badge b-nonhal">non-hallucinogenic</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5-MeO-DMT -->
+    <div class="fam">
+      <div class="fam-head"><h3>5-MeO-DMT / mebufotenin</h3><span class="cls">classic tryptamine</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>Mebufotenin</code> · <code>Methylbufotenin*</code> · <code>methoxydimethyltryptamine*</code> ·
+        <code>Methoxydimethyltryptamines</code> (MeSH) · <code>N,N,O-Trimethylserotonin</code></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>GH001</b></td><td>Beckley Psytech (atai)</td><td class="n">Inhaled 5-MeO-DMT</td></tr>
+            <tr><td class="code"><b>BPL-002</b></td><td>Beckley Psytech (atai)</td><td class="n">Intranasal 5-MeO-DMT (liquid)</td></tr>
+            <tr><td class="code"><b>BPL-003</b></td><td>Beckley Psytech (atai)</td><td class="n">Intranasal 5-MeO-DMT benzoate</td></tr>
+            <tr><td class="code"><b>LSR-1019</b></td><td>Lusaris Therapeutics</td><td class="n">Sublingual 5-MeO-DMT</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5-MeO-MiPT -->
+    <div class="fam">
+      <div class="fam-head"><h3>5-MeO-MiPT ("moxy")</h3><span class="cls">synthetic tryptamine</span></div>
+      <p class="terms"><span class="tlabel">Generic term:</span> <code>5-MeO-MiPT</code></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>MSD-001</b></td><td>Mindstate Design Labs</td><td class="n">5-MeO-MiPT formulation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MESCALINE -->
+    <div class="fam">
+      <div class="fam-head"><h3>Mescaline</h3><span class="cls">classic phenethylamine · no clinical code names</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>3,4,5-Trimethoxyphenethylamine</code> · <code>mescalin*</code> · <code>Mescaline</code> (MeSH / EMTREE) ·
+        <code>mezcalin*</code> · <code>TMPEA</code> · <code>O,O-Dimethyl-5-methoxydopamine</code></p>
+    </div>
+
+    <!-- IBOGAINE -->
+    <div class="fam">
+      <div class="fam-head"><h3>Ibogaine &amp; iboga analogs</h3><span class="cls">indole alkaloid</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>12-Methoxyibogamine</code> · <code>iboga*</code> · <code>ibogaine</code> (MeSH / EMTREE)</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>SON-001</b></td><td>Soneira</td><td class="n">Ibogaine + magnesium</td></tr>
+            <tr><td class="code"><b>DMX-1001</b></td><td>DemeRx (atai)</td><td class="n">Noribogaine</td></tr>
+            <tr><td class="code"><b>GMX-3009</b></td><td>Gilgamesh Pharmaceuticals</td><td class="n">Ibogaine / noribogaine analog</td></tr>
+            <tr><td class="code"><b>EQL-101</b></td><td>Equulus Therapeutics</td>
+              <td class="n">Ibogaine analog <span class="badge b-nonhal">non-hallucinogenic</span></td></tr>
+            <tr><td class="code"><b>DLX-007</b></td><td>Delix Therapeutics</td>
+              <td class="n">Tabernanthalog <span class="badge b-nonhal">non-hallucinogenic</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AYAHUASCA -->
+    <div class="fam">
+      <div class="fam-head"><h3>Ayahuasca</h3><span class="cls">botanical DMT + β-carboline · no clinical code names</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>ayahuasca</code> · <code>banisteriopsis</code> (MeSH / EMTREE). The synthetic DMT + harmine/harmala
+        candidates (<code>RE01-SL</code>, <code>NBX-100</code>, <code>NBX-200</code>) are listed under DMT above.</p>
+    </div>
+
+    <!-- MDMA -->
+    <div class="fam">
+      <div class="fam-head"><h3>MDMA / midomafetamine</h3><span class="cls">entactogen · incl. R-enantiomer</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>MDMA</code> · <code>ecstasy</code> · <code>Molly</code> · <code>methylenedioxymethamphetamine*</code> ·
+        <code>midomafetamine*</code> · <code>n methyl 3,4 methylenedioxyamphetamine</code> (MeSH)</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>EMP-01</b></td><td>EmpathBio (atai)</td><td class="n">R-MDMA</td></tr>
+            <tr><td class="code"><b>DT402</b></td><td>Definium (formerly MindMed)</td><td class="n">R(−)-MDMA</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- METHYLONE -->
+    <div class="fam">
+      <div class="fam-head"><h3>Methylone (bk-MDMA)</h3><span class="cls">entactogen cathinone</span></div>
+      <p class="terms"><span class="tlabel">Generic &amp; controlled terms:</span>
+        <code>methylone*</code> · <code>methylone</code> (Supplementary Concept / EMTREE) ·
+        <code>3,4-Methylenedioxy-N-Methylcathinone</code> · <code>MDMC</code></p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Developer</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>TSND-201</b></td><td>Transcend Therapeutics</td><td class="n">Methylone</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NOVEL NCEs -->
+    <div class="fam">
+      <div class="fam-head"><h3>Novel tryptamine NCEs</h3><span class="cls">single-compound entries</span></div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th class="code">Code name</th><th>Compound &amp; aliases</th><th>Developer</th></tr></thead>
+          <tbody>
+            <tr><td class="code"><b>GM-2505</b></td>
+              <td>Bretisilocin / 5-fluoro-MET — aliases <code>5F MET</code>, <code>5-fluoro-MET</code>,
+                <code>5-fluoro-N-methyl-N-ethyltryptamine</code>, <code>bretisilocin*</code></td>
+              <td>Gilgamesh Pharmaceuticals</td></tr>
+            <tr><td class="code"><b>RE104</b></td>
+              <td>Luvesilocin — aliases <code>luvesilocin*</code>, <code>4-OH-DiPT prodrug</code></td>
+              <td>Reunion Neuroscience</td></tr>
+            <tr><td class="code"><b>DLX-001</b></td>
+              <td>Zalsupindole (AAZ-A-154) — alias <code>zalsupindole*</code>
+                <span class="badge b-nonhal">non-hallucinogenic</span></td>
+              <td>Delix Therapeutics</td></tr>
+            <tr><td class="code">—</td>
+              <td><code>MDMT</code> — no established psychedelic or trial-tested drug of this name
+                <span class="badge b-fix">review</span></td>
+              <td class="n">Ambiguous token; appears to be a methylenedioxy-series analogy (cf. MDMA, MDMC) rather than a real target — see decision 4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== EMBASE BRANCH ===================== -->
+  <section id="embase-branch">
+    <p class="sec-label">Part 2 · for decision</p>
+    <h2>Embase-only terms from the “psychedelic agent” branch</h2>
+    <p class="sub">
+      Embase indexes records with EMTREE, its own controlled drug/disease vocabulary. The Embase drug
+      clause anchors on the EMTREE term <code>'psychedelic agent'</code> and then names a set of its
+      narrower terms. That branch is why Embase searches a handful of compounds the other four databases
+      never mention — and it hinges on the difference between two Embase operators.
+    </p>
+
+    <div class="defs">
+      <div class="def">
+        <h4><code>/exp</code> — explode</h4>
+        <p>The term <em>plus every narrower term beneath it</em> in the EMTREE hierarchy. Exploding
+          <code>'psychedelic agent'</code> pulls in its whole subtree — including <b>cannabinoid</b>,
+          whose own large subtree (cannabis, THC, CBD…) flooded the results.</p>
+      </div>
+      <div class="def">
+        <h4><code>/de</code> — descriptor, not exploded</h4>
+        <p>Records tagged with <em>that exact term only</em>; no narrower terms come along. So
+          <code>'psychedelic agent'/de</code> keeps articles indexed to the umbrella term itself without
+          dragging in any children.</p>
+      </div>
+    </div>
+
+    <p>
+      The fix already in the strategy is the standard “prune one branch” move: search the parent as
+      <code>'psychedelic agent'/de</code> (umbrella hits, no children), then <b>manually OR back in each
+      wanted child</b> as <code>'child'/exp</code>, deliberately leaving out <b>cannabinoid</b>. Most of
+      the re-added children map to compounds already covered everywhere by free text (lysergide,
+      mebufotenin, mescaline, midomafetamine, psilocin, psilocybine, bretisilocin, luvesilocin,
+      deupsilocin). Seven do not — <b>these are searched in Embase and nowhere else:</b>
+    </p>
+
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Compound (EMTREE term)</th><th>What it is</th><th>In scope for “a psychedelic administered”?</th></tr></thead>
+        <tbody>
+          <tr><td><b>Bufotenin</b> <span class="n">(bufotenine)</span></td><td class="n">5-OH-DMT, serotonergic psychedelic tryptamine</td><td>Likely <span class="rec">yes</span> — a psychedelic</td></tr>
+          <tr><td><b>5-MeO-DiPT</b> <span class="n">(n,n-diisopropyl-5-methoxytryptamine)</span></td><td class="n">“Foxy,” psychedelic tryptamine</td><td>Likely <span class="rec">yes</span> — a psychedelic</td></tr>
+          <tr><td><b>Salvinorin A</b></td><td class="n">Active of Salvia divinorum; κ-opioid, atypical/dissociative psychedelic</td><td>Arguable — team call</td></tr>
+          <tr><td><b>Tenocyclidine (TCP)</b></td><td class="n">PCP-type dissociative anaesthetic</td><td>Likely <b>no</b> — not serotonergic</td></tr>
+          <tr><td><b>Elymoclavine</b></td><td class="n">Clavine ergot alkaloid (precursor-class)</td><td>Likely <b>no</b> — not administered as a psychedelic</td></tr>
+          <tr><td><b>Lysergic acid</b></td><td class="n">LSD precursor, not itself psychedelic</td><td>Likely <b>no</b> — precursor</td></tr>
+          <tr><td><b>Mescaline aziridine analog</b> <span class="n">(N-(3,4,5-trimethoxyphenylethyl)aziridine)</span></td><td class="n">Obscure mescaline-related chemical</td><td>Likely <b>no</b> — not a clinical agent</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      None of these seven has a free-text or code-name equivalent in PubMed, Scopus, Web of Science, or
+      PsycINFO, so any record found only through them is an Embase-exclusive hit. They were pulled in as a
+      side effect of keeping the <code>'psychedelic agent'</code> children (minus cannabinoid) — not from a
+      deliberate decision that each belongs in scope.
+    </p>
+
+    <!-- DEUDMT OMISSION -->
+    <div class="gate fix" id="deudmt">
+      <h4>Correction needed: <code>deudimethyltryptamine</code> (deuterated DMT) was left out of Embase by error <span class="badge b-fix">fix</span></h4>
+      <p>
+        The same <code>'psychedelic agent'</code> EMTREE branch also lists <b>deudimethyltryptamine</b>
+        (deuterated DMT), but it was <b>not</b> included in the Embase OR-list — an omission, not a scope
+        decision. Deuterated DMT <em>is</em> in scope: it is exactly the compound behind the
+        <code>HLP-004</code> code name (Helus Pharma, IM deuterated DMT) already searched in every database.
+        As it stands, Embase catches it only by the <code>HLP-004</code> code name and misses any record
+        indexed generically to the EMTREE term. <b>Recommended fix:</b> add
+        <code>'deudimethyltryptamine'/exp</code> to the Embase drug clause.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== DECISIONS ===================== -->
+  <section id="decisions">
+    <p class="sec-label">What the team decides</p>
+    <h2>Open decisions</h2>
+    <p class="sub">
+      The shared inventory compounds are captured correctly in every database (the divergence is
+      elsewhere); these choices concern the Embase-only branch, one omitted term, and one spurious token.
+      The guiding principle already agreed: <em>if we search for a compound, we intend to include it</em>
+      — so the question is which terms we <em>meant</em> to search, then making all five databases agree.
+    </p>
+    <ol class="decisions">
+      <li>
+        <h4>Add <code>'deudimethyltryptamine'/exp</code> to Embase <span class="rec">— recommended</span></h4>
+        <p>A known omission of an in-scope compound (deuterated DMT / HLP-004). Low-risk, closes the gap. No effect on the other four databases.</p>
+      </li>
+      <li>
+        <h4>Are bufotenin, 5-MeO-DiPT, and (optionally) salvinorin A in scope?</h4>
+        <p>If <b>yes</b>, mirror them into PubMed / Scopus / Web of Science / PsycINFO as free-text terms
+          (e.g. <code>bufotenin*</code>, <code>5-MeO-DiPT</code> / <code>foxy</code>, <code>salvinorin*</code> /
+          <code>salvia divinorum</code>) so coverage is symmetric. If <b>no</b>, remove them from Embase.</p>
+      </li>
+      <li>
+        <h4>Drop the out-of-scope terms from Embase?</h4>
+        <p>Lysergic acid, elymoclavine, tenocyclidine, and the mescaline aziridine analog are not
+          psychedelics administered in trials. Removing them from Embase tightens consistency; leaving them
+          adds only rare, easily screened-out noise. Either is defensible — the point is to choose deliberately.</p>
+      </li>
+      <li>
+        <h4>Remove <code>MDMT</code> from all five databases? <span class="rec">— recommended</span></h4>
+        <p>There is no established psychedelic — and no trial-tested drug — named MDMT. The term looks like
+          a pattern-completion of the methylenedioxy series (MDMA, MDMC, MDMT) rather than a real target,
+          and its “3,4-methylenedioxy…tryptamine” reading uses amphetamine-ring numbering that doesn’t map
+          onto a tryptamine. As a bare token it is also an ambiguous acronym (e.g. “minimum design metal
+          temperature”), so it adds false-positive risk while contributing no sensitivity. It is searched in
+          all five databases, so removal is a one-line edit in each. (If methylenedioxy-tryptamine coverage
+          is genuinely wanted, the real names are <code>4,5-MDO-DMT</code> and similar — but none has an RCT.)</p>
+      </li>
+    </ol>
+  </section>
+
+  <p class="footnote">
+    Compound identities verified against the Psychedelic Alpha Q3 2026 Drug Development pipeline and
+    company/regulatory sources; cross-database coverage computed by parsing the five files in
+    <code>MASTER_DATABASE/search/strategies/</code> (PubMed, Embase, Scopus, Web of Science, PsycINFO;
+    last updated 11–12 Jun 2026). This document reflects the strategies as of that export.
+  </p>
+</div>
