@@ -9,7 +9,7 @@
 | **Not in scope** | Changing the theme or generator, redesigning pages, and anything that modifies extract's review data or its access rules. |
 | **Source state** | sypres-docs read on branch `master-db` with `origin/main` fetched (893 commits). extract read at commit `295293b` on branch `sns-alerts`, one commit ahead of `origin/main` `51a75e6` (2026-10-13), which merged that branch; extract line numbers refer to that checkout and may differ by a few lines on `origin/main`. |
 
-This folder (`analysis/infrastructure/`) is excluded from the Jekyll build in `_config.yml`, so this file is never published on sypres.io. The exclude line and this folder must be committed together.
+This folder (`plans/`) is excluded from the Jekyll build in `_config.yml`, so this file is never published on sypres.io. The exclude line and this folder must be committed together.
 
 ---
 

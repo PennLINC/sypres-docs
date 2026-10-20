@@ -172,6 +172,8 @@ exclude:
   # Excluded so they are not published under /analysis/master-db/. (psilodep/mdmaptsd
   # figures above ARE still published because their dataset pages embed them.)
   - analysis/master-db
+  # plans/ holds working documents (e.g. the hosting decision memo), not web pages.
+  - plans
 keep_files:
   - .git
   - .svn

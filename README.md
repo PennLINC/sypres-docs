@@ -18,6 +18,8 @@ Additional pages linked from within the Studies section include search terms, ex
 
 For setting up the R environments used in SYPRES analyses, see the [analysis README](analysis/README.md).
 
+The hosting decision memo (GitHub Pages vs the extract Lightsail instance, with the phased plan) is [plans/hosting-plan.md](plans/hosting-plan.md); the `plans/` folder is excluded from the site build.
+
 ## Scripts
 
 Python scripts in `scripts/` handle reference formatting and enrichment. They require Python 3.10+ and a few packages:
