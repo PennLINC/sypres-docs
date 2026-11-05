@@ -9,7 +9,7 @@ permissions:
   contents: write
 jobs:
   track_clones:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.repository == 'PennLINC/sypres-docs' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
