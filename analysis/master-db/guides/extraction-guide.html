@@ -24,6 +24,7 @@
     --rem-soft: #F3E0DA;
     --res: #2A6BB0;
     --res-soft: #DCE9F6;
+    --hl: #F5D76E;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -46,6 +47,7 @@
       --rem-soft: #31201B;
       --res: #77A8DE;
       --res-soft: #17293B;
+      --hl: #6B5310;
     }
   }
 
@@ -68,6 +70,7 @@
     --rem-soft: #31201B;
     --res: #77A8DE;
     --res-soft: #17293B;
+    --hl: #6B5310;
   }
 
   * {
@@ -79,7 +82,7 @@
   }
 
   [id] {
-    scroll-margin-top: 24px;
+    scroll-margin-top: 88px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -659,6 +662,66 @@
     font-weight: 700;
   }
 
+  /* search bar */
+  .finder {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    background: var(--ground);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 0;
+  }
+
+  .finder[hidden] {
+    display: none;
+  }
+
+  .finder input {
+    flex: 1 1 16rem;
+    min-width: 0;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+    border-radius: 4px;
+    padding: 8px 12px;
+  }
+
+  .finder input::placeholder {
+    color: var(--ink-2);
+  }
+
+  .finder input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: var(--accent);
+  }
+
+  .finder-status {
+    font-size: .86rem;
+    color: var(--ink-2);
+    margin: 0;
+    max-width: none;
+  }
+
+  .finder-status:empty {
+    display: none;
+  }
+
+  body.searching section .sub {
+    display: none;
+  }
+
+  ::highlight(guide-find) {
+    background-color: var(--hl);
+    color: var(--ink);
+  }
+
   footer {
     margin-top: 56px;
     padding-top: 20px;
@@ -689,6 +752,13 @@
     </div>
   </header>
 
+  <div id="finder-top"></div>
+  <div class="finder" id="finder" role="search" hidden>
+    <input type="search" id="finder-input" autocomplete="off" spellcheck="false"
+      aria-label="Search the guide" placeholder="Search a field, option or scale (n-back, BDI, pooled)">
+    <p class="finder-status" id="finder-status" aria-live="polite"></p>
+  </div>
+
   <!-- ===================== CONTENTS ===================== -->
   <section id="contents">
     <p class="sec-label">Start here</p>
@@ -715,7 +785,7 @@
       <a class="toc-item" href="#population">
         <p class="toc-num">Section 3</p>
         <h3>Population</h3>
-        <p>N randomized / analyzed, age metric + value, %female, and target population.</p>
+        <p>N randomized, age metric + value, %female, N analyzed, and target population.</p>
       </a>
       <a class="toc-item" href="#intervention">
         <p class="toc-num">Section 4</p>
@@ -830,7 +900,7 @@
         <p class="rule">Tick only if the paper pools data from several distinct trials. When ticked,
           <b>skip Trial Phase, Design and Blinding</b> unless every pooled cohort shares the same value. Country is
           still valid (record all cohorts’ countries). For pooled studies with NCT numbers the whole no-NCT block can be
-          skipped.
+          skipped. Also <b>skip N randomized, Age metric, Age value and %Female</b>; N analyzed is still filled in.
         </p>
         <div class="chips"><span class="chip">yes</span></div>
       </div>
@@ -937,6 +1007,10 @@
   <section id="population">
     <p class="sec-label">Section 3</p>
     <h2>Population</h2>
+    <div class="gate">
+      <p><b>Pooled studies skip N randomized, Age metric, Age value and %Female.</b> Leave these blank
+        rather than entering <code>NR</code>. N analyzed and Target Population are still filled in.</p>
+    </div>
     <div class="fields">
       <div class="field">
         <div class="field-head">
@@ -946,20 +1020,6 @@
         <p class="rule">Fill only if the paper gives a <b>separate</b> enrolled/randomized count, or
           explicitly says everyone completed with no dropouts (then enter that same N). Otherwise put
           <code>NR</code> — don’t infer it from the analyzed number.
-        </p>
-      </div>
-      <div class="field">
-        <div class="field-head">
-          <h3>N analyzed</h3><span class="ftype">number / NR</span>
-          <span class="badge b-chg">Changed</span>
-        </div>
-        <p class="rule">The number the results are based on — the completer / final-analysis N. Usually
-          stated plainly (“16 participants”, “16 completed”, “results in 16”). Multiple
-          results/timepoints → the <b>largest N the main outcome is based on</b> (a judgement call). If
-          the paper never states it, <code>NR</code>.</p>
-        <p class="tip"><b>This is the anchor.</b> You can nearly always fill it; N randomized is the
-          “only if separately reported” field. Both integers → attrition is computable; an
-          <code>NR</code> on either → attrition undeterminable, which is a real finding, not a gap.
         </p>
       </div>
       <div class="field">
@@ -992,6 +1052,21 @@
         </p>
         <p class="tip">This replaces the old “Sex-specific population?” question: a single-sex study is
           just 0 or 100 here, so tick it that way rather than leaving it NR.</p>
+      </div>
+      <div class="field">
+        <div class="field-head">
+          <h3>N analyzed</h3><span class="ftype">number / NR</span>
+          <span class="badge b-chg">Changed</span>
+        </div>
+        <p class="rule">The number the results are based on — the completer / final-analysis N. Usually
+          stated plainly (“16 participants”, “16 completed”, “results in 16”). Multiple
+          results/timepoints → the <b>largest N the main outcome is based on</b> (a judgement call). If
+          the paper never states it, <code>NR</code>. For a <b>pooled study</b>, enter the total N combined
+          across all pooled studies, regardless of randomization status.</p>
+        <p class="tip"><b>This is the anchor.</b> You can nearly always fill it; N randomized is the
+          “only if separately reported” field. Both integers → attrition is computable; an
+          <code>NR</code> on either → attrition undeterminable, which is a real finding, not a gap.
+        </p>
       </div>
       <div class="field">
         <div class="field-head">
@@ -1061,6 +1136,11 @@
           <span class="chip">psilocybin</span><span class="chip">salvinorin A</span>
           <span class="chip other">Other</span>
         </div>
+        <p class="tip"><b>Only compounds on the <a
+              href="https://claude.ai/code/artifact/c29044c5-94c0-4ce4-b188-c67ee560e854" target="_blank"
+              rel="noopener">drug inventory</a> go here.</b> An active drug that isn’t on the inventory and is
+          given as its own arm (methamphetamine, S-ketamine, oxytocin) goes under <b>Comparator Drug</b>, even
+          if the paper presents it alongside the psychedelic as a study drug.</p>
       </div>
       <div class="field">
         <div class="field-head">
@@ -1260,18 +1340,25 @@
             <span class="scale">intensity ratings</span>
             <span class="scale">VAS subjective-effect ratings</span>
             <span class="scale">EBI</span>
+            <span class="scale">CADSS (during/just after session)</span>
           </div>
           <p><b>Rule of thumb — ask what the instrument is about, not when it was filled in.</b> If it
             asks about <em>the drug effect</em> (how strong, how strange, how mystical, how difficult),
             it is Acute. A questionnaire completed after the session asking <em>what the session was like</em>
             is still Acute; one asking <em>how you are now</em> is not. If a mood scale is administered during
-            the session to capture the present state, it is still Acute.</p>
+            the session to capture the present state, it is still Acute. <b>Exception:</b> a clinical symptom
+            scale given after dosing to watch for emergent psychosis or mania (BPRS, YMRS) is Safety, not
+            Acute.</p>
           <h5>Goes elsewhere</h5>
           <ul class="xrefs">
             <li><span class="to">Persisting</span> <span>PEQ and other "what has changed since?"
                 questionnaires — same domain, the other tick.</span></li>
             <li><span class="to">Safety &amp; tolerability</span> <span>HPPD / persisting perceptual
                 changes, and session adverse events.</span></li>
+            <li><span class="to">Safety &amp; tolerability</span> <span>BPRS or YMRS given after dosing
+                to monitor for psychotic or manic symptoms → treatment-emergent mania/psychosis.</span></li>
+            <li><span class="to">Psychiatric</span> <span>BPRS or YMRS as a baseline/follow-up outcome →
+                general psychopathology (BPRS) or mania/hypomania (YMRS).</span></li>
             <li><span class="to">Psychiatric</span> <span>mood and symptom scales (POMS, STAI, BDI),
                 administered before/after the session.</span></li>
             <li><span class="to">Trial integrity</span> <span>blinding guesses and expectancy
@@ -1308,7 +1395,7 @@
       </div>
       <div class="dom">
         <h4>PK/PD</h4>
-        <div class="chips"><span class="chip">PK</span><span class="chip">PD</span>
+        <div class="chips"><span class="chip">PK/PD</span>
           <span class="chip other">Other</span>
         </div>
       </div>
@@ -1720,6 +1807,10 @@
           <h3>What is the qualitative outcome?</h3><span class="ftype">text</span>
         </div>
         <p class="rule">Only respond if you ticked <b>qualitative (describe)</b> under Other outcomes.</p>
+        <p class="tip"><b>The qualitative tick covers it.</b> If you tick this, you don’t need to tick
+          other outcome fields based on what the qualitative work found — a theme about mood or
+          connectedness doesn’t add a Psychiatric or Psychological process tick. Other outcomes the study
+          measured separately (a scale or task, say) are still ticked as usual.</p>
       </div>
       <div class="field">
         <div class="field-head">
@@ -1741,13 +1832,113 @@
 </div>
 
 <script>
-  document.querySelectorAll('.chip-x').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+  (function () {
+    var finder = document.getElementById('finder');
+    var input = document.getElementById('finder-input');
+    var status = document.getElementById('finder-status');
+    var top = document.getElementById('finder-top');
+    var units = Array.from(document.querySelectorAll('.cv, .gate, .field, .dom'));
+    var sections = Array.from(document.querySelectorAll('section'));
+    var hl = window.CSS && CSS.highlights && window.Highlight ? new Highlight() : null;
+    var autoOpened = new Set();
+    var returnTo = null;
+
+    function panelOf(btn) {
+      return document.getElementById(btn.getAttribute('aria-controls'));
+    }
+
+    function setPanel(btn, open) {
+      var panel = panelOf(btn);
       if (!panel) return;
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      panel.hidden = open;
+      btn.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+    }
+
+    document.querySelectorAll('.chip-x').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        autoOpened.delete(btn); // a panel the reader toggled stays as they left it
+        setPanel(btn, btn.getAttribute('aria-expanded') !== 'true');
+      });
     });
-  });
+
+    // Line breaks in the markup fall inside phrases, so match any run of whitespace.
+    function pattern(q) {
+      return q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+').replace(/['’]/g, "['’]");
+    }
+
+    function mark(unit, source) {
+      if (!hl) return;
+      var walker = document.createTreeWalker(unit, NodeFilter.SHOW_TEXT);
+      var node, m;
+      while ((node = walker.nextNode())) {
+        var re = new RegExp(source, 'gi');
+        while ((m = re.exec(node.data))) {
+          var range = new Range();
+          range.setStart(node, m.index);
+          range.setEnd(node, m.index + m[0].length);
+          hl.add(range);
+        }
+      }
+    }
+
+    function scrollTo(y) {
+      window.scrollTo({ top: y, behavior: 'instant' });
+    }
+
+    function run() {
+      var q = input.value.trim();
+      var searching = q.length >= 2;
+      var source = searching ? pattern(q) : '';
+      var re = searching ? new RegExp(source, 'i') : null;
+      var count = 0;
+
+      autoOpened.forEach(function (btn) { setPanel(btn, false); });
+      autoOpened.clear();
+      if (hl) hl.clear();
+      if (searching && returnTo === null) returnTo = window.scrollY;
+      document.body.classList.toggle('searching', searching);
+
+      units.forEach(function (unit) {
+        var hit = !searching || re.test(unit.textContent);
+        unit.hidden = !hit;
+        if (!searching || !hit) return;
+        count++;
+        unit.querySelectorAll('.chip-x').forEach(function (btn) {
+          var panel = panelOf(btn);
+          if (panel && panel.hidden && re.test(panel.textContent)) {
+            setPanel(btn, true);
+            autoOpened.add(btn);
+          }
+        });
+        mark(unit, source);
+      });
+
+      sections.forEach(function (section) {
+        section.hidden = searching && !units.some(function (unit) {
+          return !unit.hidden && section.contains(unit);
+        });
+      });
+
+      status.textContent = !searching ? '' :
+        count === 0 ? 'No matches for “' + q + '”' :
+        count === 1 ? '1 match' : count + ' matches';
+
+      if (searching) {
+        if (window.scrollY > top.offsetTop) scrollTo(top.offsetTop);
+      } else if (returnTo !== null) {
+        scrollTo(returnTo);
+        returnTo = null;
+      }
+    }
+
+    finder.hidden = false;
+    if (hl) CSS.highlights.set('guide-find', hl);
+    input.addEventListener('input', run);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        input.value = '';
+        run();
+      }
+    });
+  })();
 </script>
