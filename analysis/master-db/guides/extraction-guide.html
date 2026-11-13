@@ -1408,7 +1408,9 @@
             aria-controls="xp-psy-mood">general mood/affect</button>
           <button type="button" class="chip chip-x" aria-expanded="false"
             aria-controls="xp-psy-genpsy">general psychopathology</button>
-          <span class="chip">mania/hypomania</span><span class="chip">OCD</span><span class="chip">PTSD</span>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-psy-mania">mania/hypomania</button>
+          <span class="chip">OCD</span><span class="chip">PTSD</span>
           <span class="chip">psychotic symptoms</span><span class="chip">substance use</span>
           <span class="chip other">Other</span>
         </div>
@@ -1459,6 +1461,22 @@
             <li><span class="to">global functioning</span> <span>(Functioning box) WHODAS / disability
                 measures <em>impairment</em> — what the person can't do — not symptom burden. Symptoms
                 here, functioning there.</span></li>
+            <li><span class="to">Safety &amp; tolerability</span> <span>BPRS given after dosing to monitor
+                for emergent psychotic symptoms is treatment-emergent mania/psychosis, not this tick.</span></li>
+          </ul>
+        </div>
+
+        <div class="xp" id="xp-psy-mania" hidden>
+          <h5>Ticks mania/hypomania</h5>
+          <div class="scales">
+            <span class="scale">Young Mania Rating Scale (YMRS)</span>
+          </div>
+          <p><b>Rule of thumb — mania as a trial outcome.</b> Tick this when manic symptoms are measured
+            at baseline and follow-up as an outcome (for example in a bipolar depression trial).</p>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Safety &amp; tolerability</span> <span>YMRS given after dosing to monitor
+                for emergent manic symptoms is treatment-emergent mania/psychosis, not this tick.</span></li>
           </ul>
         </div>
       </div>
