@@ -945,9 +945,11 @@
           <span class="ftype">multi-select</span><span class="badge b-new">New</span>
         </div>
         <p class="rule">The study <b>site(s)</b> where participants were enrolled and dosed — <em>not</em>
-          author affiliations. Select/list all; use full country names. Multiple → <code>;</code>.</p>
+          author affiliations. Select/list all; use full country names. If no information is provided, tick
+          <b>not reported</b>. Multiple → <code>;</code>.</p>
         <div class="chips"><span class="chip">United States</span><span class="chip">United Kingdom</span>
-          <span class="chip">Switzerland</span><span class="chip other">Other (+ … + …)</span>
+          <span class="chip">Switzerland</span><span class="chip">not reported</span>
+          <span class="chip other">Other (+ … + …)</span>
           <span class="chip other">… full country names</span>
         </div>
       </div>
@@ -1403,7 +1405,9 @@
         <h4>Psychiatric</h4>
         <p class="hint">named disorders + two catch-alls — reach for a catch-all only when the measure spans disorders</p>
         <div class="chips"><span class="chip">anxiety</span><span class="chip">burnout</span>
-          <span class="chip">depression</span><span class="chip">eating disorder</span>
+          <button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-psy-dep">depression</button>
+          <span class="chip">eating disorder</span>
           <button type="button" class="chip chip-x" aria-expanded="false"
             aria-controls="xp-psy-mood">general mood/affect</button>
           <button type="button" class="chip chip-x" aria-expanded="false"
@@ -1413,6 +1417,16 @@
           <span class="chip">OCD</span><span class="chip">PTSD</span>
           <span class="chip">psychotic symptoms</span><span class="chip">substance use</span>
           <span class="chip other">Other</span>
+        </div>
+
+        <div class="xp" id="xp-psy-dep" hidden>
+          <h5>Ticks depression</h5>
+          <p>Your typical clinically used depression scales:</p>
+          <div class="scales">
+            <span class="scale">MADRS</span><span class="scale">HAMD</span>
+            <span class="scale">QIDS</span><span class="scale">BDI</span>
+            <span class="scale">PHQ-9</span><span class="scale">etc.</span>
+          </div>
         </div>
 
         <div class="xp" id="xp-psy-mood" hidden>
