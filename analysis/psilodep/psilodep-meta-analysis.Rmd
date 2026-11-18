@@ -1228,20 +1228,6 @@ print(paste("remission n =", total_data_remission))
 ```
 
 
-```{r supplemental analyses for reviewer responses, include=FALSE}
-# test for significant moderation of design on the pooled effect size
-sg <- subgroupAnalysis(main_results, design)
-sg
-
-bayes <- bayesmeta(
-  data_dep$.g,
-  data_dep$.g_se,
-  mu.prior = c("mean" = 0, "sd" = 1), # asserts a 95% prior b/n -2 and 2
-  tau.prior = function(t) dhalfnormal(t, scale = 0.5)
-)
-bayes
-```
-
 ### Summary and Conclusions
 
 This comprehensive meta-analysis provides promising evidence regarding the efficacy of psilocybin for treating depression, but should be interpreted with caution.
