@@ -116,7 +116,8 @@ We prepare the data for analysis by applying several filters to create our prima
 2. **Study design**: Exclude post-crossover data to avoid double-counting
 3. **Outcome type**: Include only endpoint data (mean/SD or imputed mean/SD)
 4. **Dosing**: Exclude medium-dose arm (10 mg psilocybin) from multi-arm study (Goodwin 2022)
-5. **Study exclusions**: Remove specific studies (Grob 2011, Krempien 2023, Carhart-Harris 2021) based on predefined criteria
+5. **Comparator**: For Mertens 2026, keep only the first-phase comparison of 25 mg psilocybin vs. nicotinamide (the 5 mg psilocybin comparator is used in the alternate dosing sensitivity analysis)
+6. **Study exclusions**: Remove specific studies (Krempien 2023, Carhart-Harris 2021) based on predefined criteria; Grob 2011 reports only post-crossover data, so it is removed by the crossover filter
 
 The resulting `data_main` dataframe contains the filtered data ready for our primary meta-analysis.
 
@@ -192,7 +193,7 @@ meta::forest(
 )
 ```
 
-The primary meta-analysis on continuous outcomes in the 12 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
+The primary meta-analysis on continuous outcomes in the 16 studies included in the main model showed a statistically significant reduction in depression scores with psilocybin treatment as compared to control conditions, with small to moderate between-study heterogeneity.
 
 ```{r main continuous forest plot for indesign, include=FALSE}
 quartz(type = "pdf", file = file.path(basedir, "analysis/psilodep/paperfigs/continuous_forest_plot_meta.pdf"), width = 14.3, height = 4.76)
@@ -257,6 +258,7 @@ Visual inspection of the funnel plot reveals limited asymmetry, and the Egger's 
 
 We conduct a three-level correlated and hierarchical effects (CHE) meta-analysis to examine how the effect of psilocybin changes over time.
 This approach accounts for the hierarchical structure of the data (multiple timepoints within studies) and potential correlations between timepoints.
+The model uses the same arms and studies as the primary model, but includes every timepoint measured on the primary instrument after dosing (`dose_days > 0`), excluding pre-dose and post-crossover timepoints.
 
 ```{r che, message=FALSE}
 # Select data for the CHE meta-analysis
@@ -395,7 +397,8 @@ dev.off()
 ```
 
 ![](/analysis/psilodep/paperfigs/SI_Fig_03.png)
-Adding time since final dose as a continuous predictor to our model reveals a large and significant effect-size favoring psilocybin immediately following dosing that was stable over time.
+Adding time since final dose as a continuous predictor to our model reveals a large and significant effect size favoring psilocybin immediately following dosing.
+The effect attenuated over time by approximately 0.17 Hedges' g per 100 days after the final dose, although data beyond 100 days are sparse (two timepoints at ~6 months and one at 12 months).
 
 
 
@@ -418,7 +421,7 @@ These analyses include:
 
 **Sensitivity Analyses:**
 
-- In the multi-arm study (Goodwin 2022) replace high-dose intervention (25 mg) with medium-dose intervention (10 mg)
+- Alternate dosing: in Goodwin 2022, replace the high-dose intervention (25 mg) with the medium-dose intervention (10 mg); in Mertens 2026, replace the nicotinamide comparator with the 5 mg psilocybin comparator
 
 - Expanded inclusion criteria
 
@@ -817,8 +820,9 @@ dev.off()
 We summarize these subgroup and sensitivity analyses in **Figure 3** below.
 ![](/analysis/psilodep/paperfigs/Fig_03.png)
 Our series of subgroup and sensitivity analyses produced results largely in line with our main model results.
-Hedges' g values did not differ greatly from the main model, and 10/11 of the subgroup and sensitivity analyses produced significant results.
-Heterogeneity changes substantially when excluding open-label studies, excluding crossover studies, analyzing crossover studies on their own, and looking exclusively at self-report outcomes.
+Hedges' g values did not differ greatly from the main model, and 11/11 of the subgroup and sensitivity analyses produced significant results.
+Between-study heterogeneity (tau²) drops to near zero when excluding open-label studies, excluding crossover studies, excluding high risk-of-bias studies, or restricting to studies with a primary diagnosis of MDD/TRD.
+Heterogeneity increases when analyzing crossover studies on their own, looking exclusively at self-report outcomes, and using the alternate dosing comparisons.
 
 
 ```{r expanded model continuous forest plot for indesign, include=FALSE}
@@ -849,6 +853,7 @@ As a final sensitivity analysis, we implement our main model using a bayesian fr
 We do this using the `bayesmeta` package using "weakly informative prior distributions".
 
 Parameters:
+
 - A normal prior distribution with a 95% probability that the pooled estimate falls between -2 and 2.
 - A half-normal prior distribution for tau, with an s.d. of 0.5
 
@@ -863,7 +868,7 @@ bayes
 ```
 
 Above we can see the characteristics of the marginal posterior distributions of tau and mu (the pooled estimate).
-The model finds that the 95% interval of the true effect lies between -1.17 and -0.60.
+The model finds that the 95% interval of the true effect lies between -1.09 and -0.69.
 ```{r bayes mu, include=FALSE}
 png(filename = file.path(basedir, "analysis/psilodep/paperfigs/bayesmu.png"), res = 315, width = 1500, height = 1000)
 
@@ -1240,6 +1245,6 @@ The analysis includes:
 4. **Extensive subgroup and sensitivity analyses** to examine robustness and moderators
 5. **Dichotomous outcomes analysis** of response and remission rates
 
-The results demonstrate consistent evidence for the efficacy of psilocybin in reducing depression severity, with effects persisting over time and showing robustness across various sensitivity analyses.
+The results demonstrate consistent evidence for the efficacy of psilocybin in reducing depression severity, with effects persisting over the weeks following dosing (with some attenuation at longer follow-up) and showing robustness across various sensitivity analyses.
 However, given the small number of studies eligible to include in our meta-analysis and limitations such as the potential for functional unblinding and expectancy effects, results should be interpreted with caution.
 
