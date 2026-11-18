@@ -88,8 +88,10 @@ Before proceeding with the analysis, we perform quality checks to ensure data in
 
 ```{r load data, results=FALSE, message=FALSE}
 # Load data using metapsyData
-d <- getData("depression-psiloctr")
-data <- d$data
+# d <- getData("depression-psiloctr")
+# data <- d$data
+data <- read.csv2("~/Documents/GIT/data-depression-psiloctr/data.csv")
+
 
 
 # Check data format with checkDataFormat
@@ -127,6 +129,8 @@ data_main <- data %>%
     outcome_type == "msd" | outcome_type == "imsd",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    # Mertens 2026: 25 mg vs nicotinamide, first phase
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021")
   )
@@ -262,11 +266,12 @@ data_time <- data %>%
     is.na(multi_arm1) | !str_detect(multi_arm1, "10 mg"),
     is.na(multi_arm2) | !str_detect(multi_arm2, "10 mg"),
     !str_detect(study, "Krempien 2023"),
-    !str_detect(study, "Carhart-Harris 2021")
+    !str_detect(study, "Carhart-Harris 2021"),
+    !(study == "Mertens 2026" & !(multi_arm1 %in% "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide"))
   ) %>%
   filterPoolingData(
     primary_instrument == "1",
-    time_days > 0,
+    dose_days > 0,
     post_crossover == 0 | is.na(post_crossover),
     outcome_type == "msd" | outcome_type == "imsd"
   )
@@ -459,7 +464,9 @@ data_expanded <- data %>%
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
     !(Detect(study, "Krempien 2023") & (!is.na(multi_arm1)) & Detect(multi_arm1, "12 mg")),
-    !(Detect(study, "Krempien 2023") & (!is.na(multi_arm2)) & Detect(multi_arm2, "12 mg"))
+    !(Detect(study, "Krempien 2023") & (!is.na(multi_arm2)) & Detect(multi_arm2, "12 mg")),
+    # Mertens 2026: 25 mg vs nicotinamide, first phase
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide")),
   )
 
 data_outliers <- data_main %>%
@@ -469,7 +476,7 @@ data_outliers <- data_main %>%
 
 data_fixed <- data_main
 
-data_g10 <- data %>%
+data_g10_m5 <- data %>%
   filterPoolingData(
     primary_instrument == "1",
     primary_timepoint == "1",
@@ -477,16 +484,21 @@ data_g10 <- data %>%
     outcome_type == "msd" | outcome_type == "imsd",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "25 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "25 mg")),
+    # Mertens 2026: 25 mg vs 2 mg
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "psil")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021")
   )
 
+### We now have 8 studies (10 counting CH 21 and Raison) that overlap b/n clinician and self-report -- direct comparison?
 data_clinician <- data %>%
   filterPoolingData(
     primary_timepoint == "1",
     is.na(post_crossover) | !Detect(post_crossover, "1"),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    # Mertens 2026: 25 mg vs nicotinamide, first phase
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021"),
     rating == "clinician",
@@ -495,7 +507,7 @@ data_clinician <- data %>%
     outcome_type != "remission",
     outcome_type != "change"
   ) %>%
-  filterPriorityRule(instrument = c("madrs", "grid-ham-d"))
+  filterPriorityRule(instrument = c("madrs", "grid-ham-d", "ham-d-17"))
 
 data_selfreport <- data %>%
   filterPoolingData(
@@ -503,16 +515,18 @@ data_selfreport <- data %>%
     is.na(post_crossover) | !Detect(post_crossover, "1"),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021"),
     rating == "self-report",
     Detect(instrument_symptom, "depression"),
     outcome_type != "response",
     outcome_type != "remission",
-    outcome_type != "change" & outcome_type != "unknown"
+    outcome_type != "change"
   ) %>%
-  filterPriorityRule(instrument = c("bdi-ii", "bid-1a", "bdi", "qids-sr", "hads-d", "smdds", "hads"))
+  filterPriorityRule(instrument = c("bdi-ii", "bdi-1a", "bdi", "qids-sr", "madrs-sr", "hads-d", "smdds", "hads"))
 ```
+
 
 Now we can use `metapsyTools` for quickly looking at subgroup and sensitivity results.
 
@@ -582,10 +596,10 @@ hakn(fixed) <- FALSE
 fixed <- rerun(fixed)
 fixed
 
-g10 <- main
-data(g10) <- data_g10
-g10 <- rerun(g10)
-g10
+g10_m5 <- main
+data(g10_m5) <- data_g10_m5
+g10_m5 <- rerun(g10_m5)
+g10_m5
 
 clinician <- main
 data(clinician) <- data_clinician
@@ -637,7 +651,7 @@ full_subgroup_summary <- bind_rows(
   extract_subgroup_summary(excol, "Exclude open-label"),
   extract_subgroup_summary(rob, "Exclude high RoB"),
   # sensitivity
-  extract_subgroup_summary(g10, "Alternate dosing in Goodwin 2022"),
+  extract_subgroup_summary(g10_m5, "Alternate dosing"),
   extract_subgroup_summary(expanded, "Expanded inclusion criteria"),
   extract_subgroup_summary(clinician, "Clinician-rated outcomes"),
   extract_subgroup_summary(selfreport, "Self-report outcomes"),
@@ -674,7 +688,7 @@ desired_order <- c(
   "Expanded inclusion criteria",
   "Excluding outliers",
   "Fixed Effects model",
-  "Alternate dosing in Goodwin 2022",
+  "Alternate dosing",
   "Clinician-rated outcomes",
   "Self-report outcomes"
 )
@@ -893,7 +907,9 @@ data_response <- data %>%
     outcome_type == "response",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023")
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
   )
 data_response <- data_response[order(data_response$year), ]
 
@@ -946,7 +962,9 @@ data_remission <- data %>%
     outcome_type == "remission",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "10 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "10 mg")),
-    !Detect(study, "Krempien 2023")
+    !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "nicotinamide")),
+    !Detect(study, "Krempien 2023"),
+    !Detect(study, "Carhart-Harris 2021")
   )
 data_remission <- data_remission[order(data_remission$year), ]
 
@@ -1193,8 +1211,8 @@ print(paste("outliers n =", total_data_outliers))
 total_data_fixed <- total_n(data_fixed)
 print(paste("fixed n =", total_data_fixed))
 
-total_data_g10 <- total_n(data_g10)
-print(paste("g10 n =", total_data_g10))
+total_data_g10_m5 <- total_n(data_g10_m5)
+print(paste("g10_m5 n =", total_data_g10_m5))
 
 total_data_clinician <- total_n(data_clinician)
 print(paste("clinician n =", total_data_clinician))
