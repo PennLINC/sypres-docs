@@ -487,13 +487,12 @@ data_g10_m5 <- data %>%
     outcome_type == "msd" | outcome_type == "imsd",
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm1)) & Detect(multi_arm1, "25 mg")),
     !(Detect(study, "Goodwin 2022") & (!is.na(multi_arm2)) & Detect(multi_arm2, "25 mg")),
-    # Mertens 2026: 25 mg vs 2 mg
+    # Mertens 2026: 25 mg vs 5 mg
     !(study == "Mertens 2026" & !(multi_arm1 == "Psilocybin 25 mg then 25 or 5 mg" & condition_arm2 == "psil")),
     !Detect(study, "Krempien 2023"),
     !Detect(study, "Carhart-Harris 2021")
   )
 
-### We now have 8 studies (10 counting CH 21 and Raison) that overlap b/n clinician and self-report -- direct comparison?
 data_clinician <- data %>%
   filterPoolingData(
     primary_timepoint == "1",
