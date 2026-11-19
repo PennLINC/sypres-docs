@@ -78,6 +78,7 @@ python scripts/fetch_blossom_metadata.py --dataset psilodep --force
 ```
 
 The script caches responses locally in `scripts/.blossom_cache/` (gitignored) with a 30-day TTL. Re-runs are fast and idempotent.
+The enrichment JSON keeps only the normalized fields (summary, abstract, link and basic study metadata), not the full API response, which includes large per-arm outcome data; use `--dry-run` or the cache to inspect a full response.
 
 ### Full regeneration workflow
 

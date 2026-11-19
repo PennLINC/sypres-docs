@@ -299,7 +299,9 @@ def build_record(key: str, doi: str, raw: dict) -> dict:
         "compounds": [c.get("title", "") for c in raw.get("compounds", [])],
         "topics": [t.get("title", "") for t in raw.get("topics", [])],
         "journal": raw.get("journal", {}).get("name", ""),
-        "raw": {k: v for k, v in raw.items() if not k.startswith("_")},
+        # The full API response is not stored here: it includes per-arm outcome
+        # data (~100-600 KB per study) that the site never uses. It is kept in
+        # scripts/.blossom_cache/ and can be printed with --dry-run.
     }
 
 
