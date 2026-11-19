@@ -52,3 +52,6 @@ analysis/master-db/.registry_cache/
 
 # Office lock files
 ~$*
+
+# ignore future analysis script in psilodep/
+analysis/psilodep/psilodep-future-analyses.Rmd
