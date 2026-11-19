@@ -1404,7 +1404,8 @@
       <div class="dom">
         <h4>Psychiatric</h4>
         <p class="hint">named disorders + two catch-alls — reach for a catch-all only when the measure spans disorders</p>
-        <div class="chips"><span class="chip">anxiety</span><span class="chip">burnout</span>
+        <div class="chips"><button type="button" class="chip chip-x" aria-expanded="false"
+            aria-controls="xp-psy-anx">anxiety</button><span class="chip">burnout</span>
           <button type="button" class="chip chip-x" aria-expanded="false"
             aria-controls="xp-psy-dep">depression</button>
           <span class="chip">eating disorder</span>
@@ -1417,6 +1418,22 @@
           <span class="chip">OCD</span><span class="chip">PTSD</span>
           <span class="chip">psychotic symptoms</span><span class="chip">substance use</span>
           <span class="chip other">Other</span>
+        </div>
+
+        <div class="xp" id="xp-psy-anx" hidden>
+          <h5>Ticks anxiety</h5>
+          <p>Your typical clinically used anxiety scales:</p>
+          <div class="scales">
+            <span class="scale">STAI-State</span><span class="scale">STAI (form not specified)</span>
+            <span class="scale">GAD-7</span><span class="scale">HAM-A</span>
+            <span class="scale">BAI</span><span class="scale">HADS-A</span>
+            <span class="scale">etc.</span>
+          </div>
+          <h5>Goes elsewhere</h5>
+          <ul class="xrefs">
+            <li><span class="to">Psychological process › personality/neuroticism</span> <span>STAI-Trait
+                reported on its own measures trait anxiety, an enduring disposition.</span></li>
+          </ul>
         </div>
 
         <div class="xp" id="xp-psy-dep" hidden>
@@ -1724,6 +1741,7 @@
             <span class="scale">Big Five / BFI</span><span class="scale">NEO-PI-R</span>
             <span class="scale">openness</span><span class="scale">neuroticism</span>
             <span class="scale">absorption (Tellegen)</span>
+            <span class="scale">State-Trait Anxiety Inventory (STAI-Trait)</span>
           </div>
           <p><b>Rule of thumb:</b> a <em>trait</em> personality inventory measured as an outcome —
             openness and neuroticism are the ones psychedelic trials report most. Enduring dispositions,
@@ -1732,6 +1750,8 @@
           <ul class="xrefs">
             <li><span class="to">Psychiatric</span> <span>current mood, anxiety or general
                 psychopathology <em>symptoms</em> — a state, not a trait inventory.</span></li>
+            <li><span class="to">Psychiatric › anxiety</span> <span>STAI-State, or the STAI reported
+                without naming the form.</span></li>
           </ul>
         </div>
 
