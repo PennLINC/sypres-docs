@@ -825,7 +825,7 @@ Heterogeneity increases when analyzing crossover studies on their own, looking e
 
 
 ```{r expanded model continuous forest plot for indesign, include=FALSE}
-png(filename = file.path(basedir, "analysis/psilodep/paperfigs/expanded_forest_plot_meta.png"), res = 315, width = 4500, height = 1500)
+png(filename = file.path(basedir, "analysis/psilodep/paperfigs/expanded_forest_plot_meta.png"), res = 315, width = 4500, height = 1775)
 
 meta::forest(expanded$model.overall,
   sortvar = expanded$model.overall$data$year,
@@ -1030,7 +1030,7 @@ png(filename = file.path(basedir, "analysis/psilodep/paperfigs/response_forest_p
 
 
 meta::forest(response_results$model.overall,
-  sortvar = response_results$mode.overall$data$year,
+  sortvar = response_results$model.overall$data$year,
   leftcols = c("studlab", "event_arm1", "totaln_arm1", "event_arm2", "totaln_arm2"),
   leftlabs = c("Study", "Number of Events", "Total", "Number of Events", "Total"),
   rightlabs = c("Log RR", "95%-CI", "Weight"),
